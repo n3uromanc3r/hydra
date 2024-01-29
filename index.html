@@ -1618,8 +1618,8 @@
                                         <button class="preset" data-deck="1" data-preset="30" disabled>30</button>
                                     </div>
                                     <div class="button-group">
-                                        <div><button>◄</button></div>
-                                        <div><button>►</button></div>
+                                        <div><button data-deck="1" data-previous-preset>◄</button></div>
+                                        <div><button data-deck="1" data-next-preset>►</button></div>
                                     </div>
                                 </div>
                                 <div></div>
@@ -1660,8 +1660,8 @@
                                         <button class="preset" data-deck="2" data-preset="30" disabled>30</button>
                                     </div>
                                     <div class="button-group">
-                                        <div><button>◄</button></div>
-                                        <div><button>►</button></div>
+                                        <div><button data-deck="2" data-previous-preset>◄</button></div>
+                                        <div><button data-deck="2" data-next-preset>►</button></div>
                                     </div>
                                 </div>
                             </div>
@@ -2217,6 +2217,8 @@
                         deck.scale = 0.75;
                         deck.current = null;
                         deck.presetBtns = document.querySelectorAll(`.preset[data-deck="${deck.id}"]`);
+                        deck.presetPrev = document.querySelector(`[data-deck="${deck.id}"][data-previous-preset]`);
+                        deck.presetNext = document.querySelector(`[data-deck="${deck.id}"][data-next-preset]`);
 
                         deck.presetBtns.forEach(btn => {
                             btn.addEventListener('click', function(e) {
@@ -2224,6 +2226,14 @@
                                     deck.presets.select(e.target.dataset.preset);
                                 }
                             });
+                        });
+
+                        deck.presetPrev.addEventListener('click', function(e) {
+                            deck.presets.previous();
+                        });
+
+                        deck.presetNext.addEventListener('click', function(e) {
+                            deck.presets.next();
                         });
 
                         deck.visual = {
@@ -2299,6 +2309,7 @@
                                     btn.classList.remove('active');
                                 });
                                 deck.presetBtns[preset-1].classList.add('active');
+                                this.current = parseInt(preset);
 
                                 const selectedPreset = deck.current.presets[preset-1];
                                 for (const option in selectedPreset) {
@@ -2323,6 +2334,19 @@
                                     
                                     // deck.current[`${option}Input`].value = selectedPreset[option];
                                     // deck.current[`${option}Input`].dispatchEvent(new Event('input', { bubbles: true }));
+                                }
+                            },
+                            current: 1,
+                            previous: function() {
+                                if (deck.current.presets && deck.current.presets.length) {
+                                    const previous = this.current == 1 ? deck.current.presets.length : (this.current - 1);
+                                    this.select(previous);
+                                }
+                            },
+                            next: function() {
+                                if (deck.current.presets && deck.current.presets.length) {
+                                    const next = this.current == deck.current.presets.length ? 1 : (this.current + 1);
+                                    this.select(next);
                                 }
                             },
                             clear: function() {
