@@ -762,8 +762,24 @@
             display: inline-block;
             vertical-align: top;
             padding: 5px 15px 10px 0;
-            flex: 0 0 33.333333%;
+            
             position: relative;
+        }
+
+        .flex-grid[data-columns="1"] .inline-input {
+            flex: 0 0 100%;
+        }
+
+        .flex-grid[data-columns="2"] .inline-input {
+            flex: 0 0 50%;
+        }
+
+        .flex-grid[data-columns="3"] .inline-input {
+            flex: 0 0 33.333333%;
+        }
+
+        .flex-grid[data-columns="4"] .inline-input {
+            flex: 0 0 25%;
         }
 
         .inline-field-group {
@@ -894,6 +910,62 @@
         .flex-grid button {
             flex-basis: calc(33.33333333% - 6.6666666px);
             margin: 0;
+        }
+
+        .color-meter {
+            background: black;
+            display: block;
+            width: 100%;
+            height: 7px;
+            border-radius: 2px;
+            
+            position: relative;
+            top: 16px;
+        }
+
+        .color-meter.red {
+            border: 1px solid #935353;
+        }
+
+        .color-meter.green {
+            border: 1px solid #629353;
+        }
+
+        .color-meter.blue {
+            border: 1px solid #535993;
+        }
+
+        .color-meter.red > div {
+            background: red;
+            display: block;
+            width: 58%;
+            height: 5px;
+            border-radius: 2px;
+            top: 0;
+            position: absolute;
+            left: 0;
+        }
+
+        .color-meter.green > div {
+            background: green;
+            display: block;
+            width: 58%;
+            height: 5px;
+            border-radius: 2px;
+            top: 0;
+            position: absolute;
+            left: 0;
+        }
+
+        .color-meter.blue > div {
+            background: blue;
+            display: block;
+            width: 58%;
+            height: 5px;
+            border-radius: 2px;
+            top: 0;
+            position: absolute;
+            left: 0;
         }
 
     </style>
@@ -1083,7 +1155,7 @@
                         <div>
                             <fieldset>
                                 <div class="heading">Alpha</div>
-                                <group class="flex-grid">
+                                <group class="flex-grid" data-columns="3">
                                     <div class="inline-input">
                                         <span class="input-label">Outer Circle</span>
                                         <span class="value">1</span>
@@ -1161,7 +1233,7 @@
                             <fieldset>
                                 <div class="inline-field-group">
                                     <div class="heading">Cycle Frequency</div>
-                                    <group class="flex-grid">
+                                    <group class="flex-grid" data-columns="3">
                                         <div class="inline-input">
                                             <span class="input-label">Red <sub>Large Triangle</sub></span>
                                             <span class="value">1200</span>
@@ -1200,7 +1272,7 @@
                             <fieldset>
                                 <div class="inline-field-group">
                                     <div class="heading">Rotation</div>
-                                    <group class="flex-grid">
+                                    <group class="flex-grid" data-columns="3">
                                         <div class="inline-input">
                                             <span class="input-label">Degree <sub>Large Triangle</sub></span>
                                             <span class="value">0</span>
@@ -1236,7 +1308,7 @@
                             </fieldset>
                             <fieldset></fieldset>
                                 <div class="inline-field-group">
-                                    <group class="flex-grid">
+                                    <group class="flex-grid" data-columns="3">
                                         <div class="inline-input">
                                             <span class="input-label">Degree <sub>Small Triangle</sub></span>
                                             <span class="value">0</span>
@@ -1329,8 +1401,56 @@
                     <div data-visual="neuromute" data-deck="1" class="hide">
                         <div>
                             <fieldset>
+                                <div class="heading">Reactor</div>
+                                <group class="flex-grid" data-columns="4">
+                                    <div class="inline-input">
+                                        <button class="translateModeX" data-deck="1">Width</button>
+                                    </div>
+                                    <div class="inline-input">
+                                        <button class="translateModeY" data-deck="1">Shift</button>
+                                    </div>
+                                    <div class="inline-input">
+                                        <button class="translateModeY" data-deck="1">Alpha</button>
+                                    </div>
+                                    <div class="inline-input">
+                                        <button class="translateModeY" data-deck="1">Amp</button>
+                                    </div>
+                                </group>
+                            </fieldset>
+                        </div>
+                        <div>
+                            <fieldset>
+                                <div class="heading">Cause</div>
+                                <group class="flex-grid" data-columns="2">
+                                    <div class="inline-input">
+                                        <button class="translateModeX" data-deck="1">Average</button>
+                                    </div>
+                                    <div class="inline-input">
+                                        <button class="translateModeY" data-deck="1">Percentage</button>
+                                    </div>
+                                </group>
+                            </fieldset>
+                        </div>
+                        <div>
+                            <fieldset>
+                                <div class="heading">Effect</div>
+                                <group class="flex-grid" data-columns="3">
+                                    <div class="inline-input">
+                                        <button class="translateModeY" data-deck="1">Addition</button>
+                                    </div>
+                                    <div class="inline-input">
+                                        <button class="translateModeY" data-deck="1">Subtraction</button>
+                                    </div>
+                                    <div class="inline-input">
+                                        <button class="translateModeY" data-deck="1">Multiply</button>
+                                    </div>
+                                </group>
+                            </fieldset>
+                        </div>
+                        <div>
+                            <fieldset>
                                 <div class="heading">Arc</div>
-                                <group class="flex-grid">
+                                <group class="flex-grid" data-columns="3">
                                     <div class="inline-input">
                                         <span class="input-label">Min Width</span>
                                         <span class="value">1</span>
@@ -1352,7 +1472,7 @@
                         <div>
                             <fieldset>
                                 <div class="heading">Line</div>
-                                <group class="flex-grid">
+                                <group class="flex-grid" data-columns="2">
                                     <div class="inline-input">
                                         <span class="input-label">Width</span>
                                         <span class="value">1</span>
@@ -1367,22 +1487,47 @@
                             </fieldset>
                         </div>
                         <div>
+                            <fieldset>
+                                <div class="heading">Trail</div>
+                                <group class="flex-grid" data-columns="2">
+                                    <div class="inline-input">
+                                        <span class="input-label">Length</span>
+                                        <span class="value">155</span>
+                                        <input type="range" class="modulo" min="5" max="500" step="1" value="155" data-deck="1">
+                                    </div>
+                                    <div class="inline-input">
+                                        <span class="input-label">Modulo</span>
+                                        <span class="value">1</span>
+                                        <input type="range" class="modulo" min="1" max="20" step="1" value="1" data-deck="1">
+                                    </div>
+                                </group>
+                            </fieldset>
+                        </div>
+                        <div>
                             <fieldset class="flex">
                                 <div class="inline-field-group">
-                                    <div class="heading">Trial Length</div>
-                                    <group>
+                                    <div class="heading">Fill</div>
+                                    <group class="flex-grid" data-columns="3">
                                         <div class="inline-input">
-                                            <span class="value">155</span>
-                                            <input type="range" class="modulo" min="5" max="500" step="1" value="155" data-deck="1">
-                                        </div>
-                                    </group>
-                                </div>
-                                <div class="inline-field-group">
-                                    <div class="heading">Modulo</div>
-                                    <group>
-                                        <div class="inline-input">
+                                            <span class="input-label">Frequency</span>
                                             <span class="value">1</span>
-                                            <input type="range" class="modulo" min="1" max="20" step="1" value="1" data-deck="1">
+                                            <input type="range" class="four-point-circles-cycle-interval" min="0" max="30" step="0.1" value="1" data-deck="2" data-visual="quark" data-variable="fourPointCirclesCycleInterval">
+                                        </div>
+                                        <div>
+                                            <div class="inline-input">
+                                                <span class="input-label">Enabled</span>
+                                                <label class="switch">
+                                                    <input type="checkbox" class="four-point-circles-cycle-color" checked data-deck="2" data-visual="quark" data-variable="fourPointCirclesCycleColor">
+                                                    <span class="slider"></span>
+                                                </label>
+                                            </div>
+                                            <div class="inline-input">
+                                                <span class="input-label">Random</span>
+                                                <label class="switch">
+                                                    <input type="checkbox" class="large-triangle-cycle-color" checked data-deck="2" data-visual="quark" data-variable="largeTriangleCycleColor">
+                                                    <span class="slider"></span>
+                                                </label>
+                                            </div>
                                         </div>
                                     </group>
                                 </div>
@@ -1391,8 +1536,18 @@
                         <div>
                             <fieldset class="flex">
                                 <div class="inline-field-group">
-                                    <div class="heading">Fill</div>
-                                    <group>
+                                    <div class="heading">Dash</div>
+                                    <group class="flex-grid" data-columns="3">
+                                        <div class="inline-input">
+                                            <span class="input-label">Length</span>
+                                            <span class="value">1</span>
+                                            <input type="range" class="four-point-circles-cycle-interval" min="0" max="30" step="0.1" value="1" data-deck="2" data-visual="quark" data-variable="fourPointCirclesCycleInterval">
+                                        </div>
+                                        <div class="inline-input">
+                                            <span class="input-label">Gap</span>
+                                            <span class="value">1</span>
+                                            <input type="range" class="four-point-circles-cycle-interval" min="0" max="30" step="0.1" value="1" data-deck="2" data-visual="quark" data-variable="fourPointCirclesCycleInterval">
+                                        </div>
                                         <div class="inline-input">
                                             <span class="input-label">Enabled</span>
                                             <label class="switch">
@@ -1400,24 +1555,101 @@
                                                 <span class="slider"></span>
                                             </label>
                                         </div>
+                                    </group>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div>
+                            <fieldset class="flex">
+                                <div class="inline-field-group">
+                                    <div class="heading">Colour - Global</div>
+                                    <group class="flex-grid" data-columns="4">
                                         <div class="inline-input">
-                                            <span class="input-label">Random</span>
-                                            <label class="switch">
-                                                <input type="checkbox" class="large-triangle-cycle-color" checked data-deck="2" data-visual="quark" data-variable="largeTriangleCycleColor">
-                                                <span class="slider"></span>
-                                            </label>
+                                            <span class="input-label">Mode</span>
+                                            <span class="value">1</span>
+                                            <input type="range" class="four-point-circles-cycle-interval" min="0" max="30" step="0.1" value="1" data-deck="2" data-visual="quark" data-variable="fourPointCirclesCycleInterval">
                                         </div>
                                         <div class="inline-input">
-                                            <span class="input-label">Small Triangle</span>
-                                            <label class="switch">
-                                                <input type="checkbox" class="small-triangle-cycle-color" checked data-deck="2" data-visual="quark" data-variable="smallTriangleCycleColor">
-                                                <span class="slider"></span>
-                                            </label>
+                                            <span class="input-label">Shift</span>
+                                            <span class="value">1</span>
+                                            <input type="range" class="four-point-circles-cycle-interval" min="0" max="30" step="0.1" value="1" data-deck="2" data-visual="quark" data-variable="fourPointCirclesCycleInterval">
+                                        </div>
+                                        <div class="inline-input">
+                                            <span class="input-label">Alpha</span>
+                                            <span class="value">1</span>
+                                            <input type="range" class="four-point-circles-cycle-interval" min="0" max="30" step="0.1" value="1" data-deck="2" data-visual="quark" data-variable="fourPointCirclesCycleInterval">
+                                        </div>
+                                        <div class="inline-input">
+                                            <span class="input-label">Amp</span>
+                                            <span class="value">1</span>
+                                            <input type="range" class="four-point-circles-cycle-interval" min="0" max="30" step="0.1" value="1" data-deck="2" data-visual="quark" data-variable="fourPointCirclesCycleInterval">
                                         </div>
                                     </group>
-                                    <group>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div>
+                            <fieldset class="flex">
+                                <div class="inline-field-group">
+                                    <div class="heading">Red</div>
+                                    <group class="flex-grid" data-columns="3">
                                         <div class="inline-input">
-                                            <span class="input-label">4-point Circles</span>
+                                            <span class="input-label">Shift</span>
+                                            <span class="value">1</span>
+                                            <input type="range" class="four-point-circles-cycle-interval" min="0" max="30" step="0.1" value="1" data-deck="2" data-visual="quark" data-variable="fourPointCirclesCycleInterval">
+                                        </div>
+                                        <div class="inline-input">
+                                            <span class="input-label">Level</span>
+                                            <div class="color-meter red"><div></div></div>
+                                        </div>
+                                        <div class="inline-input">
+                                            <span class="input-label">Alpha</span>
+                                            <span class="value">1</span>
+                                            <input type="range" class="four-point-circles-cycle-interval" min="0" max="30" step="0.1" value="1" data-deck="2" data-visual="quark" data-variable="fourPointCirclesCycleInterval">
+                                        </div>
+                                    </group>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div>
+                            <fieldset class="flex">
+                                <div class="inline-field-group">
+                                    <div class="heading">Green</div>
+                                    <group class="flex-grid" data-columns="3">
+                                        <div class="inline-input">
+                                            <span class="input-label">Shift</span>
+                                            <span class="value">1</span>
+                                            <input type="range" class="four-point-circles-cycle-interval" min="0" max="30" step="0.1" value="1" data-deck="2" data-visual="quark" data-variable="fourPointCirclesCycleInterval">
+                                        </div>
+                                        <div class="inline-input">
+                                            <span class="input-label">Level</span>
+                                            <div class="color-meter green"><div></div></div>
+                                        </div>
+                                        <div class="inline-input">
+                                            <span class="input-label">Alpha</span>
+                                            <span class="value">1</span>
+                                            <input type="range" class="four-point-circles-cycle-interval" min="0" max="30" step="0.1" value="1" data-deck="2" data-visual="quark" data-variable="fourPointCirclesCycleInterval">
+                                        </div>
+                                    </group>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div>
+                            <fieldset class="flex">
+                                <div class="inline-field-group">
+                                    <div class="heading">Blue</div>
+                                    <group class="flex-grid" data-columns="3">
+                                        <div class="inline-input">
+                                            <span class="input-label">Shift</span>
+                                            <span class="value">1</span>
+                                            <input type="range" class="four-point-circles-cycle-interval" min="0" max="30" step="0.1" value="1" data-deck="2" data-visual="quark" data-variable="fourPointCirclesCycleInterval">
+                                        </div>
+                                        <div class="inline-input">
+                                            <span class="input-label">Level</span>
+                                            <div class="color-meter blue"><div></div></div>
+                                        </div>
+                                        <div class="inline-input">
+                                            <span class="input-label">Alpha</span>
                                             <span class="value">1</span>
                                             <input type="range" class="four-point-circles-cycle-interval" min="0" max="30" step="0.1" value="1" data-deck="2" data-visual="quark" data-variable="fourPointCirclesCycleInterval">
                                         </div>
@@ -1430,7 +1662,7 @@
                         <div>
                             <fieldset>
                                 <div class="heading">Translate Mode</div>
-                                <group class="flex-grid">
+                                <group class="flex-grid" data-columns="3">
                                     <div class="inline-input">
                                         <span class="input-label">X Axis</span>
                                         <button class="translateModeX" data-deck="1">center</button>
@@ -1445,7 +1677,7 @@
                         <div>
                             <fieldset>
                                 <div class="heading">Triangle</div>
-                                <group class="flex-grid">
+                                <group class="flex-grid" data-columns="3">
                                     <div class="inline-input">
                                         <span class="input-label">Count</span>
                                         <span class="value">40</span>
@@ -1475,7 +1707,7 @@
                         <div>
                             <fieldset>
                                 <div class="heading">Rotation</div>
-                                <group class="flex-grid">
+                                <group class="flex-grid" data-columns="3">
                                     <div class="inline-input">
                                         <span class="input-label">Type</span>
                                         <button class="rotationType" data-deck="1">alternate</button>
@@ -1500,7 +1732,7 @@
                         <div>
                             <fieldset>
                                 <div class="heading">Frequencies</div>
-                                <group class="flex-grid">
+                                <group class="flex-grid" data-columns="3">
                                     <div class="inline-input">
                                         <span class="input-label">Frequency Control</span>
                                         <button class="frequencyControl" data-deck="1">single</button>
@@ -1511,7 +1743,7 @@
                                         <input type="range" class="frequency frequencySingle" min="0.00001" max="0.00025" step="0.00001" value="0.0001" data-deck="1">
                                     </div>
                                 </group>
-                                <group class="flex-grid">
+                                <group class="flex-grid" data-columns="3">
                                     <div class="inline-input">
                                         <span class="input-label">Frequency X/Y</span>
                                         <span class="value">0.0001</span>
@@ -1533,7 +1765,7 @@
                         <div>
                             <fieldset>
                                 <div class="heading">Color</div>
-                                <group class="flex-grid">
+                                <group class="flex-grid" data-columns="3">
                                     <div class="inline-input">
                                         <span class="input-label">Foreround Mode</span>
                                         <button class="colorMode" data-deck="1">normal</button>
@@ -2174,8 +2406,8 @@
                         this.mirrorEnabled = false;
                         this.mirrorMode = 'clip';
 
-                        this.deck1 = this.deck.init(1);
-                        this.deck2 = this.deck.init(2);
+                        this.deck1 = this.deck.init(1, 'quark');
+                        this.deck2 = this.deck.init(2, 'pink');
 
                         this.crossfader.init();
                         this.composition.init();
@@ -2207,7 +2439,7 @@
                     }
                 },
                 deck: {
-                    init: function(id) {
+                    init: function(id, visual) {
                         let deck = {};
                         deck.id = id;
                         deck.canvas = document.getElementById(`deck-${deck.id}-canvas`);
@@ -2253,7 +2485,7 @@
                             },
                             reset: function() {
                                 if (deck.current.presets && deck.current.presets.length) {
-                                    deck.presets.select(1)
+                                    deck.presets.select(1);
                                 }
                                 //hydra.deck1.lockdown.triangleScaleInput.value = 1; hydra.deck1.lockdown.triangleScaleInput.dispatchEvent(new Event('input', { bubbles: true }));
                             }
@@ -2295,6 +2527,7 @@
                         deck.presets = {
                             update: function() {
                                 this.clear();
+
                                 if (deck.current.presets && deck.current.presets.length) {
                                     deck.current.presets.forEach((preset, i) => {
                                         deck.presetBtns[i].disabled = false;
@@ -2302,6 +2535,8 @@
                                             deck.presetBtns[i].classList.add('active');
                                         }
                                     });
+                                } else {
+                                    console.log('no presets found')
                                 }
                             },
                             select: function(preset) {
@@ -2315,6 +2550,9 @@
                                 for (const option in selectedPreset) {
                                     const input = document.querySelector(`[data-visual="${deck.visual.current}"][data-deck="${deck.id}"] .${option}`);
 
+                                    if (!input) {
+                                        console.log('breaking')
+                                    }
                                     if (!input) break;
 
                                     if (input.type == 'number' || input.type == 'range') {
@@ -2369,7 +2607,7 @@
 
                         deck.controls.init();
 
-                        deck.visual.select(id == 1 ? 'quark' : 'pink');
+                        deck.visual.select(visual);
                         
                         return deck;
                     }
@@ -2684,6 +2922,13 @@
                                 }
                             }
                         });
+                    },
+                    importPresets: function(json) {
+                        return fetch(json)
+                            .then((response) => response.json())
+                            .then((responseData) => {
+                                return responseData.presets;
+                            });
                     }
                 }
             }
@@ -2693,6 +2938,17 @@
         window.hydra.renderers['quark'] = {
             init: function(deck) {
                 deck.quark = {};
+
+                window.hydra.helpers.importPresets('./js/renderers/quark/presets.json').then(
+                    response => (deck.quark.presets = response)
+                ).then(
+                    response => {
+                        if (deck.visual.current == 'quark') {
+                            deck.visual.select('quark');
+                        }
+                    }
+                );
+
                 deck.quark.largeTriangleEnabledInput = document.querySelector(`.large-triangle-enabled[data-deck="${deck.id}"][data-visual="quark"]`);
                 deck.quark.largeTriangleEnabled = deck.quark.largeTriangleEnabledInput.checked;
                 deck.quark.largeTriangleColorInput = document.querySelector(`.large-triangle-color[data-deck="${deck.id}"][data-visual="quark"]`);
@@ -3203,6 +3459,16 @@
             init: function(deck) {
                 deck.neuromute = {};
 
+                window.hydra.helpers.importPresets('./js/renderers/neuromute/presets.json').then(
+                    response => (deck.neuromute.presets = response)
+                ).then(
+                    response => {
+                        if (deck.visual.current == 'neuromute') {
+                            deck.visual.select('neuromute');
+                        }
+                    }
+                );
+
                 deck.neuromute.inputs = [];
 
                 // deck.neuromute.trails = [];
@@ -3247,18 +3513,17 @@
     </script>
     <script>
         window.hydra.renderers['lockdown'] = {
-            importPresets: function(json) {
-                return fetch(json)
-                    .then((response) => response.json())
-                    .then((responseData) => {
-                        return responseData.presets;
-                    });
-            },
             init: function(deck) {
                 deck.lockdown = {};
 
-                this.importPresets('./lockdown-presets.json').then(
+                window.hydra.helpers.importPresets('./js/renderers/lockdown/presets.json').then(
                     response => (deck.lockdown.presets = response)
+                ).then(
+                    response => {
+                        if (deck.visual.current == 'lockdown') {
+                            deck.visual.select('lockdown');
+                        }
+                    }
                 );
 
                 deck.lockdown.bgColorModeBtn = document.querySelector(`[data-visual="lockdown"][data-deck="${deck.id}"] .bgColorMode`);
