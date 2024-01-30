@@ -2923,11 +2923,15 @@
                             }
                         });
                     },
-                    importPresets: function(json) {
+                    importPresets: function(deck, name, json) {
                         return fetch(json)
                             .then((response) => response.json())
-                            .then((responseData) => {
-                                return responseData.presets;
+                            .then((responseData) => responseData.presets)
+                            .then(response => (deck[name].presets = response))
+                            .then(response => {
+                                if (deck.visual.current == name) {
+                                    deck.visual.select(name);
+                                }
                             });
                     }
                 }
@@ -2939,15 +2943,7 @@
             init: function(deck) {
                 deck.quark = {};
 
-                window.hydra.helpers.importPresets('./js/renderers/quark/presets.json').then(
-                    response => (deck.quark.presets = response)
-                ).then(
-                    response => {
-                        if (deck.visual.current == 'quark') {
-                            deck.visual.select('quark');
-                        }
-                    }
-                );
+                deck.quark = window.hydra.helpers.importPresets(deck, 'quark', './js/renderers/quark/presets.json');
 
                 deck.quark.largeTriangleEnabledInput = document.querySelector(`.large-triangle-enabled[data-deck="${deck.id}"][data-visual="quark"]`);
                 deck.quark.largeTriangleEnabled = deck.quark.largeTriangleEnabledInput.checked;
@@ -3459,15 +3455,7 @@
             init: function(deck) {
                 deck.neuromute = {};
 
-                window.hydra.helpers.importPresets('./js/renderers/neuromute/presets.json').then(
-                    response => (deck.neuromute.presets = response)
-                ).then(
-                    response => {
-                        if (deck.visual.current == 'neuromute') {
-                            deck.visual.select('neuromute');
-                        }
-                    }
-                );
+                deck.neuromute = window.hydra.helpers.importPresets(deck, 'neuromute', './js/renderers/neuromute/presets.json');
 
                 deck.neuromute.inputs = [];
 
@@ -3516,15 +3504,7 @@
             init: function(deck) {
                 deck.lockdown = {};
 
-                window.hydra.helpers.importPresets('./js/renderers/lockdown/presets.json').then(
-                    response => (deck.lockdown.presets = response)
-                ).then(
-                    response => {
-                        if (deck.visual.current == 'lockdown') {
-                            deck.visual.select('lockdown');
-                        }
-                    }
-                );
+                deck.lockdown = window.hydra.helpers.importPresets(deck, 'lockdown', './js/renderers/lockdown/presets.json');
 
                 deck.lockdown.bgColorModeBtn = document.querySelector(`[data-visual="lockdown"][data-deck="${deck.id}"] .bgColorMode`);
                 deck.lockdown.colorModeBtn = document.querySelector(`[data-visual="lockdown"][data-deck="${deck.id}"] .colorMode`);
