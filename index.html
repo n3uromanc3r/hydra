@@ -1789,7 +1789,7 @@
                     <div><button class="orange">React</button></div>
                     <div><button>Keyboard</button></div>
                     <div><button>Guide</button></div>
-                    <div><button class="red">Reset</button></div>
+                    <div><button class="red" data-deck="1" data-revert-preset>Revert</button></div>
                 </div>
             </div>
             <div class="column">
@@ -2376,7 +2376,7 @@
                     <div><button class="orange" disabled>React</button></div>
                     <div><button disabled>Keyboard</button></div>
                     <div><button disabled>Guide</button></div>
-                    <div><button class="red">Reset</button></div>
+                    <div><button class="red" data-deck="2" data-revert-preset>Revert</button></div>
                 </div>
             </div>
         </section>
@@ -2452,6 +2452,7 @@
                         deck.presetPrevBtn = document.querySelector(`[data-deck="${deck.id}"][data-previous-preset]`);
                         deck.presetNextBtn = document.querySelector(`[data-deck="${deck.id}"][data-next-preset]`);
                         deck.presetSaveBtn = document.querySelector(`[data-deck="${deck.id}"][data-save-preset]`);
+                        deck.presetRevertBtn = document.querySelector(`[data-deck="${deck.id}"][data-revert-preset]`);
 
                         deck.presetBtns.forEach(btn => {
                             btn.addEventListener('click', function(e) {
@@ -2471,6 +2472,10 @@
 
                         deck.presetSaveBtn.addEventListener('click', function(e) {
                             deck.presets.save();
+                        });
+
+                        deck.presetRevertBtn.addEventListener('click', function(e) {
+                            deck.presets.select(deck.presets.current);
                         });
 
                         deck.visual = {
