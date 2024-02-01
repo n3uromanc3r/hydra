@@ -5,7 +5,6 @@
     <title>Hydra</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
         html, body, div, span, applet, object, iframe,
         h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -66,7 +65,7 @@
             margin: 0;
             width: 100%;
             height: 100%;
-            background: #0f1313;
+            background: #070a0a;
             color: white;
             font-family: sans-serif;
         }
@@ -81,6 +80,9 @@
             height: 100%;
             display: flex;
             flex-direction: column;
+            max-width: 1920px;
+            margin: auto;
+            border-left: solid 1px #1c1c1c;
         }
 
         .deck-screen {
@@ -118,7 +120,7 @@
         }
 
         .section {
-            width: 100vw;
+            width: 100%;
             display: flex;
             background: black;
             border-top: solid 1px #1b1b1b;
@@ -968,6 +970,30 @@
             left: 0;
         }
 
+        #audio-meter-container {
+            position: relative;
+        }
+
+        #audio-meter {
+            height: 60px;
+            margin-top: 10px;
+            width: 100%;
+            background: #0d0d0d;
+            box-sizing: border-box;
+            border: solid 1px #1a2019;
+        }
+
+        #audio-meter-chrome {
+            position: absolute;
+            left: 0;
+            top: 30px;
+            width: 100%;
+            height: 20px;
+            background: #0f1313;
+            border-top: solid 1px #1a2019;
+            border-bottom: solid 1px #1a2019;
+        }
+
     </style>
 </head>
 
@@ -1799,7 +1825,10 @@
                         <input type="range" min="0" max="1" value="1" step="0.0001" class="deck-alpha" data-deck="2" data-variable="alpha" data-precision="4">
                     </div>
                     <div class="main-mixer-panel">
-                        <div><img src="tmp.png" style="width: 100%;"></div>
+                        <div id="audio-meter-container">
+                            <canvas id="audio-meter"></canvas>
+                            <div id="audio-meter-chrome"></div>
+                        </div>
                         <div class="button-group">
                             <div><button id="kaleidoscope-output-toggle">Kaleidoscope</button></div>
                             <!-- <div><input id="kaleidoscope-output-count" type="range" min="0" max="12" value="0" step="1"></div> -->
@@ -2867,10 +2896,14 @@
                     window.requestAnimationFrame(hydra.render);
                 },
                 audio: {
+                    average: 0,
+                    percentage: 0,
                     init: function() {
-                        // navigator.mediaDevices.getUserMedia({
-                        //     audio: true
-                        // }).then(this.configureMediaProcessing);
+                        this.meterCanvas = document.getElementById('audio-meter');
+                        this.meterCtx = this.meterCanvas.getContext('2d');
+                        navigator.mediaDevices.getUserMedia({
+                            audio: true
+                        }).then(this.configureMediaProcessing);
                     },
                     configureMediaProcessing: function(stream) {
                         hydra.audio.context = new AudioContext();
@@ -2896,16 +2929,33 @@
                                 values += (array[i]);
                             }
 
-                            audio.average = values / hydra.audio.analyser.frequencyBinCount;
-                            audio.percentage = (100 / hydra.audio.analyser.frequencyBinCount) * audio.average;
+                            hydra.audio.average = values / hydra.audio.analyser.frequencyBinCount;
+                            hydra.audio.percentage = (100 / hydra.audio.analyser.frequencyBinCount) * hydra.audio.average;
 
                             hydra.audio.showLevels();
                         }
                     },
                     showLevels: function() {
-                        // audioMeterCtx.clearRect(0, 0, audioMeterCanvas.width, audioMeterCanvas.height);
-                        // audioMeterCtx.fillStyle = '#ffa500';
-                        // audioMeterCtx.fillRect(1, 600 - (600 * (audio.percentage/100)), 18, 600);
+                        this.meterCtx.clearRect(0, 0, this.meterCanvas.width, this.meterCanvas.height);
+
+                        this.meterCtx.save();
+                        const gradient = this.meterCtx.createLinearGradient(0, 0, this.meterCanvas.width, 0);
+
+                        gradient.addColorStop(0, "#76b14c");
+                        gradient.addColorStop(0.5, "#76b14c");
+                        gradient.addColorStop(0.75, "#c6b13d");
+                        gradient.addColorStop(1, "#e62323");
+
+                        this.meterCtx.fillStyle = gradient;
+
+                        this.meterCtx.fillRect(0, 0 , ((this.meterCanvas.width / 100) * (hydra.audio.percentage*3)), 60);
+                        this.meterCtx.restore();
+
+                        this.meterCtx.fillStyle = '#0d0d0d';
+                        let divisions = 60;
+                        for (let i = 0; i < divisions; i++) {
+                            this.meterCtx.fillRect((this.meterCanvas.width / divisions) * i, 0 , 3, 60);
+                        }
                     }
                 },
                 helpers: {
@@ -2949,6 +2999,13 @@
 
                         hydra.mirrorMixedCanvas.width = hydra.mirrorMixedCanvas.getBoundingClientRect().width;
                         hydra.mirrorMixedCanvas.height = hydra.mirrorMixedCanvas.getBoundingClientRect().height;
+
+                        // hydra.audio.meterCanvas.width = (hydra.audio.meterCanvas.getBoundingClientRect().width 
+                        //     - parseInt(getComputedStyle(hydra.audio.meterCanvas).marginLeft) 
+                        //     - parseInt(getComputedStyle(hydra.audio.meterCanvas).marginRight)
+                        // );
+                        hydra.audio.meterCanvas.width = hydra.audio.meterCanvas.getBoundingClientRect().width;
+                        hydra.audio.meterCanvas.height = hydra.audio.meterCanvas.getBoundingClientRect().height;
 
                         hydra.centerX = hydra.deck1.canvas.width/2;
                         hydra.centerY = hydra.deck1.canvas.height/2;

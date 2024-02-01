@@ -1,0 +1,6 @@
+{
+    "renderer": "lockdown",
+    "presets": [
+        {"translateModeX":"wave","translateModeY":"center","triangleCount":"100","triangleScale":"2.285","lineWidth":"1","triangleScaleMode":"lin","triangleStyle":"stroke","rotationType":"alternate","rotationFrom":"inside-out","degreeMultiplier":"0.28361","maxRotation":"119","frequencyControl":"split","frequency":"0.00012","frequencyMovement":"0.00001","frequencyRotation":"0.00001","frequencyColor":"0.0005","colorMode":"cycle","bgColorMode":"black"}
+    ]
+}
