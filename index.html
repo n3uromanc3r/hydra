@@ -309,6 +309,14 @@
             text-align: right;
         }
 
+        .main-mixer-panel-group .presets.saving-preset .preset {
+            -webkit-animation: backgroundBlink 1s step-end infinite;
+            animation: backgroundBlink 1s step-end infinite;
+        }
+        .main-mixer-panel-group .presets.saving-preset .preset:hover {
+            background: rgba(0,240,255,1) !important;
+        }
+
         .main-mixer-panel-group .presets button:nth-of-type(1) {
             background: rgba(240,0,255,0.2);
         }
@@ -994,6 +1002,82 @@
             border-bottom: solid 1px #1a2019;
         }
 
+        #modal {
+            position: fixed;
+            background: black;
+            border: solid 1px #ff5f00;
+            padding: 20px;
+        }
+
+        #modal:not(.hide) {
+            display: block;
+        }
+
+        #modal.import-presets {
+            width: 600px;
+            height: 400px;
+            top: calc(50% - 200px);
+            left: calc(50% - 300px);
+        }
+
+        #modal.guide {
+            display: block;
+            width: 1000px;
+            height: 800px;
+            top: calc(50% - 390px);
+            left: calc(50% - 500px);
+        }
+
+        #modal > div {
+            position: relative;
+        }
+
+        #modal > div > div {
+            display: none;
+        }
+
+        #modal.import-presets .import-presets,
+        #modal.iguide .guide {
+            display: block;
+            font-size: 13px;
+        }
+
+        #modal .heading {
+            text-transform: uppercase;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            border-bottom: solid 1px #3b3b3b;
+            padding-bottom: 15px;
+        }
+
+        #close-modal {
+            display: inline-block;
+            width: initial;
+            position: absolute;
+            top: -10px;
+            right: 0;
+            margin: 0;
+            border: solid 1px #3b3b3b;
+            padding: 4px 8px;
+        }
+
+        @-webkit-keyframes backgroundBlink {
+            from, to {
+                background: #000;
+            }
+            50% {
+                background: rgba(0, 205, 255, 0.4);
+            }
+        }
+        @keyframes backgroundBlink {
+            from, to {
+                background: #000;
+            }
+            50% {
+                background: rgba(0, 205, 255, 0.4);
+            }
+        }
     </style>
 </head>
 
@@ -1844,8 +1928,8 @@
                             <div class="main-mixer-panel-group">
                                 <div class="deck-1">
                                     <label class="heading">Presets</label>
-                                    <button data-deck="1">Import</button>
-                                    <button data-deck="1">Export</button>
+                                    <button data-deck="1" data-import-presets>Import</button>
+                                    <button data-deck="1" data-export-presets>Export</button>
                                     <div class="flex-grid presets">
                                         <button class="preset" data-deck="1" data-preset="1" disabled>1</button>
                                         <button class="preset" data-deck="1" data-preset="2" disabled>2</button>
@@ -1886,8 +1970,8 @@
                                 <div></div>
                                 <div class="deck-2">
                                     <label class="heading">Presets</label>
-                                    <button data-deck="2">Import</button>
-                                    <button data-deck="2">Export</button>
+                                    <button data-deck="2" data-import-presets>Import</button>
+                                    <button data-deck="2" data-export-presets>Export</button>
                                     <div class="flex-grid presets">
                                         <button class="preset" data-deck="2" data-preset="1" disabled>1</button>
                                         <button class="preset" data-deck="2" data-preset="2" disabled>2</button>
@@ -2398,7 +2482,7 @@
                 <div class="button-group">
                     <div><button class="pink" disabled>Send</button></div>
                     <div><button class="blue" disabled>Receive</button></div>
-                    <div><button class="yellow" data-deck="2" data-save-preset disabled>Save</button></div>
+                    <div><button class="yellow" data-deck="2" data-save-preset>Save</button></div>
                     <div><button class="green randomise" class="green" data-deck="2">Randomise</button></div>
                 </div>
                 <div class="button-group">
@@ -2409,8 +2493,21 @@
                 </div>
             </div>
         </section>
+        <div id="modal" class="hide import-presets" data-deck>
+            <div>
+                <button id="close-modal">🗙</button>
+                <div class="import-presets">
+                    <div class="heading">Import Presets</div>
+                    Here you can import presets...
+                </div>
+                <div class="guide">
+                    <div class="heading">Guide</div>
+                    This is some text to guide you.
+                </div>
+            </div>
+        </div>
+        <audio id="audio" crossorigin="anonymous"></audio>
     </div>
-    <audio id="audio" crossorigin="anonymous"></audio>
     <script>
         window.hydra = (function(){
             return {
@@ -2448,10 +2545,7 @@
                         this.composition.setMode('overlay');
 
                         window.onresize = this.detectSizes;
-                        window.onmousemove = (e) => {
-                            this.mouseX = e.clientX;
-                            this.mouseY = e.clientY;
-                        };
+                        this.mouse.init();
                         window.requestAnimationFrame(this.render);
                     });
                 },
@@ -2477,35 +2571,6 @@
                         deck.raised = id == 1;
                         deck.scale = 0.75;
                         deck.current = null;
-                        deck.presetBtns = document.querySelectorAll(`.preset[data-deck="${deck.id}"]`);
-                        deck.presetPrevBtn = document.querySelector(`[data-deck="${deck.id}"][data-previous-preset]`);
-                        deck.presetNextBtn = document.querySelector(`[data-deck="${deck.id}"][data-next-preset]`);
-                        deck.presetSaveBtn = document.querySelector(`[data-deck="${deck.id}"][data-save-preset]`);
-                        deck.presetRevertBtn = document.querySelector(`[data-deck="${deck.id}"][data-revert-preset]`);
-
-                        deck.presetBtns.forEach(btn => {
-                            btn.addEventListener('click', function(e) {
-                                if (!e.target.disabled) {
-                                    deck.presets.select(e.target.dataset.preset);
-                                }
-                            });
-                        });
-
-                        deck.presetPrevBtn.addEventListener('click', function(e) {
-                            deck.presets.previous();
-                        });
-
-                        deck.presetNextBtn.addEventListener('click', function(e) {
-                            deck.presets.next();
-                        });
-
-                        deck.presetSaveBtn.addEventListener('click', function(e) {
-                            deck.presets.save();
-                        });
-
-                        deck.presetRevertBtn.addEventListener('click', function(e) {
-                            deck.presets.select(deck.presets.current);
-                        });
 
                         deck.visual = {
                             select: function(visual) {
@@ -2564,14 +2629,58 @@
                         }
 
                         deck.presets = {
+                            init: function() {
+                                this.presetsContainer = document.querySelector(`.deck-${deck.id} .presets`);
+
+                                this.presetBtns = document.querySelectorAll(`.preset[data-deck="${deck.id}"]`);
+                                this.presetPrevBtn = document.querySelector(`[data-deck="${deck.id}"][data-previous-preset]`);
+                                this.presetNextBtn = document.querySelector(`[data-deck="${deck.id}"][data-next-preset]`);
+                                this.presetSaveBtn = document.querySelector(`[data-deck="${deck.id}"][data-save-preset]`);
+                                this.presetRevertBtn = document.querySelector(`[data-deck="${deck.id}"][data-revert-preset]`);
+
+                                this.presetsImportBtn = document.querySelector(`[data-deck="${deck.id}"][data-import-presets]`);
+                                this.presetsExportBtn = document.querySelector(`[data-deck="${deck.id}"][data-export-presets]`);
+
+                                this.presetBtns.forEach(btn => {
+                                    btn.addEventListener('click', function(e) {
+                                        if (!e.target.disabled) {
+                                            deck.presets.select(e.target.dataset.preset);
+                                        }
+                                    });
+                                });
+
+                                this.presetPrevBtn.addEventListener('click', function(e) {
+                                    deck.presets.previous();
+                                });
+
+                                this.presetNextBtn.addEventListener('click', function(e) {
+                                    deck.presets.next();
+                                });
+
+                                this.presetSaveBtn.addEventListener('click', function(e) {
+                                    deck.presets.save();
+                                });
+
+                                this.presetRevertBtn.addEventListener('click', function(e) {
+                                    deck.presets.select(deck.presets.current);
+                                });
+
+                                this.presetsImportBtn.addEventListener('click', function(e) {
+                                    deck.presets.import();
+                                });
+
+                                this.presetsExportBtn.addEventListener('click', function(e) {
+                                    deck.presets.export();
+                                });
+                            },
                             update: function() {
                                 this.clear();
 
                                 if (deck.current.presets && deck.current.presets.length) {
                                     deck.current.presets.forEach((preset, i) => {
-                                        deck.presetBtns[i].disabled = false;
+                                        this.presetBtns[i].disabled = false;
                                         if (i == 0) {
-                                            deck.presetBtns[i].classList.add('active');
+                                            this.presetBtns[i].classList.add('active');
                                         }
                                     });
                                 } else {
@@ -2579,37 +2688,64 @@
                                 }
                             },
                             select: function(preset) {
-                                deck.presetBtns.forEach(btn => {
-                                    btn.classList.remove('active');
-                                });
-                                deck.presetBtns[preset-1].classList.add('active');
-                                this.current = parseInt(preset);
+                                if (this.presetsContainer.classList.contains('saving-preset')) {
+                                    try {
 
-                                deck.ctx.setTransform(1, 0, 0, 1, 0, 0);
-                                deck.ctx.clearRect(0, 0, deck.canvas.width, deck.canvas.height);
+                                        console.log(deck.visual.current)
 
-                                const selectedPreset = deck.current.presets[preset-1];
-                                for (const option in selectedPreset) {
-                                    const input = document.querySelector(`[data-visual="${deck.visual.current}"][data-deck="${deck.id}"][data-variable="${option}"]`);
+                                        const presetConfiguration = {};
+                                        deck.current.inputs.forEach(input => {
+                                            if (input.type == 'number' || input.type == 'range' || input.type == 'color') {
+                                                presetConfiguration[input.dataset.variable] = input.value;
+                                            } else if (input.type == 'checkbox') {
+                                                presetConfiguration[input.dataset.variable] = input.checked;
+                                            } else if (input.type == 'submit') {
+                                                presetConfiguration[input.dataset.variable] = input.textContent;
+                                            }
+                                        });
 
-                                    if (!input) {
-                                        console.log('breaking')
-                                    }
-                                    if (!input) break;
+                                        deck.current.presets[preset-1] = presetConfiguration;
+                                        // deck[deck.visual.current].presets[preset-1] = presetConfiguration;
 
-                                    if (input.type == 'number' || input.type == 'range' || input.type == 'color') {
-                                        input.value = selectedPreset[option];
-                                        input.dispatchEvent(new Event('input', { bubbles: true }));
-                                    } else if (input.type == 'checkbox') {
-                                        input.checked = selectedPreset[option];
-                                        input.dispatchEvent(new Event('input', { bubbles: true }));
-                                    } else if (input.type == 'submit') {
-                                        deck.current[option] = selectedPreset[option];
-                                        input.textContent = selectedPreset[option];
-                                    }
+                                        this.presetsContainer.classList.remove('saving-preset');
 
-                                    if (typeof deck.current.updateDisabledUIComponents == 'function') {
-                                        deck.current.updateDisabledUIComponents();
+                                        this.select(preset);
+
+                                    } catch(e) {}
+
+                                } else {
+                                    this.presetBtns.forEach(btn => {
+                                        btn.classList.remove('active');
+                                    });
+                                    this.presetBtns[preset-1].classList.add('active');
+                                    this.current = parseInt(preset);
+
+                                    deck.ctx.setTransform(1, 0, 0, 1, 0, 0);
+                                    deck.ctx.clearRect(0, 0, deck.canvas.width, deck.canvas.height);
+
+                                    const selectedPreset = deck.current.presets[preset-1];
+                                    for (const option in selectedPreset) {
+                                        const input = document.querySelector(`[data-visual="${deck.visual.current}"][data-deck="${deck.id}"][data-variable="${option}"]`);
+
+                                        if (!input) {
+                                            console.log('breaking')
+                                        }
+                                        if (!input) break;
+
+                                        if (input.type == 'number' || input.type == 'range' || input.type == 'color') {
+                                            input.value = selectedPreset[option];
+                                            input.dispatchEvent(new Event('input', { bubbles: true }));
+                                        } else if (input.type == 'checkbox') {
+                                            input.checked = selectedPreset[option];
+                                            input.dispatchEvent(new Event('input', { bubbles: true }));
+                                        } else if (input.type == 'submit') {
+                                            deck.current[option] = selectedPreset[option];
+                                            input.textContent = selectedPreset[option];
+                                        }
+
+                                        if (typeof deck.current.updateDisabledUIComponents == 'function') {
+                                            deck.current.updateDisabledUIComponents();
+                                        }
                                     }
                                 }
                             },
@@ -2627,23 +2763,29 @@
                                 }
                             },
                             clear: function() {
-                                deck.presetBtns.forEach(btn => {
+                                this.presetBtns.forEach(btn => {
                                     btn.className = 'preset';
                                     btn.disabled = true;
                                 });
                             },
+                            send: function() {
+                                console.log('sending');
+                            },
+                            receive: function() {
+                                console.log('receiving');
+                            },
                             save: function() {
-                                const presetConfiguration = {};
-                                deck.current.inputs.forEach(input => {
-                                    if (input.type == 'number' || input.type == 'range' || input.type == 'color') {
-                                        presetConfiguration[input.dataset.variable] = input.value;
-                                    } else if (input.type == 'checkbox') {
-                                        presetConfiguration[input.dataset.variable] = input.checked;
-                                    } else if (input.type == 'submit') {
-                                        presetConfiguration[input.dataset.variable] = input.textContent;
-                                    }
+                                this.presetsContainer.classList.toggle('saving-preset');
+                            },
+                            import: function() {
+                                console.log('importing')
+                            },
+                            export: function() {
+                                const data = JSON.stringify({
+                                    renderer: deck.visual.current,
+                                    presets: deck.current.presets
                                 });
-                                console.log(JSON.stringify(presetConfiguration));
+                                hydra.storage.export(data, deck.visual.current + '-presets.json', 'application/json');
                             }
                         }
 
@@ -2651,6 +2793,7 @@
                             deck.current.render();
                         }
                         
+                        deck.presets.init();
                         deck.readouts.init();
 
                         for (const renderer in hydra.renderers) {
@@ -2860,6 +3003,14 @@
                         });
                     }
                 },
+                mouse: {
+                    init: function() {
+                        window.onmousemove = (e) => {
+                            hydra.mouseX = e.clientX;
+                            hydra.mouseY = e.clientY;
+                        };
+                    }
+                },
                 render: function() {
                     hydra.deck1.ctx.globalAlpha = hydra.deck1.alpha;
                     hydra.deck2.ctx.globalAlpha = hydra.deck2.alpha;
@@ -2901,9 +3052,13 @@
                     init: function() {
                         this.meterCanvas = document.getElementById('audio-meter');
                         this.meterCtx = this.meterCanvas.getContext('2d');
-                        navigator.mediaDevices.getUserMedia({
-                            audio: true
-                        }).then(this.configureMediaProcessing);
+                        try {
+                            navigator.mediaDevices.getUserMedia({
+                                audio: true
+                            }).then(this.configureMediaProcessing);
+                        } catch (err) {
+                            // bad things happened... weird browser, lacking ssl?
+                        }
                     },
                     configureMediaProcessing: function(stream) {
                         hydra.audio.context = new AudioContext();
@@ -2956,6 +3111,79 @@
                         for (let i = 0; i < divisions; i++) {
                             this.meterCtx.fillRect((this.meterCanvas.width / divisions) * i, 0 , 3, 60);
                         }
+                    }
+                },
+                storage: {
+                    init: function() {
+                        this.db = window.localStorage;
+                        // this.db.clear();
+
+                        if (!this.db.getItem('presets')) {
+                            this.db.setItem('presets', JSON.stringify(presets.collection));
+                            this.db.setItem('presetsDefault', JSON.stringify(presets.collection));
+                        } else {
+                            presets.collection = JSON.parse(this.db.getItem('presets'));
+                        }
+
+                        if (!this.db.getItem('assignments')) {
+                            this.db.setItem('assignments', JSON.stringify(midi.assignments));
+                            this.db.setItem('assignmentsDefault', JSON.stringify(midi.assignments));
+                        } else {
+                            midi.assignments = JSON.parse(this.db.getItem('assignments'));
+                        }
+                    },
+                    db: null,
+                    dataToImport: {},
+                    import: function() {
+                        let input = this.dataToImport.input;
+                        if (typeof window.FileReader !== 'function') {
+                            alert("The file API isn't supported on this browser yet.");
+                            return;
+                        } else if (!input.files) {
+                            alert("This browser doesn't seem to support the `files` property of file inputs.");
+                        } else if (!input.files[0]) {
+                            alert("Please select a file before clicking 'Import'.");
+                        } else if (input.files[0].type != 'application/json') {
+                            alert("File selected for import is not a valid JSON file.");
+                        } else {
+                            let file = input.files[0];
+                            let fr = new FileReader();
+                            fr.onload = this.loadFile;
+                            fr.readAsText(file);
+                        }
+                    },
+                    loadFile: function(e) {
+                        let data = e.target.result;
+
+                        try {
+
+                            switch(storage.dataToImport.itemKey) {
+                                case 'presets':
+                                    storage.db.setItem('presets', data);
+                                    presets.collection = JSON.parse(storage.db.getItem('presets'));
+                                    break;
+                                case 'assignments':
+                                    storage.db.setItem('assignments', data);
+                                    midi.assignments = JSON.parse(storage.db.getItem('assignments'));
+                                    break;
+                            }
+
+                            storage.dataToImport.input.value = '';
+
+                            alert('Imported successfully.');
+
+                        } catch(e) {
+                            alert('There was a problem importing the selected file.');
+                        }
+
+                    },
+                    export: function(content, fileName, contentType) {
+                        let file = new Blob([content], {type: contentType});
+                        let a = document.createElement('a');
+                        a.href = URL.createObjectURL(file);
+                        a.download = fileName;
+                        a.click();
+                        URL.revokeObjectURL(a.href);
                     }
                 },
                 helpers: {
