@@ -3096,6 +3096,10 @@
                         // hydra.mirrorMixedCtx.scale(-1, 1);
                         // hydra.mirrorMixedCtx.translate(-hydra.centerX, -hydra.centerY);
                     }
+
+                    if (!hydra.audio.listening) {
+                        hydra.audio.knightrider();
+                    }
                     
                     window.requestAnimationFrame(hydra.render);
                 },
@@ -3106,7 +3110,6 @@
                     init: function() {
                         this.meterCanvas = document.getElementById('audio-meter');
                         this.meterCtx = this.meterCanvas.getContext('2d');
-                        this.knightrider();
                     },
                     listen: function() {
                         try {
@@ -3171,24 +3174,21 @@
                         }
                     },
                     knightrider: function() {
-                        if (!hydra.audio.listening) {
-                            hydra.audio.meterCtx.clearRect(0, 0, hydra.audio.meterCanvas.width, hydra.audio.meterCanvas.height);
+                        hydra.audio.meterCtx.clearRect(0, 0, hydra.audio.meterCanvas.width, hydra.audio.meterCanvas.height);
 
-                            hydra.audio.meterCtx.save();
+                        hydra.audio.meterCtx.save();
 
-                            hydra.audio.meterCtx.fillStyle = '#540707';
+                        hydra.audio.meterCtx.fillStyle = '#540707';
 
-                            const x = hydra.helpers.sine(Date.now(), (hydra.audio.meterCanvas.width+60)*5)
+                        const x = hydra.helpers.sine(Date.now(), (hydra.audio.meterCanvas.width+60)*5)
 
-                            hydra.audio.meterCtx.fillRect((x/5)-50, 0 , 50, 60);
-                            hydra.audio.meterCtx.restore();
+                        hydra.audio.meterCtx.fillRect((x/5)-50, 0 , 50, 60);
+                        hydra.audio.meterCtx.restore();
 
-                            hydra.audio.meterCtx.fillStyle = '#0d0d0d';
-                            let divisions = 60;
-                            for (let i = 0; i < divisions; i++) {
-                                hydra.audio.meterCtx.fillRect((hydra.audio.meterCanvas.width / divisions) * i, 0 , 3, 60);
-                            }
-                            setTimeout(hydra.audio.knightrider,10);
+                        hydra.audio.meterCtx.fillStyle = '#0d0d0d';
+                        let divisions = 60;
+                        for (let i = 0; i < divisions; i++) {
+                            hydra.audio.meterCtx.fillRect((hydra.audio.meterCanvas.width / divisions) * i, 0 , 3, 60);
                         }
                     }
                 },
