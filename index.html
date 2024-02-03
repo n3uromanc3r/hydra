@@ -2918,6 +2918,7 @@
                     init: function() {
                         this.kaleidoscope = {};
                         this.kaleidoscope.enabled = false;
+                        this.kaleidoscope.angle = 68;
                         this.kaleidoscope.toggle = document.getElementById('kaleidoscope-output-toggle');
                         this.kaleidoscope.clip = (ctx) => {
                             ctx.save();
@@ -2944,7 +2945,7 @@
 
                             ctx.save();
                             ctx.translate(canvas.width/2, canvas.height/2);
-                            ctx.rotate((Math.PI / 180) * -68);
+                            ctx.rotate((Math.PI / 180) * -hydra.effects.kaleidoscope.angle);
                             ctx.translate(-canvas.width/2, -canvas.height/2);
                             ctx.scale(1,-1);
                             ctx.drawImage(canvas, 0, -canvas.height);
@@ -3024,11 +3025,9 @@
                             if (e.target.innerText == 'CLIP') {
                                 e.target.innerText = 'bleed';
                                 e.target.className = 'bleed';
-                                hydra.effects.mirror.clipping.disable();
                             } else {
                                 e.target.innerText = 'clip';
                                 e.target.className = 'clip';
-                                hydra.effects.mirror.clipping.enable();
                             }
                         });
                     }
