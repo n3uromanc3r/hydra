@@ -2968,6 +2968,15 @@
                 },
                 effects: {
                     init: function() {
+                        this.kaleidoscope = {};
+                        this.kaleidoscope.enabled = false;
+                        this.kaleidoscope.toggle = document.getElementById('kaleidoscope-output-toggle');
+
+                        this.kaleidoscope.toggle.addEventListener('click', function(e) {
+                            e.target.classList.toggle('on');
+                            hydra.effects.kaleidoscope.enabled = e.target.classList.contains('on');
+                        });
+
                         this.mirror = {}
                         this.mirror.enabled = false;
                         this.mirror.mode = 'clip';
@@ -3073,6 +3082,17 @@
                     hydra.deck1.render();
                     hydra.deck2.render();
 
+                    if (hydra.effects.kaleidoscope.enabled) {
+                        hydra.mixedCtx.save();
+        
+                        hydra.mixedCtx.beginPath();
+                        hydra.mixedCtx.moveTo(hydra.mixedCanvas.width/2, hydra.mixedCanvas.height/2);
+                        hydra.mixedCtx.lineTo(hydra.mixedCanvas.width,0);
+                        hydra.mixedCtx.lineTo(hydra.mixedCanvas.width/2, 0);
+                        hydra.mixedCtx.closePath();
+                        hydra.mixedCtx.clip();
+                    }
+
                     if (!hydra.deck1.raised) {
                         hydra.mixedCtx.globalAlpha = hydra.deck1.crossfaderAlpha;
                         hydra.mixedCtx.drawImage(hydra.deck1.canvas, 0, 0);
@@ -3087,6 +3107,43 @@
                         hydra.mixedCtx.globalAlpha = hydra.deck1.crossfaderAlpha;
                         hydra.mixedCtx.drawImage(hydra.deck1.canvas, 0, 0);
                         hydra.mixedCtx.globalAlpha = 1;
+                    }
+
+                    if (hydra.effects.kaleidoscope.enabled) {
+                        hydra.mixedCtx.restore();
+
+                        hydra.mixedCtx.save();
+                        hydra.mixedCtx.translate(0, 0);
+                        hydra.mixedCtx.beginPath();
+                        hydra.mixedCtx.moveTo(hydra.mixedCanvas.width/2, hydra.mixedCanvas.height/2);
+                        hydra.mixedCtx.lineTo(hydra.mixedCanvas.width, hydra.mixedCanvas.height/2);
+                        hydra.mixedCtx.lineTo(hydra.mixedCanvas.width, 0);
+                        hydra.mixedCtx.lineTo(hydra.mixedCanvas.width/2, 0);
+                        hydra.mixedCtx.closePath();
+                        hydra.mixedCtx.clip();
+
+                        hydra.mixedCtx.save();
+                        hydra.mixedCtx.translate(hydra.mixedCanvas.width/2, hydra.mixedCanvas.height/2);
+                        hydra.mixedCtx.rotate((Math.PI / 180) * -68);
+                        hydra.mixedCtx.translate(-hydra.mixedCanvas.width/2, -hydra.mixedCanvas.height/2);
+                        hydra.mixedCtx.scale(1,-1);
+                        hydra.mixedCtx.drawImage(hydra.mixedCanvas, 0, -hydra.mixedCanvas.height);
+                        hydra.mixedCtx.scale(1,-1);
+                        
+                        hydra.mixedCtx.drawImage(hydra.mixedCanvas, 0, hydra.mixedCanvas.height);
+                        hydra.mixedCtx.restore();
+                        hydra.mixedCtx.restore();
+
+                        hydra.mixedCtx.save();
+                        hydra.mixedCtx.scale(1,-1);
+                        hydra.mixedCtx.drawImage(hydra.mixedCanvas, 0, -hydra.mixedCanvas.height);
+                        hydra.mixedCtx.restore();
+
+                        hydra.mixedCtx.save();
+                        hydra.mixedCtx.translate(hydra.mixedCanvas.width, 0);
+                        hydra.mixedCtx.scale(-1,1);
+                        hydra.mixedCtx.drawImage(hydra.mixedCanvas, 0, 0);
+                        hydra.mixedCtx.restore();
                     }
 
                     if (hydra.effects.mirror.enabled) {
