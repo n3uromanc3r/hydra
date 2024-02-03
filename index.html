@@ -3879,6 +3879,11 @@
 
                         let triangleSide = triangle.side * deck.lockdown.triangleScale;
 
+                        if (deck.react) {
+                            let reactivity = 2;
+                            triangleSide = (triangleSide/100) * (window.hydra.audio.percentage * reactivity * 3);
+                        }
+
                         triangle.height = triangleSide * (Math.sqrt(3)/2);
                         triangle.radius = triangleSide * (Math.sqrt(3)/3);
 
