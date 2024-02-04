@@ -857,9 +857,17 @@
             margin: 0;
         }
 
-        .visual-settings > div > div:first-of-type fieldset {
+        .visual-settings .effects {
+            padding-right: 15px;
+        }
+
+        .visual-settings .effects fieldset {
             border-top: none;
             padding-top: 0;
+        }
+
+        .visual-settings .effects .kaleidoscope-slider-container {
+            margin-top: 12px;
         }
 
         .visual-settings button {
@@ -1161,17 +1169,22 @@
         <section class="section extend">
             <div class="column">
                 <div class="visual-settings" data-deck="1">
-                    <div class="button-group effects">
-                        <div><button id="kaleidoscope-deck1-toggle" class="kaleidoscope-toggle" data-target="deck1">Kaleidoscope</button></div>
-                        <div><button id="mirror-deck1-toggle" class="mirror-toggle" data-target="deck1">Mirror</button></div>
-                        <div><button id="mirror-deck1-cycle-mode" class="mirror-cycle-mode clip" data-target="deck1" disabled>Clip</button></div>
-                    </div>
-                    <div class="button-group kaleidoscope-slider-container effects disabled">
-                        <div class="inline-input">
-                            <span class="input-label">Angle</span>
-                            <span class="value">68</span>
-                            <input id="kaleidoscope-deck1-angle" class="kaleidoscope-angle" type="range" min="25" max="180" value="68" step="0.001" data-target="deck1" disabled>
-                        </div>
+                    <div class="effects">
+                        <fieldset>
+                            <div class="heading">Effects</div>
+                            <div class="button-group">
+                                <div><button id="kaleidoscope-deck1-toggle" class="kaleidoscope-toggle" data-target="deck1">Kaleidoscope</button></div>
+                                <div><button id="mirror-deck1-toggle" class="mirror-toggle" data-target="deck1">Mirror</button></div>
+                                <div><button id="mirror-deck1-cycle-mode" class="mirror-cycle-mode clip" data-target="deck1" disabled>Clip</button></div>
+                            </div>
+                            <div class="button-group kaleidoscope-slider-container disabled">
+                                <div class="inline-input">
+                                    <span class="input-label">Angle</span>
+                                    <span class="value">68</span>
+                                    <input id="kaleidoscope-deck1-angle" class="kaleidoscope-angle" type="range" min="25" max="180" value="68" step="0.001" data-target="deck1" disabled>
+                                </div>
+                            </div>
+                        </fieldset>
                     </div>
                     <div data-visual="quark" data-deck="1" class="hide">
                         <div>
@@ -2027,17 +2040,22 @@
             </div>
             <div class="column">
                 <div class="visual-settings" data-deck="2">
-                    <div class="button-group effects">
-                        <div><button id="kaleidoscope-deck2-toggle" class="kaleidoscope-toggle" data-target="deck2">Kaleidoscope</button></div>
-                        <div><button id="mirror-deck2-toggle" class="mirror-toggle" data-target="deck2">Mirror</button></div>
-                        <div><button id="mirror-deck2-cycle-mode" class="mirror-cycle-mode clip" data-target="deck2" disabled>Clip</button></div>
-                    </div>
-                    <div class="button-group kaleidoscope-slider-container effects disabled">
-                        <div class="inline-input">
-                            <span class="input-label">Angle</span>
-                            <span class="value">68</span>
-                            <input id="kaleidoscope-deck2-angle" class="kaleidoscope-angle" type="range" min="25" max="180" value="68" step="0.001" data-target="deck2" disabled>
-                        </div>
+                    <div class="effects">
+                        <fieldset>
+                            <div class="heading">Effects</div>
+                            <div class="button-group">
+                                <div><button id="kaleidoscope-deck2-toggle" class="kaleidoscope-toggle" data-target="deck2">Kaleidoscope</button></div>
+                                <div><button id="mirror-deck2-toggle" class="mirror-toggle" data-target="deck2">Mirror</button></div>
+                                <div><button id="mirror-deck2-cycle-mode" class="mirror-cycle-mode clip" data-target="deck2" disabled>Clip</button></div>
+                            </div>
+                            <div class="button-group kaleidoscope-slider-container disabled">
+                                <div class="inline-input">
+                                    <span class="input-label">Angle</span>
+                                    <span class="value">68</span>
+                                    <input id="kaleidoscope-deck2-angle" class="kaleidoscope-angle" type="range" min="25" max="180" value="68" step="0.001" data-target="deck2" disabled>
+                                </div>
+                            </div>
+                        </fieldset>
                     </div>
                     <div data-visual="quark" data-deck="2" class="hide">
                         <div>
