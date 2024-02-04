@@ -529,6 +529,11 @@
             color: white;
         }
 
+        .mirror-cycle-mode:not(:disabled).full {
+            background: #23c2e6;
+            color: black;
+        }
+
         select {
             padding: 10px;
             width: 100%;
@@ -1175,7 +1180,7 @@
                             <div class="button-group">
                                 <div><button id="kaleidoscope-deck1-toggle" class="kaleidoscope-toggle" data-target="deck1">Kaleidoscope</button></div>
                                 <div><button id="mirror-deck1-toggle" class="mirror-toggle" data-target="deck1">Mirror</button></div>
-                                <div><button id="mirror-deck1-cycle-mode" class="mirror-cycle-mode clip" data-target="deck1" disabled>Clip</button></div>
+                                <div><button id="mirror-deck1-cycle-mode" class="mirror-cycle-mode clip" data-target="deck1" data-options="clip,full,bleed" disabled>clip</button></div>
                             </div>
                             <div class="button-group kaleidoscope-slider-container disabled">
                                 <div class="inline-input">
@@ -1921,7 +1926,7 @@
                         <div class="button-group">
                             <div><button id="kaleidoscope-output-toggle" class="kaleidoscope-toggle" data-target="output">Kaleidoscope</button></div>
                             <div><button id="mirror-output-toggle" class="mirror-toggle" data-target="output">Mirror</button></div>
-                            <div><button id="mirror-output-cycle-mode" class="mirror-cycle-mode clip" data-target="output" disabled>Clip</button></div>
+                            <div><button id="mirror-output-cycle-mode" class="mirror-cycle-mode clip" data-target="output" data-options="clip,full,bleed" disabled>clip</button></div>
                         </div>
                         <div class="button-group kaleidoscope-slider-container disabled">
                             <div class="inline-input">
@@ -2046,7 +2051,7 @@
                             <div class="button-group">
                                 <div><button id="kaleidoscope-deck2-toggle" class="kaleidoscope-toggle" data-target="deck2">Kaleidoscope</button></div>
                                 <div><button id="mirror-deck2-toggle" class="mirror-toggle" data-target="deck2">Mirror</button></div>
-                                <div><button id="mirror-deck2-cycle-mode" class="mirror-cycle-mode clip" data-target="deck2" disabled>Clip</button></div>
+                                <div><button id="mirror-deck2-cycle-mode" class="mirror-cycle-mode clip" data-target="deck2" data-options="clip,full,bleed" disabled>clip</button></div>
                             </div>
                             <div class="button-group kaleidoscope-slider-container disabled">
                                 <div class="inline-input">
@@ -2928,7 +2933,7 @@
                                 });
                             } else if (input.type =='submit') {
                                 deck[name][input.dataset.variable] = input.textContent;
-                                input.options = input.dataset.options?.split(',') || []
+                                input.options = input.dataset.options?.split(',') || [];
 
                                 input.addEventListener('click', function(e) {
                                     if (input.options.length) {
@@ -3125,10 +3130,29 @@
                                 ctx.closePath();
                                 ctx.clip();
                             }
+
+                            if (modeCycle.innerText == 'FULL') {
+                                ctx.beginPath();
+                                ctx.moveTo(canvas.width/2, 0);
+                                ctx.lineTo(canvas.width, 0);
+                                ctx.lineTo(canvas.width, canvas.height/2);
+                                ctx.lineTo(canvas.width/2, canvas.height/2);
+                                ctx.closePath();
+                                ctx.clip();
+                            }
                         };
 
                         this.mirror.apply = (ctx, canvas, modeCycle) => {
-                            if (modeCycle.innerText == 'CLIP') {
+                            if (modeCycle.innerText == 'CLIP' || modeCycle.innerText == 'FULL') {
+                                ctx.restore();
+                            }
+
+                            if (modeCycle.innerText == 'FULL') {
+                                ctx.save();
+                                ctx.translate(0, canvas.height);
+                                ctx.scale(1,-1);
+                                ctx.globalCompositeOperation = 'multiply';
+                                ctx.drawImage(canvas, 0, 0);
                                 ctx.restore();
                             }
 
@@ -3160,15 +3184,15 @@
                         });
 
                         this.mirror.modeCycles.forEach(modeCycle => {
+                            modeCycle.options = modeCycle.dataset.options?.split(',') || [];
                             modeCycle.addEventListener('click', function(e) {
-                                if (e.target.innerText == 'CLIP') {
-                                    e.target.innerText = 'bleed';
-                                    e.target.classList.add('bleed');
-                                    e.target.classList.remove('clip');
-                                } else {
-                                    e.target.innerText = 'clip';
-                                    e.target.classList.add('clip');
-                                    e.target.classList.remove('bleed');
+                                if (modeCycle.options.length) {
+                                    const index = modeCycle.options.indexOf(e.target.textContent);
+                                    const option = modeCycle.options[index+1] !== undefined ? modeCycle.options[index+1] : modeCycle.options[0];
+
+                                    modeCycle.textContent = option;
+                                    modeCycle.classList.remove('clip','full','bleed');
+                                    modeCycle.classList.add(option);
                                 }
                             });
                         });
