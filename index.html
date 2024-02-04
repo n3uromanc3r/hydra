@@ -295,6 +295,11 @@
             background: rgba(0,240,255,1) !important;
         }
 
+        .main-mixer-panel-group .presets button {
+            padding-top: 5px;
+            padding-bottom: 5px;
+        }
+
         .main-mixer-panel-group .presets button:nth-of-type(1) {
             background: rgba(240,0,255,0.2);
         }
@@ -811,7 +816,8 @@
             overflow-y: auto;
         }
 
-        .visual-settings span.value {
+        .visual-settings span.value,
+        .main-mixer-panel span.value {
             position: absolute;
             top: 5px;
             right: 16px;
@@ -828,6 +834,23 @@
             width: 60px;
             text-align: right;
             top: -1px;
+        }
+
+        .kaleidoscope-slider-container {
+            opacity: 1;
+        }
+
+        .kaleidoscope-slider-container.disabled {
+            opacity: 0.4;
+        }
+
+        .kaleidoscope-slider-container .inline-input {
+            padding-right: 0;
+            padding-bottom: 0;
+        }
+
+        .kaleidoscope-slider-container .inline-input span.value {
+            right: 0;
         }
 
         .visual-settings input[type=range] {
@@ -1866,9 +1889,15 @@
                         </div>
                         <div class="button-group">
                             <div><button id="kaleidoscope-output-toggle">Kaleidoscope</button></div>
-                            <!-- <div><input id="kaleidoscope-output-count" type="range" min="0" max="12" value="0" step="1"></div> -->
                             <div><button id="mirror-output-toggle">Mirror</button></div>
                             <div><button id="mirror-output-cycle-mode" class="clip" disabled>Clip</button></div>
+                        </div>
+                        <div class="button-group kaleidoscope-slider-container disabled">
+                            <div class="inline-input">
+                                <span class="input-label">Angle</span>
+                                <span class="value">68</span>
+                                <input id="kaleidoscope-output-angle" type="range" min="25" max="180" value="68" step="0.001" disabled>
+                            </div>
                         </div>
                         <div class="button-group">
                             <button class="auto" data-deck="1">Auto</button>
@@ -2919,7 +2948,9 @@
                         this.kaleidoscope = {};
                         this.kaleidoscope.enabled = false;
                         this.kaleidoscope.angle = 68;
+                        this.kaleidoscope.sliderContainer = document.querySelector('.kaleidoscope-slider-container');
                         this.kaleidoscope.toggle = document.getElementById('kaleidoscope-output-toggle');
+                        this.kaleidoscope.angleInput = document.getElementById('kaleidoscope-output-angle');
                         this.kaleidoscope.clip = (ctx) => {
                             ctx.save();
         
@@ -2970,10 +3001,16 @@
                         this.kaleidoscope.toggle.addEventListener('click', function(e) {
                             e.target.classList.toggle('on');
                             hydra.effects.kaleidoscope.enabled = e.target.classList.contains('on');
+                            hydra.effects.kaleidoscope.angleInput.disabled = !hydra.effects.kaleidoscope.enabled;
+                            hydra.effects.kaleidoscope.sliderContainer.classList.toggle('disabled');
 
                             if (hydra.effects.kaleidoscope.enabled && hydra.effects.mirror.enabled) {
                                 hydra.effects.mirror.toggle.dispatchEvent(new Event('click', { bubbles: true }));
                             }
+                        });
+
+                        this.kaleidoscope.angleInput.addEventListener('input', function(e) {
+                            hydra.effects.kaleidoscope.angle = parseFloat(e.target.value);
                         });
 
                         this.mirror = {}
