@@ -4,7 +4,7 @@
             "outerCircleEnabled": true,
             "middleCircleEnabled": true,
             "innerCircleEnabled": true,
-            "fourPointCirclesEnabled": true,
+            "fourPointCirclesEnabled": false,
             "smallTriangleEnabled": true,
             "largeTriangleEnabled": true,
             "outerCircleColor": "#ff0000",
