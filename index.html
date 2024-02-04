@@ -3228,7 +3228,8 @@
 
                         this.mirror.mirrorModeBtns.forEach(mirrorMode => {
                             mirrorMode.addEventListener('click', function(e) {
-                                hydra.effects.mirror.mirrorModeBtns.forEach(btn => {
+                                const mirrorModeBtns = e.target.parentElement.parentElement.querySelectorAll('.mirror-mode')
+                                mirrorModeBtns.forEach(btn => {
                                     btn.classList.remove('clip','full','bleed');
                                 });
                                 const target = e.target.dataset.target;
