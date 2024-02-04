@@ -3011,6 +3011,7 @@
 
                         this.kaleidoscope.angleInput.addEventListener('input', function(e) {
                             hydra.effects.kaleidoscope.angle = parseFloat(e.target.value);
+                            e.target.parentElement.querySelector('.value').textContent = e.target.value;
                         });
 
                         this.mirror = {}
