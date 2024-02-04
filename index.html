@@ -511,20 +511,20 @@
             background: rgba(0,30,255,1);
         }
 
-        #mirror-output-cycle-mode:disabled {
+        .mirror-cycle-mode:disabled {
             opacity: 1;
         }
 
-        #mirror-output-cycle-mode:disabled:hover {
+        .mirror-cycle-mode:disabled:hover {
             color: #8d8d8d;
         }
 
-        #mirror-output-cycle-mode:not(:disabled).clip {
+        .mirror-cycle-mode:not(:disabled).clip {
             background: #23e648;
             color: black;
         }
 
-        #mirror-output-cycle-mode:not(:disabled).bleed {
+        .mirror-cycle-mode:not(:disabled).bleed {
             background: #e62323;
             color: white;
         }
@@ -1060,7 +1060,10 @@
     <div id="hydra">
         <section id="deck-screens" class="section">
             <div class="column">
-                <div class="deck-screen"><canvas id="deck-1-canvas" class="canvas"></canvas></div>
+                <div class="deck-screen">
+                    <canvas id="deck-1-canvas" class="canvas hide"></canvas>
+                    <canvas id="deck-1-pipe-canvas" class="canvas"></canvas>
+                </div>
             </div>
             <div class="column">
                 <div class="deck-screen">
@@ -1068,7 +1071,10 @@
                 </div>
             </div>
             <div class="column">
-                <div class="deck-screen"><canvas id="deck-2-canvas" class="canvas"></canvas></div>
+                <div class="deck-screen">
+                    <canvas id="deck-2-canvas" class="canvas hide"></canvas>
+                    <canvas id="deck-2-pipe-canvas" class="canvas"></canvas>
+                </div>
             </div>
         </section>
         <section class="section">
@@ -1155,6 +1161,18 @@
         <section class="section extend">
             <div class="column">
                 <div class="visual-settings" data-deck="1">
+                    <div class="button-group effects">
+                        <div><button id="kaleidoscope-deck1-toggle" class="kaleidoscope-toggle" data-target="deck1">Kaleidoscope</button></div>
+                        <div><button id="mirror-deck1-toggle" class="mirror-toggle" data-target="deck1">Mirror</button></div>
+                        <div><button id="mirror-deck1-cycle-mode" class="mirror-cycle-mode clip" data-target="deck1" disabled>Clip</button></div>
+                    </div>
+                    <div class="button-group kaleidoscope-slider-container effects disabled">
+                        <div class="inline-input">
+                            <span class="input-label">Angle</span>
+                            <span class="value">68</span>
+                            <input id="kaleidoscope-deck1-angle" class="kaleidoscope-angle" type="range" min="25" max="180" value="68" step="0.001" data-target="deck1" disabled>
+                        </div>
+                    </div>
                     <div data-visual="quark" data-deck="1" class="hide">
                         <div>
                             <fieldset>
@@ -1888,15 +1906,15 @@
                             <div id="audio-meter-chrome"></div>
                         </div>
                         <div class="button-group">
-                            <div><button id="kaleidoscope-output-toggle">Kaleidoscope</button></div>
-                            <div><button id="mirror-output-toggle">Mirror</button></div>
-                            <div><button id="mirror-output-cycle-mode" class="clip" disabled>Clip</button></div>
+                            <div><button id="kaleidoscope-output-toggle" class="kaleidoscope-toggle" data-target="output">Kaleidoscope</button></div>
+                            <div><button id="mirror-output-toggle" class="mirror-toggle" data-target="output">Mirror</button></div>
+                            <div><button id="mirror-output-cycle-mode" class="mirror-cycle-mode clip" data-target="output" disabled>Clip</button></div>
                         </div>
                         <div class="button-group kaleidoscope-slider-container disabled">
                             <div class="inline-input">
                                 <span class="input-label">Angle</span>
                                 <span class="value">68</span>
-                                <input id="kaleidoscope-output-angle" type="range" min="25" max="180" value="68" step="0.001" disabled>
+                                <input id="kaleidoscope-output-angle" class="kaleidoscope-angle" type="range" min="25" max="180" value="68" step="0.001" data-target="output" disabled>
                             </div>
                         </div>
                         <div class="button-group">
@@ -2009,6 +2027,18 @@
             </div>
             <div class="column">
                 <div class="visual-settings" data-deck="2">
+                    <div class="button-group effects">
+                        <div><button id="kaleidoscope-deck2-toggle" class="kaleidoscope-toggle" data-target="deck2">Kaleidoscope</button></div>
+                        <div><button id="mirror-deck2-toggle" class="mirror-toggle" data-target="deck2">Mirror</button></div>
+                        <div><button id="mirror-deck2-cycle-mode" class="mirror-cycle-mode clip" data-target="deck2" disabled>Clip</button></div>
+                    </div>
+                    <div class="button-group kaleidoscope-slider-container effects disabled">
+                        <div class="inline-input">
+                            <span class="input-label">Angle</span>
+                            <span class="value">68</span>
+                            <input id="kaleidoscope-deck2-angle" class="kaleidoscope-angle" type="range" min="25" max="180" value="68" step="0.001" data-target="deck2" disabled>
+                        </div>
+                    </div>
                     <div data-visual="quark" data-deck="2" class="hide">
                         <div>
                             <fieldset>
@@ -2545,6 +2575,8 @@
                         deck.id = id;
                         deck.canvas = document.getElementById(`deck-${deck.id}-canvas`);
                         deck.ctx = deck.canvas.getContext('2d');
+                        deck.pipeCanvas = document.getElementById(`deck-${deck.id}-pipe-canvas`);
+                        deck.pipeCtx = deck.pipeCanvas.getContext('2d');
                         deck.crossfaderAlpha = 1;
                         deck.raised = id == 1;
                         deck.scale = 0.75;
@@ -2559,7 +2591,7 @@
                                 this.current = visual;
                                 deck.current = deck[visual];
 
-                                const visualSettingsPanels = document.querySelectorAll(`[data-deck="${deck.id}"].visual-settings > div`);
+                                const visualSettingsPanels = document.querySelectorAll(`[data-deck="${deck.id}"].visual-settings > div:not(.effects)`);
                                 visualSettingsPanels.forEach(panel => {
                                     panel.className = (panel.dataset.deck == deck.id) && (panel.dataset.visual == deck.visual.current) ? 'show' : 'hide';
                                 });
@@ -2946,22 +2978,39 @@
                 effects: {
                     init: function() {
                         this.kaleidoscope = {};
-                        this.kaleidoscope.enabled = false;
-                        this.kaleidoscope.angle = 68;
-                        this.kaleidoscope.sliderContainer = document.querySelector('.kaleidoscope-slider-container');
-                        this.kaleidoscope.toggle = document.getElementById('kaleidoscope-output-toggle');
-                        this.kaleidoscope.angleInput = document.getElementById('kaleidoscope-output-angle');
-                        this.kaleidoscope.clip = (ctx) => {
+
+                        this.kaleidoscope.output = {
+                            enabled: false,
+                            angle: 68,
+                            toggle: document.getElementById('kaleidoscope-output-toggle')
+                        };
+                        this.kaleidoscope.deck1 = {
+                            enabled: false,
+                            angle: 68,
+                            toggle: document.getElementById('kaleidoscope-deck1-toggle')
+                        };
+                        this.kaleidoscope.deck2 = {
+                            enabled: false,
+                            angle: 68,
+                            toggle: document.getElementById('kaleidoscope-deck2-toggle')
+                        };
+
+                        this.kaleidoscope.sliderContainers = document.querySelectorAll('.kaleidoscope-slider-container');
+                        this.kaleidoscope.toggles = document.querySelectorAll('.kaleidoscope-toggle');
+                        this.kaleidoscope.angleInputs = document.querySelectorAll('.kaleidoscope-angle');
+
+                        this.kaleidoscope.clip = (ctx, canvas) => {
                             ctx.save();
         
                             ctx.beginPath();
-                            ctx.moveTo(hydra.mixedCanvas.width/2, hydra.mixedCanvas.height/2);
-                            ctx.lineTo(hydra.mixedCanvas.width,0);
-                            ctx.lineTo(hydra.mixedCanvas.width/2, 0);
+                            ctx.moveTo(canvas.width/2, canvas.height/2);
+                            ctx.lineTo(canvas.width,0);
+                            ctx.lineTo(canvas.width/2, 0);
                             ctx.closePath();
                             ctx.clip();
                         };
-                        this.kaleidoscope.apply = (ctx, canvas) => {
+
+                        this.kaleidoscope.apply = (ctx, canvas, angle) => {
                             ctx.restore();
 
                             ctx.save();
@@ -2976,7 +3025,7 @@
 
                             ctx.save();
                             ctx.translate(canvas.width/2, canvas.height/2);
-                            ctx.rotate((Math.PI / 180) * -hydra.effects.kaleidoscope.angle);
+                            ctx.rotate((Math.PI / 180) * -angle);
                             ctx.translate(-canvas.width/2, -canvas.height/2);
                             ctx.scale(1,-1);
                             ctx.drawImage(canvas, 0, -canvas.height);
@@ -2998,75 +3047,112 @@
                             ctx.restore();
                         }
 
-                        this.kaleidoscope.toggle.addEventListener('click', function(e) {
-                            e.target.classList.toggle('on');
-                            hydra.effects.kaleidoscope.enabled = e.target.classList.contains('on');
-                            hydra.effects.kaleidoscope.angleInput.disabled = !hydra.effects.kaleidoscope.enabled;
-                            hydra.effects.kaleidoscope.sliderContainer.classList.toggle('disabled');
+                        this.kaleidoscope.toggles.forEach(toggle => {
+                            toggle.addEventListener('click', function(e) {
+                                const target = e.target.dataset.target;
+                                const angleInput = e.target.parentElement.parentElement.parentElement.querySelector('.kaleidoscope-angle');
+                                const sliderContainer = e.target.parentElement.parentElement.parentElement.querySelector('.kaleidoscope-slider-container');
+                                e.target.classList.toggle('on');
+                                hydra.effects.kaleidoscope[target].enabled = e.target.classList.contains('on');
+                                angleInput.disabled = !hydra.effects.kaleidoscope[target].enabled;
+                                sliderContainer.classList.toggle('disabled');
 
-                            if (hydra.effects.kaleidoscope.enabled && hydra.effects.mirror.enabled) {
-                                hydra.effects.mirror.toggle.dispatchEvent(new Event('click', { bubbles: true }));
-                            }
+                                if (hydra.effects.kaleidoscope[target].enabled && hydra.effects.mirror[target].enabled) {
+                                    hydra.effects.mirror[target].toggle.dispatchEvent(new Event('click', { bubbles: true }));
+                                }
+                            });
                         });
 
-                        this.kaleidoscope.angleInput.addEventListener('input', function(e) {
-                            hydra.effects.kaleidoscope.angle = parseFloat(e.target.value);
-                            e.target.parentElement.querySelector('.value').textContent = e.target.value;
+                        this.kaleidoscope.angleInputs.forEach(angleInput => {
+                            angleInput.addEventListener('input', function(e) {
+                                const target = e.target.dataset.target;
+                                hydra.effects.kaleidoscope[target].angle = parseFloat(e.target.value);
+                                e.target.parentElement.querySelector('.value').textContent = e.target.value;
+                            });
                         });
 
                         this.mirror = {}
-                        this.mirror.enabled = false;
-                        this.mirror.mode = 'clip';
-                        this.mirror.toggle = document.getElementById('mirror-output-toggle');
-                        this.mirror.modeCycle = document.getElementById('mirror-output-cycle-mode');
-                        this.mirror.clip = (ctx) => {
+
+                        this.mirror.output = {
+                            enabled: false,
+                            mode: 'clip',
+                            modeCycle: document.getElementById('mirror-output-cycle-mode'),
+                            toggle: document.getElementById('mirror-output-toggle')
+                        };
+                        this.mirror.deck1 = {
+                            enabled: false,
+                            mode: 'clip',
+                            modeCycle: document.getElementById('mirror-deck1-cycle-mode'),
+                            toggle: document.getElementById('mirror-deck1-toggle')
+                        };
+                        this.mirror.deck2 = {
+                            enabled: false,
+                            mode: 'clip',
+                            modeCycle: document.getElementById('mirror-deck2-cycle-mode'),
+                            toggle: document.getElementById('mirror-deck2-toggle')
+                        };
+
+                        this.mirror.toggles = document.querySelectorAll('.mirror-toggle');
+                        this.mirror.modeCycles = document.querySelectorAll('.mirror-cycle-mode');
+
+                        this.mirror.clip = (ctx, canvas, modeCycle) => {
                             ctx.save();
         
-                            if (hydra.effects.mirror.modeCycle.innerText == 'CLIP') {
+                            if (modeCycle.innerText == 'CLIP') {
                                 ctx.beginPath();
-                                ctx.moveTo(hydra.mixedCanvas.width/2, 0);
-                                ctx.lineTo(hydra.mixedCanvas.width, 0);
-                                ctx.lineTo(hydra.mixedCanvas.width, hydra.mixedCanvas.height);
-                                ctx.lineTo(hydra.mixedCanvas.width/2, hydra.mixedCanvas.height);
+                                ctx.moveTo(canvas.width/2, 0);
+                                ctx.lineTo(canvas.width, 0);
+                                ctx.lineTo(canvas.width, canvas.height);
+                                ctx.lineTo(canvas.width/2, canvas.height);
                                 ctx.closePath();
                                 ctx.clip();
                             }
                         };
-                        this.mirror.apply = (ctx, canvas) => {
-                            if (hydra.effects.mirror.modeCycle.innerText == 'CLIP') {
+
+                        this.mirror.apply = (ctx, canvas, modeCycle) => {
+                            if (modeCycle.innerText == 'CLIP') {
                                 ctx.restore();
                             }
 
                             ctx.save();
                             ctx.translate(canvas.width, 0);
                             ctx.scale(-1,1);
-                            hydra.mixedCtx.globalCompositeOperation = 'multiply';
+                            ctx.globalCompositeOperation = 'multiply';
                             ctx.drawImage(canvas, 0, 0);
                             ctx.restore();
                         }
 
-                        this.mirror.toggle.addEventListener('click', function(e) {
-                            e.target.classList.toggle('on');
-                            hydra.effects.mirror.enabled = e.target.classList.contains('on');
-                            if (!hydra.effects.mirror.enabled) {
-                                hydra.effects.mirror.modeCycle.disabled = true;
-                            } else {
-                                hydra.effects.mirror.modeCycle.disabled = false;
+                        this.mirror.toggles.forEach(toggle => {
+                            toggle.addEventListener('click', function(e) {
+                                const target = e.target.dataset.target;
+                                const modeCycle = e.target.parentElement.parentElement.querySelector('.mirror-cycle-mode');
+                                e.target.classList.toggle('on');
+                                hydra.effects.mirror[target].enabled = e.target.classList.contains('on');
 
-                                if (hydra.effects.mirror.enabled && hydra.effects.kaleidoscope.enabled) {
-                                    hydra.effects.kaleidoscope.toggle.dispatchEvent(new Event('click', { bubbles: true }));
+                                if (!hydra.effects.mirror[target].enabled) {
+                                    modeCycle.disabled = true;
+                                } else {
+                                    modeCycle.disabled = false;
+
+                                    if (hydra.effects.mirror[target].enabled && hydra.effects.kaleidoscope[target].enabled) {
+                                        hydra.effects.kaleidoscope[target].toggle.dispatchEvent(new Event('click', { bubbles: true }));
+                                    }
                                 }
-                            }
+                            });
                         });
 
-                        this.mirror.modeCycle.addEventListener('click', function(e) {
-                            if (e.target.innerText == 'CLIP') {
-                                e.target.innerText = 'bleed';
-                                e.target.className = 'bleed';
-                            } else {
-                                e.target.innerText = 'clip';
-                                e.target.className = 'clip';
-                            }
+                        this.mirror.modeCycles.forEach(modeCycle => {
+                            modeCycle.addEventListener('click', function(e) {
+                                if (e.target.innerText == 'CLIP') {
+                                    e.target.innerText = 'bleed';
+                                    e.target.classList.add('bleed');
+                                    e.target.classList.remove('clip');
+                                } else {
+                                    e.target.innerText = 'clip';
+                                    e.target.classList.add('clip');
+                                    e.target.classList.remove('bleed');
+                                }
+                            });
                         });
                     }
                 },
@@ -3115,40 +3201,70 @@
                     hydra.deck2.ctx.globalAlpha = hydra.deck2.alpha;
 
                     hydra.mixedCtx.clearRect(0, 0, hydra.mixedCanvas.width, hydra.mixedCanvas.height);
+                    hydra.deck1.pipeCtx.clearRect(0, 0, hydra.deck1.pipeCanvas.width, hydra.deck1.pipeCanvas.height);
+                    hydra.deck2.pipeCtx.clearRect(0, 0, hydra.deck2.pipeCanvas.width, hydra.deck2.pipeCanvas.height);
 
                     hydra.deck1.render();
-                    hydra.deck2.render();
-
-                    if (hydra.effects.kaleidoscope.enabled) {
-                        hydra.effects.kaleidoscope.clip(hydra.mixedCtx);
+                    if (hydra.effects.kaleidoscope.deck1.enabled) {
+                        hydra.effects.kaleidoscope.clip(hydra.deck1.pipeCtx, hydra.deck1.pipeCanvas);
+                    }
+                    if (hydra.effects.mirror.deck1.enabled) {
+                        hydra.effects.mirror.clip(hydra.deck1.pipeCtx, hydra.deck1.pipeCanvas, hydra.effects.mirror.deck1.modeCycle);
+                    }
+                    hydra.deck1.pipeCtx.drawImage(hydra.deck1.canvas, 0, 0);
+                    if (hydra.effects.kaleidoscope.deck1.enabled) {
+                        hydra.effects.kaleidoscope.apply(hydra.deck1.pipeCtx, hydra.deck1.pipeCanvas, hydra.effects.kaleidoscope.deck1.angle);
+                    }
+                    if (hydra.effects.mirror.deck1.enabled) {
+                        hydra.effects.mirror.apply(hydra.deck1.pipeCtx, hydra.deck1.pipeCanvas, hydra.effects.mirror.deck1.modeCycle);
                     }
 
-                    if (hydra.effects.mirror.enabled) {
-                        hydra.effects.mirror.clip(hydra.mixedCtx);
+                    hydra.deck2.render();
+                    if (hydra.effects.kaleidoscope.deck2.enabled) {
+                        hydra.effects.kaleidoscope.clip(hydra.deck2.pipeCtx, hydra.deck2.pipeCanvas);
+                    }
+                    if (hydra.effects.mirror.deck2.enabled) {
+                        hydra.effects.mirror.clip(hydra.deck2.pipeCtx, hydra.deck2.pipeCanvas, hydra.effects.mirror.deck2.modeCycle);
+                    }
+                    hydra.deck2.pipeCtx.drawImage(hydra.deck2.canvas, 0, 0);
+                    if (hydra.effects.kaleidoscope.deck2.enabled) {
+                        hydra.effects.kaleidoscope.apply(hydra.deck2.pipeCtx, hydra.deck2.pipeCanvas, hydra.effects.kaleidoscope.deck2.angle);
+                    }
+                    if (hydra.effects.mirror.deck2.enabled) {
+                        hydra.effects.mirror.apply(hydra.deck2.pipeCtx, hydra.deck2.pipeCanvas, hydra.effects.mirror.deck2.modeCycle);
+                    }
+
+
+                    if (hydra.effects.kaleidoscope.output.enabled) {
+                        hydra.effects.kaleidoscope.clip(hydra.mixedCtx, hydra.mixedCanvas);
+                    }
+
+                    if (hydra.effects.mirror.output.enabled) {
+                        hydra.effects.mirror.clip(hydra.mixedCtx, hydra.mixedCanvas, hydra.effects.mirror.output.modeCycle);
                     }
 
                     if (!hydra.deck1.raised) {
                         hydra.mixedCtx.globalAlpha = hydra.deck1.crossfaderAlpha;
-                        hydra.mixedCtx.drawImage(hydra.deck1.canvas, 0, 0);
+                        hydra.mixedCtx.drawImage(hydra.deck1.pipeCanvas, 0, 0);
                         hydra.mixedCtx.globalAlpha = 1;
                     }
 
                     hydra.mixedCtx.globalAlpha = hydra.deck2.crossfaderAlpha;
-                    hydra.mixedCtx.drawImage(hydra.deck2.canvas, 0, 0);
+                    hydra.mixedCtx.drawImage(hydra.deck2.pipeCanvas, 0, 0);
                     hydra.mixedCtx.globalAlpha = 1;
 
                     if (hydra.deck1.raised) {
                         hydra.mixedCtx.globalAlpha = hydra.deck1.crossfaderAlpha;
-                        hydra.mixedCtx.drawImage(hydra.deck1.canvas, 0, 0);
+                        hydra.mixedCtx.drawImage(hydra.deck1.pipeCanvas, 0, 0);
                         hydra.mixedCtx.globalAlpha = 1;
                     }
 
-                    if (hydra.effects.kaleidoscope.enabled) {
-                        hydra.effects.kaleidoscope.apply(hydra.mixedCtx, hydra.mixedCanvas);
+                    if (hydra.effects.kaleidoscope.output.enabled) {
+                        hydra.effects.kaleidoscope.apply(hydra.mixedCtx, hydra.mixedCanvas, hydra.effects.kaleidoscope.output.angle);
                     }
 
-                    if (hydra.effects.mirror.enabled) {
-                        hydra.effects.mirror.apply(hydra.mixedCtx, hydra.mixedCanvas);
+                    if (hydra.effects.mirror.output.enabled) {
+                        hydra.effects.mirror.apply(hydra.mixedCtx, hydra.mixedCanvas, hydra.effects.mirror.output.modeCycle);
                     }
 
                     if (!hydra.audio.listening) {
@@ -3529,14 +3645,20 @@
                         // hydra.centerX = window.innerWidth/2;
                         // hydra.centerY = window.innerHeight/2;
 
-                        hydra.deck1.canvas.width = hydra.deck1.canvas.getBoundingClientRect().width;
-                        hydra.deck1.canvas.height = hydra.deck1.canvas.getBoundingClientRect().height;
+                        hydra.deck1.canvas.width = hydra.deck1.pipeCanvas.getBoundingClientRect().width;
+                        hydra.deck1.canvas.height = hydra.deck1.pipeCanvas.getBoundingClientRect().height;
+
+                        hydra.deck1.pipeCanvas.width = hydra.deck1.pipeCanvas.getBoundingClientRect().width;
+                        hydra.deck1.pipeCanvas.height = hydra.deck1.pipeCanvas.getBoundingClientRect().height;
 
                         hydra.mixedCanvas.width = hydra.mixedCanvas.getBoundingClientRect().width;
                         hydra.mixedCanvas.height = hydra.mixedCanvas.getBoundingClientRect().height;
 
-                        hydra.deck2.canvas.width = hydra.deck2.canvas.getBoundingClientRect().width;
-                        hydra.deck2.canvas.height = hydra.deck2.canvas.getBoundingClientRect().height;
+                        hydra.deck2.canvas.width = hydra.deck2.pipeCanvas.getBoundingClientRect().width;
+                        hydra.deck2.canvas.height = hydra.deck2.pipeCanvas.getBoundingClientRect().height;
+
+                        hydra.deck2.pipeCanvas.width = hydra.deck2.pipeCanvas.getBoundingClientRect().width;
+                        hydra.deck2.pipeCanvas.height = hydra.deck2.pipeCanvas.getBoundingClientRect().height;
 
                         // hydra.audio.meterCanvas.width = (hydra.audio.meterCanvas.getBoundingClientRect().width 
                         //     - parseInt(getComputedStyle(hydra.audio.meterCanvas).marginLeft) 
