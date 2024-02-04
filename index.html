@@ -271,12 +271,34 @@
         .button-group,
         .main-mixer-panel-group {
             display: flex;
+        }
+
+        .button-group:not(.button-switch-group),
+        .main-mixer-panel-group {
             gap: 10px;
         }
 
         .button-group > div,
         .main-mixer-panel-group > div {
             width: 100%;
+        }
+
+        .button-switch-group > div:first-of-type button {
+            border-radius: 2px 0 0 2px;
+        }
+
+        .button-switch-group > div:last-of-type button {
+            border-radius: 0 2px 2px 0;
+        }
+
+        .button-switch-group > div:not(:first-of-type):not(:last-of-type) button {
+            border-radius: 0;
+            border-left: none;
+            border-right: none;
+        }
+
+        .button-switch-group button {
+            margin-top: 0;
         }
 
         .main-mixer-panel-group {
@@ -511,25 +533,25 @@
             background: rgba(0,30,255,1);
         }
 
-        .mirror-cycle-mode:disabled {
+        .mirror-mode:disabled {
             opacity: 1;
         }
 
-        .mirror-cycle-mode:disabled:hover {
+        .mirror-mode:disabled:hover {
             color: #8d8d8d;
         }
 
-        .mirror-cycle-mode:not(:disabled).clip {
+        .mirror-mode:not(:disabled).clip {
             background: #23e648;
             color: black;
         }
 
-        .mirror-cycle-mode:not(:disabled).bleed {
+        .mirror-mode:not(:disabled).bleed {
             background: #e62323;
             color: white;
         }
 
-        .mirror-cycle-mode:not(:disabled).full {
+        .mirror-mode:not(:disabled).full {
             background: #23c2e6;
             color: black;
         }
@@ -841,11 +863,13 @@
             top: -1px;
         }
 
-        .kaleidoscope-slider-container {
+        .kaleidoscope-slider-container,
+        .mirror-cycle-buttons-container {
             opacity: 1;
         }
 
-        .kaleidoscope-slider-container.disabled {
+        .kaleidoscope-slider-container.disabled,
+        .mirror-cycle-buttons-container.disabled {
             opacity: 0.4;
         }
 
@@ -1050,6 +1074,10 @@
             padding: 4px 8px;
         }
 
+        .push-top {
+            margin-top: auto;
+        }
+
         @-webkit-keyframes backgroundBlink {
             from, to {
                 background: #000;
@@ -1117,7 +1145,7 @@
                     <label>Visual</label>
                     <select class="visual-selector" data-deck="1">
                         <option value="quark" selected>Quark</option>
-                        <option value="neuromute" hidden>Neuromute</option>
+                        <option value="neuromute">Neuromute</option>
                         <option value="lockdown">Lockdown</option>
                     </select>
                 </group>
@@ -1180,13 +1208,20 @@
                             <div class="button-group">
                                 <div><button id="kaleidoscope-deck1-toggle" class="kaleidoscope-toggle" data-target="deck1">Kaleidoscope</button></div>
                                 <div><button id="mirror-deck1-toggle" class="mirror-toggle" data-target="deck1">Mirror</button></div>
-                                <div><button id="mirror-deck1-cycle-mode" class="mirror-cycle-mode clip" data-target="deck1" data-options="clip,full,bleed" disabled>clip</button></div>
                             </div>
                             <div class="button-group kaleidoscope-slider-container disabled">
                                 <div class="inline-input">
-                                    <span class="input-label">Angle</span>
+                                    <span class="input-label">Kaleidoscope Angle</span>
                                     <span class="value">68</span>
-                                    <input id="kaleidoscope-deck1-angle" class="kaleidoscope-angle" type="range" min="25" max="180" value="68" step="0.001" data-target="deck1" disabled>
+                                    <input id="kaleidoscope-deck1-angle" class="kaleidoscope-angle" type="range" min="25" max="180" value="68" step="0.001" data-target="deck1">
+                                </div>
+                            </div>
+                            <div class="mirror-cycle-buttons-container disabled">
+                                <span class="input-label">Mirror Type</span>
+                                <div class="button-group button-switch-group ">
+                                    <div><button class="mirror-mode clip" data-target="deck1">clip</button></div>
+                                    <div><button class="mirror-mode" data-target="deck1">full</button></div>
+                                    <div><button class="mirror-mode" data-target="deck1">bleed</button></div>
                                 </div>
                             </div>
                         </fieldset>
@@ -1926,18 +1961,24 @@
                         <div class="button-group">
                             <div><button id="kaleidoscope-output-toggle" class="kaleidoscope-toggle" data-target="output">Kaleidoscope</button></div>
                             <div><button id="mirror-output-toggle" class="mirror-toggle" data-target="output">Mirror</button></div>
-                            <div><button id="mirror-output-cycle-mode" class="mirror-cycle-mode clip" data-target="output" data-options="clip,full,bleed" disabled>clip</button></div>
                         </div>
                         <div class="button-group kaleidoscope-slider-container disabled">
                             <div class="inline-input">
-                                <span class="input-label">Angle</span>
+                                <span class="input-label">Kaleidoscope Angle</span>
                                 <span class="value">68</span>
-                                <input id="kaleidoscope-output-angle" class="kaleidoscope-angle" type="range" min="25" max="180" value="68" step="0.001" data-target="output" disabled>
+                                <input id="kaleidoscope-output-angle" class="kaleidoscope-angle" type="range" min="25" max="180" value="68" step="0.001" data-target="output">
                             </div>
                         </div>
-                        <div class="button-group">
+                        <div class="mirror-cycle-buttons-container disabled">
+                            <span class="input-label">Mirror Type</span>
+                            <div class="button-group button-switch-group ">
+                                <div><button class="mirror-mode clip" data-target="output">clip</button></div>
+                                <div><button class="mirror-mode" data-target="output">full</button></div>
+                                <div><button class="mirror-mode" data-target="output">bleed</button></div>
+                            </div>
+                        </div>
+                        <div class="button-group hide">
                             <button class="auto" data-deck="1">Auto</button>
-                            <button id="launch">Launch</button>
                             <button class="auto" data-deck="2">Auto</button>
                         </div>
                         <div class="extend">
@@ -1983,7 +2024,9 @@
                                         <div><button data-deck="1" data-next-preset>►</button></div>
                                     </div>
                                 </div>
-                                <div></div>
+                                <div class="push-top">
+                                    <button id="launch">Launch</button>
+                                </div>
                                 <div class="deck-2">
                                     <label class="heading">Presets</label>
                                     <button data-deck="2" data-import-presets>Import</button>
@@ -2051,13 +2094,20 @@
                             <div class="button-group">
                                 <div><button id="kaleidoscope-deck2-toggle" class="kaleidoscope-toggle" data-target="deck2">Kaleidoscope</button></div>
                                 <div><button id="mirror-deck2-toggle" class="mirror-toggle" data-target="deck2">Mirror</button></div>
-                                <div><button id="mirror-deck2-cycle-mode" class="mirror-cycle-mode clip" data-target="deck2" data-options="clip,full,bleed" disabled>clip</button></div>
                             </div>
                             <div class="button-group kaleidoscope-slider-container disabled">
                                 <div class="inline-input">
-                                    <span class="input-label">Angle</span>
+                                    <span class="input-label">Kaleidoscope Angle</span>
                                     <span class="value">68</span>
-                                    <input id="kaleidoscope-deck2-angle" class="kaleidoscope-angle" type="range" min="25" max="180" value="68" step="0.001" data-target="deck2" disabled>
+                                    <input id="kaleidoscope-deck2-angle" class="kaleidoscope-angle" type="range" min="25" max="180" value="68" step="0.001" data-target="deck2">
+                                </div>
+                            </div>
+                            <div class="mirror-cycle-buttons-container disabled">
+                                <span class="input-label">Mirror Type</span>
+                                <div class="button-group button-switch-group ">
+                                    <div><button class="mirror-mode clip" data-target="deck2">clip</button></div>
+                                    <div><button class="mirror-mode" data-target="deck2">full</button></div>
+                                    <div><button class="mirror-mode" data-target="deck2">bleed</button></div>
                                 </div>
                             </div>
                         </fieldset>
@@ -3077,7 +3127,6 @@
                                 const sliderContainer = e.target.parentElement.parentElement.parentElement.querySelector('.kaleidoscope-slider-container');
                                 e.target.classList.toggle('on');
                                 hydra.effects.kaleidoscope[target].enabled = e.target.classList.contains('on');
-                                angleInput.disabled = !hydra.effects.kaleidoscope[target].enabled;
                                 sliderContainer.classList.toggle('disabled');
 
                                 if (hydra.effects.kaleidoscope[target].enabled && hydra.effects.mirror[target].enabled) {
@@ -3099,29 +3148,26 @@
                         this.mirror.output = {
                             enabled: false,
                             mode: 'clip',
-                            modeCycle: document.getElementById('mirror-output-cycle-mode'),
                             toggle: document.getElementById('mirror-output-toggle')
                         };
                         this.mirror.deck1 = {
                             enabled: false,
                             mode: 'clip',
-                            modeCycle: document.getElementById('mirror-deck1-cycle-mode'),
                             toggle: document.getElementById('mirror-deck1-toggle')
                         };
                         this.mirror.deck2 = {
                             enabled: false,
                             mode: 'clip',
-                            modeCycle: document.getElementById('mirror-deck2-cycle-mode'),
                             toggle: document.getElementById('mirror-deck2-toggle')
                         };
 
                         this.mirror.toggles = document.querySelectorAll('.mirror-toggle');
-                        this.mirror.modeCycles = document.querySelectorAll('.mirror-cycle-mode');
+                        this.mirror.mirrorModeBtns = document.querySelectorAll('.mirror-mode');
 
-                        this.mirror.clip = (ctx, canvas, modeCycle) => {
+                        this.mirror.clip = (ctx, canvas, mode) => {
                             ctx.save();
         
-                            if (modeCycle.innerText == 'CLIP') {
+                            if (mode == 'clip') {
                                 ctx.beginPath();
                                 ctx.moveTo(canvas.width/2, 0);
                                 ctx.lineTo(canvas.width, 0);
@@ -3131,7 +3177,7 @@
                                 ctx.clip();
                             }
 
-                            if (modeCycle.innerText == 'FULL') {
+                            if (mode == 'full') {
                                 ctx.beginPath();
                                 ctx.moveTo(canvas.width/2, 0);
                                 ctx.lineTo(canvas.width, 0);
@@ -3142,12 +3188,12 @@
                             }
                         };
 
-                        this.mirror.apply = (ctx, canvas, modeCycle) => {
-                            if (modeCycle.innerText == 'CLIP' || modeCycle.innerText == 'FULL') {
+                        this.mirror.apply = (ctx, canvas, mode) => {
+                            if (mode == 'clip' || mode == 'full') {
                                 ctx.restore();
                             }
 
-                            if (modeCycle.innerText == 'FULL') {
+                            if (mode == 'full') {
                                 ctx.save();
                                 ctx.translate(0, canvas.height);
                                 ctx.scale(1,-1);
@@ -3167,33 +3213,27 @@
                         this.mirror.toggles.forEach(toggle => {
                             toggle.addEventListener('click', function(e) {
                                 const target = e.target.dataset.target;
-                                const modeCycle = e.target.parentElement.parentElement.querySelector('.mirror-cycle-mode');
+                                const mirrorMode = e.target.parentElement.parentElement.querySelector('.mirror-mode');
                                 e.target.classList.toggle('on');
                                 hydra.effects.mirror[target].enabled = e.target.classList.contains('on');
 
-                                if (!hydra.effects.mirror[target].enabled) {
-                                    modeCycle.disabled = true;
-                                } else {
-                                    modeCycle.disabled = false;
+                                const mirrorCycleBtnsContainer = e.target.parentElement.parentElement.parentElement.querySelector('.mirror-cycle-buttons-container');
+                                mirrorCycleBtnsContainer.classList.toggle('disabled');
 
-                                    if (hydra.effects.mirror[target].enabled && hydra.effects.kaleidoscope[target].enabled) {
-                                        hydra.effects.kaleidoscope[target].toggle.dispatchEvent(new Event('click', { bubbles: true }));
-                                    }
+                                if (hydra.effects.mirror[target].enabled && hydra.effects.kaleidoscope[target].enabled) {
+                                    hydra.effects.kaleidoscope[target].toggle.dispatchEvent(new Event('click', { bubbles: true }));
                                 }
                             });
                         });
 
-                        this.mirror.modeCycles.forEach(modeCycle => {
-                            modeCycle.options = modeCycle.dataset.options?.split(',') || [];
-                            modeCycle.addEventListener('click', function(e) {
-                                if (modeCycle.options.length) {
-                                    const index = modeCycle.options.indexOf(e.target.textContent);
-                                    const option = modeCycle.options[index+1] !== undefined ? modeCycle.options[index+1] : modeCycle.options[0];
-
-                                    modeCycle.textContent = option;
-                                    modeCycle.classList.remove('clip','full','bleed');
-                                    modeCycle.classList.add(option);
-                                }
+                        this.mirror.mirrorModeBtns.forEach(mirrorMode => {
+                            mirrorMode.addEventListener('click', function(e) {
+                                hydra.effects.mirror.mirrorModeBtns.forEach(btn => {
+                                    btn.classList.remove('clip','full','bleed');
+                                });
+                                const target = e.target.dataset.target;
+                                hydra.effects.mirror[target].mode = e.target.textContent;
+                                e.target.classList.add(e.target.textContent);
                             });
                         });
                     }
@@ -3251,14 +3291,14 @@
                         hydra.effects.kaleidoscope.clip(hydra.deck1.pipeCtx, hydra.deck1.pipeCanvas);
                     }
                     if (hydra.effects.mirror.deck1.enabled) {
-                        hydra.effects.mirror.clip(hydra.deck1.pipeCtx, hydra.deck1.pipeCanvas, hydra.effects.mirror.deck1.modeCycle);
+                        hydra.effects.mirror.clip(hydra.deck1.pipeCtx, hydra.deck1.pipeCanvas, hydra.effects.mirror.deck1.mode);
                     }
                     hydra.deck1.pipeCtx.drawImage(hydra.deck1.canvas, 0, 0);
                     if (hydra.effects.kaleidoscope.deck1.enabled) {
                         hydra.effects.kaleidoscope.apply(hydra.deck1.pipeCtx, hydra.deck1.pipeCanvas, hydra.effects.kaleidoscope.deck1.angle);
                     }
                     if (hydra.effects.mirror.deck1.enabled) {
-                        hydra.effects.mirror.apply(hydra.deck1.pipeCtx, hydra.deck1.pipeCanvas, hydra.effects.mirror.deck1.modeCycle);
+                        hydra.effects.mirror.apply(hydra.deck1.pipeCtx, hydra.deck1.pipeCanvas, hydra.effects.mirror.deck1.mode);
                     }
 
                     hydra.deck2.render();
@@ -3266,14 +3306,14 @@
                         hydra.effects.kaleidoscope.clip(hydra.deck2.pipeCtx, hydra.deck2.pipeCanvas);
                     }
                     if (hydra.effects.mirror.deck2.enabled) {
-                        hydra.effects.mirror.clip(hydra.deck2.pipeCtx, hydra.deck2.pipeCanvas, hydra.effects.mirror.deck2.modeCycle);
+                        hydra.effects.mirror.clip(hydra.deck2.pipeCtx, hydra.deck2.pipeCanvas, hydra.effects.mirror.deck2.mode);
                     }
                     hydra.deck2.pipeCtx.drawImage(hydra.deck2.canvas, 0, 0);
                     if (hydra.effects.kaleidoscope.deck2.enabled) {
                         hydra.effects.kaleidoscope.apply(hydra.deck2.pipeCtx, hydra.deck2.pipeCanvas, hydra.effects.kaleidoscope.deck2.angle);
                     }
                     if (hydra.effects.mirror.deck2.enabled) {
-                        hydra.effects.mirror.apply(hydra.deck2.pipeCtx, hydra.deck2.pipeCanvas, hydra.effects.mirror.deck2.modeCycle);
+                        hydra.effects.mirror.apply(hydra.deck2.pipeCtx, hydra.deck2.pipeCanvas, hydra.effects.mirror.deck2.mode);
                     }
 
 
@@ -3282,7 +3322,7 @@
                     }
 
                     if (hydra.effects.mirror.output.enabled) {
-                        hydra.effects.mirror.clip(hydra.mixedCtx, hydra.mixedCanvas, hydra.effects.mirror.output.modeCycle);
+                        hydra.effects.mirror.clip(hydra.mixedCtx, hydra.mixedCanvas, hydra.effects.mirror.output.mode);
                     }
 
                     if (!hydra.deck1.raised) {
@@ -3306,7 +3346,7 @@
                     }
 
                     if (hydra.effects.mirror.output.enabled) {
-                        hydra.effects.mirror.apply(hydra.mixedCtx, hydra.mixedCanvas, hydra.effects.mirror.output.modeCycle);
+                        hydra.effects.mirror.apply(hydra.mixedCtx, hydra.mixedCanvas, hydra.effects.mirror.output.mode);
                     }
 
                     if (!hydra.audio.listening) {
