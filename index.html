@@ -536,25 +536,17 @@
             background: rgba(0,30,255,1);
         }
 
-        .mirror-mode:disabled {
-            opacity: 1;
-        }
-
-        .mirror-mode:disabled:hover {
-            color: #8d8d8d;
-        }
-
-        .mirror-mode:not(:disabled).clip {
+        .mirror-mode.clip {
             background: #23e648;
             color: black;
         }
 
-        .mirror-mode:not(:disabled).bleed {
+        .mirror-mode.bleed {
             background: #e62323;
             color: white;
         }
 
-        .mirror-mode:not(:disabled).full {
+        .mirror-mode.full {
             background: #23c2e6;
             color: black;
         }
@@ -867,13 +859,19 @@
         }
 
         .kaleidoscope-slider-container,
-        .mirror-cycle-buttons-container {
+        .mirror-mode-buttons-container {
             opacity: 1;
         }
 
         .kaleidoscope-slider-container.disabled,
-        .mirror-cycle-buttons-container.disabled {
+        .mirror-mode-buttons-container.disabled {
             opacity: 0.4;
+        }
+
+        .mirror-mode-buttons-container.disabled .clip,
+        .mirror-mode-buttons-container.disabled .full,
+        .mirror-mode-buttons-container.disabled .bleed {
+            opacity: 0.2;
         }
 
         .kaleidoscope-slider-container .inline-input {
@@ -1219,7 +1217,7 @@
                                     <input id="kaleidoscope-deck1-angle" class="kaleidoscope-angle" type="range" min="25" max="180" value="68" step="0.001" data-target="deck1">
                                 </div>
                             </div>
-                            <div class="mirror-cycle-buttons-container disabled">
+                            <div class="mirror-mode-buttons-container disabled">
                                 <span class="input-label">Mirror Type</span>
                                 <div class="button-group button-switch-group ">
                                     <div><button class="mirror-mode clip" data-target="deck1">clip</button></div>
@@ -1972,7 +1970,7 @@
                                 <input id="kaleidoscope-output-angle" class="kaleidoscope-angle" type="range" min="25" max="180" value="68" step="0.001" data-target="output">
                             </div>
                         </div>
-                        <div class="mirror-cycle-buttons-container disabled">
+                        <div class="mirror-mode-buttons-container disabled">
                             <span class="input-label">Mirror Type</span>
                             <div class="button-group button-switch-group ">
                                 <div><button class="mirror-mode clip" data-target="output">clip</button></div>
@@ -2105,7 +2103,7 @@
                                     <input id="kaleidoscope-deck2-angle" class="kaleidoscope-angle" type="range" min="25" max="180" value="68" step="0.001" data-target="deck2">
                                 </div>
                             </div>
-                            <div class="mirror-cycle-buttons-container disabled">
+                            <div class="mirror-mode-buttons-container disabled">
                                 <span class="input-label">Mirror Type</span>
                                 <div class="button-group button-switch-group ">
                                     <div><button class="mirror-mode clip" data-target="deck2">clip</button></div>
@@ -3220,7 +3218,7 @@
                                 e.target.classList.toggle('on');
                                 hydra.effects.mirror[target].enabled = e.target.classList.contains('on');
 
-                                const mirrorCycleBtnsContainer = e.target.parentElement.parentElement.parentElement.querySelector('.mirror-cycle-buttons-container');
+                                const mirrorCycleBtnsContainer = e.target.parentElement.parentElement.parentElement.querySelector('.mirror-mode-buttons-container');
                                 mirrorCycleBtnsContainer.classList.toggle('disabled');
 
                                 if (hydra.effects.mirror[target].enabled && hydra.effects.kaleidoscope[target].enabled) {
