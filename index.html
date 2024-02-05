@@ -109,6 +109,9 @@
 
         .extend {
             flex: 1 1 auto;
+        }
+
+        .scroll-overflow-y {
             overflow-y: auto;
         }
 
@@ -1199,7 +1202,7 @@
                 <button class="reset" data-deck="2">⭮</button>
             </div>
         </section>
-        <section class="section extend">
+        <section class="section extend scroll-overflow-y">
             <div class="column">
                 <div class="visual-settings" data-deck="1">
                     <div class="effects">
@@ -2625,7 +2628,7 @@
 
                         this.composition.setMode('overlay');
 
-                        window.onresize = this.detectSizes;
+                        window.onresize = hydra.helpers.detectSizes;
                         this.mouse.init();
                         window.requestAnimationFrame(this.render);
                     });
