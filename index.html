@@ -321,8 +321,7 @@
         }
 
         .main-mixer-panel-group .presets button {
-            padding-top: 5px;
-            padding-bottom: 5px;
+            padding: 5px 0;
         }
 
         .main-mixer-panel-group .presets button:nth-of-type(1) {
@@ -829,6 +828,27 @@
             color: #313b30;
         }
 
+        .visual-settings-tabs {
+            margin-bottom: 20px;
+        }
+
+        .visual-settings-tabs ul {
+            background: #0d0d0d;
+            border: solid 1px #1a2019;
+            display: flex;
+            gap: 10px;
+            padding: 10px;
+        }
+
+        .visual-settings-tabs button {
+            margin: 0;
+            width: initial;
+        }
+
+        .visual-settings-tabs button.on {
+            background: #94c163;
+        }
+
         .visual-settings,
         .main-mixer-panel {
             gap: 12px;
@@ -896,12 +916,18 @@
             padding-top: 0;
         }
 
-        .visual-settings .effects .kaleidoscope-slider-container {
+        .visual-settings .effects .kaleidoscope-slider-container,
+        .visual-settings .effects .mirror-mode-buttons-container {
             margin-top: 12px;
         }
 
         .visual-settings button {
             margin-top: 1px;
+        }
+
+        .visual-settings .button-switch-group {
+            margin-bottom: 15px;
+            padding-right: 15px;
         }
 
         ::-webkit-scrollbar {
@@ -1079,6 +1105,43 @@
             margin-top: auto;
         }
 
+        .text-align-center {
+            text-align: center;
+        }
+
+        .grow {
+            flex-grow: 1;
+        }
+
+        #settings-open {
+            margin: 0 auto 30px;
+            width: 60px;
+            font-size: 20px;
+        }
+
+        #settings-close {
+            display: inline-block;
+            width: initial;
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            margin: 0;
+            border: solid 1px #3b3b3b;
+            padding: 4px 8px;
+        }
+
+        #settings {
+            position: absolute;
+            z-index: 1;
+            background: #050505;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            border: solid 1px #0a0a0a;
+            padding: 15px;
+        }
+
         @-webkit-keyframes backgroundBlink {
             from, to {
                 background: #000;
@@ -1197,15 +1260,22 @@
                         <option value="pink" selected>Pink</option>
                     </select>
                 </group>
-                <button class="reset" data-deck="2">⭮</button>
+                <button class="reset" data-deck="2">&#x2B6E;</button>
             </div>
         </section>
         <section class="section extend scroll-overflow-y">
             <div class="column">
+                <ul class="visual-settings-tabs">
+                    <ul>
+                        <li><button class="on" data-deck="1" data-tab="renderer">Renderer</button></li>
+                        <li><button data-deck="1" data-tab="effects">Effects</button></li>
+                        <li><button data-deck="1" data-tab="reactivity">Reactivity</button></li>
+                    </ul>
+                </ul>
                 <div class="visual-settings" data-deck="1">
-                    <div class="effects">
+                    <div data-tab-panel="effects" class="effects hide">
                         <fieldset>
-                            <div class="heading">Effects</div>
+                            <div class="heading">Reflection</div>
                             <div class="button-group">
                                 <div><button id="kaleidoscope-deck1-toggle" class="kaleidoscope-toggle" data-target="deck1">Kaleidoscope</button></div>
                                 <div><button id="mirror-deck1-toggle" class="mirror-toggle" data-target="deck1">Mirror</button></div>
@@ -1226,8 +1296,336 @@
                                 </div>
                             </div>
                         </fieldset>
+                        <fieldset>
+                            <div class="heading">Blur</div>
+                            <group class="flex">
+                                <div class="inline-input">
+                                    <span class="input-label">Enable</span>
+                                    <label class="switch">
+                                        <input type="checkbox" data-deck="1" data-blur-toggle>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                <div class="inline-input grow">
+                                    <span class="input-label">Value</span>
+                                    <span class="value">0</span>
+                                    <input type="range" min="0" max="100" value="0" step="1" data-deck="1" data-blur-value>
+                                </div>
+                            </group>
+                        </fieldset>
+                        <fieldset>
+                            <div class="heading">Brightness</div>
+                            <group class="flex">
+                                <div class="inline-input">
+                                    <span class="input-label">Enable</span>
+                                    <label class="switch">
+                                        <input type="checkbox" data-deck="1" data-brightness-toggle>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                <div class="inline-input grow">
+                                    <span class="input-label">Value</span>
+                                    <span class="value">1</span>
+                                    <input type="range" min="0" max="1" value="1" step="0.001" data-deck="1" data-brightness-value>
+                                </div>
+                            </group>
+                        </fieldset>
+                        <fieldset>
+                            <div class="heading">Contrast</div>
+                            <group class="flex">
+                                <div class="inline-input">
+                                    <span class="input-label">Enable</span>
+                                    <label class="switch">
+                                        <input type="checkbox" data-deck="1" data-contrast-toggle>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                <div class="inline-input grow">
+                                    <span class="input-label">Value</span>
+                                    <span class="value">1</span>
+                                    <input type="range" min="0" max="1" value="1" step="0.001" data-deck="1" data-contrast-value>
+                                </div>
+                            </group>
+                        </fieldset>
+                        <fieldset>
+                            <div class="heading">Drop-Shadow</div>
+                            <group class="flex">
+                                <div class="inline-input">
+                                    <span class="input-label">Enable</span>
+                                    <label class="switch">
+                                        <input type="checkbox" data-deck="1" data-drop-shadow-toggle>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                <div class="inline-input">
+                                    <span class="input-label">Color</span>
+                                    <input type="color" value="#ff0000" data-deck="1" data-drop-shadow-color>
+                                </div>
+                                <div class="flex-grid grow" data-columns="3">
+                                    <div class="inline-input">
+                                        <span class="input-label">Offset X</span>
+                                        <span class="value">0</span>
+                                        <input type="range" min="-100" max="100" value="0" step="0.001" data-deck="1" data-drop-shadow-offset-x>
+                                    </div>
+                                    <div class="inline-input">
+                                        <span class="input-label">Offset Y</span>
+                                        <span class="value">0</span>
+                                        <input type="range" min="-100" max="100" value="0" step="0.001" data-deck="1" data-drop-shadow-offset-y>
+                                    </div>
+                                    <div class="inline-input">
+                                        <span class="input-label">Blur</span>
+                                        <span class="value">0</span>
+                                        <input type="range" min="0" max="100" value="0" step="0.001" data-deck="1" data-drop-shadow-blur>
+                                    </div>
+                                </div>
+                            </group>
+                        </fieldset>
+                        <fieldset>
+                            <div class="heading">Grayscale</div>
+                            <group class="flex">
+                                <div class="inline-input">
+                                    <span class="input-label">Enable</span>
+                                    <label class="switch">
+                                        <input type="checkbox" data-deck="1" data-grayscale-toggle>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                <div class="inline-input grow">
+                                    <span class="input-label">Value</span>
+                                    <span class="value">0</span>
+                                    <input type="range" min="0" max="1" value="0" step="0.001" data-deck="1" data-grayscale-value>
+                                </div>
+                            </group>
+                        </fieldset>
+                        <fieldset>
+                            <div class="heading">Hue-Rotate</div>
+                            <group class="flex">
+                                <div class="inline-input">
+                                    <span class="input-label">Enable</span>
+                                    <label class="switch">
+                                        <input type="checkbox" data-deck="1" data-hue-rotate-toggle>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                <div class="inline-input grow">
+                                    <span class="input-label">Value</span>
+                                    <span class="value">0</span>
+                                    <input type="range" min="0" max="360" value="0" step="0.001" data-deck="1" data-hue-rotate-value>
+                                </div>
+                            </group>
+                        </fieldset>
+                        <fieldset>
+                            <div class="heading">Invert</div>
+                            <group class="flex">
+                                <div class="inline-input">
+                                    <span class="input-label">Enable</span>
+                                    <label class="switch">
+                                        <input type="checkbox" data-deck="1" data-invert-toggle>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                <div class="inline-input grow">
+                                    <span class="input-label">Value</span>
+                                    <span class="value">0</span>
+                                    <input type="range" min="0" max="1" value="0" step="0.001" data-deck="1" data-invert-value>
+                                </div>
+                            </group>
+                        </fieldset>
+                        <fieldset>
+                            <div class="heading">Opacity</div>
+                            <group class="flex">
+                                <div class="inline-input">
+                                    <span class="input-label">Enable</span>
+                                    <label class="switch">
+                                        <input type="checkbox" data-deck="1" data-opacity-toggle>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                <div class="inline-input grow">
+                                    <span class="input-label">Value</span>
+                                    <span class="value">1</span>
+                                    <input type="range" min="0" max="1" value="1" step="0.001" data-deck="1" data-opacity-value>
+                                </div>
+                            </group>
+                        </fieldset>
+                        <fieldset>
+                            <div class="heading">Saturate</div>
+                            <group class="flex">
+                                <div class="inline-input">
+                                    <span class="input-label">Enable</span>
+                                    <label class="switch">
+                                        <input type="checkbox" data-deck="1" data-saturate-toggle>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                <div class="inline-input grow">
+                                    <span class="input-label">Value</span>
+                                    <span class="value">1</span>
+                                    <input type="range" min="0" max="1" value="1" step="0.001" data-deck="1" data-saturate-value>
+                                </div>
+                            </group>
+                        </fieldset>
+                        <fieldset>
+                            <div class="heading">Sepia</div>
+                            <group class="flex">
+                                <div class="inline-input">
+                                    <span class="input-label">Enable</span>
+                                    <label class="switch">
+                                        <input type="checkbox" data-deck="1" data-sepia-toggle>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                <div class="inline-input grow">
+                                    <span class="input-label">Value</span>
+                                    <span class="value">0</span>
+                                    <input type="range" min="0" max="1" value="0" step="0.001" data-deck="1" data-sepia-value>
+                                </div>
+                            </group>
+                        </fieldset>
                     </div>
-                    <div data-visual="quark" data-deck="1" class="hide">
+                    <div data-tab-panel="reactivity" class="reactivity hide">
+                        <div>
+                            <fieldset>
+                                <div class="heading">Scale</div>
+                                <group class="flex">
+                                    <div class="inline-input">
+                                        <span class="input-label">React</span>
+                                        <label class="switch">
+                                            <input type="checkbox" class="outer-circle-enabled" checked="" data-deck="1" data-visual="quark"
+                                                data-variable="outerCircleEnabled" data-randomiseable="">
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="inline-input grow">
+                                        <span class="input-label">Strength</span>
+                                        <span class="value">100</span>
+                                        <input type="range" min="0" max="100" value="100" step="1" data-deck="1" data-strength>
+                                    </div>
+                                </group>
+                                <group>
+                                    <span class="input-label">Cause</span>
+                                    <div class="button-group button-switch-group ">
+                                        <div><button class=" on" data-target="output">Average</button></div>
+                                        <div><button class="" data-target="output">Percentage</button></div>
+                                    </div>
+                                </group>
+                                <group>
+                                    <span class="input-label">Effect</span>
+                                    <div class="button-group button-switch-group ">
+                                        <div><button class=" on" data-target="output">Addition</button></div>
+                                        <div><button class="" data-target="output">Subtraction</button></div>
+                                        <div><button class="" data-target="output">Multiply</button></div>
+                                    </div>
+                                </group>
+                            </fieldset>
+                        </div>
+                        <div>
+                            <fieldset>
+                                <div class="heading">Color</div>
+                                <group class="flex">
+                                    <div class="inline-input">
+                                        <span class="input-label">React</span>
+                                        <label class="switch">
+                                            <input type="checkbox" class="outer-circle-enabled" checked="" data-deck="1" data-visual="quark"
+                                                data-variable="outerCircleEnabled" data-randomiseable="">
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="inline-input grow">
+                                        <span class="input-label">Strength</span>
+                                        <span class="value">100</span>
+                                        <input type="range" min="0" max="100" value="100" step="1" data-deck="1" data-strength>
+                                    </div>
+                                </group>
+                                <group>
+                                    <span class="input-label">Cause</span>
+                                    <div class="button-group button-switch-group ">
+                                        <div><button class=" on" data-target="output">Average</button></div>
+                                        <div><button class="" data-target="output">Percentage</button></div>
+                                    </div>
+                                </group>
+                                <group>
+                                    <span class="input-label">Effect</span>
+                                    <div class="button-group button-switch-group ">
+                                        <div><button class=" on" data-target="output">Addition</button></div>
+                                        <div><button class="" data-target="output">Subtraction</button></div>
+                                        <div><button class="" data-target="output">Multiply</button></div>
+                                    </div>
+                                </group>
+                            </fieldset>
+                        </div>
+                        <div>
+                            <fieldset>
+                                <div class="heading">Alpha</div>
+                                <group class="flex">
+                                    <div class="inline-input">
+                                        <span class="input-label">React</span>
+                                        <label class="switch">
+                                            <input type="checkbox" class="outer-circle-enabled" checked="" data-deck="1" data-visual="quark"
+                                                data-variable="outerCircleEnabled" data-randomiseable="">
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="inline-input grow">
+                                        <span class="input-label">Strength</span>
+                                        <span class="value">100</span>
+                                        <input type="range" min="0" max="100" value="100" step="1" data-deck="1" data-strength>
+                                    </div>
+                                </group>
+                                <group>
+                                    <span class="input-label">Cause</span>
+                                    <div class="button-group button-switch-group ">
+                                        <div><button class=" on" data-target="output">Average</button></div>
+                                        <div><button class="" data-target="output">Percentage</button></div>
+                                    </div>
+                                </group>
+                                <group>
+                                    <span class="input-label">Effect</span>
+                                    <div class="button-group button-switch-group ">
+                                        <div><button class=" on" data-target="output">Addition</button></div>
+                                        <div><button class="" data-target="output">Subtraction</button></div>
+                                        <div><button class="" data-target="output">Multiply</button></div>
+                                    </div>
+                                </group>
+                            </fieldset>
+                        </div>
+                        <div>
+                            <fieldset>
+                                <div class="heading">Amp</div>
+                                <group class="flex">
+                                    <div class="inline-input">
+                                        <span class="input-label">React</span>
+                                        <label class="switch">
+                                            <input type="checkbox" class="outer-circle-enabled" checked="" data-deck="1" data-visual="quark"
+                                                data-variable="outerCircleEnabled" data-randomiseable="">
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="inline-input grow">
+                                        <span class="input-label">Strength</span>
+                                        <span class="value">100</span>
+                                        <input type="range" min="0" max="100" value="100" step="1" data-deck="1" data-strength>
+                                    </div>
+                                </group>
+                                <group>
+                                    <span class="input-label">Cause</span>
+                                    <div class="button-group button-switch-group ">
+                                        <div><button class=" on" data-target="output">Average</button></div>
+                                        <div><button class="" data-target="output">Percentage</button></div>
+                                    </div>
+                                </group>
+                                <group>
+                                    <span class="input-label">Effect</span>
+                                    <div class="button-group button-switch-group ">
+                                        <div><button class=" on" data-target="output">Addition</button></div>
+                                        <div><button class="" data-target="output">Subtraction</button></div>
+                                        <div><button class="" data-target="output">Multiply</button></div>
+                                    </div>
+                                </group>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div data-tab-panel="renderer" data-visual="quark" data-deck="1" class="hide">
                         <div>
                             <fieldset>
                                 <div class="heading">Enabled</div>
@@ -1554,55 +1952,7 @@
                             </fieldset>
                         </div>
                     </div>
-                    <div data-visual="neuromute" data-deck="1" class="hide">
-                        <div>
-                            <fieldset>
-                                <div class="heading">Reactor</div>
-                                <group class="flex-grid" data-columns="4">
-                                    <div class="inline-input">
-                                        <button data-deck="1" data-visual="neuromute" data-variable="translateModeX">Width</button>
-                                    </div>
-                                    <div class="inline-input">
-                                        <button data-deck="1" data-visual="neuromute" data-variable="translateModeY">Shift</button>
-                                    </div>
-                                    <div class="inline-input">
-                                        <button data-deck="1" data-visual="neuromute" data-variable="translateModeY">Alpha</button>
-                                    </div>
-                                    <div class="inline-input">
-                                        <button data-deck="1" data-visual="neuromute" data-variable="translateModeY">Amp</button>
-                                    </div>
-                                </group>
-                            </fieldset>
-                        </div>
-                        <div>
-                            <fieldset>
-                                <div class="heading">Cause</div>
-                                <group class="flex-grid" data-columns="2">
-                                    <div class="inline-input">
-                                        <button data-deck="1" data-visual="neuromute" data-variable="translateModeX">Average</button>
-                                    </div>
-                                    <div class="inline-input">
-                                        <button data-deck="1" data-visual="neuromute" data-variable="translateModeY">Percentage</button>
-                                    </div>
-                                </group>
-                            </fieldset>
-                        </div>
-                        <div>
-                            <fieldset>
-                                <div class="heading">Effect</div>
-                                <group class="flex-grid" data-columns="3">
-                                    <div class="inline-input">
-                                        <button data-deck="1" data-visual="neuromute" data-variable="translateModeY">Addition</button>
-                                    </div>
-                                    <div class="inline-input">
-                                        <button data-deck="1" data-visual="neuromute" data-variable="translateModeY">Subtraction</button>
-                                    </div>
-                                    <div class="inline-input">
-                                        <button data-deck="1" data-visual="neuromute" data-variable="translateModeY">Multiply</button>
-                                    </div>
-                                </group>
-                            </fieldset>
-                        </div>
+                    <div data-tab-panel="renderer" data-visual="neuromute" data-deck="1" class="hide">
                         <div>
                             <fieldset>
                                 <div class="heading">Arc</div>
@@ -1814,7 +2164,7 @@
                             </fieldset>
                         </div>
                     </div>
-                    <div data-visual="lockdown" data-deck="1" class="hide">
+                    <div data-tab-panel="renderer" data-visual="lockdown" data-deck="1" class="hide">
                         <div>
                             <fieldset>
                                 <div class="heading">Translate Mode</div>
@@ -1948,7 +2298,7 @@
                     <div><button class="red" data-deck="1" data-revert>Revert</button></div>
                 </div>
             </div>
-            <div class="column">
+            <div class="column main-mixer-panel-container">
                 <div id="sliders-container">
                     <div id="sliders">
                         <input type="range" min="0" max="1" value="1" step="0.0001" class="deck-alpha" data-deck="1" data-variable="alpha" data-precision="4">
@@ -2025,7 +2375,8 @@
                                         <div><button data-deck="1" data-next-preset>►</button></div>
                                     </div>
                                 </div>
-                                <div class="push-top">
+                                <div class="push-top text-align-center">
+                                    <button id="settings-open">⚙</button>
                                     <button id="launch">Launch</button>
                                 </div>
                                 <div class="deck-2">
@@ -2086,12 +2437,30 @@
                         <div><button>Assign</button></div>
                     </div>
                 </div>
+                <div id="settings" class="hide">
+                    <button id="settings-close">🗙</button>
+                    <div class="import-presets">
+                        <div class="heading">Import Presets</div>
+                        Here you can import presets...
+                    </div>
+                    <div class="guide">
+                        <div class="heading">Guide</div>
+                        This is some text to guide you.
+                    </div>
+                </div>
             </div>
             <div class="column">
+                <ul class="visual-settings-tabs">
+                    <ul>
+                        <li><button class="on" data-deck="2" data-tab="renderer">Renderer</button></li>
+                        <li><button data-deck="2" data-tab="effects">Effects</button></li>
+                        <li><button data-deck="2" data-tab="reactivity">Reactivity</button></li>
+                    </ul>
+                </ul>
                 <div class="visual-settings" data-deck="2">
-                    <div class="effects">
+                    <div data-tab-panel="effects" class="effects hide">
                         <fieldset>
-                            <div class="heading">Effects</div>
+                            <div class="heading">Reflection</div>
                             <div class="button-group">
                                 <div><button id="kaleidoscope-deck2-toggle" class="kaleidoscope-toggle" data-target="deck2">Kaleidoscope</button></div>
                                 <div><button id="mirror-deck2-toggle" class="mirror-toggle" data-target="deck2">Mirror</button></div>
@@ -2112,8 +2481,336 @@
                                 </div>
                             </div>
                         </fieldset>
+                        <fieldset>
+                            <div class="heading">Blur</div>
+                            <group class="flex">
+                                <div class="inline-input">
+                                    <span class="input-label">Enable</span>
+                                    <label class="switch">
+                                        <input type="checkbox" data-deck="2" data-blur-toggle>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                <div class="inline-input grow">
+                                    <span class="input-label">Value</span>
+                                    <span class="value">0</span>
+                                    <input type="range" min="0" max="100" value="0" step="1" data-deck="2" data-blur-value>
+                                </div>
+                            </group>
+                        </fieldset>
+                        <fieldset>
+                            <div class="heading">Brightness</div>
+                            <group class="flex">
+                                <div class="inline-input">
+                                    <span class="input-label">Enable</span>
+                                    <label class="switch">
+                                        <input type="checkbox" data-deck="2" data-brightness-toggle>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                <div class="inline-input grow">
+                                    <span class="input-label">Value</span>
+                                    <span class="value">1</span>
+                                    <input type="range" min="0" max="1" value="1" step="0.001" data-deck="2" data-brightness-value>
+                                </div>
+                            </group>
+                        </fieldset>
+                        <fieldset>
+                            <div class="heading">Contrast</div>
+                            <group class="flex">
+                                <div class="inline-input">
+                                    <span class="input-label">Enable</span>
+                                    <label class="switch">
+                                        <input type="checkbox" data-deck="2" data-contrast-toggle>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                <div class="inline-input grow">
+                                    <span class="input-label">Value</span>
+                                    <span class="value">1</span>
+                                    <input type="range" min="0" max="1" value="1" step="0.001" data-deck="2" data-contrast-value>
+                                </div>
+                            </group>
+                        </fieldset>
+                        <fieldset>
+                            <div class="heading">Drop-Shadow</div>
+                            <group class="flex">
+                                <div class="inline-input">
+                                    <span class="input-label">Enable</span>
+                                    <label class="switch">
+                                        <input type="checkbox" data-deck="2" data-drop-shadow-toggle>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                <div class="inline-input">
+                                    <span class="input-label">Color</span>
+                                    <input type="color" value="#ff0000" data-deck="2" data-drop-shadow-color>
+                                </div>
+                                <div class="flex-grid grow" data-columns="3">
+                                    <div class="inline-input">
+                                        <span class="input-label">Offset X</span>
+                                        <span class="value">0</span>
+                                        <input type="range" min="-100" max="100" value="0" step="0.001" data-deck="2" data-drop-shadow-offset-x>
+                                    </div>
+                                    <div class="inline-input">
+                                        <span class="input-label">Offset Y</span>
+                                        <span class="value">0</span>
+                                        <input type="range" min="-100" max="100" value="0" step="0.001" data-deck="2" data-drop-shadow-offset-y>
+                                    </div>
+                                    <div class="inline-input">
+                                        <span class="input-label">Blur</span>
+                                        <span class="value">0</span>
+                                        <input type="range" min="0" max="100" value="0" step="0.001" data-deck="2" data-drop-shadow-blur>
+                                    </div>
+                                </div>
+                            </group>
+                        </fieldset>
+                        <fieldset>
+                            <div class="heading">Grayscale</div>
+                            <group class="flex">
+                                <div class="inline-input">
+                                    <span class="input-label">Enable</span>
+                                    <label class="switch">
+                                        <input type="checkbox" data-deck="2" data-grayscale-toggle>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                <div class="inline-input grow">
+                                    <span class="input-label">Value</span>
+                                    <span class="value">0</span>
+                                    <input type="range" min="0" max="1" value="0" step="0.001" data-deck="2" data-grayscale-value>
+                                </div>
+                            </group>
+                        </fieldset>
+                        <fieldset>
+                            <div class="heading">Hue-Rotate</div>
+                            <group class="flex">
+                                <div class="inline-input">
+                                    <span class="input-label">Enable</span>
+                                    <label class="switch">
+                                        <input type="checkbox" data-deck="2" data-hue-rotate-toggle>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                <div class="inline-input grow">
+                                    <span class="input-label">Value</span>
+                                    <span class="value">0</span>
+                                    <input type="range" min="0" max="360" value="0" step="0.001" data-deck="2" data-hue-rotate-value>
+                                </div>
+                            </group>
+                        </fieldset>
+                        <fieldset>
+                            <div class="heading">Invert</div>
+                            <group class="flex">
+                                <div class="inline-input">
+                                    <span class="input-label">Enable</span>
+                                    <label class="switch">
+                                        <input type="checkbox" data-deck="2" data-invert-toggle>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                <div class="inline-input grow">
+                                    <span class="input-label">Value</span>
+                                    <span class="value">0</span>
+                                    <input type="range" min="0" max="1" value="0" step="0.001" data-deck="2" data-invert-value>
+                                </div>
+                            </group>
+                        </fieldset>
+                        <fieldset>
+                            <div class="heading">Opacity</div>
+                            <group class="flex">
+                                <div class="inline-input">
+                                    <span class="input-label">Enable</span>
+                                    <label class="switch">
+                                        <input type="checkbox" data-deck="2" data-opacity-toggle>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                <div class="inline-input grow">
+                                    <span class="input-label">Value</span>
+                                    <span class="value">1</span>
+                                    <input type="range" min="0" max="1" value="1" step="0.001" data-deck="2" data-opacity-value>
+                                </div>
+                            </group>
+                        </fieldset>
+                        <fieldset>
+                            <div class="heading">Saturate</div>
+                            <group class="flex">
+                                <div class="inline-input">
+                                    <span class="input-label">Enable</span>
+                                    <label class="switch">
+                                        <input type="checkbox" data-deck="2" data-saturate-toggle>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                <div class="inline-input grow">
+                                    <span class="input-label">Value</span>
+                                    <span class="value">1</span>
+                                    <input type="range" min="0" max="1" value="1" step="0.001" data-deck="2" data-saturate-value>
+                                </div>
+                            </group>
+                        </fieldset>
+                        <fieldset>
+                            <div class="heading">Sepia</div>
+                            <group class="flex">
+                                <div class="inline-input">
+                                    <span class="input-label">Enable</span>
+                                    <label class="switch">
+                                        <input type="checkbox" data-deck="2" data-sepia-toggle>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                <div class="inline-input grow">
+                                    <span class="input-label">Value</span>
+                                    <span class="value">0</span>
+                                    <input type="range" min="0" max="1" value="0" step="0.001" data-deck="2" data-sepia-value>
+                                </div>
+                            </group>
+                        </fieldset>
                     </div>
-                    <div data-visual="quark" data-deck="2" class="hide">
+                    <div data-tab-panel="reactivity" class="reactivity hide">
+                        <div>
+                            <fieldset>
+                                <div class="heading">Scale</div>
+                                <group class="flex">
+                                    <div class="inline-input">
+                                        <span class="input-label">React</span>
+                                        <label class="switch">
+                                            <input type="checkbox" class="outer-circle-enabled" checked="" data-deck="2" data-visual="quark"
+                                                data-variable="outerCircleEnabled" data-randomiseable="">
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="inline-input grow">
+                                        <span class="input-label">Strength</span>
+                                        <span class="value">100</span>
+                                        <input type="range" min="0" max="100" value="100" step="1" data-deck="2" data-strength>
+                                    </div>
+                                </group>
+                                <group>
+                                    <span class="input-label">Cause</span>
+                                    <div class="button-group button-switch-group ">
+                                        <div><button class=" on" data-target="output">Average</button></div>
+                                        <div><button class="" data-target="output">Percentage</button></div>
+                                    </div>
+                                </group>
+                                <group>
+                                    <span class="input-label">Effect</span>
+                                    <div class="button-group button-switch-group ">
+                                        <div><button class=" on" data-target="output">Addition</button></div>
+                                        <div><button class="" data-target="output">Subtraction</button></div>
+                                        <div><button class="" data-target="output">Multiply</button></div>
+                                    </div>
+                                </group>
+                            </fieldset>
+                        </div>
+                        <div>
+                            <fieldset>
+                                <div class="heading">Color</div>
+                                <group class="flex">
+                                    <div class="inline-input">
+                                        <span class="input-label">React</span>
+                                        <label class="switch">
+                                            <input type="checkbox" class="outer-circle-enabled" checked="" data-deck="2" data-visual="quark"
+                                                data-variable="outerCircleEnabled" data-randomiseable="">
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="inline-input grow">
+                                        <span class="input-label">Strength</span>
+                                        <span class="value">100</span>
+                                        <input type="range" min="0" max="100" value="100" step="1" data-deck="2" data-strength>
+                                    </div>
+                                </group>
+                                <group>
+                                    <span class="input-label">Cause</span>
+                                    <div class="button-group button-switch-group ">
+                                        <div><button class=" on" data-target="output">Average</button></div>
+                                        <div><button class="" data-target="output">Percentage</button></div>
+                                    </div>
+                                </group>
+                                <group>
+                                    <span class="input-label">Effect</span>
+                                    <div class="button-group button-switch-group ">
+                                        <div><button class=" on" data-target="output">Addition</button></div>
+                                        <div><button class="" data-target="output">Subtraction</button></div>
+                                        <div><button class="" data-target="output">Multiply</button></div>
+                                    </div>
+                                </group>
+                            </fieldset>
+                        </div>
+                        <div>
+                            <fieldset>
+                                <div class="heading">Alpha</div>
+                                <group class="flex">
+                                    <div class="inline-input">
+                                        <span class="input-label">React</span>
+                                        <label class="switch">
+                                            <input type="checkbox" class="outer-circle-enabled" checked="" data-deck="2" data-visual="quark"
+                                                data-variable="outerCircleEnabled" data-randomiseable="">
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="inline-input grow">
+                                        <span class="input-label">Strength</span>
+                                        <span class="value">100</span>
+                                        <input type="range" min="0" max="100" value="100" step="1" data-deck="2" data-strength>
+                                    </div>
+                                </group>
+                                <group>
+                                    <span class="input-label">Cause</span>
+                                    <div class="button-group button-switch-group ">
+                                        <div><button class=" on" data-target="output">Average</button></div>
+                                        <div><button class="" data-target="output">Percentage</button></div>
+                                    </div>
+                                </group>
+                                <group>
+                                    <span class="input-label">Effect</span>
+                                    <div class="button-group button-switch-group ">
+                                        <div><button class=" on" data-target="output">Addition</button></div>
+                                        <div><button class="" data-target="output">Subtraction</button></div>
+                                        <div><button class="" data-target="output">Multiply</button></div>
+                                    </div>
+                                </group>
+                            </fieldset>
+                        </div>
+                        <div>
+                            <fieldset>
+                                <div class="heading">Amp</div>
+                                <group class="flex">
+                                    <div class="inline-input">
+                                        <span class="input-label">React</span>
+                                        <label class="switch">
+                                            <input type="checkbox" class="outer-circle-enabled" checked="" data-deck="2" data-visual="quark"
+                                                data-variable="outerCircleEnabled" data-randomiseable="">
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="inline-input grow">
+                                        <span class="input-label">Strength</span>
+                                        <span class="value">100</span>
+                                        <input type="range" min="0" max="100" value="100" step="1" data-deck="2" data-strength>
+                                    </div>
+                                </group>
+                                <group>
+                                    <span class="input-label">Cause</span>
+                                    <div class="button-group button-switch-group ">
+                                        <div><button class=" on" data-target="output">Average</button></div>
+                                        <div><button class="" data-target="output">Percentage</button></div>
+                                    </div>
+                                </group>
+                                <group>
+                                    <span class="input-label">Effect</span>
+                                    <div class="button-group button-switch-group ">
+                                        <div><button class=" on" data-target="output">Addition</button></div>
+                                        <div><button class="" data-target="output">Subtraction</button></div>
+                                        <div><button class="" data-target="output">Multiply</button></div>
+                                    </div>
+                                </group>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div data-tab-panel="renderer" data-visual="quark" data-deck="2" class="hide">
                         <div>
                             <fieldset>
                                 <div class="heading">Enabled</div>
@@ -2440,8 +3137,8 @@
                             </fieldset>
                         </div>
                     </div>
-                    <div data-visual="neuromute" data-deck="2" class="hide">Neuromute</div>
-                    <div data-visual="lockdown" data-deck="2" class="hide">
+                    <div data-tab-panel="renderer" data-visual="neuromute" data-deck="2" class="hide">Neuromute</div>
+                    <div data-tab-panel="renderer" data-visual="lockdown" data-deck="2" class="hide">
                         <div>
                             <fieldset>
                                 <div class="heading">Translate Mode</div>
@@ -2561,7 +3258,7 @@
                             </fieldset>
                         </div>
                     </div>
-                    <div data-visual="pink" data-deck="2" class="hide"></div>
+                    <div data-tab-panel="renderer" data-visual="pink" data-deck="2" class="hide"></div>
                 </div>
                 <div class="button-group">
                     <div><button class="pink" data-deck="2" data-send>Send</button></div>
@@ -2655,7 +3352,25 @@
                         deck.raised = id == 1;
                         deck.scale = 0.75;
                         deck.current = null;
-                        deck.react = false;
+                        deck.reactivity = {
+                            on: false,
+                            target: 'color',
+                            cause: 'percentage',
+                            effect: 'multiply',
+                            strength: 10,
+                            adjust: function(value) {
+                                if (this.reactivity.target == 'scale') {
+                                    return (value/100) * (window.hydra.audio.percentage * this.reactivity.strength);
+                                } else if (this.reactivity.target == 'color') {
+
+                                } else if (this.reactivity.target == 'alpha') {
+
+                                } else if (this.reactivity.target == 'amp') {
+
+                                }
+                            }
+                        }
+                        deck.visibleTab = 'renderer';
 
                         deck.visual = {
                             select: function(visual) {
@@ -2665,9 +3380,11 @@
                                 this.current = visual;
                                 deck.current = deck[visual];
 
-                                const visualSettingsPanels = document.querySelectorAll(`[data-deck="${deck.id}"].visual-settings > div:not(.effects)`);
+                                const visualSettingsPanels = document.querySelectorAll(`[data-deck="${deck.id}"].visual-settings > div:not(.effects):not(.reactivity)`);
                                 visualSettingsPanels.forEach(panel => {
-                                    panel.className = (panel.dataset.deck == deck.id) && (panel.dataset.visual == deck.visual.current) ? 'show' : 'hide';
+                                    if (deck.visibleTab == 'renderer') {
+                                        panel.className = (panel.dataset.deck == deck.id) && (panel.dataset.visual == deck.visual.current) ? 'show' : 'hide';
+                                    }
                                 });
 
                                 deck.presets.update();
@@ -2732,7 +3449,7 @@
                                         hydra.audio.listen();
                                     }
                                     this.classList.toggle('orange');
-                                    deck.react = !deck.react;
+                                    deck.reactivity.on = !deck.reactivity.on;
                                 });
 
                                 this.keyboardBtn = document.querySelector(`[data-deck="${deck.id}"][data-keyboard]`);
@@ -2778,6 +3495,190 @@
                                 this.nextPresetBtn.addEventListener('click', function(e) {
                                     deck.presets.next();
                                 });
+
+                                this.strengthInput = document.querySelector(`[data-deck="${deck.id}"][data-strength]`);
+                                this.strengthInput.addEventListener('input', function(e) {
+                                    deck.reactivity.strength = parseInt(e.target.value)/10;
+                                    e.target.parentElement.querySelector('.value').textContent = e.target.value;
+                                });
+
+                                this.tabBtns = document.querySelectorAll(`[data-deck="${deck.id}"][data-tab]`);
+                                this.tabBtns.forEach(tabBtn => {
+                                    tabBtn.addEventListener('click', function(e) {
+                                        const relatedTabBtns = this.parentElement.parentElement.querySelectorAll(`[data-deck="${deck.id}"][data-tab]`);
+                                        relatedTabBtns.forEach(btn => btn.classList.remove('on'));
+                                        e.target.classList.add('on');
+
+                                        const tabPanels = document.querySelectorAll(`[data-deck="${deck.id}"] [data-tab-panel]`);
+                                        tabPanels.forEach(tabPanel => tabPanel.classList.add('hide'));
+
+                                        const tab = e.target.dataset.tab;
+                                        const tabPanel = document.querySelector(tab == 'renderer' 
+                                            ? `[data-deck="${deck.id}"] [data-tab-panel="${tab}"][data-visual="${deck.visual.current}"]` 
+                                            : `[data-deck="${deck.id}"] [data-tab-panel="${tab}"]`);
+                                        tabPanel.classList.remove('hide');
+                                        deck.visibleTab = tab;
+                                    });
+                                });
+
+                                this.blurToggleBtn = document.querySelector(`[data-deck="${deck.id}"][data-blur-toggle]`);
+                                this.blurToggleBtn.addEventListener('click', function(e) {
+                                    deck.filters.items.blur.on = e.target.checked;
+                                    deck.filters.update();
+                                });
+
+                                this.blurValueInput = document.querySelector(`[data-deck="${deck.id}"][data-blur-value]`);
+                                this.blurValueInput.addEventListener('input', function(e) {
+                                    deck.filters.items.blur.change(parseInt(e.target.value));
+                                    e.target.parentElement.querySelector('.value').textContent = e.target.value;
+                                })
+
+                                this.brightnessToggleBtn = document.querySelector(`[data-deck="${deck.id}"][data-brightness-toggle]`);
+                                this.brightnessToggleBtn.addEventListener('click', function(e) {
+                                    deck.filters.items.brightness.on = e.target.checked;
+                                    deck.filters.update();
+                                });
+
+                                this.brightnessValueInput = document.querySelector(`[data-deck="${deck.id}"][data-brightness-value]`);
+                                this.brightnessValueInput.addEventListener('input', function(e) {
+                                    deck.filters.items.brightness.change(parseFloat(e.target.value));
+                                    e.target.parentElement.querySelector('.value').textContent = e.target.value;
+                                })
+
+                                this.contrastToggleBtn = document.querySelector(`[data-deck="${deck.id}"][data-contrast-toggle]`);
+                                this.contrastToggleBtn.addEventListener('click', function(e) {
+                                    deck.filters.items.contrast.on = e.target.checked;
+                                    deck.filters.update();
+                                });
+
+                                this.contrastValueInput = document.querySelector(`[data-deck="${deck.id}"][data-contrast-value]`);
+                                this.contrastValueInput.addEventListener('input', function(e) {
+                                    deck.filters.items.contrast.change(parseFloat(e.target.value));
+                                    e.target.parentElement.querySelector('.value').textContent = e.target.value;
+                                })
+
+                                this.dropShadowToggleBtn = document.querySelector(`[data-deck="${deck.id}"][data-drop-shadow-toggle]`);
+                                this.dropShadowToggleBtn.addEventListener('click', function(e) {
+                                    deck.filters.items.dropShadow.on = e.target.checked;
+                                    deck.filters.update();
+                                });
+
+                                this.dropShadowColorInput = document.querySelector(`[data-deck="${deck.id}"][data-drop-shadow-color]`);
+                                this.dropShadowColorInput.addEventListener('input', function(e) {
+                                    deck.filters.items.dropShadow.change(
+                                        parseInt(deck.controls.dropShadowOffsetXInput.value),
+                                        parseInt(deck.controls.dropShadowOffsetYInput.value),
+                                        parseInt(deck.controls.dropShadowBlurInput.value),
+                                        e.target.value
+                                    );
+                                    e.target.parentElement.querySelector('.value').textContent = e.target.value;
+                                })
+                                
+                                this.dropShadowOffsetXInput = document.querySelector(`[data-deck="${deck.id}"][data-drop-shadow-offset-x]`);
+                                this.dropShadowOffsetXInput.addEventListener('input', function(e) {
+                                    deck.filters.items.dropShadow.change(
+                                        parseInt(e.target.value),
+                                        parseInt(deck.controls.dropShadowOffsetYInput.value),
+                                        parseInt(deck.controls.dropShadowBlurInput.value),
+                                        deck.controls.dropShadowColorInput.value
+                                    );
+                                    e.target.parentElement.querySelector('.value').textContent = e.target.value;
+                                })
+                                
+                                this.dropShadowOffsetYInput = document.querySelector(`[data-deck="${deck.id}"][data-drop-shadow-offset-y]`);
+                                this.dropShadowOffsetYInput.addEventListener('input', function(e) {
+                                    deck.filters.items.dropShadow.change(
+                                        parseInt(deck.controls.dropShadowOffsetXInput.value),
+                                        parseInt(e.target.value),
+                                        parseInt(deck.controls.dropShadowBlurInput.value),
+                                        deck.controls.dropShadowColorInput.value
+                                    );
+                                    e.target.parentElement.querySelector('.value').textContent = e.target.value;
+                                })
+
+                                this.dropShadowBlurInput = document.querySelector(`[data-deck="${deck.id}"][data-drop-shadow-blur]`);
+                                this.dropShadowBlurInput.addEventListener('input', function(e) {
+                                    deck.filters.items.dropShadow.change(
+                                        parseInt(deck.controls.dropShadowOffsetXInput.value),
+                                        parseInt(deck.controls.dropShadowOffsetYInput.value),
+                                        parseInt(e.target.value),
+                                        deck.controls.dropShadowColorInput.value
+                                    );
+                                    e.target.parentElement.querySelector('.value').textContent = e.target.value;
+                                })
+
+                                this.grayscaleToggleBtn = document.querySelector(`[data-deck="${deck.id}"][data-grayscale-toggle]`);
+                                this.grayscaleToggleBtn.addEventListener('click', function(e) {
+                                    deck.filters.items.grayscale.on = e.target.checked;
+                                    deck.filters.update();
+                                });
+
+                                this.grayscaleValueInput = document.querySelector(`[data-deck="${deck.id}"][data-grayscale-value]`);
+                                this.grayscaleValueInput.addEventListener('input', function(e) {
+                                    deck.filters.items.grayscale.change(parseFloat(e.target.value));
+                                    e.target.parentElement.querySelector('.value').textContent = e.target.value;
+                                })
+
+                                this.hueRotateToggleBtn = document.querySelector(`[data-deck="${deck.id}"][data-hue-rotate-toggle]`);
+                                this.hueRotateToggleBtn.addEventListener('click', function(e) {
+                                    deck.filters.items.hueRotate.on = e.target.checked;
+                                    deck.filters.update();
+                                });
+
+                                this.hueRotateValueInput = document.querySelector(`[data-deck="${deck.id}"][data-hue-rotate-value]`);
+                                this.hueRotateValueInput.addEventListener('input', function(e) {
+                                    deck.filters.items.hueRotate.change(parseFloat(e.target.value));
+                                    e.target.parentElement.querySelector('.value').textContent = e.target.value;
+                                })
+
+                                this.invertToggleBtn = document.querySelector(`[data-deck="${deck.id}"][data-invert-toggle]`);
+                                this.invertToggleBtn.addEventListener('click', function(e) {
+                                    deck.filters.items.invert.on = e.target.checked;
+                                    deck.filters.update();
+                                });
+
+                                this.invertValueInput = document.querySelector(`[data-deck="${deck.id}"][data-invert-value]`);
+                                this.invertValueInput.addEventListener('input', function(e) {
+                                    deck.filters.items.invert.change(parseFloat(e.target.value));
+                                    e.target.parentElement.querySelector('.value').textContent = e.target.value;
+                                })
+
+                                this.opacityToggleBtn = document.querySelector(`[data-deck="${deck.id}"][data-opacity-toggle]`);
+                                this.opacityToggleBtn.addEventListener('click', function(e) {
+                                    deck.filters.items.opacity.on = e.target.checked;
+                                    deck.filters.update();
+                                });
+
+                                this.opacityValueInput = document.querySelector(`[data-deck="${deck.id}"][data-opacity-value]`);
+                                this.opacityValueInput.addEventListener('input', function(e) {
+                                    deck.filters.items.opacity.change(parseFloat(e.target.value));
+                                    e.target.parentElement.querySelector('.value').textContent = e.target.value;
+                                })
+
+                                this.saturateToggleBtn = document.querySelector(`[data-deck="${deck.id}"][data-saturate-toggle]`);
+                                this.saturateToggleBtn.addEventListener('click', function(e) {
+                                    deck.filters.items.saturate.on = e.target.checked;
+                                    deck.filters.update();
+                                });
+
+                                this.saturateValueInput = document.querySelector(`[data-deck="${deck.id}"][data-saturate-value]`);
+                                this.saturateValueInput.addEventListener('input', function(e) {
+                                    deck.filters.items.saturate.change(parseFloat(e.target.value));
+                                    e.target.parentElement.querySelector('.value').textContent = e.target.value;
+                                })
+
+                                this.sepiaToggleBtn = document.querySelector(`[data-deck="${deck.id}"][data-sepia-toggle]`);
+                                this.sepiaToggleBtn.addEventListener('click', function(e) {
+                                    deck.filters.items.sepia.on = e.target.checked;
+                                    deck.filters.update();
+                                });
+
+                                this.sepiaValueInput = document.querySelector(`[data-deck="${deck.id}"][data-sepia-value]`);
+                                this.sepiaValueInput.addEventListener('input', function(e) {
+                                    deck.filters.items.sepia.change(parseFloat(e.target.value));
+                                    e.target.parentElement.querySelector('.value').textContent = e.target.value;
+                                })
+
                             }
                         }
 
@@ -2848,28 +3749,28 @@
                             },
                             load: function(preset) {
                                 for (const option in preset) {
-                                        const input = document.querySelector(`[data-visual="${deck.visual.current}"][data-deck="${deck.id}"][data-variable="${option}"]`);
+                                    const input = document.querySelector(`[data-visual="${deck.visual.current}"][data-deck="${deck.id}"][data-variable="${option}"]`);
 
-                                        if (!input) {
-                                            console.debug(`No input found for: [data-visual="${deck.visual.current}"][data-deck="${deck.id}"][data-variable="${option}"]`)
-                                            continue;
-                                        }
-
-                                        if (input.type == 'number' || input.type == 'range' || input.type == 'color') {
-                                            input.value = preset[option];
-                                            input.dispatchEvent(new Event('input', { bubbles: true }));
-                                        } else if (input.type == 'checkbox') {
-                                            input.checked = preset[option];
-                                            input.dispatchEvent(new Event('input', { bubbles: true }));
-                                        } else if (input.type == 'submit') {
-                                            deck.current[option] = preset[option];
-                                            input.textContent = preset[option];
-                                        }
-
-                                        if (typeof deck.current.updateDisabledUIComponents == 'function') {
-                                            deck.current.updateDisabledUIComponents();
-                                        }
+                                    if (!input) {
+                                        console.debug(`No input found for: [data-visual="${deck.visual.current}"][data-deck="${deck.id}"][data-variable="${option}"]`)
+                                        continue;
                                     }
+
+                                    if (input.type == 'number' || input.type == 'range' || input.type == 'color') {
+                                        input.value = preset[option];
+                                        input.dispatchEvent(new Event('input', { bubbles: true }));
+                                    } else if (input.type == 'checkbox') {
+                                        input.checked = preset[option];
+                                        input.dispatchEvent(new Event('input', { bubbles: true }));
+                                    } else if (input.type == 'submit') {
+                                        deck.current[option] = preset[option];
+                                        input.textContent = preset[option];
+                                    }
+
+                                    if (typeof deck.current.updateDisabledUIComponents == 'function') {
+                                        deck.current.updateDisabledUIComponents();
+                                    }
+                                }
                             },
                             send: function() {
                                 const currentPresetConfiguration = JSON.stringify(this.getCurrentPresetConfiguration());
@@ -2925,6 +3826,150 @@
                             }
                         }
 
+                        deck.filters = {
+                            items: {
+                                blur: {
+                                    on: false,
+                                    label: 'blur',
+                                    value: 0,
+                                    toggle: function() {
+                                        this.on = !this.on;
+                                    },
+                                    change: function(value) {
+                                        this.value = `${value}px`;
+                                        deck.filters.update();
+                                    }
+                                },
+                                brightness: {
+                                    on: false,
+                                    label: 'brightness',
+                                    value: 1,
+                                    toggle: function() {
+                                        this.on = !this.on;
+                                    },
+                                    change: function(value) {
+                                        this.value = value;
+                                        deck.filters.update();
+                                    }
+                                },
+                                contrast: {
+                                    on: false,
+                                    label: 'contrast',
+                                    value: 1,
+                                    toggle: function() {
+                                        this.on = !this.on;
+                                    },
+                                    change: function(value) {
+                                        this.value = value;
+                                        deck.filters.update();
+                                    }
+                                },
+                                dropShadow: {
+                                    on: false,
+                                    label: 'drop-shadow',
+                                    value: null,
+                                    toggle: function() {
+                                        this.on = !this.on;
+                                    },
+                                    change: function(offsetX, offsetY, blurRadius, color) {
+                                        this.value = `${offsetX}px ${offsetY}px ${blurRadius}px ${color}`;
+                                        deck.filters.update();
+                                    }
+                                },
+                                grayscale: {
+                                    on: false,
+                                    label: 'grayscale',
+                                    value: 0,
+                                    toggle: function() {
+                                        this.on = !this.on;
+                                    },
+                                    change: function(value) {
+                                        this.value = value;
+                                        deck.filters.update();
+                                    }
+                                },
+                                hueRotate: {
+                                    on: false,
+                                    label: 'hue-rotate',
+                                    value: '0deg',
+                                    toggle: function() {
+                                        this.on = !this.on;
+                                    },
+                                    change: function(value) {
+                                        this.value = `${value}deg`;
+                                        deck.filters.update();
+                                    }
+                                },
+                                invert: {
+                                    on: false,
+                                    label: 'invert',
+                                    value: 0,
+                                    toggle: function() {
+                                        this.on = !this.on;
+                                    },
+                                    change: function(value) {
+                                        this.value = value;
+                                        deck.filters.update();
+                                    }
+                                },
+                                opacity: {
+                                    on: false,
+                                    label: 'opacity',
+                                    value: 1,
+                                    toggle: function() {
+                                        this.on = !this.on;
+                                    },
+                                    change: function(value) {
+                                        this.value = value;
+                                        deck.filters.update();
+                                    }
+                                },
+                                saturate: {
+                                    on: false,
+                                    label: 'saturate',
+                                    value: 1,
+                                    toggle: function() {
+                                        this.on = !this.on;
+                                    },
+                                    change: function(value) {
+                                        this.value = value;
+                                        deck.filters.update();
+                                    }
+                                },
+                                sepia: {
+                                    on: false,
+                                    label: 'sepia',
+                                    value: 0,
+                                    toggle: function() {
+                                        this.on = !this.on;
+                                    },
+                                    change: function(value) {
+                                        this.value = value;
+                                        deck.filters.update();
+                                    }
+                                }
+                            },
+                            string: '',
+                            update: function() {
+                                this.string = 'none';
+                                let stringItems = [];
+                                let filter;
+                                for (let item in deck.filters.items) {
+                                    filter =  deck.filters.items[item];
+                                    if (filter.on) {
+                                        stringItems.push(`${filter.label}(${filter.value})`);
+                                    }
+                                }
+                                if (stringItems.length) {
+                                    this.string = stringItems.join(' ');
+                                }
+                                console.log(this.string)
+                            },
+                            apply: function() {
+                                deck.pipeCtx.filter = deck.filters.string;
+                            }
+                        };
+                        
                         deck.render = () => {
                             deck.current.render();
                         }
@@ -3270,6 +4315,32 @@
                         modeInput.addEventListener('input', function(e) {
                             hydra.mixedCtx.globalCompositeOperation = e.target.value;
                         });
+
+                        const settingsOpenBtn = document.getElementById('settings-open');
+                        settingsOpenBtn.addEventListener('click', function(e) {
+                            const settingsPanel = document.getElementById('settings');
+                            settingsPanel.classList.remove('hide');
+                        });
+
+                        const settingsCloseBtn = document.getElementById('settings-close');
+                        settingsCloseBtn.addEventListener('click', function(e) {
+                            const settingsPanel = document.getElementById('settings');
+                            settingsPanel.classList.add('hide');
+                        });
+
+                        const recordBtn = document.getElementById('record');
+                        recordBtn.addEventListener('click', function(e) {
+                            if (!hydra.recorder.initialised) {
+                                hydra.recorder.init(hydra.mixedCanvas, 5000000);
+                            }
+                            if (e.target.textContent == 'Record') {
+                                hydra.recorder.start();
+                                e.target.textContent = 'Stop';
+                            } else {
+                                hydra.recorder.stop();
+                                e.target.textContent = 'Record';
+                            }
+                        });
                     }
                 },
                 mouse: {
@@ -3295,7 +4366,10 @@
                     if (hydra.effects.mirror.deck1.enabled) {
                         hydra.effects.mirror.clip(hydra.deck1.pipeCtx, hydra.deck1.pipeCanvas, hydra.effects.mirror.deck1.mode);
                     }
+                    hydra.deck1.pipeCtx.save();
+                    hydra.deck1.filters.apply();
                     hydra.deck1.pipeCtx.drawImage(hydra.deck1.canvas, 0, 0);
+                    hydra.deck1.pipeCtx.restore();
                     if (hydra.effects.kaleidoscope.deck1.enabled) {
                         hydra.effects.kaleidoscope.apply(hydra.deck1.pipeCtx, hydra.deck1.pipeCanvas, hydra.effects.kaleidoscope.deck1.angle);
                     }
@@ -3310,7 +4384,10 @@
                     if (hydra.effects.mirror.deck2.enabled) {
                         hydra.effects.mirror.clip(hydra.deck2.pipeCtx, hydra.deck2.pipeCanvas, hydra.effects.mirror.deck2.mode);
                     }
+                    hydra.deck2.pipeCtx.save();
+                    hydra.deck2.filters.apply();
                     hydra.deck2.pipeCtx.drawImage(hydra.deck2.canvas, 0, 0);
+                    hydra.deck2.pipeCtx.restore();
                     if (hydra.effects.kaleidoscope.deck2.enabled) {
                         hydra.effects.kaleidoscope.apply(hydra.deck2.pipeCtx, hydra.deck2.pipeCanvas, hydra.effects.kaleidoscope.deck2.angle);
                     }
@@ -3446,6 +4523,99 @@
                         }
                     }
                 },
+                recorder: {
+                    initialised: false,
+                    init: function(canvas, videoBitsPerSecond) {
+                        this.mediaSource = new MediaSource();
+                        this.mediaRecorder;
+                        this.recordedBlobs;
+                        this.sourceBuffer;
+                        this.stream = canvas.captureStream();
+                        this.options = {
+                            mimeType: this.getSupportedType(),
+                            videoBitsPerSecond: videoBitsPerSecond || 2500000 // 2.5Mbps
+                        };
+                        this.initialised = true;
+                    },
+                    getSupportedType: function() {
+                        const types = [
+                            'video/mpeg\;codecs=h264',
+                            'video/webm\;codecs=h264',
+                            'video/webm',
+                            'video/webm,codecs=vp9',
+                            'video/vp8',
+                            'video/webm\;codecs=vp8',
+                            'video/webm\;codecs=daala',
+                            'video/mpeg'
+                        ];
+                        let supportedType = null;
+
+                        for (let i in types) {
+                            if (MediaRecorder.isTypeSupported(types[i])) {
+                                supportedType = types[i];
+                                break;
+                            }
+                        }
+
+                        return supportedType;
+                    },
+                    handleDataAvailable: function(event) {
+                        if (event.data && event.data.size > 0) {
+                            hydra.recorder.recordedBlobs.push(event.data);
+                        }
+                    },
+                    handleStop: function(event) {
+                        console.log('Recorder stopped: ', event);
+                        hydra.recorder.download();
+                    },
+                    start: function() {
+                        hydra.recorder.recordedBlobs = [];
+                        try {
+                            hydra.recorder.mediaRecorder = new MediaRecorder(hydra.recorder.stream, hydra.recorder.options);
+                        } catch (e0) {
+                            console.debug('Unable to create MediaRecorder with options Object: ', e0);
+                            try {
+                                hydra.recorder.options = {mimeType: 'video/webm,codecs=vp9'};
+                                hydra.recorder.mediaRecorder = new MediaRecorder(hydra.recorder.stream, hydra.recorder.options);
+                            } catch (e1) {
+                                console.debug('Unable to create MediaRecorder with options Object: ', e1);
+                                try {
+                                    hydra.recorder.options = 'video/vp8'; // Chrome 47
+                                    hydra.recorder.mediaRecorder = new MediaRecorder(hydra.recorder.stream, hydra.recorder.options);
+                                } catch (e2) {
+                                    console.error('MediaRecorder is not supported by this browser.\n\n' +
+                                        'Try Firefox 29 or later, or Chrome 47 or later, ' +
+                                        'with Enable experimental Web Platform features enabled from chrome://flags.');
+                                    console.error('Exception while creating MediaRecorder:', e2);
+                                    return;
+                                }
+                            }
+                        }
+                        console.debug('Created MediaRecorder', hydra.recorder.mediaRecorder, 'with options', hydra.recorder.options);
+                        hydra.recorder.mediaRecorder.onstop = hydra.recorder.handleStop;
+                        hydra.recorder.mediaRecorder.ondataavailable = hydra.recorder.handleDataAvailable;
+                        hydra.recorder.mediaRecorder.start(100); // collect 100ms of data
+                        console.debug('MediaRecorder started', hydra.recorder.mediaRecorder);
+                    },
+                    stop: function() {
+                        console.log(hydra.recorder)
+                        hydra.recorder.mediaRecorder.stop();
+                    },
+                    download: function() {
+                        const blob = new Blob(hydra.recorder.recordedBlobs, {type: 'video/webm'});
+                        const url = window.URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.style.display = 'none';
+                        a.href = url;
+                        a.download = 'hydra.webm';
+                        document.body.appendChild(a);
+                        a.click();
+                        setTimeout(() => {
+                            document.body.removeChild(a);
+                            window.URL.revokeObjectURL(url);
+                        }, 100);
+                    }
+                },
                 storage: {
                     init: function() {
                         this.db = window.localStorage;
@@ -3470,14 +4640,14 @@
                     import: function() {
                         let input = this.dataToImport.input;
                         if (typeof window.FileReader !== 'function') {
-                            alert("The file API isn't supported on this browser yet.");
+                            console.error("The file API isn't supported on this browser yet.");
                             return;
                         } else if (!input.files) {
-                            alert("This browser doesn't seem to support the `files` property of file inputs.");
+                            console.error("This browser doesn't seem to support the `files` property of file inputs.");
                         } else if (!input.files[0]) {
-                            alert("Please select a file before clicking 'Import'.");
+                            console.error("Please select a file before clicking 'Import'.");
                         } else if (input.files[0].type != 'application/json') {
-                            alert("File selected for import is not a valid JSON file.");
+                            console.error("File selected for import is not a valid JSON file.");
                         } else {
                             let file = input.files[0];
                             let fr = new FileReader();
@@ -3503,10 +4673,10 @@
 
                             storage.dataToImport.input.value = '';
 
-                            alert('Imported successfully.');
+                            console.error('Imported successfully.');
 
                         } catch(e) {
-                            alert('There was a problem importing the selected file.');
+                            console.error('There was a problem importing the selected file.');
                         }
 
                     },
@@ -3847,9 +5017,8 @@
                         deck.quark.radius = (deck.canvas.height/2);
                     }
                     let radius = deck.quark.radius * deck.scale;
-                    let reactivity = 2;
-                    if (deck.react) {
-                        radius = (radius/100) * (window.hydra.audio.percentage * reactivity);
+                    if (deck.reactivity.on && deck.reactivity.target == 'scale') {
+                        radius = deck.reactivity.adjust(radius);
                     }
                     let time = Date.now();
 
@@ -3872,8 +5041,8 @@
                     if (deck.quark.outerCircleEnabled) {
                         deck.ctx.strokeStyle = `rgba(${deck.quark.outerCircleColor.r}, ${deck.quark.outerCircleColor.g}, ${deck.quark.outerCircleColor.b}, ${deck.quark.outerCircleAlpha})`;
                         deck.ctx.lineWidth = 4;
-                        if (deck.react) {
-                            deck.ctx.lineWidth = (4/50) * (window.hydra.audio.percentage * reactivity);
+                        if (deck.reactivity.on) {
+                            deck.ctx.lineWidth = (4/50) * (window.hydra.audio.percentage * deck.reactivity.strength);
                         }
                         deck.ctx.beginPath();
                         deck.ctx.arc(hydra.centerX, hydra.centerY, radius + (radius * 0.57), 0, 2 * Math.PI);
@@ -3926,8 +5095,8 @@
                     deck.ctx.rotate( (Math.PI / 180) * deck.quark.smallTriangleDegree);
                     deck.ctx.translate(-hydra.centerX, -hydra.centerY);
 
-                    if (deck.react) {
-                        radius = (radius/100) * (window.hydra.audio.percentage * reactivity * 2);
+                    if (deck.reactivity.on) {
+                        radius = (radius/100) * (window.hydra.audio.percentage * deck.reactivity.strength * 2);
                     }
                     
                     y = (Math.sqrt(3)/2)*(radius/2);
@@ -3960,8 +5129,8 @@
 
                         let offset = deck.quark.fourPointCirclesOffset;
 
-                        if (deck.react) {
-                            offset = (offset/100) * (window.hydra.audio.percentage * reactivity * 3);
+                        if (deck.reactivity.on) {
+                            offset = (offset/100) * (window.hydra.audio.percentage * deck.reactivity.strength * 3);
                         }
 
                         deck.ctx.strokeStyle = ((timeInSecs % 4 == 0) && deck.quark.fourPointCirclesCycleColor) 
@@ -4123,9 +5292,8 @@
 
                         let triangleSide = triangle.side * deck.lockdown.triangleScale;
 
-                        if (deck.react) {
-                            let reactivity = 2;
-                            triangleSide = (triangleSide/100) * (window.hydra.audio.percentage * reactivity * 3);
+                        if (deck.reactivity.on) {
+                            triangleSide = (triangleSide/100) * (window.hydra.audio.percentage * deck.reactivity.strength * 3);
                         }
 
                         triangle.height = triangleSide * (Math.sqrt(3)/2);
@@ -4261,8 +5429,7 @@
 
                     // let radius = hydra.deck1.quark.radius * hydra.deck1.quark.scale;
                     // if (hydra.deck1.react) {
-                    //     let reactivity = 2;
-                    //     radius = (radius/100) * (window.hydra.audio.percentage * reactivity);
+                    //     radius = (radius/100) * (window.hydra.audio.percentage * deck.reactivity.strength);
                     // }
 
                     deck.ctx.fillStyle = '#ff00e4';
