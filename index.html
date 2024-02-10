@@ -4333,29 +4333,29 @@
                                 on: true,
                                 cause: 'average',
                                 effect: 'add',
-                                strength: 100
+                                strength: 10
                             },
                             color: {
                                 on: true,
                                 cause: 'average',
                                 effect: 'add',
-                                strength: 100
+                                strength: 10
                             },
                             alpha: {
                                 on: true,
                                 cause: 'average',
                                 effect: 'add',
-                                strength: 100
+                                strength: 10
                             },
                             amp: {
                                 on: true,
                                 cause: 'average',
                                 effect: 'add',
-                                strength: 100
+                                strength: 10
                             },
                             adjust: function(type, value) {
                                 if (type == 'scale') {
-                                    return (value/100) * (window.hydra.audio.percentage * this.reactivity.scale.strength);
+                                    return (value/100) * (window.hydra.audio.percentage * deck.reactivity.scale.strength);
                                 } else if (type == 'color') {
 
                                 } else if (type == 'alpha') {
@@ -4382,7 +4382,10 @@
                                         document.querySelector(`[data-deck="${deck.id}"][data-${option}-enabled]`).click();
                                     }
                                 }
-                                this.reactivity = deck.current.reactivity;
+                                deck.reactivity.scale = deck.current.reactivity.scale;
+                                deck.reactivity.color = deck.current.reactivity.color;
+                                deck.reactivity.alpha = deck.current.reactivity.alpha;
+                                deck.reactivity.amp = deck.current.reactivity.amp;
                             }
                         }
 
@@ -5608,25 +5611,25 @@
                         on: true,
                         cause: 'average',
                         effect: 'add',
-                        strength: 100
+                        strength: 10
                     },
                     color: {
                         on: false,
                         cause: 'average',
                         effect: 'add',
-                        strength: 100
+                        strength: 10
                     },
                     alpha: {
                         on: false,
                         cause: 'average',
                         effect: 'add',
-                        strength: 100
+                        strength: 10
                     },
                     amp: {
                         on: false,
                         cause: 'average',
                         effect: 'add',
-                        strength: 100
+                        strength: 10
                     }
                 };
 
@@ -5639,7 +5642,7 @@
                     }
                     let radius = deck.quark.radius * deck.scale;
                     if (deck.reactivity.on && deck.reactivity.scale.on) {
-                        radius = deck.reactivity.adjust('scale', radius/100);
+                        radius = deck.reactivity.adjust('scale', radius);
 
                     }
                     let time = Date.now();
@@ -5718,7 +5721,7 @@
                     deck.ctx.translate(-hydra.centerX, -hydra.centerY);
 
                     if (deck.reactivity.on && deck.reactivity.scale.on) {
-                        radius = (radius/100) * (window.hydra.audio.percentage * deck.reactivity.scale.strength * 2);
+                        radius = (radius/1000) * (window.hydra.audio.percentage * deck.reactivity.scale.strength * 2);
                     }
                     
                     y = (Math.sqrt(3)/2)*(radius/2);
@@ -5807,25 +5810,25 @@
                         on: true,
                         cause: 'average',
                         effect: 'add',
-                        strength: 100
+                        strength: 10
                     },
                     color: {
-                        on: true,
+                        on: false,
                         cause: 'average',
                         effect: 'add',
-                        strength: 100
+                        strength: 10
                     },
                     alpha: {
-                        on: true,
+                        on: false,
                         cause: 'average',
                         effect: 'add',
-                        strength: 100
+                        strength: 10
                     },
                     amp: {
-                        on: true,
+                        on: false,
                         cause: 'average',
                         effect: 'add',
-                        strength: 100
+                        strength: 10
                     }
                 };
 
@@ -5853,6 +5856,9 @@
                     let angles;
                     let trailLength = deck.neuromute.trailLength;
                     let fillMode = deck.neuromute.fillMode;
+                    let globalShift = deck.neuromute.globalShift;
+                    let globalAlpha = deck.neuromute.globalAlpha;
+                    let globalAmp = deck.neuromute.globalAmp;
 
                     // bug in chrome means getBoundingClientRect on canvas returns 0 due to the use of flex, so workaround by finding closest column
                     deck.neuromute.mouseX = hydra.mouseX - deck.neuromute.canvas.closest('.column').getBoundingClientRect().x - 10;
@@ -5948,9 +5954,9 @@
                     }
 
                     // update rgb displays before any potential reactor is applied, otherwise we're gonna have a bad time
-                    const redScaleX = Math.min(Math.max((1/255) * ((deck.neuromute.red + deck.neuromute.redShift + deck.neuromute.globalShift) * deck.neuromute.redAmp * deck.neuromute.globalAmp), 0), 1);
-                    const greenScaleX = Math.min(Math.max((1/255) * ((deck.neuromute.green + deck.neuromute.greenShift + deck.neuromute.globalShift) * deck.neuromute.greenAmp * deck.neuromute.globalAmp), 0), 1);
-                    const blueScaleX = Math.min(Math.max((1/255) * ((deck.neuromute.blue + deck.neuromute.blueShift + deck.neuromute.globalShift) * deck.neuromute.blueAmp * deck.neuromute.globalAmp), 0), 1);
+                    const redScaleX = Math.min(Math.max((1/255) * ((deck.neuromute.red + deck.neuromute.redShift + globalShift) * deck.neuromute.redAmp * globalAmp), 0), 1);
+                    const greenScaleX = Math.min(Math.max((1/255) * ((deck.neuromute.green + deck.neuromute.greenShift + globalShift) * deck.neuromute.greenAmp * globalAmp), 0), 1);
+                    const blueScaleX = Math.min(Math.max((1/255) * ((deck.neuromute.blue + deck.neuromute.blueShift + globalShift) * deck.neuromute.blueAmp * globalAmp), 0), 1);
                     deck.neuromute.redMeter.style.transform = `scaleX(${redScaleX})`;
                     deck.neuromute.greenMeter.style.transform = `scaleX(${greenScaleX})`;
                     deck.neuromute.blueMeter.style.transform = `scaleX(${blueScaleX})`;
@@ -5960,24 +5966,24 @@
                     if (deck.reactivity.on) {
                         if (deck.reactivity.color.on) {
                             if (deck.reactivity.color.effect == 'add') {
-                                deck.neuromute.globalShift = deck.neuromute.globalShift + (hydra.audio[deck.reactivity.color.cause] * deck.reactivity.color.strength);
+                                globalShift = globalShift + (hydra.audio[deck.reactivity.color.cause] * deck.reactivity.color.strength);
                             }
                             if (deck.reactivity.color.effect == 'sub') {
-                                deck.neuromute.globalShift = deck.neuromute.globalShift - (hydra.audio[deck.reactivity.color.cause] * deck.reactivity.color.strength);
+                                globalShift = globalShift - (hydra.audio[deck.reactivity.color.cause] * deck.reactivity.color.strength);
                             }
                             if (deck.reactivity.color.effect == 'multi') {
-                                deck.neuromute.globalShift = (deck.neuromute.globalShift + (hydra.audio[deck.reactivity.color.cause] * deck.reactivity.color.strength)) * (hydra.audio[deck.reactivity.color.cause] * deck.reactivity.color.strength);
+                                globalShift = (globalShift + (hydra.audio[deck.reactivity.color.cause] * deck.reactivity.color.strength)) * (hydra.audio[deck.reactivity.color.cause] * deck.reactivity.color.strength);
                             }
                         }
                         if (deck.reactivity.amp.on) {
                             if (deck.reactivity.amp.effect == 'add') {
-                                deck.neuromute.globalAmp = Math.max(0, (deck.neuromute.globalAmp * deck.reactivity.amp.strength) + (hydra.audio[deck.reactivity.amp.cause] * (deck.reactivity.amp.strength)));
+                                globalAmp = Math.max(0, (globalAmp * deck.reactivity.amp.strength) + (hydra.audio[deck.reactivity.amp.cause] * (deck.reactivity.amp.strength)));
                             }
                             if (deck.reactivity.amp.effect == 'sub') {
-                                deck.neuromute.globalAmp = Math.max(0, deck.neuromute.globalAmp - ((((100/150) * hydra.audio[deck.reactivity.amp.cause]) * deck.reactivity.amp.strength)/100));
+                                globalAmp = Math.max(0, globalAmp - ((((100/150) * hydra.audio[deck.reactivity.amp.cause]) * deck.reactivity.amp.strength)/100));
                             }
                             if (deck.reactivity.amp.effect == 'multi') {
-                                deck.neuromute.globalAmp = Math.max(0, (deck.neuromute.globalAmp/10) + ((deck.neuromute.globalAmp * hydra.audio[deck.reactivity.amp.cause]) * (deck.reactivity.amp.strength/10)));
+                                globalAmp = Math.max(0, (globalAmp/10) + ((globalAmp * hydra.audio[deck.reactivity.amp.cause]) * (deck.reactivity.amp.strength/10)));
                             }
                         }
                     }
@@ -5988,10 +5994,10 @@
                     deck.neuromute.blue = deck.neuromute.blue + deck.neuromute.blueShift;
 
                     // handle global shift (cycles, unlike r/g/b shifts)
-                    if (deck.neuromute.globalShift) {
-                        deck.neuromute.red = deck.neuromute.red + deck.neuromute.globalShift;
-                        deck.neuromute.green = deck.neuromute.green + deck.neuromute.globalShift;
-                        deck.neuromute.blue = deck.neuromute.blue + deck.neuromute.globalShift;
+                    if (globalShift) {
+                        deck.neuromute.red = deck.neuromute.red + globalShift;
+                        deck.neuromute.green = deck.neuromute.green + globalShift;
+                        deck.neuromute.blue = deck.neuromute.blue + globalShift;
 
                         deck.neuromute.red = deck.neuromute.red % 255;
                         deck.neuromute.green = deck.neuromute.green % 255;
@@ -6011,9 +6017,9 @@
                     }
 
                     // handle color amp
-                    deck.neuromute.red = deck.neuromute.red * deck.neuromute.redAmp * deck.neuromute.globalAmp;
-                    deck.neuromute.green = deck.neuromute.green * deck.neuromute.greenAmp * deck.neuromute.globalAmp;
-                    deck.neuromute.blue = deck.neuromute.blue * deck.neuromute.blueAmp * deck.neuromute.globalAmp;
+                    deck.neuromute.red = deck.neuromute.red * deck.neuromute.redAmp * globalAmp;
+                    deck.neuromute.green = deck.neuromute.green * deck.neuromute.greenAmp * globalAmp;
+                    deck.neuromute.blue = deck.neuromute.blue * deck.neuromute.blueAmp * globalAmp;
 
                     const colorMode = 'rgba(' + deck.neuromute.red + ',' + deck.neuromute.green + ',' + deck.neuromute.blue + ',' + opacity + ')';
 
@@ -6178,13 +6184,13 @@
                         // apply audio reactive width setting
                         if (deck.reactivity.on && deck.reactivity.scale.on) {
                             if (deck.reactivity.scale.effect == 'add') {
-                                deck.neuromute.width = Math.max(0, deck.neuromute.width + (hydra.audio[deck.reactivity.scale.cause] * deck.reactivity.scale.strength));
+                                deck.neuromute.width = Math.max(0, deck.neuromute.width + (hydra.audio[deck.reactivity.scale.cause] * (deck.reactivity.scale.strength/10)));
                             }
                             if (deck.reactivity.scale.effect == 'sub') {
-                                deck.neuromute.width = Math.max(0, deck.neuromute.width - (hydra.audio[deck.reactivity.scale.cause] * deck.reactivity.scale.strength));
+                                deck.neuromute.width = Math.max(0, deck.neuromute.width - (hydra.audio[deck.reactivity.scale.cause] * (deck.reactivity.scale.strength/10)));
                             }
                             if (deck.reactivity.scale.effect == 'multi') {
-                                deck.neuromute.width = Math.max(0, deck.neuromute.width * (hydra.audio[deck.reactivity.scale.cause] * (deck.reactivity.scale.strength/10)));
+                                deck.neuromute.width = Math.max(0, deck.neuromute.width * (hydra.audio[deck.reactivity.scale.cause] * (deck.reactivity.scale.strength/100)));
                             }
                         }
 
@@ -6209,17 +6215,17 @@
                             // apply audio reactive global alpha setting
                             if (deck.reactivity.on && deck.reactivity.alpha.on) {
                                 if (deck.reactivity.alpha.effect == 'add') {
-                                    deck.neuromute.globalAlpha = Math.min(1, (hydra.audio[deck.reactivity.alpha.cause]/50) * deck.reactivity.alpha.strength);
+                                    globalAlpha = Math.min(1, (hydra.audio[deck.reactivity.alpha.cause]/50) * deck.reactivity.alpha.strength);
                                 }
                                 if (deck.reactivity.alpha.effect == 'sub') {
-                                    deck.neuromute.globalAlpha = Math.max(0, deck.neuromute.globalAlpha - ((((100/150) * hydra.audio[deck.reactivity.alpha.cause]) * deck.reactivity.alpha.strength)/100));
+                                    globalAlpha = Math.max(0, globalAlpha - ((((100/150) * hydra.audio[deck.reactivity.alpha.cause]) * deck.reactivity.alpha.strength)/100));
                                 }
                                 if (deck.reactivity.alpha.effect == 'multi') {
-                                    deck.neuromute.globalAlpha = Math.min(1, (Math.max(0, (deck.neuromute.globalAlpha/10) + ((deck.neuromute.globalAlpha * hydra.audio[deck.reactivity.alpha.cause]) * (deck.reactivity.alpha.strength/10)))));
+                                    globalAlpha = Math.min(1, (Math.max(0, (globalAlpha/10) + ((globalAlpha * hydra.audio[deck.reactivity.alpha.cause]) * (deck.reactivity.alpha.strength/10)))));
                                 }
                             }
 
-                            deck.ctx.globalAlpha = deck.neuromute.globalAlpha;
+                            deck.ctx.globalAlpha = globalAlpha;
                         }
 
                         // if (i == 0) {
@@ -6242,25 +6248,25 @@
                         on: true,
                         cause: 'average',
                         effect: 'add',
-                        strength: 100
+                        strength: 10
                     },
                     color: {
                         on: true,
                         cause: 'average',
                         effect: 'add',
-                        strength: 100
+                        strength: 10
                     },
                     alpha: {
                         on: true,
                         cause: 'average',
                         effect: 'add',
-                        strength: 100
+                        strength: 10
                     },
                     amp: {
                         on: true,
                         cause: 'average',
                         effect: 'add',
-                        strength: 100
+                        strength: 10
                     }
                 };
 
@@ -6332,7 +6338,7 @@
                         let triangleSide = triangle.side * deck.lockdown.triangleScale;
 
                         if (deck.reactivity.on && deck.reactivity.scale.on) {
-                            triangleSide = (triangleSide/100) * (window.hydra.audio.percentage * deck.reactivity.scale.strength * 3);
+                            triangleSide = (triangleSide/100) * (window.hydra.audio.percentage * (deck.reactivity.scale.strength/10) * 3);
                         }
 
                         triangle.height = triangleSide * (Math.sqrt(3)/2);
@@ -6463,25 +6469,25 @@
                         on: false,
                         cause: 'average',
                         effect: 'add',
-                        strength: 100
+                        strength: 10
                     },
                     color: {
                         on: false,
                         cause: 'average',
                         effect: 'add',
-                        strength: 100
+                        strength: 10
                     },
                     alpha: {
                         on: false,
                         cause: 'average',
                         effect: 'add',
-                        strength: 100
+                        strength: 10
                     },
                     amp: {
                         on: false,
                         cause: 'average',
                         effect: 'add',
-                        strength: 100
+                        strength: 10
                     }
                 };
 
