@@ -213,8 +213,18 @@
             color: black;
         }
 
+        button.green:active {
+            background: #3aff5e;
+            color: black;
+        }
+
         button.pink {
             background: #e623ad;
+            color: black;
+        }
+
+        button.pink:active {
+            background: #fb2ebd;
             color: black;
         }
 
@@ -223,8 +233,18 @@
             color: black;
         }
 
+        button.blue:active {
+            background: #36daff;
+            color: black;
+        }
+
         button.yellow {
             background: #e4e623;
+            color: black;
+        }
+
+        button.yellow:active {
+            background: #fcff4b;
             color: black;
         }
 
@@ -233,8 +253,18 @@
             color: black;
         }
 
+        button.orange:active {
+            background: #ff8b39;
+            color: black;
+        }
+
         button.red {
             background: #e62323;
+            color: white;
+        }
+
+        button.red:active {
+            background: #ff3535;
             color: white;
         }
 
@@ -1160,6 +1190,11 @@
             padding: 0 0 0 17px;
         }
 
+        #tap-bpm:active {
+            background: #23e648;
+            color: black;
+        }
+
         @-webkit-keyframes backgroundBlink {
             from, to {
                 background: #000;
@@ -1211,7 +1246,7 @@
                 <div class="lcd-screen">
                     <span class="readout">Output</span>
                     <span class="readout"><span class="label">Crossfader:</span> <span id="crossfader-display">D1 1.0000 D2 1.0000</span></span>
-                    <span class="readout"><span class="label">BPM:</span> <span class="value" data-bpm-display>130.05</span></span>
+                    <span class="readout"><span class="label">BPM:</span> <span class="value" data-bpm-display>TAP&nbsp;&nbsp;&nbsp;</span></span>
                 </div>
             </div>
             <div class="column">
@@ -1530,8 +1565,8 @@
                                 <group>
                                     <span class="input-label">Effect</span>
                                     <div class="button-group button-radio-switch-group">
-                                        <div><button class="on button-radio-switch" data-deck="1" data-scale-effect data-randomiseable>Addition</button></div>
-                                        <div><button class="button-radio-switch" data-deck="1" data-scale-effect data-randomiseable>Subtraction</button></div>
+                                        <div><button class="on button-radio-switch" data-deck="1" data-scale-effect data-randomiseable>Add</button></div>
+                                        <div><button class="button-radio-switch" data-deck="1" data-scale-effect data-randomiseable>Subtract</button></div>
                                         <div><button class="button-radio-switch" data-deck="1" data-scale-effect data-randomiseable>Multiply</button></div>
                                     </div>
                                 </group>
@@ -1562,8 +1597,8 @@
                                 <group>
                                     <span class="input-label">Effect</span>
                                     <div class="button-group button-radio-switch-group">
-                                        <div><button class="on button-radio-switch" data-deck="1" data-color-effect data-randomiseable>Addition</button></div>
-                                        <div><button class="button-radio-switch" data-deck="1" data-color-effect data-randomiseable>Subtraction</button></div>
+                                        <div><button class="on button-radio-switch" data-deck="1" data-color-effect data-randomiseable>Add</button></div>
+                                        <div><button class="button-radio-switch" data-deck="1" data-color-effect data-randomiseable>Subtract</button></div>
                                         <div><button class="button-radio-switch" data-deck="1" data-color-effect data-randomiseable>Multiply</button></div>
                                     </div>
                                 </group>
@@ -1596,8 +1631,8 @@
                                 <group>
                                     <span class="input-label">Effect</span>
                                     <div class="button-group button-radio-switch-group">
-                                        <div><button class="on button-radio-switch" data-deck="1" data-alpha-effect data-randomiseable>Addition</button></div>
-                                        <div><button class="button-radio-switch" data-deck="1" data-alpha-effect data-randomiseable>Subtraction</button></div>
+                                        <div><button class="on button-radio-switch" data-deck="1" data-alpha-effect data-randomiseable>Add</button></div>
+                                        <div><button class="button-radio-switch" data-deck="1" data-alpha-effect data-randomiseable>Subtract</button></div>
                                         <div><button class="button-radio-switch" data-deck="1" data-alpha-effect data-randomiseable>Multiply</button></div>
                                     </div>
                                 </group>
@@ -1628,8 +1663,8 @@
                                 <group>
                                     <span class="input-label">Effect</span>
                                     <div class="button-group button-radio-switch-group">
-                                        <div><button class="on button-radio-switch" data-deck="1" data-amp-effect data-randomiseable>Addition</button></div>
-                                        <div><button class="button-radio-switch" data-deck="1" data-amp-effect data-randomiseable>Subtraction</button></div>
+                                        <div><button class="on button-radio-switch" data-deck="1" data-amp-effect data-randomiseable>Add</button></div>
+                                        <div><button class="button-radio-switch" data-deck="1" data-amp-effect data-randomiseable>Subtract</button></div>
                                         <div><button class="button-radio-switch" data-deck="1" data-amp-effect data-randomiseable>Multiply</button></div>
                                     </div>
                                 </group>
@@ -2241,17 +2276,17 @@
                                     <div class="inline-input">
                                         <span class="input-label">Min Width</span>
                                         <span class="value">1</span>
-                                        <input type="range" min="1" max="596" step="1" value="1" data-deck="1" data-visual="neuromute" data-variable="minWidth">
+                                        <input type="range" min="1" max="596" step="1" value="1" data-deck="1" data-visual="neuromute" data-variable="minWidth" data-randomiseable>
                                     </div>
                                     <div class="inline-input">
                                         <span class="input-label">Width Mode</span>
                                         <span class="value">1</span>
-                                        <input type="range" min="1" max="8" step="1" value="1" data-deck="1" data-visual="neuromute" data-variable="widthMode">
+                                        <input type="range" min="1" max="8" step="1" value="1" data-deck="1" data-visual="neuromute" data-variable="widthMode" data-randomiseable>
                                     </div>
                                     <div class="inline-input">
                                         <span class="input-label">Mode</span>
                                         <span class="value">1</span>
-                                        <input type="range" min="1" max="12" step="1" value="1" data-deck="1" data-visual="neuromute" data-variable="arcMode">
+                                        <input type="range" min="1" max="12" step="1" value="1" data-deck="1" data-visual="neuromute" data-variable="arcMode" data-randomiseable>
                                     </div>
                                 </group>
                             </fieldset>
@@ -2263,12 +2298,12 @@
                                     <div class="inline-input">
                                         <span class="input-label">Width</span>
                                         <span class="value">1</span>
-                                        <input type="range" min="1" max="20" step="1" value="1" data-deck="1" data-visual="neuromute" data-variable="lineWidth">
+                                        <input type="range" min="1" max="20" step="1" value="1" data-deck="1" data-visual="neuromute" data-variable="lineWidth" data-randomiseable>
                                     </div>
                                     <div class="inline-input">
                                         <span class="input-label">Mode</span>
                                         <span class="value">1</span>
-                                        <input type="range" min="1" max="3" step="1" value="1" data-deck="1" data-visual="neuromute" data-variable="lineMode">
+                                        <input type="range" min="1" max="3" step="1" value="1" data-deck="1" data-visual="neuromute" data-variable="lineMode" data-randomiseable>
                                     </div>
                                 </group>
                             </fieldset>
@@ -2280,12 +2315,12 @@
                                     <div class="inline-input">
                                         <span class="input-label">Length</span>
                                         <span class="value">100</span>
-                                        <input type="range" min="5" max="155" step="1" value="100" data-deck="1" data-visual="neuromute" data-variable="trailLength">
+                                        <input type="range" min="5" max="155" step="1" value="100" data-deck="1" data-visual="neuromute" data-variable="trailLength" data-randomiseable>
                                     </div>
                                     <div class="inline-input">
                                         <span class="input-label">Modulo</span>
                                         <span class="value">1</span>
-                                        <input type="range" min="1" max="20" step="1" value="1" data-deck="1" data-visual="neuromute" data-variable="modulo">
+                                        <input type="range" min="1" max="20" step="1" value="1" data-deck="1" data-visual="neuromute" data-variable="modulo" data-randomiseable>
                                     </div>
                                 </group>
                             </fieldset>
@@ -2298,20 +2333,20 @@
                                         <div class="inline-input">
                                             <span class="input-label">Frequency</span>
                                             <span class="value">1</span>
-                                            <input type="range" min="1" max="200" step="1" value="1" data-deck="1" data-visual="neuromute" data-variable="fillFreq">
+                                            <input type="range" min="1" max="200" step="1" value="1" data-deck="1" data-visual="neuromute" data-variable="fillFreq" data-randomiseable>
                                         </div>
                                         <div>
                                             <div class="inline-input">
                                                 <span class="input-label">Enabled</span>
                                                 <label class="switch">
-                                                    <input type="checkbox" data-deck="1" data-visual="neuromute" data-variable="fillMode">
+                                                    <input type="checkbox" data-deck="1" data-visual="neuromute" data-variable="fillMode" data-randomiseable>
                                                     <span class="slider"></span>
                                                 </label>
                                             </div>
                                             <div class="inline-input">
                                                 <span class="input-label">Random</span>
                                                 <label class="switch">
-                                                    <input type="checkbox" data-deck="1" data-visual="neuromute" data-variable="fillRand">
+                                                    <input type="checkbox" data-deck="1" data-visual="neuromute" data-variable="fillRand" data-randomiseable>
                                                     <span class="slider"></span>
                                                 </label>
                                             </div>
@@ -2328,17 +2363,17 @@
                                         <div class="inline-input">
                                             <span class="input-label">Length</span>
                                             <span class="value">1</span>
-                                            <input type="range" min="1" max="30" step="1" value="1" data-deck="1" data-visual="neuromute" data-variable="dashLength">
+                                            <input type="range" min="1" max="30" step="1" value="1" data-deck="1" data-visual="neuromute" data-variable="dashLength" data-randomiseable>
                                         </div>
                                         <div class="inline-input">
                                             <span class="input-label">Gap</span>
                                             <span class="value">1</span>
-                                            <input type="range" min="1" max="100" step="1" value="1" data-deck="1" data-visual="neuromute" data-variable="gapLength">
+                                            <input type="range" min="1" max="100" step="1" value="1" data-deck="1" data-visual="neuromute" data-variable="gapLength" data-randomiseable>
                                         </div>
                                         <div class="inline-input">
                                             <span class="input-label">Enabled</span>
                                             <label class="switch">
-                                                <input type="checkbox" checked data-deck="1" data-visual="neuromute" data-variable="dashMode">
+                                                <input type="checkbox" checked data-deck="1" data-visual="neuromute" data-variable="dashMode" data-randomiseable>
                                                 <span class="slider"></span>
                                             </label>
                                         </div>
@@ -2354,22 +2389,22 @@
                                         <div class="inline-input">
                                             <span class="input-label">Mode</span>
                                             <span class="value">1</span>
-                                            <input type="range" min="1" max="14" step="1" value="1" data-deck="1" data-visual="neuromute" data-variable="colorMode">
+                                            <input type="range" min="1" max="14" step="1" value="1" data-deck="1" data-visual="neuromute" data-variable="colorMode" data-randomiseable>
                                         </div>
                                         <div class="inline-input">
                                             <span class="input-label">Shift</span>
                                             <span class="value">0</span>
-                                            <input type="range" min="-255" max="255" step="1" value="0" data-deck="1" data-visual="neuromute" data-variable="globalShift">
+                                            <input type="range" min="-255" max="255" step="1" value="0" data-deck="1" data-visual="neuromute" data-variable="globalShift" data-randomiseable>
                                         </div>
                                         <div class="inline-input">
                                             <span class="input-label">Alpha</span>
                                             <span class="value">1</span>
-                                            <input type="range" min="0" max="1" step="0.01" value="1" data-deck="1" data-visual="neuromute" data-variable="globalAlpha">
+                                            <input type="range" min="0" max="1" step="0.01" value="1" data-deck="1" data-visual="neuromute" data-variable="globalAlpha" data-randomiseable>
                                         </div>
                                         <div class="inline-input">
                                             <span class="input-label">Amp</span>
                                             <span class="value">1</span>
-                                            <input type="range" min="0" max="20" step="0.1" value="1" data-deck="1" data-visual="neuromute" data-variable="globalAmp">
+                                            <input type="range" min="0" max="20" step="0.1" value="1" data-deck="1" data-visual="neuromute" data-variable="globalAmp" data-randomiseable>
                                         </div>
                                     </group>
                                 </div>
@@ -2383,7 +2418,7 @@
                                         <div class="inline-input">
                                             <span class="input-label">Shift</span>
                                             <span class="value">0</span>
-                                            <input type="range" min="-255" max="255" step="1" value="0" data-deck="1" data-visual="neuromute" data-variable="redShift">
+                                            <input type="range" min="-255" max="255" step="1" value="0" data-deck="1" data-visual="neuromute" data-variable="redShift" data-randomiseable>
                                         </div>
                                         <div class="inline-input">
                                             <span class="input-label">Level</span>
@@ -2392,7 +2427,7 @@
                                         <div class="inline-input">
                                             <span class="input-label">Amp</span>
                                             <span class="value">1</span>
-                                            <input type="range" min="0" max="20" step="0.1" value="1" data-deck="1" data-visual="neuromute" data-variable="redAmp">
+                                            <input type="range" min="0" max="20" step="0.1" value="1" data-deck="1" data-visual="neuromute" data-variable="redAmp" data-randomiseable>
                                         </div>
                                     </group>
                                 </div>
@@ -2406,7 +2441,7 @@
                                         <div class="inline-input">
                                             <span class="input-label">Shift</span>
                                             <span class="value">0</span>
-                                            <input type="range" min="-255" max="255" step="1" value="0" data-deck="1" data-visual="neuromute" data-variable="greenShift">
+                                            <input type="range" min="-255" max="255" step="1" value="0" data-deck="1" data-visual="neuromute" data-variable="greenShift" data-randomiseable>
                                         </div>
                                         <div class="inline-input">
                                             <span class="input-label">Level</span>
@@ -2415,7 +2450,7 @@
                                         <div class="inline-input">
                                             <span class="input-label">Amp</span>
                                             <span class="value">1</span>
-                                            <input type="range" min="0" max="20" step="0.1" value="1" data-deck="1" data-visual="neuromute" data-variable="greenAmp">
+                                            <input type="range" min="0" max="20" step="0.1" value="1" data-deck="1" data-visual="neuromute" data-variable="greenAmp" data-randomiseable>
                                         </div>
                                     </group>
                                 </div>
@@ -2429,7 +2464,7 @@
                                         <div class="inline-input">
                                             <span class="input-label">Shift</span>
                                             <span class="value">0</span>
-                                            <input type="range" min="-255" max="255" step="1" value="0" data-deck="1" data-visual="neuromute" data-variable="blueShift">
+                                            <input type="range" min="-255" max="255" step="1" value="0" data-deck="1" data-visual="neuromute" data-variable="blueShift" data-randomiseable>
                                         </div>
                                         <div class="inline-input">
                                             <span class="input-label">Level</span>
@@ -2438,7 +2473,7 @@
                                         <div class="inline-input">
                                             <span class="input-label">Amp</span>
                                             <span class="value">1</span>
-                                            <input type="range" min="0" max="20" step="0.1" value="1" data-deck="1" data-visual="neuromute" data-variable="blueAmp">
+                                            <input type="range" min="0" max="20" step="0.1" value="1" data-deck="1" data-visual="neuromute" data-variable="blueAmp" data-randomiseable>
                                         </div>
                                     </group>
                                 </div>
@@ -2713,7 +2748,7 @@
                         <div><button id="record" class="red">Record</button></div>
                     </div>
                     <div class="button-group">
-                        <div><button>Tap</button></div>
+                        <div><button id="tap-bpm">Tap</button></div>
                         <div><button class="on">Sync</button></div>
                         <div><button>Assign</button></div>
                     </div>
@@ -2978,8 +3013,8 @@
                                 <group>
                                     <span class="input-label">Effect</span>
                                     <div class="button-group button-radio-switch-group">
-                                        <div><button class="on button-radio-switch" data-deck="2" data-scale-effect data-randomiseable>Addition</button></div>
-                                        <div><button class="button-radio-switch" data-deck="2" data-scale-effect data-randomiseable>Subtraction</button></div>
+                                        <div><button class="on button-radio-switch" data-deck="2" data-scale-effect data-randomiseable>Add</button></div>
+                                        <div><button class="button-radio-switch" data-deck="2" data-scale-effect data-randomiseable>Subtract</button></div>
                                         <div><button class="button-radio-switch" data-deck="2" data-scale-effect data-randomiseable>Multiply</button></div>
                                     </div>
                                 </group>
@@ -3012,8 +3047,8 @@
                                 <group>
                                     <span class="input-label">Effect</span>
                                     <div class="button-group button-radio-switch-group">
-                                        <div><button class="on button-radio-switch" data-deck="2" data-color-effect data-randomiseable>Addition</button></div>
-                                        <div><button class="button-radio-switch" data-deck="2" data-color-effect data-randomiseable>Subtraction</button></div>
+                                        <div><button class="on button-radio-switch" data-deck="2" data-color-effect data-randomiseable>Add</button></div>
+                                        <div><button class="button-radio-switch" data-deck="2" data-color-effect data-randomiseable>Subtract</button></div>
                                         <div><button class="button-radio-switch" data-deck="2" data-color-effect data-randomiseable>Multiply</button></div>
                                     </div>
                                 </group>
@@ -3046,8 +3081,8 @@
                                 <group>
                                     <span class="input-label">Effect</span>
                                     <div class="button-group button-radio-switch-group">
-                                        <div><button class="on button-radio-switch" data-deck="2" data-alpha-effect data-randomiseable>Addition</button></div>
-                                        <div><button class="button-radio-switch" data-deck="2" data-alpha-effect data-randomiseable>Subtraction</button></div>
+                                        <div><button class="on button-radio-switch" data-deck="2" data-alpha-effect data-randomiseable>Add</button></div>
+                                        <div><button class="button-radio-switch" data-deck="2" data-alpha-effect data-randomiseable>Subtract</button></div>
                                         <div><button class="button-radio-switch" data-deck="2" data-alpha-effect data-randomiseable>Multiply</button></div>
                                     </div>
                                 </group>
@@ -3080,8 +3115,8 @@
                                 <group>
                                     <span class="input-label">Effect</span>
                                     <div class="button-group button-radio-switch-group">
-                                        <div><button class="on button-radio-switch" data-deck="2" data-amp-effect data-randomiseable>Addition</button></div>
-                                        <div><button class="button-radio-switch" data-deck="2" data-amp-effect data-randomiseable>Subtraction</button></div>
+                                        <div><button class="on button-radio-switch" data-deck="2" data-amp-effect data-randomiseable>Add</button></div>
+                                        <div><button class="button-radio-switch" data-deck="2" data-amp-effect data-randomiseable>Subtract</button></div>
                                         <div><button class="button-radio-switch" data-deck="2" data-amp-effect data-randomiseable>Multiply</button></div>
                                     </div>
                                 </group>
@@ -4017,11 +4052,35 @@
                                     });
                                 });
 
-                                // TODO add other deck reactivity controls here <>
-                                this.scaleStrengthInput = document.querySelector(`[data-deck="${deck.id}"][data-scale-strength]`);
-                                this.scaleStrengthInput.addEventListener('input', function(e) {
-                                    deck.reactivity.scale.strength = parseInt(e.target.value)/10;
-                                    e.target.parentElement.querySelector('.value').textContent = e.target.value;
+                                ['scale', 'color', 'alpha', 'amp'].forEach(reactor => {
+                                    this[`${reactor}EnabledToggleBtn`] = document.querySelector(`[data-deck="${deck.id}"][data-${reactor}-enabled]`);
+                                    this[`${reactor}EnabledToggleBtn`].addEventListener('click', function(e) {
+                                        deck.reactivity[reactor].on = e.target.checked;
+                                    });
+
+                                    this[`${reactor}StrengthInput`] = document.querySelector(`[data-deck="${deck.id}"][data-${reactor}-strength]`);
+                                    this[`${reactor}StrengthInput`].addEventListener('input', function(e) {
+                                        deck.reactivity[reactor].strength = parseInt(e.target.value)/10;
+                                        e.target.parentElement.querySelector('.value').textContent = e.target.value;
+                                    });
+
+                                    this[`${reactor}CauseToggleBtns`] = document.querySelectorAll(`[data-deck="${deck.id}"][data-${reactor}-cause]`);
+                                    this[`${reactor}CauseToggleBtns`].forEach(btn => {
+                                        btn.addEventListener('click', function(e) {
+                                            deck.controls[`${reactor}CauseToggleBtns`].forEach(btn => btn.classList.remove('on'));
+                                            e.target.classList.add('on');
+                                            deck.reactivity[reactor].cause = e.target.textContent.toLowerCase();
+                                        });
+                                    });
+
+                                    this[`${reactor}EffectToggleBtns`] = document.querySelectorAll(`[data-deck="${deck.id}"][data-${reactor}-effect]`);
+                                    this[`${reactor}EffectToggleBtns`].forEach(btn => {
+                                        btn.addEventListener('click', function(e) {
+                                            deck.controls[`${reactor}EffectToggleBtns`].forEach(btn => btn.classList.remove('on'));
+                                            e.target.classList.add('on');
+                                            deck.reactivity[reactor].effect = e.target.textContent.toLowerCase();
+                                        });
+                                    });
                                 });
 
                                 this.blurToggleBtn = document.querySelector(`[data-deck="${deck.id}"][data-blur-toggle]`);
@@ -4932,6 +4991,11 @@
                                 e.target.textContent = 'Record';
                             }
                         });
+
+                        const tapBpmBtn = document.getElementById('tap-bpm');
+                        tapBpmBtn.addEventListener('click', function(e) {
+                            hydra.audio.bpm.calculate();
+                        });
                     }
                 },
                 mouse: {
@@ -5030,10 +5094,49 @@
                 audio: {
                     average: 0,
                     percentage: 0,
+                    bpm: {
+                        current: null,
+                        display: document.querySelector('[data-bpm-display]'),
+                        calculationProperties: {
+                            init: function() {
+                                this.beatTimes = [];
+                                this.xSum = 0;
+                                this.xxSum = 0;
+                                this.ySum = 0;
+                                this.yySum = 0;
+                                this.xySum = 0;
+                                this.aPrev = NaN;
+                                this.bPrev = NaN;
+                                this.shouldClear = false;
+                            },
+                            interval: null,
+                        },
+                        calculate: function() {
+                            clearInterval(hydra.audio.bpm.interval);
+                            if (hydra.audio.bpm.calculationProperties.shouldClear) {
+                                hydra.audio.bpm.calculationProperties.init();
+                            }
+                            hydra.audio.bpm.calculationProperties.beatTimes.push(Date.now());
+                            const n = hydra.audio.bpm.calculationProperties.beatTimes.length;
+                            const x = n - 1;
+                            const y = hydra.audio.bpm.calculationProperties.beatTimes[n - 1] - hydra.audio.bpm.calculationProperties.beatTimes[0];
+
+                            const tempo = 60000 * x / y;
+
+                            if (n >= 2) {
+                                hydra.audio.bpm.display.textContent = tempo.toFixed(2).toString().padStart(5, ' ');;
+                            }
+
+                            hydra.audio.bpm.interval = setInterval(function() {
+                                hydra.audio.bpm.calculationProperties.shouldClear = true;
+                            }, 2200);
+                        }
+                    },
                     listening: false,
                     init: function() {
                         this.meterCanvas = document.getElementById('audio-meter');
                         this.meterCtx = this.meterCanvas.getContext('2d');
+                        this.bpm.calculationProperties.init();
                     },
                     listen: function() {
                         try {
@@ -5633,13 +5736,9 @@
                     }
                 };
 
-                deck.quark.radius = null
-                deck.quark.radiusInput.value = deck.quark.radius;
+                deck.quark.radius = parseInt(deck.quark.radiusInput.value);
 
                 deck.quark.render = () => {
-                    if (deck.quark.radius === null) {
-                        deck.quark.radius = (deck.canvas.height/2);
-                    }
                     let radius = deck.quark.radius * deck.scale;
                     if (deck.reactivity.on && deck.reactivity.scale.on) {
                         radius = deck.reactivity.adjust('scale', radius);
@@ -5813,19 +5912,19 @@
                         strength: 10
                     },
                     color: {
-                        on: false,
+                        on: true,
                         cause: 'average',
                         effect: 'add',
                         strength: 10
                     },
                     alpha: {
-                        on: false,
+                        on: true,
                         cause: 'average',
                         effect: 'add',
                         strength: 10
                     },
                     amp: {
-                        on: false,
+                        on: true,
                         cause: 'average',
                         effect: 'add',
                         strength: 10
@@ -5968,10 +6067,10 @@
                             if (deck.reactivity.color.effect == 'add') {
                                 globalShift = globalShift + (hydra.audio[deck.reactivity.color.cause] * deck.reactivity.color.strength);
                             }
-                            if (deck.reactivity.color.effect == 'sub') {
+                            if (deck.reactivity.color.effect == 'subtract') {
                                 globalShift = globalShift - (hydra.audio[deck.reactivity.color.cause] * deck.reactivity.color.strength);
                             }
-                            if (deck.reactivity.color.effect == 'multi') {
+                            if (deck.reactivity.color.effect == 'multiply') {
                                 globalShift = (globalShift + (hydra.audio[deck.reactivity.color.cause] * deck.reactivity.color.strength)) * (hydra.audio[deck.reactivity.color.cause] * deck.reactivity.color.strength);
                             }
                         }
@@ -5979,10 +6078,10 @@
                             if (deck.reactivity.amp.effect == 'add') {
                                 globalAmp = Math.max(0, (globalAmp * deck.reactivity.amp.strength) + (hydra.audio[deck.reactivity.amp.cause] * (deck.reactivity.amp.strength)));
                             }
-                            if (deck.reactivity.amp.effect == 'sub') {
+                            if (deck.reactivity.amp.effect == 'subtract') {
                                 globalAmp = Math.max(0, globalAmp - ((((100/150) * hydra.audio[deck.reactivity.amp.cause]) * deck.reactivity.amp.strength)/100));
                             }
-                            if (deck.reactivity.amp.effect == 'multi') {
+                            if (deck.reactivity.amp.effect == 'multiply') {
                                 globalAmp = Math.max(0, (globalAmp/10) + ((globalAmp * hydra.audio[deck.reactivity.amp.cause]) * (deck.reactivity.amp.strength/10)));
                             }
                         }
@@ -6184,13 +6283,13 @@
                         // apply audio reactive width setting
                         if (deck.reactivity.on && deck.reactivity.scale.on) {
                             if (deck.reactivity.scale.effect == 'add') {
-                                deck.neuromute.width = Math.max(0, deck.neuromute.width + (hydra.audio[deck.reactivity.scale.cause] * (deck.reactivity.scale.strength/10)));
+                                deck.neuromute.width = Math.max(0, deck.neuromute.width + (hydra.audio[deck.reactivity.scale.cause] * deck.reactivity.scale.strength));
                             }
-                            if (deck.reactivity.scale.effect == 'sub') {
-                                deck.neuromute.width = Math.max(0, deck.neuromute.width - (hydra.audio[deck.reactivity.scale.cause] * (deck.reactivity.scale.strength/10)));
+                            if (deck.reactivity.scale.effect == 'subtract') {
+                                deck.neuromute.width = Math.max(0, deck.neuromute.width - (hydra.audio[deck.reactivity.scale.cause] * deck.reactivity.scale.strength));
                             }
-                            if (deck.reactivity.scale.effect == 'multi') {
-                                deck.neuromute.width = Math.max(0, deck.neuromute.width * (hydra.audio[deck.reactivity.scale.cause] * (deck.reactivity.scale.strength/100)));
+                            if (deck.reactivity.scale.effect == 'multiply') {
+                                deck.neuromute.width = Math.max(0, deck.neuromute.width * (hydra.audio[deck.reactivity.scale.cause] * (deck.reactivity.scale.strength/10)));
                             }
                         }
 
@@ -6217,10 +6316,10 @@
                                 if (deck.reactivity.alpha.effect == 'add') {
                                     globalAlpha = Math.min(1, (hydra.audio[deck.reactivity.alpha.cause]/50) * deck.reactivity.alpha.strength);
                                 }
-                                if (deck.reactivity.alpha.effect == 'sub') {
+                                if (deck.reactivity.alpha.effect == 'subtract') {
                                     globalAlpha = Math.max(0, globalAlpha - ((((100/150) * hydra.audio[deck.reactivity.alpha.cause]) * deck.reactivity.alpha.strength)/100));
                                 }
-                                if (deck.reactivity.alpha.effect == 'multi') {
+                                if (deck.reactivity.alpha.effect == 'multipy') {
                                     globalAlpha = Math.min(1, (Math.max(0, (globalAlpha/10) + ((globalAlpha * hydra.audio[deck.reactivity.alpha.cause]) * (deck.reactivity.alpha.strength/10)))));
                                 }
                             }
@@ -6338,7 +6437,7 @@
                         let triangleSide = triangle.side * deck.lockdown.triangleScale;
 
                         if (deck.reactivity.on && deck.reactivity.scale.on) {
-                            triangleSide = (triangleSide/100) * (window.hydra.audio.percentage * (deck.reactivity.scale.strength/10) * 3);
+                            triangleSide = (triangleSide/100) * (window.hydra.audio.percentage * deck.reactivity.scale.strength * 3);
                         }
 
                         triangle.height = triangleSide * (Math.sqrt(3)/2);
