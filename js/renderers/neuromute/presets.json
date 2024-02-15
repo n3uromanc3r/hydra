@@ -1,4 +1,300 @@
 {
     "renderer": "neuromute",
-    "presets": []
+    "presets": [
+        {
+            "minWidth": 1,
+            "widthMode": 2,
+            "trailLength": 25,
+            "modulo": 1,
+            "arcMode": 2,
+            "fillMode": 0,
+            "colorMode": 4
+        },
+        {
+            "minWidth": 1,
+            "widthMode": 3,
+            "trailLength": 120,
+            "modulo": 1,
+            "arcMode": 2,
+            "fillMode": 1,
+            "fillFreq": 5,
+            "fillRand": 1,
+            "colorMode": 5
+        },
+        {
+            "minWidth": 1,
+            "widthMode": 4,
+            "trailLength": 155,
+            "modulo": 14,
+            "arcMode": 1,
+            "fillMode": 0,
+            "colorMode": 5
+        },
+        {
+            "minWidth": 155,
+            "widthMode": 2,
+            "trailLength": 95,
+            "modulo": 3,
+            "arcMode": 1,
+            "fillMode": 1,
+            "colorMode": 5
+        },
+        {
+            "minWidth": 200,
+            "widthMode": 3,
+            "trailLength": 155,
+            "modulo": 20,
+            "arcMode": 2,
+            "fillMode": 1,
+            "fillFreq": 5,
+            "fillRand": 1,
+            "colorMode": 6
+        },
+        {
+            "minWidth": 1,
+            "widthMode": 2,
+            "trailLength": 155,
+            "modulo": 12,
+            "arcMode": 5,
+            "fillMode": 1,
+            "colorMode": 5
+        },
+        {
+            "minWidth": 335,
+            "widthMode": 4,
+            "trailLength": 155,
+            "modulo": 10,
+            "arcMode": 2,
+            "fillMode": 1,
+            "colorMode": 5
+        },
+        {
+            "minWidth": 110,
+            "widthMode": 4,
+            "trailLength": 155,
+            "modulo": 3,
+            "arcMode": 1,
+            "fillMode": 0,
+            "colorMode": 3
+        },
+        {
+            "minWidth": 45,
+            "widthMode": 1,
+            "trailLength": 155,
+            "modulo": 1,
+            "arcMode": 2,
+            "fillMode": 0,
+            "colorMode": 7
+        },
+        {
+            "minWidth": 1,
+            "widthMode": 2,
+            "trailLength": 70,
+            "modulo": 1,
+            "arcMode": 1,
+            "fillMode": 1,
+            "colorMode": 5
+        },
+        {
+            "minWidth": 115,
+            "widthMode": 2,
+            "trailLength": 135,
+            "modulo": 1,
+            "arcMode": 1,
+            "fillMode": 0,
+            "colorMode": 7
+        },
+        {
+            "minWidth": 1,
+            "widthMode": 1,
+            "trailLength": 30,
+            "modulo": 9,
+            "arcMode": 1,
+            "fillMode": 1,
+            "colorMode": 2
+        },
+        {
+            "minWidth": 1,
+            "widthMode": 4,
+            "trailLength": 155,
+            "modulo": 1,
+            "arcMode": 1,
+            "fillMode": 0,
+            "colorMode": 3
+        },
+        {
+            "minWidth": 1,
+            "widthMode": 1,
+            "trailLength": 135,
+            "modulo": 10,
+            "arcMode": 3,
+            "fillMode": 1,
+            "colorMode": 2
+        },
+        {
+            "minWidth": 1,
+            "widthMode": 4,
+            "trailLength": 155,
+            "modulo": 2,
+            "arcMode": 1,
+            "fillMode": 0,
+            "colorMode": 3
+        },
+        {
+            "minWidth": 240,
+            "widthMode": 3,
+            "trailLength": 155,
+            "modulo": 6,
+            "arcMode": 2,
+            "fillMode": 1,
+            "fillFreq": 5,
+            "fillRand": 1,
+            "colorMode": 7
+        },
+        {
+            "minWidth": 1,
+            "widthMode": 2,
+            "trailLength": 155,
+            "modulo": 11,
+            "arcMode": 1,
+            "fillMode": 1,
+            "colorMode": 5,
+            "redShift": -17,
+            "redAmp": 2.3,
+            "greenShift": 29,
+            "greenAmp": 2.7,
+            "blueShift": 6,
+            "blueAmp": 4.2
+        },
+        {
+            "minWidth": 245,
+            "widthMode": 4,
+            "trailLength": 155,
+            "modulo": 8,
+            "arcMode": 1,
+            "fillMode": 0,
+            "colorMode": 2
+        },
+        {
+            "minWidth": 6,
+            "widthMode": 3,
+            "trailLength": 155,
+            "modulo": 3,
+            "arcMode": 1,
+            "fillMode": 1,
+            "colorMode": 6
+        },
+        {
+            "minWidth": 40,
+            "widthMode": 2,
+            "trailLength": 155,
+            "modulo": 20,
+            "arcMode": 2,
+            "fillMode": 1,
+            "fillFreq": 5,
+            "fillRand": 1,
+            "colorMode": 4
+        },
+        {
+            "minWidth": 90,
+            "widthMode": 3,
+            "trailLength": 155,
+            "modulo": 20,
+            "arcMode": 1,
+            "fillMode": 1,
+            "fillFreq": 5,
+            "fillRand": 1,
+            "colorMode": 4
+        },
+        {
+            "minWidth": 1,
+            "widthMode": 2,
+            "trailLength": 155,
+            "modulo": 1,
+            "arcMode": 1,
+            "fillMode": 0,
+            "colorMode": 1
+        },
+        {
+            "minWidth": 1,
+            "widthMode": 4,
+            "trailLength": 255,
+            "modulo": 1,
+            "arcMode": 5,
+            "fillMode": 0,
+            "colorMode": 5
+        },
+        {
+            "minWidth": 1,
+            "widthMode": 3,
+            "trailLength": 155,
+            "modulo": 1,
+            "arcMode": 1,
+            "fillMode": 1,
+            "fillFreq": 5,
+            "fillRand": 1,
+            "colorMode": 4
+        },
+        {
+            "minWidth": 45,
+            "widthMode": 3,
+            "trailLength": 155,
+            "modulo": 1,
+            "arcMode": 1,
+            "fillMode": 0,
+            "colorMode": 6,
+            "blueShift": 125
+        },
+        {
+            "minWidth": 1,
+            "widthMode": 3,
+            "trailLength": 30,
+            "modulo": 1,
+            "arcMode": 3,
+            "fillMode": 0,
+            "colorMode": 1
+        },
+        {
+            "minWidth": 1,
+            "widthMode": 2,
+            "trailLength": 155,
+            "modulo": 1,
+            "arcMode": 1,
+            "fillMode": 1,
+            "colorMode": 4
+        },
+        {
+            "minWidth": 1,
+            "widthMode": 2,
+            "trailLength": 65,
+            "modulo": 1,
+            "arcMode": 1,
+            "fillMode": 0,
+            "colorMode": 5,
+            "redShift": -172,
+            "redAmp": 3.2,
+            "greenShift": 0,
+            "greenAmp": 1.7,
+            "blueShift": -10,
+            "blueAmp": 5
+        },
+        {
+            "minWidth": 1,
+            "widthMode": 1,
+            "trailLength": 155,
+            "modulo": 1,
+            "arcMode": 1,
+            "fillMode": 0,
+            "colorMode": 1
+        },
+        {
+            "minWidth": 1,
+            "widthMode": 2,
+            "trailLength": 155,
+            "modulo": 1,
+            "arcMode": 1,
+            "fillMode": 0,
+            "colorMode": 5
+        }
+    ]
 }
