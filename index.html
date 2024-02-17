@@ -2385,17 +2385,17 @@
                                         <div class="inline-input">
                                             <span class="input-label">Shift</span>
                                             <span class="value">0</span>
-                                            <input type="range" min="-255" max="255" step="1" value="0" data-deck="1" data-visual="neuromute" data-variable="globalShift" data-randomiseable>
+                                            <input type="range" min="-255" max="255" step="1" value="0" data-deck="1" data-visual="neuromute" data-variable="globalShift">
                                         </div>
                                         <div class="inline-input">
                                             <span class="input-label">Alpha</span>
                                             <span class="value">1</span>
-                                            <input type="range" min="0" max="1" step="0.01" value="1" data-deck="1" data-visual="neuromute" data-variable="globalAlpha" data-randomiseable>
+                                            <input type="range" min="0" max="1" step="0.01" value="1" data-deck="1" data-visual="neuromute" data-variable="globalAlpha">
                                         </div>
                                         <div class="inline-input">
                                             <span class="input-label">Amp</span>
                                             <span class="value">1</span>
-                                            <input type="range" min="0" max="20" step="0.1" value="1" data-deck="1" data-visual="neuromute" data-variable="globalAmp" data-randomiseable>
+                                            <input type="range" min="0" max="20" step="0.1" value="1" data-deck="1" data-visual="neuromute" data-variable="globalAmp">
                                         </div>
                                     </group>
                                 </div>
@@ -2409,7 +2409,7 @@
                                         <div class="inline-input">
                                             <span class="input-label">Shift</span>
                                             <span class="value">0</span>
-                                            <input type="range" min="-255" max="255" step="1" value="0" data-deck="1" data-visual="neuromute" data-variable="redShift" data-randomiseable>
+                                            <input type="range" min="-255" max="255" step="1" value="0" data-deck="1" data-visual="neuromute" data-variable="redShift">
                                         </div>
                                         <div class="inline-input">
                                             <span class="input-label">Level</span>
@@ -2418,7 +2418,7 @@
                                         <div class="inline-input">
                                             <span class="input-label">Amp</span>
                                             <span class="value">1</span>
-                                            <input type="range" min="0" max="20" step="0.1" value="1" data-deck="1" data-visual="neuromute" data-variable="redAmp" data-randomiseable>
+                                            <input type="range" min="0" max="20" step="0.1" value="1" data-deck="1" data-visual="neuromute" data-variable="redAmp">
                                         </div>
                                     </group>
                                 </div>
@@ -2432,7 +2432,7 @@
                                         <div class="inline-input">
                                             <span class="input-label">Shift</span>
                                             <span class="value">0</span>
-                                            <input type="range" min="-255" max="255" step="1" value="0" data-deck="1" data-visual="neuromute" data-variable="greenShift" data-randomiseable>
+                                            <input type="range" min="-255" max="255" step="1" value="0" data-deck="1" data-visual="neuromute" data-variable="greenShift">
                                         </div>
                                         <div class="inline-input">
                                             <span class="input-label">Level</span>
@@ -2441,7 +2441,7 @@
                                         <div class="inline-input">
                                             <span class="input-label">Amp</span>
                                             <span class="value">1</span>
-                                            <input type="range" min="0" max="20" step="0.1" value="1" data-deck="1" data-visual="neuromute" data-variable="greenAmp" data-randomiseable>
+                                            <input type="range" min="0" max="20" step="0.1" value="1" data-deck="1" data-visual="neuromute" data-variable="greenAmp">
                                         </div>
                                     </group>
                                 </div>
@@ -2455,7 +2455,7 @@
                                         <div class="inline-input">
                                             <span class="input-label">Shift</span>
                                             <span class="value">0</span>
-                                            <input type="range" min="-255" max="255" step="1" value="0" data-deck="1" data-visual="neuromute" data-variable="blueShift" data-randomiseable>
+                                            <input type="range" min="-255" max="255" step="1" value="0" data-deck="1" data-visual="neuromute" data-variable="blueShift">
                                         </div>
                                         <div class="inline-input">
                                             <span class="input-label">Level</span>
@@ -2464,7 +2464,7 @@
                                         <div class="inline-input">
                                             <span class="input-label">Amp</span>
                                             <span class="value">1</span>
-                                            <input type="range" min="0" max="20" step="0.1" value="1" data-deck="1" data-visual="neuromute" data-variable="blueAmp" data-randomiseable>
+                                            <input type="range" min="0" max="20" step="0.1" value="1" data-deck="1" data-visual="neuromute" data-variable="blueAmp">
                                         </div>
                                     </group>
                                 </div>
@@ -5966,6 +5966,7 @@
                 deck.neuromute.red = 255;
                 deck.neuromute.green = 255;
                 deck.neuromute.blue = 255;
+                deck.neuromute.lockedPosition = false;
 
                 deck.neuromute.getRandomNumberBetween = (min, max) => {
                     return Math.floor(Math.random() * (max - min + 1) + min);
@@ -5976,6 +5977,12 @@
                 deck.neuromute.redMeter = document.querySelector(`[data-deck="${deck.id}"][data-visual="neuromute"] .color-meter.red > div`);
                 deck.neuromute.greenMeter = document.querySelector(`[data-deck="${deck.id}"][data-visual="neuromute"] .color-meter.green > div`);
                 deck.neuromute.blueMeter = document.querySelector(`[data-deck="${deck.id}"][data-visual="neuromute"] .color-meter.blue > div`);
+
+                deck.pipeCanvas.addEventListener('click', function() {
+                    if (deck.visual.current == 'neuromute') {
+                        deck.neuromute.lockedPosition = !deck.neuromute.lockedPosition;
+                    }
+                });
 
                 deck.neuromute.render = () => {
 
@@ -5988,8 +5995,10 @@
                     let globalAmp = deck.neuromute.globalAmp;
 
                     // bug in chrome means getBoundingClientRect on canvas returns 0 due to the use of flex, so workaround by finding closest column
-                    deck.neuromute.mouseX = hydra.mouseX - deck.neuromute.canvas.closest('.column').getBoundingClientRect().x - 10;
-                    deck.neuromute.mouseY = hydra.mouseY - deck.neuromute.canvas.closest('.column').getBoundingClientRect().y - 10;
+                    if (!deck.neuromute.lockedPosition) {
+                        deck.neuromute.mouseX = hydra.mouseX - deck.neuromute.canvas.closest('.column').getBoundingClientRect().x - 10;
+                        deck.neuromute.mouseY = hydra.mouseY - deck.neuromute.canvas.closest('.column').getBoundingClientRect().y - 10;
+                    }
 
                     if (deck.neuromute.counter > trailLength) {
                         deck.neuromute.counter = 0;
