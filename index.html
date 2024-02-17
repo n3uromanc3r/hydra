@@ -1260,11 +1260,7 @@
             <div class="column dropdowns">
                 <group>
                     <label>Visual</label>
-                    <select class="visual-selector" data-deck="1">
-                        <option value="quark" selected>Quark</option>
-                        <option value="neuromute">Neuromute</option>
-                        <option value="lockdown">Lockdown</option>
-                    </select>
+                    <select class="visual-selector" data-deck="1"></select>
                 </group>
                 <button class="reset" data-deck="1">⭮</button>
             </div>
@@ -1306,12 +1302,7 @@
             <div class="column dropdowns">
                 <group>
                     <label>Visual</label>
-                    <select class="visual-selector" data-deck="2">
-                        <option value="quark">Quark</option>
-                        <option value="neuromute">Neuromute</option>
-                        <option value="lockdown">Lockdown</option>
-                        <option value="pink" selected>Pink</option>
-                    </select>
+                    <select class="visual-selector" data-deck="2"></select>
                 </group>
                 <button class="reset" data-deck="2">&#x2B6E;</button>
             </div>
@@ -2749,7 +2740,7 @@
                     </div>
                     <div class="button-group">
                         <div><button id="tap-bpm">Tap</button></div>
-                        <div><button class="on">Sync</button></div>
+                        <div><button id="sync" class="on">Sync</button></div>
                         <div><button>Assign</button></div>
                     </div>
                 </div>
@@ -3819,8 +3810,8 @@
     <script>
         window.hydra = (function(){
             return {
-                boot: function() {
-                    this.markup.init(() => {
+                boot: function(settings) {
+                    this.markup.init(settings, () => {
                         this.mixedCanvas = document.getElementById('mixed-canvas');
                         this.mixedCtx = this.mixedCanvas.getContext('2d');
 
@@ -3837,8 +3828,8 @@
                         this.mirrorEnabled = false;
                         this.mirrorMode = 'clip';
 
-                        this.deck1 = this.deck.init(1, 'quark');
-                        this.deck2 = this.deck.init(2, 'pink');
+                        this.deck1 = this.deck.init(1, settings.deck1.visual);
+                        this.deck2 = this.deck.init(2, settings.deck2.visual);
 
                         this.crossfader.init();
                         this.composition.init();
@@ -3856,14 +3847,20 @@
                     });
                 },
                 markup: {
-                    init: function(callback) {
+                    init: function(settings, callback) {
                         // insert base markup here
+                        const visualSelectorDropdowns = document.querySelectorAll('.visual-selector');
+                        visualSelectorDropdowns.forEach(visualSelectorDropdown => {
+                            const selectedVisual = settings[`deck${visualSelectorDropdown.dataset.deck}`].visual;
+                            for (const renderer in hydra.renderers) {
+                                visualSelectorDropdown.add(new Option(renderer, renderer, renderer == selectedVisual, renderer == selectedVisual));
+                            }
+                        });
 
-                        this.injectRendererRelatedMarkup(callback);
+                        this.injectRendererUI(callback);
                     },
-                    injectRendererRelatedMarkup: function(callback) {
+                    injectRendererUI: function(callback) {
                         // insert renderer-related markup here
-
                         callback()
                     }
                 },
@@ -4996,6 +4993,11 @@
                         tapBpmBtn.addEventListener('click', function(e) {
                             hydra.audio.bpm.calculate();
                         });
+
+                        const syncBtn = document.getElementById('sync');
+                        syncBtn.addEventListener('click', function(e) {
+                            hydra.audio.bpm.sync();
+                        });
                     }
                 },
                 mouse: {
@@ -5088,6 +5090,8 @@
                     if (!hydra.audio.listening) {
                         hydra.audio.knightrider();
                     }
+
+                    hydra.audio.bpm.beatDetection();
                     
                     window.requestAnimationFrame(hydra.render);
                 },
@@ -5096,38 +5100,62 @@
                     percentage: 0,
                     bpm: {
                         current: null,
+                        syncPoint: null,
+                        beatsFromSyncPoint: null,
+                        beatDuration: null,
+                        beatOn: false,
                         display: document.querySelector('[data-bpm-display]'),
                         calculationProperties: {
                             init: function() {
-                                this.beatTimes = [];
-                                this.xSum = 0;
-                                this.xxSum = 0;
-                                this.ySum = 0;
-                                this.yySum = 0;
-                                this.xySum = 0;
-                                this.aPrev = NaN;
-                                this.bPrev = NaN;
+                                this.beatTimestamps = [];
                                 this.shouldClear = false;
                             },
                             interval: null,
                         },
+                        beatDetection: function() {
+                            if (hydra.audio.bpm.syncPoint && hydra.audio.bpm.beatDuration && !hydra.audio.bpm.beatsFromSyncPoint) {
+                                hydra.audio.bpm.beatsFromSyncPoint = 1;
+                            }
+                            if (hydra.audio.bpm.beatsFromSyncPoint && (hydra.audio.bpm.syncPoint + (hydra.audio.bpm.beatsFromSyncPoint * hydra.audio.bpm.beatDuration)) <= Date.now()) {
+                                hydra.audio.bpm.beatOn = true;
+                                hydra.audio.bpm.beatsFromSyncPoint++;
+                            } else if (hydra.audio.bpm.beatOn) {
+                                hydra.audio.bpm.beatOn = false;
+                            }
+                        },
+                        sync: function() {
+                            if (hydra.audio.bpm.syncPoint) {
+                                hydra.audio.bpm.beatOn = true;
+                                hydra.audio.bpm.syncPoint = Date.now();
+                                hydra.audio.bpm.beatsFromSyncPoint = 1;
+                            }
+                        },
                         calculate: function() {
-                            clearInterval(hydra.audio.bpm.interval);
+                            clearInterval(hydra.audio.bpm.calculationProperties.interval);
                             if (hydra.audio.bpm.calculationProperties.shouldClear) {
                                 hydra.audio.bpm.calculationProperties.init();
                             }
-                            hydra.audio.bpm.calculationProperties.beatTimes.push(Date.now());
-                            const n = hydra.audio.bpm.calculationProperties.beatTimes.length;
-                            const x = n - 1;
-                            const y = hydra.audio.bpm.calculationProperties.beatTimes[n - 1] - hydra.audio.bpm.calculationProperties.beatTimes[0];
+                            hydra.audio.bpm.beatOn = true;
 
-                            const tempo = 60000 * x / y;
+                            const now = Date.now();
+                            const msInMin = 60000;
+                            hydra.audio.bpm.calculationProperties.beatTimestamps.push(now);
+                            const numberOfBeats = hydra.audio.bpm.calculationProperties.beatTimestamps.length;
+                            const x = numberOfBeats - 1;
+                            const y = hydra.audio.bpm.calculationProperties.beatTimestamps[x] - hydra.audio.bpm.calculationProperties.beatTimestamps[0];
 
-                            if (n >= 2) {
-                                hydra.audio.bpm.display.textContent = tempo.toFixed(2).toString().padStart(5, ' ');;
+                            const bpm = msInMin * x / y;
+
+                            if (numberOfBeats >= 2) {
+                                hydra.audio.bpm.current = bpm.toFixed(2).toString().padStart(6, ' ');
+                                hydra.audio.bpm.display.textContent = hydra.audio.bpm.current;
                             }
 
-                            hydra.audio.bpm.interval = setInterval(function() {
+                            hydra.audio.bpm.syncPoint = now;
+                            hydra.audio.bpm.beatDuration = msInMin / bpm;
+                            hydra.audio.bpm.beatsFromSyncPoint = 1;
+
+                            hydra.audio.bpm.calculationProperties.interval = setInterval(function() {
                                 hydra.audio.bpm.calculationProperties.shouldClear = true;
                             }, 2200);
                         }
@@ -6563,6 +6591,8 @@
             init: function(deck) {
                 deck.pink = {};
 
+                deck.pink.scale = 1;
+
                 deck.pink.reactivity = {
                     scale: {
                         on: false,
@@ -6595,7 +6625,15 @@
                 deck.pink.render = () => {
                     deck.ctx.clearRect(0, 0, deck.canvas.width, deck.canvas.height);
 
-                    const radius = (deck.canvas.height/2) * deck.scale;
+                    if (hydra.audio.bpm.beatOn) {
+                        deck.pink.scale = 2.5;
+                    } else if (deck.pink.scale > 1 && deck.pink.scale !== 1) {
+                        deck.pink.scale -= 0.1;
+                    } else {
+                        deck.pink.scale = 1
+                    }
+
+                    const radius = (deck.canvas.height/2) * deck.scale * deck.pink.scale;
                     const y = (Math.sqrt(3)/2)*(radius/2);
                     const x = ((radius/2) * Math.sqrt(3))/2;
 
@@ -6618,25 +6656,104 @@
         };
     </script>
     <script>
-        hydra.boot();
+        window.hydra.renderers['strobe'] = {
+            init: function(deck) {
+                deck.strobe = {};
 
-        // hydra.boot({
-        //     id: 'hydra',
-        //     renderers: {
-        //         quark: quark,
-        //         neuromute: neuromute,
-        //         lockdown: lockdown,
-        //         pink: pink
-        //     },
-        //     deck1: {
-        //         visual: 'quark',
-        //         preset: 1
-        //     },
-        //     deck2: {
-        //         visual: 'pink',
-        //         preset: 1
-        //     }
-        // });
+                deck.strobe.scale = 0;
+                deck.strobe.shape = 'rect';
+
+                deck.strobe.reactivity = {
+                    scale: {
+                        on: false,
+                        cause: 'average',
+                        effect: 'add',
+                        strength: 10
+                    },
+                    color: {
+                        on: false,
+                        cause: 'average',
+                        effect: 'add',
+                        strength: 10
+                    },
+                    alpha: {
+                        on: false,
+                        cause: 'average',
+                        effect: 'add',
+                        strength: 10
+                    },
+                    amp: {
+                        on: false,
+                        cause: 'average',
+                        effect: 'add',
+                        strength: 10
+                    }
+                };
+
+                deck.strobe.inputs = [];
+
+                deck.strobe.render = () => {
+                    deck.ctx.clearRect(0, 0, deck.canvas.width, deck.canvas.height);
+
+                    // if (hydra.audio.bpm.beatOn) {
+                    //     deck.strobe.scale = 1.2;
+                    // } else if (deck.strobe.scale > 0.1) {
+                    //     deck.strobe.scale -= 0.1;
+                    // } else {
+                    //     deck.strobe.scale = 0
+                    // }
+
+                    if (hydra.audio.bpm.beatOn) {
+                        deck.ctx.globalAlpha = 1;
+                        deck.strobe.scale = 0;
+                    } else if (deck.strobe.scale < 1) {
+                        deck.strobe.scale += 0.2;
+                    } else {
+                        deck.ctx.globalAlpha = 0;
+                    }
+
+                    if (deck.strobe.shape == 'circle') {
+                        deck.ctx.save();
+                        const radius = deck.canvas.width * deck.strobe.scale;
+                        deck.ctx.fillStyle = 'white';
+                        deck.ctx.beginPath();
+                        deck.ctx.arc(hydra.centerX, hydra.centerY, radius, 0, 2 * Math.PI);
+                        deck.ctx.fill();
+                        deck.ctx.restore();
+                    }
+
+                    if (deck.strobe.shape == 'rect') {
+                        deck.ctx.save();
+                        const width = deck.canvas.width * deck.strobe.scale;
+                        const height = deck.canvas.height * deck.strobe.scale;
+                        deck.ctx.fillStyle = 'white';
+                        deck.ctx.fillRect(hydra.centerX - (width/2), hydra.centerY - (height/2), width, height);
+                        deck.ctx.restore();
+                    }
+                }
+
+                return deck;
+            }
+        };
+    </script>
+    <script>
+        hydra.boot({
+            id: 'hydra',
+            // renderers: {
+            //     quark: quark,
+            //     neuromute: neuromute,
+            //     lockdown: lockdown,
+            //     pink: pink
+            // },
+            deck1: {
+                visual: 'quark',
+                preset: 1
+            },
+            deck2: {
+                visual: 'pink',
+                preset: 1
+            }
+        });
     </script>
 </body>
 
