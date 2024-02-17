@@ -4664,9 +4664,13 @@
                             let markup = `<div data-tab-panel="renderer" data-visual="${name}" data-deck="${deck.id}" class="hide">`;
 
                             ui.fieldsets.forEach(fieldset => {
-                                markup += `<fieldset>
-                                    <div class="heading">${fieldset.heading}</div>
-                                    <group class="${fieldset.class}" ${fieldset.attributes}>`;
+                                markup += `<fieldset>`;
+
+                                if (fieldset.heading) {
+                                    markup += `<div class="heading">${fieldset.heading}</div>`
+                                }
+
+                                markup += `<group class="${fieldset.class}" ${fieldset.attributes}>`;
 
                                 fieldset.items.forEach(item => {
 
@@ -4693,6 +4697,18 @@
 
                                         markup+= `<span class="value">${item.value}</span>
                                             <input type="range" min="${item.min}" max="${item.max}" step="${item.step}" value="${item.value}" data-deck="${deck.id}" data-visual="${name}"
+                                                data-variable="${item.variable}" ${item.randomiseable ? 'data-randomiseable' : ''}>
+                                        </div>`;
+                                    }
+
+                                    if (item.type == 'color') {
+                                        markup+= `<div class="inline-input ${item.class}">`
+
+                                        if (item.label) {
+                                            markup+= `<span class="input-label">${item.label}</span>`
+                                        }
+
+                                        markup+= `<input type="color" value="${item.value}" data-deck="${deck.id}" data-visual="${name}"
                                                 data-variable="${item.variable}" ${item.randomiseable ? 'data-randomiseable' : ''}>
                                         </div>`;
                                     }
@@ -5830,7 +5846,7 @@
                 deck.quark.reactivity = {
                     scale: {
                         enabled: true,
-                        on: false,
+                        on: true,
                         cause: 'average',
                         effect: 'add',
                         strength: 10
@@ -6008,14 +6024,14 @@
                 deck.neuromute.reactivity = {
                     scale: {
                         enabled: true,
-                        on: false,
+                        on: true,
                         cause: 'average',
                         effect: 'add',
                         strength: 10
                     },
                     color: {
                         enabled: true,
-                        on: false,
+                        on: true,
                         cause: 'average',
                         effect: 'add',
                         strength: 10
@@ -6460,7 +6476,7 @@
                 deck.lockdown.reactivity = {
                     scale: {
                         enabled: true,
-                        on: false,
+                        on: true,
                         cause: 'average',
                         effect: 'add',
                         strength: 10
@@ -6717,7 +6733,7 @@
                             ]
                         },
                         {
-                            heading: 'Speed',
+                            heading: 'Mods',
                             class: 'flex',
                             items: [
                                 {
@@ -6727,9 +6743,21 @@
                                     checked: true
                                 },
                                 {
+                                    type: 'color',
+                                    label: 'Color',
+                                    variable: 'color',
+                                    value: '#ffffff'
+                                }
+                            ]
+                        },
+                        {
+                            heading: 'Speed',
+                            class: 'flex',
+                            items: [
+                                {
                                     type: 'range',
-                                    label: 'Speed',
-                                    variable: 'speed',
+                                    label: 'Frequency',
+                                    variable: 'frequency',
                                     min: 0,
                                     max: 100,
                                     value: 0,
@@ -6737,7 +6765,32 @@
                                     class: 'grow'
                                 }
                             ]
-                        }
+                        },
+                        {
+                            class: 'flex',
+                            items: [
+                                {
+                                    type: 'range',
+                                    label: 'Interval',
+                                    variable: 'interval',
+                                    min: 0,
+                                    max: 100,
+                                    value: 20,
+                                    step: 0.1,
+                                    class: 'grow'
+                                },
+                                {
+                                    type: 'range',
+                                    label: 'Acceleration',
+                                    variable: 'acceleration',
+                                    min: 0,
+                                    max: 0.6,
+                                    value: 0.1,
+                                    step: 0.001,
+                                    class: 'grow'
+                                }
+                            ]
+                        },
                     ]
                 };
                 deck.strobe = window.hydra.renderer.init(deck, 'strobe', null, ui);
@@ -6755,9 +6808,9 @@
                     //     deck.strobe.scale = 0
                     // }
 
-                    const mod = deck.strobe.beatSync ? 0.1 : 0.1 * deck.strobe.speed;
+                    const mod = deck.strobe.beatSync ? deck.strobe.acceleration : deck.strobe.acceleration * deck.strobe.frequency;
 
-                    if ((deck.strobe.beatSync && hydra.audio.bpm.beatOn) || (!deck.strobe.beatSync && deck.strobe.scale > 20)) {
+                    if ((deck.strobe.beatSync && hydra.audio.bpm.beatOn) || (!deck.strobe.beatSync && deck.strobe.scale > deck.strobe.interval)) {
                         deck.ctx.globalAlpha = 1;
                         deck.strobe.scale = 0;
                     } else if (deck.strobe.scale < 1) {
@@ -6770,7 +6823,7 @@
                     if (deck.strobe.shape == 'circle') {
                         deck.ctx.save();
                         const radius = deck.canvas.width * deck.strobe.scale;
-                        deck.ctx.fillStyle = 'white';
+                        deck.ctx.fillStyle = `rgb(${deck.strobe.color.r}, ${deck.strobe.color.g}, ${deck.strobe.color.b})`;
                         deck.ctx.beginPath();
                         deck.ctx.arc(hydra.centerX, hydra.centerY, radius, 0, 2 * Math.PI);
                         deck.ctx.fill();
@@ -6781,7 +6834,7 @@
                         deck.ctx.save();
                         const width = deck.canvas.width * deck.strobe.scale;
                         const height = deck.canvas.height * deck.strobe.scale;
-                        deck.ctx.fillStyle = 'white';
+                        deck.ctx.fillStyle = `rgb(${deck.strobe.color.r}, ${deck.strobe.color.g}, ${deck.strobe.color.b})`;
                         deck.ctx.fillRect(hydra.centerX - (width/2), hydra.centerY - (height/2), width, height);
                         deck.ctx.restore();
                     }
