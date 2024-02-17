@@ -809,7 +809,7 @@
             display: inline-block;
             vertical-align: top;
             padding: 5px 15px 10px 0;
-            
+
             position: relative;
         }
 
@@ -4037,8 +4037,8 @@
                                         tabPanels.forEach(tabPanel => tabPanel.classList.add('hide'));
 
                                         const tab = e.target.dataset.tab;
-                                        const tabPanel = document.querySelector(tab == 'renderer' 
-                                            ? `[data-deck="${deck.id}"] [data-tab-panel="${tab}"][data-visual="${deck.visual.current}"]` 
+                                        const tabPanel = document.querySelector(tab == 'renderer'
+                                            ? `[data-deck="${deck.id}"] [data-tab-panel="${tab}"][data-visual="${deck.visual.current}"]`
                                             : `[data-deck="${deck.id}"] [data-tab-panel="${tab}"]`);
                                         tabPanel.classList.remove('hide');
                                         deck.visibleTab = tab;
@@ -4127,7 +4127,7 @@
                                         e.target.value
                                     );
                                 })
-                                
+
                                 this.dropShadowOffsetXInput = document.querySelector(`[data-deck="${deck.id}"][data-drop-shadow-offset-x]`);
                                 this.dropShadowOffsetXInput.addEventListener('input', function(e) {
                                     deck.filters.items.dropShadow.change(
@@ -4138,7 +4138,7 @@
                                     );
                                     e.target.parentElement.querySelector('.value').textContent = e.target.value;
                                 })
-                                
+
                                 this.dropShadowOffsetYInput = document.querySelector(`[data-deck="${deck.id}"][data-drop-shadow-offset-y]`);
                                 this.dropShadowOffsetYInput.addEventListener('input', function(e) {
                                     deck.filters.items.dropShadow.change(
@@ -4629,11 +4629,11 @@
                                 ];
                             }
                         };
-                        
+
                         deck.render = () => {
                             deck.current.render();
                         }
-                        
+
                         deck.presets.init();
                         deck.readouts.init();
                         deck.controls.init();
@@ -4646,16 +4646,85 @@
                         }
 
                         deck.visual.select(visual);
-                        
+
                         return deck;
                     }
                 },
                 renderers: {},
                 renderer: {
-                    init: function(deck, name, presets) {
+                    init: function(deck, name, presets, ui) {
                         deck[name] = {};
+
+                        // fetch our presets (json) via ajax
                         deck[name] = this.importPresets(deck, name, presets);
 
+                        // inject markup here...
+                        if (ui) {
+                            console.log(ui)
+                            const uiContainer = document.querySelector(`[data-deck="${deck.id}"].visual-settings`);
+                            let markup = `<div data-tab-panel="renderer" data-visual="${name}" data-deck="${deck.id}" class="hide">`;
+
+                            ui.fieldsets.forEach(fieldset => {
+                                markup += `<fieldset>
+                                    <div class="heading">${fieldset.heading}</div>
+                                    <group class="${fieldset.class}" ${fieldset.attributes}>`;
+
+                                fieldset.items.forEach(item => {
+
+                                    if (item.type == 'checkbox') {
+                                        markup+= `<div class="inline-input ${item.class}">`
+
+                                        if (item.label) {
+                                            markup+= `<span class="input-label">${item.label}</span>`
+                                        }
+
+                                        markup+= `<label class="switch">
+                                                <input type="checkbox" ${item.checked ? 'checked' : ''} data-deck="${deck.id}" data-visual="${name}" data-variable="${item.variable}" ${item.randomiseable ? 'data-randomiseable' : ''}>
+                                                <span class="slider"></span>
+                                            </label>
+                                        </div>`;
+                                    }
+
+                                    if (item.type == 'range') {
+                                        markup+= `<div class="inline-input ${item.class}">`
+
+                                        if (item.label) {
+                                            markup+= `<span class="input-label">${item.label}</span>`
+                                        }
+
+                                        markup+= `<span class="value">${item.value}</span>
+                                            <input type="range" min="${item.min}" max="${item.max}" step="${item.step}" value="${item.value}" data-deck="${deck.id}" data-visual="${name}"
+                                                data-variable="${item.variable}" ${item.randomiseable ? 'data-randomiseable' : ''}>
+                                        </div>`;
+                                    }
+
+                                    if (item.type == 'select') {
+                                        markup+= `<div class="inline-input ${item.class}">`
+
+                                        if (item.label) {
+                                            markup+= `<span class="input-label">${item.label}</span>`
+                                        }
+
+                                        markup += `<select data-deck="${deck.id}" data-visual="${name}" data-variable="${item.variable}">`;
+
+                                        item.options.forEach(option => {
+                                            markup += `<option value="${option.value}"${option.selected ? ' selected' : ''}>${option.text}</option>`
+                                        });
+
+                                        markup += `</select>
+                                        </div>`;
+                                    }
+                                });
+
+                                markup += `</group>
+                                </fieldset>`;
+                            });
+
+                            markup += `</div>`;
+                            uiContainer.insertAdjacentHTML('beforeend', markup);
+                        }
+
+                        // apply event listeners
                         const inputs = document.querySelectorAll(`[data-deck="${deck.id}"][data-visual="${name}"][data-variable]`);
                         inputs.forEach(input => {
 
@@ -4705,9 +4774,16 @@
                                     hydra.helpers.dispatchEvent(deck, name, e.target.dataset.dispatchEvent, 'input')
                                     hydra.helpers.triggerFunction(deck, name, e.target.dataset.trigger);
                                 });
+                            } else if (input.tagName == 'SELECT') {
+                                deck[name][input.dataset.variable] = input.value;
+
+                                input.addEventListener('change', function(e) {
+                                    deck[name][input.dataset.variable] = input.value;
+                                });
                             }
                         });
 
+                        // merge all our possible inputs into the deck
                         deck[name].inputs = [...inputs, ...deck.reactivity.inputs, ...deck.filters.inputs];
 
                         return deck[name];
@@ -4734,7 +4810,7 @@
                             hydra.deck1.crossfaderAlpha = 1 - crossfaderValue <= 1 ? 1 - crossfaderValue : 1;
                             hydra.deck2.crossfaderAlpha = 1 + crossfaderValue <= 1 ? 1 + crossfaderValue : 1;
                         };
-                        
+
                         this.updateDisplay = () => {
                             this.display.innerText = `D1 ${hydra.helpers.formatValue(hydra.deck1.crossfaderAlpha, 4)} -.- D2 ${hydra.helpers.formatValue(hydra.deck2.crossfaderAlpha, 4)}`;
                         };
@@ -4782,7 +4858,7 @@
 
                         this.kaleidoscope.clip = (ctx, canvas) => {
                             ctx.save();
-        
+
                             ctx.beginPath();
                             ctx.moveTo(canvas.width/2, canvas.height/2);
                             ctx.lineTo(canvas.width,0);
@@ -4811,7 +4887,7 @@
                             ctx.scale(1,-1);
                             ctx.drawImage(canvas, 0, -canvas.height);
                             ctx.scale(1,-1);
-                            
+
                             ctx.drawImage(canvas, 0, canvas.height);
                             ctx.restore();
                             ctx.restore();
@@ -4874,7 +4950,7 @@
 
                         this.mirror.clip = (ctx, canvas, mode) => {
                             ctx.save();
-        
+
                             if (mode == 'clip') {
                                 ctx.beginPath();
                                 ctx.moveTo(canvas.width/2, 0);
@@ -5107,7 +5183,7 @@
                     }
 
                     hydra.audio.bpm.beatDetection();
-                    
+
                     window.requestAnimationFrame(hydra.render);
                 },
                 audio: {
@@ -5652,8 +5728,8 @@
                         hydra.deck2.pipeCanvas.width = hydra.deck2.pipeCanvas.getBoundingClientRect().width;
                         hydra.deck2.pipeCanvas.height = hydra.deck2.pipeCanvas.getBoundingClientRect().height;
 
-                        // hydra.audio.meterCanvas.width = (hydra.audio.meterCanvas.getBoundingClientRect().width 
-                        //     - parseInt(getComputedStyle(hydra.audio.meterCanvas).marginLeft) 
+                        // hydra.audio.meterCanvas.width = (hydra.audio.meterCanvas.getBoundingClientRect().width
+                        //     - parseInt(getComputedStyle(hydra.audio.meterCanvas).marginLeft)
                         //     - parseInt(getComputedStyle(hydra.audio.meterCanvas).marginRight)
                         // );
                         hydra.audio.meterCanvas.width = hydra.audio.meterCanvas.getBoundingClientRect().width;
@@ -5680,9 +5756,9 @@
                         deck.ctx.setTransform(1, 0, 0, 1, 0, 0);
                         deck.ctx.clearRect(0, 0, deck.canvas.width, deck.canvas.height);
 
-                        const countDecimals = (number) => { 
-                            if ((number % 1) != 0) 
-                                return number.toString().split(".")[1].length;  
+                        const countDecimals = (number) => {
+                            if ((number % 1) != 0)
+                                return number.toString().split(".")[1].length;
                             return 0;
                         }
 
@@ -5777,10 +5853,10 @@
                     if (deck.quark.smallTriangleSync) {
                         deck.quark.smallTriangleDegree = deck.quark.smallTriangleDegree/1000;
                     }
-                    
+
                     deck.quark.largeTriangleDegree += (deck.quark.largeTriangleDegreeIncrement + (deck.quark.largeTriangleDegreeWaveMax/2 + deck.quark.largeTriangleDegreeWaveAmplitude * Math.sin(time/deck.quark.largeTriangleDegreeWaveFrequency)));
                     deck.quark.smallTriangleDegree += deck.quark.smallTriangleDegreeIncrement;
-                    
+
                     if (deck.quark.largeTriangleDegree >= deck.quark.largeTriangleDegreeRestart) deck.quark.largeTriangleDegree = 0;
                     if (deck.quark.smallTriangleDegree >= deck.quark.smallTriangleDegreeRestart) deck.quark.smallTriangleDegree = 0;
 
@@ -5819,8 +5895,8 @@
                     let color = `rgba(${r}, ${g}, ${b}, ${deck.quark.largeTriangleAlpha})`;
 
                     if (deck.quark.largeTriangleEnabled) {
-                        deck.ctx.fillStyle = deck.quark.largeTriangleCycleColor 
-                            ? color 
+                        deck.ctx.fillStyle = deck.quark.largeTriangleCycleColor
+                            ? color
                             : `rgba(${deck.quark.largeTriangleColor.r}, ${deck.quark.largeTriangleColor.g}, ${deck.quark.largeTriangleColor.b}, ${deck.quark.largeTriangleAlpha})`;
                         deck.ctx.beginPath();
                         deck.ctx.moveTo(hydra.centerX, hydra.centerY-radius);
@@ -5828,7 +5904,7 @@
                         deck.ctx.lineTo(hydra.centerX-x, hydra.centerY+(radius/2));
                         deck.ctx.fill();
                     }
-                    
+
                     if (deck.quark.innerCircleEnabled) {
                         deck.ctx.fillStyle = `rgba(${deck.quark.innerCircleColor.r}, ${deck.quark.innerCircleColor.g}, ${deck.quark.innerCircleColor.b}, ${deck.quark.innerCircleAlpha})`;
                         deck.ctx.beginPath();
@@ -5840,7 +5916,7 @@
                     deck.ctx.translate(hydra.centerX, hydra.centerY);
                     deck.ctx.rotate( (Math.PI / 180) * -deck.quark.largeTriangleDegree);
                     deck.ctx.translate(-hydra.centerX, -hydra.centerY);
-                    
+
                     deck.ctx.translate(hydra.centerX, hydra.centerY);
                     deck.ctx.rotate( (Math.PI / 180) * deck.quark.smallTriangleDegree);
                     deck.ctx.translate(-hydra.centerX, -hydra.centerY);
@@ -5848,7 +5924,7 @@
                     if (deck.reactivity.on && deck.reactivity.scale.on) {
                         radius = (radius/1000) * (window.hydra.audio.percentage * deck.reactivity.scale.strength * 2);
                     }
-                    
+
                     y = (Math.sqrt(3)/2)*(radius/2);
                     x = ((radius/2) * Math.sqrt(3))/2;
 
@@ -5859,14 +5935,14 @@
                     color = `rgba(${r}, ${g}, ${b}, ${deck.quark.smallTriangleAlpha})`;
 
                     if (deck.quark.smallTriangleEnabled) {
-                        deck.ctx.fillStyle = deck.quark.smallTriangleCycleColor 
-                            ? color 
+                        deck.ctx.fillStyle = deck.quark.smallTriangleCycleColor
+                            ? color
                             : `rgba(${deck.quark.smallTriangleColor.r}, ${deck.quark.smallTriangleColor.g}, ${deck.quark.smallTriangleColor.b}, ${deck.quark.smallTriangleAlpha})`;
                         deck.ctx.beginPath();
                         deck.ctx.moveTo(hydra.centerX, hydra.centerY-(radius/2));
                         deck.ctx.lineTo(hydra.centerX+x, hydra.centerY+((radius/2)/2));
                         deck.ctx.lineTo(hydra.centerX-x, hydra.centerY+((radius/2)/2));
-                        
+
                         deck.ctx.fill();
                     }
 
@@ -5883,8 +5959,8 @@
                             offset = (offset/100) * (window.hydra.audio.percentage * deck.reactivity.scale.strength * 3);
                         }
 
-                        deck.ctx.strokeStyle = ((timeInSecs % 4 == 0) && deck.quark.fourPointCirclesCycleColor) 
-                            ? `rgba(${r}, ${g}, ${b}, ${deck.quark.fourPointCirclesAlpha})` 
+                        deck.ctx.strokeStyle = ((timeInSecs % 4 == 0) && deck.quark.fourPointCirclesCycleColor)
+                            ? `rgba(${r}, ${g}, ${b}, ${deck.quark.fourPointCirclesAlpha})`
                             : `rgba(${deck.quark.fourPointCirclesColor.r}, ${deck.quark.fourPointCirclesColor.g}, ${deck.quark.fourPointCirclesColor.b}, ${deck.quark.fourPointCirclesAlpha})`;
                         deck.ctx.lineWidth = 4;
                         deck.ctx.beginPath();
@@ -5892,8 +5968,8 @@
                         deck.ctx.stroke();
                         deck.ctx.closePath();
 
-                        deck.ctx.strokeStyle = (((timeInSecs-1) % 4 == 0) && deck.quark.fourPointCirclesCycleColor) 
-                            ? `rgba(${r}, ${g}, ${b}, ${deck.quark.fourPointCirclesAlpha})` 
+                        deck.ctx.strokeStyle = (((timeInSecs-1) % 4 == 0) && deck.quark.fourPointCirclesCycleColor)
+                            ? `rgba(${r}, ${g}, ${b}, ${deck.quark.fourPointCirclesAlpha})`
                             : `rgba(${deck.quark.fourPointCirclesColor.r}, ${deck.quark.fourPointCirclesColor.g}, ${deck.quark.fourPointCirclesColor.b}, ${deck.quark.fourPointCirclesAlpha})`;
                         deck.ctx.lineWidth = 4;
                         deck.ctx.beginPath();
@@ -5901,8 +5977,8 @@
                         deck.ctx.stroke();
                         deck.ctx.closePath();
 
-                        deck.ctx.strokeStyle = (((timeInSecs-2) % 4 == 0) && deck.quark.fourPointCirclesCycleColor) 
-                            ? `rgba(${r}, ${g}, ${b}, ${deck.quark.fourPointCirclesAlpha})` 
+                        deck.ctx.strokeStyle = (((timeInSecs-2) % 4 == 0) && deck.quark.fourPointCirclesCycleColor)
+                            ? `rgba(${r}, ${g}, ${b}, ${deck.quark.fourPointCirclesAlpha})`
                             : `rgba(${deck.quark.fourPointCirclesColor.r}, ${deck.quark.fourPointCirclesColor.g}, ${deck.quark.fourPointCirclesColor.b}, ${deck.quark.fourPointCirclesAlpha})`;
                         deck.ctx.lineWidth = 4;
                         deck.ctx.beginPath();
@@ -5910,8 +5986,8 @@
                         deck.ctx.stroke();
                         deck.ctx.closePath();
 
-                        deck.ctx.strokeStyle = (((timeInSecs-3) % 4 == 0) && deck.quark.fourPointCirclesCycleColor) 
-                            ? `rgba(${r}, ${g}, ${b}, ${deck.quark.fourPointCirclesAlpha})` 
+                        deck.ctx.strokeStyle = (((timeInSecs-3) % 4 == 0) && deck.quark.fourPointCirclesCycleColor)
+                            ? `rgba(${r}, ${g}, ${b}, ${deck.quark.fourPointCirclesAlpha})`
                             : `rgba(${deck.quark.fourPointCirclesColor.r}, ${deck.quark.fourPointCirclesColor.g}, ${deck.quark.fourPointCirclesColor.b}, ${deck.quark.fourPointCirclesAlpha})`;
                         deck.ctx.lineWidth = 4;
                         deck.ctx.beginPath();
@@ -6588,8 +6664,6 @@
 
                 deck.pink.scale = 1;
 
-                deck.pink.inputs = [];
-
                 deck.pink.render = () => {
                     deck.ctx.clearRect(0, 0, deck.canvas.width, deck.canvas.height);
 
@@ -6615,7 +6689,7 @@
                     deck.ctx.moveTo(hydra.centerX, hydra.centerY-(radius/2));
                     deck.ctx.lineTo(hydra.centerX+x, hydra.centerY+((radius/2)/2));
                     deck.ctx.lineTo(hydra.centerX-x, hydra.centerY+((radius/2)/2));
-                    
+
                     deck.ctx.fill();
                 }
 
@@ -6626,12 +6700,50 @@
     <script>
         window.hydra.renderers['strobe'] = {
             init: function(deck) {
-                deck.strobe = {};
+                const ui = {
+                    fieldsets: [
+                        {
+                            heading: 'Shape',
+                            class: 'flex-grid',
+                            attributes: 'data-columns="1"',
+                            items: [
+                                {
+                                    type: 'select',
+                                    variable: 'shape',
+                                    options: [
+                                        {text: 'circle', value: 'circle', selected: true},
+                                        {text: 'rectangle', value: 'rectangle', selected: false},
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            heading: 'Speed',
+                            class: 'flex',
+                            items: [
+                                {
+                                    type: 'checkbox',
+                                    label: 'Beat Sync',
+                                    variable: 'beatSync',
+                                    checked: true
+                                },
+                                {
+                                    type: 'range',
+                                    label: 'Speed',
+                                    variable: 'speed',
+                                    min: 0,
+                                    max: 100,
+                                    value: 0,
+                                    step: 0.1,
+                                    class: 'grow'
+                                }
+                            ]
+                        }
+                    ]
+                };
+                deck.strobe = window.hydra.renderer.init(deck, 'strobe', null, ui);
 
                 deck.strobe.scale = 0;
-                deck.strobe.shape = 'rect';
-
-                deck.strobe.inputs = [];
 
                 deck.strobe.render = () => {
                     deck.ctx.clearRect(0, 0, deck.canvas.width, deck.canvas.height);
@@ -6644,13 +6756,16 @@
                     //     deck.strobe.scale = 0
                     // }
 
-                    if (hydra.audio.bpm.beatOn) {
+                    const mod = deck.strobe.beatSync ? 0.1 : 0.1 * deck.strobe.speed;
+
+                    if ((deck.strobe.beatSync && hydra.audio.bpm.beatOn) || (!deck.strobe.beatSync && deck.strobe.scale > 20)) {
                         deck.ctx.globalAlpha = 1;
                         deck.strobe.scale = 0;
                     } else if (deck.strobe.scale < 1) {
-                        deck.strobe.scale += 0.2;
+                        deck.strobe.scale += mod
                     } else {
                         deck.ctx.globalAlpha = 0;
+                        deck.strobe.scale += mod
                     }
 
                     if (deck.strobe.shape == 'circle') {
@@ -6663,7 +6778,7 @@
                         deck.ctx.restore();
                     }
 
-                    if (deck.strobe.shape == 'rect') {
+                    if (deck.strobe.shape == 'rectangle') {
                         deck.ctx.save();
                         const width = deck.canvas.width * deck.strobe.scale;
                         const height = deck.canvas.height * deck.strobe.scale;
