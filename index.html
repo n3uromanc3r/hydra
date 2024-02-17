@@ -3824,8 +3824,12 @@
                         this.mirrorEnabled = false;
                         this.mirrorMode = 'clip';
 
-                        this.deck1 = this.deck.init(1, settings.deck1.visual);
-                        this.deck2 = this.deck.init(2, settings.deck2.visual);
+                        this.deck1 = this.deck.init(1, (settings.deck1.visual || 'quark'));
+                        this.deck2 = this.deck.init(2, (settings.deck2.visual || 'pink'));
+
+                        window.addEventListener('presets-loaded', function(e) {
+                            hydra[`deck${e.detail}`].presets.select(settings[`deck${e.detail}`].preset || 1);
+                        });
 
                         this.crossfader.init();
                         this.composition.init();
@@ -4652,88 +4656,109 @@
                 },
                 renderers: {},
                 renderer: {
-                    init: function(deck, name, presets, ui) {
-                        deck[name] = {};
+                    init: function(deck, name, defaults, ui, presets) {
+                        // merge any incoming defaults with our initial renderer object
+                        deck[name] = {...{}, ...defaults};
 
                         // fetch our presets (json) via ajax
-                        deck[name] = this.importPresets(deck, name, presets);
+                        if (presets) {
+                            deck[name] = this.importPresets(deck, name, presets);
+                        }
 
                         // inject markup here...
                         if (ui) {
                             const uiContainer = document.querySelector(`[data-deck="${deck.id}"].visual-settings`);
                             let markup = `<div data-tab-panel="renderer" data-visual="${name}" data-deck="${deck.id}" class="hide">`;
 
-                            ui.fieldsets.forEach(fieldset => {
-                                markup += `<fieldset>`;
+                            if (ui.fieldsets) {
+                                ui.fieldsets.forEach(fieldset => {
+                                    markup += `<fieldset>`;
 
-                                if (fieldset.heading) {
-                                    markup += `<div class="heading">${fieldset.heading}</div>`
-                                }
-
-                                markup += `<group class="${fieldset.class}" ${fieldset.attributes}>`;
-
-                                fieldset.items.forEach(item => {
-
-                                    if (item.type == 'checkbox') {
-                                        markup+= `<div class="inline-input ${item.class}">`
-
-                                        if (item.label) {
-                                            markup+= `<span class="input-label">${item.label}</span>`
-                                        }
-
-                                        markup+= `<label class="switch">
-                                                <input type="checkbox" ${item.checked ? 'checked' : ''} data-deck="${deck.id}" data-visual="${name}" data-variable="${item.variable}" ${item.randomiseable ? 'data-randomiseable' : ''}>
-                                                <span class="slider"></span>
-                                            </label>
-                                        </div>`;
+                                    if (fieldset.heading) {
+                                        markup += `<div class="heading">${fieldset.heading}</div>`;
                                     }
 
-                                    if (item.type == 'range') {
-                                        markup+= `<div class="inline-input ${item.class}">`
+                                    markup += `<group class="${fieldset.class}" ${fieldset.attributes}>`;
 
-                                        if (item.label) {
-                                            markup+= `<span class="input-label">${item.label}</span>`
+                                    fieldset.items.forEach(item => {
+
+                                        if (item.type == 'checkbox') {
+                                            markup+= `<div class="inline-input ${item.class}">`;
+
+                                            if (item.label) {
+                                                markup+= `<span class="input-label">${item.label}</span>`;
+                                            }
+
+                                            markup+= `<label class="switch">
+                                                    <input type="checkbox" ${item.checked ? 'checked' : ''} data-deck="${deck.id}" data-visual="${name}" data-variable="${item.variable}" ${item.randomiseable ? 'data-randomiseable' : ''}>
+                                                    <span class="slider"></span>
+                                                </label>
+                                            </div>`;
                                         }
 
-                                        markup+= `<span class="value">${item.value}</span>
-                                            <input type="range" min="${item.min}" max="${item.max}" step="${item.step}" value="${item.value}" data-deck="${deck.id}" data-visual="${name}"
-                                                data-variable="${item.variable}" ${item.randomiseable ? 'data-randomiseable' : ''}>
-                                        </div>`;
-                                    }
+                                        if (item.type == 'range') {
+                                            markup+= `<div class="inline-input ${item.class}">`;
 
-                                    if (item.type == 'color') {
-                                        markup+= `<div class="inline-input ${item.class}">`
+                                            if (item.label) {
+                                                markup+= `<span class="input-label">${item.label}</span>`;
+                                            }
 
-                                        if (item.label) {
-                                            markup+= `<span class="input-label">${item.label}</span>`
+                                            markup+= `<span class="value">${item.value}</span>
+                                                <input type="range" min="${item.min}" max="${item.max}" step="${item.step}" value="${item.value}" data-deck="${deck.id}" data-visual="${name}"
+                                                    data-variable="${item.variable}" ${item.randomiseable ? 'data-randomiseable' : ''}>
+                                            </div>`;
                                         }
 
-                                        markup+= `<input type="color" value="${item.value}" data-deck="${deck.id}" data-visual="${name}"
-                                                data-variable="${item.variable}" ${item.randomiseable ? 'data-randomiseable' : ''}>
-                                        </div>`;
-                                    }
+                                        if (item.type == 'color') {
+                                            markup+= `<div class="inline-input ${item.class}">`;
 
-                                    if (item.type == 'select') {
-                                        markup+= `<div class="inline-input ${item.class}">`
+                                            if (item.label) {
+                                                markup+= `<span class="input-label">${item.label}</span>`;
+                                            }
 
-                                        if (item.label) {
-                                            markup+= `<span class="input-label">${item.label}</span>`
+                                            markup+= `<input type="color" value="${item.value}" data-deck="${deck.id}" data-visual="${name}"
+                                                    data-variable="${item.variable}" ${item.randomiseable ? 'data-randomiseable' : ''}>
+                                            </div>`;
                                         }
 
-                                        markup += `<select data-deck="${deck.id}" data-visual="${name}" data-variable="${item.variable}">`;
+                                        if (item.type == 'select') {
+                                            markup+= `<div class="inline-input ${item.class}">`;
 
-                                        item.options.forEach(option => {
-                                            markup += `<option value="${option.value}"${option.selected ? ' selected' : ''}>${option.text}</option>`
-                                        });
+                                            if (item.label) {
+                                                markup+= `<span class="input-label">${item.label}</span>`;
+                                            }
 
-                                        markup += `</select>
-                                        </div>`;
-                                    }
+                                            markup += `<select data-deck="${deck.id}" data-visual="${name}" data-variable="${item.variable}">`;
+
+                                            item.options.forEach(option => {
+                                                markup += `<option value="${option.value}"${option.selected ? ' selected' : ''}>${option.text}</option>`;
+                                            });
+
+                                            markup += `</select>
+                                            </div>`;
+                                        }
+
+                                        if (item.type == 'color-meter') {
+                                            // TODO
+                                        }
+
+                                        if (item.type == 'button') {
+                                            markup+= `<div class="inline-input ${item.class}">`;
+
+                                            if (item.label) {
+                                                markup+= `<span class="input-label">${item.label}</span>`
+                                            }
+
+                                            markup+= `<button data-deck="${deck.id}" data-visual="${name}" data-variable="${item.variable}" data-options="${item.options}" ${item.randomiseable ? 'data-randomiseable' : ''}>${item.text}</button>
+                                            </div>`;
+                                        }
+                                    });
+
+
+                                    markup += `</group>
+                                    </fieldset>`;
                                 });
-
-                                markup += `</group>
-                                </fieldset>`;
-                            });
+                            }
 
                             markup += `</div>`;
                             uiContainer.insertAdjacentHTML('beforeend', markup);
@@ -4811,6 +4836,7 @@
                             .then(response => {
                                 if (deck.visual.current == name) {
                                     deck.visual.select(name);
+                                    window.dispatchEvent(new CustomEvent('presets-loaded', { detail: deck.id }));
                                 }
                             });
                     }
@@ -5841,7 +5867,7 @@
     <script>
         window.hydra.renderers['quark'] = {
             init: function(deck) {
-                deck.quark = window.hydra.renderer.init(deck, 'quark', './js/renderers/quark/presets.json');
+                deck.quark = window.hydra.renderer.init(deck, 'quark', {}, {}, './js/renderers/quark/presets.json');
 
                 deck.quark.reactivity = {
                     scale: {
@@ -6019,7 +6045,7 @@
     <script>
         window.hydra.renderers['neuromute'] = {
             init: function(deck) {
-                deck.neuromute = window.hydra.renderer.init(deck, 'neuromute', './js/renderers/neuromute/presets.json');
+                deck.neuromute = window.hydra.renderer.init(deck, 'neuromute', {}, {}, './js/renderers/neuromute/presets.json');
 
                 deck.neuromute.reactivity = {
                     scale: {
@@ -6471,7 +6497,7 @@
     <script>
         window.hydra.renderers['lockdown'] = {
             init: function(deck) {
-                deck.lockdown = window.hydra.renderer.init(deck, 'lockdown', './js/renderers/lockdown/presets.json');
+                deck.lockdown = window.hydra.renderer.init(deck, 'lockdown', {}, {}, './js/renderers/lockdown/presets.json');
 
                 deck.lockdown.reactivity = {
                     scale: {
@@ -6675,9 +6701,7 @@
     <script>
         window.hydra.renderers['pink'] = {
             init: function(deck) {
-                deck.pink = {};
-
-                deck.pink.scale = 1;
+                deck.pink = window.hydra.renderer.init(deck, 'pink', {scale: 1});
 
                 deck.pink.render = () => {
                     deck.ctx.clearRect(0, 0, deck.canvas.width, deck.canvas.height);
@@ -6747,6 +6771,13 @@
                                     label: 'Color',
                                     variable: 'color',
                                     value: '#ffffff'
+                                },
+                                {
+                                    type: 'button',
+                                    label: 'Direction',
+                                    variable: 'direction',
+                                    text: 'forwards',
+                                    options: 'forwards,backwards'
                                 }
                             ]
                         },
@@ -6793,36 +6824,45 @@
                         },
                     ]
                 };
-                deck.strobe = window.hydra.renderer.init(deck, 'strobe', null, ui);
-
-                deck.strobe.scale = 0;
+                deck.strobe = window.hydra.renderer.init(deck, 'strobe', {scale: 0}, ui);
 
                 deck.strobe.render = () => {
                     deck.ctx.clearRect(0, 0, deck.canvas.width, deck.canvas.height);
 
-                    // if (hydra.audio.bpm.beatOn) {
-                    //     deck.strobe.scale = 1.2;
-                    // } else if (deck.strobe.scale > 0.1) {
-                    //     deck.strobe.scale -= 0.1;
-                    // } else {
-                    //     deck.strobe.scale = 0
-                    // }
-
                     const mod = deck.strobe.beatSync ? deck.strobe.acceleration : deck.strobe.acceleration * deck.strobe.frequency;
 
-                    if ((deck.strobe.beatSync && hydra.audio.bpm.beatOn) || (!deck.strobe.beatSync && deck.strobe.scale > deck.strobe.interval)) {
-                        deck.ctx.globalAlpha = 1;
-                        deck.strobe.scale = 0;
-                    } else if (deck.strobe.scale < 1) {
-                        deck.strobe.scale += mod
+                    if (deck.strobe.direction == 'backwards') {
+                        // if (hydra.audio.bpm.beatOn) {
+                        //     deck.strobe.scale = 1.2;
+                        // } else if (deck.strobe.scale > 0.1) {
+                        //     deck.strobe.scale -= 0.1;
+                        // } else {
+                        //     deck.strobe.scale = 0
+                        // }
+                        if ((deck.strobe.beatSync && hydra.audio.bpm.beatOn) || (!deck.strobe.beatSync && (deck.strobe.scale - 1.2) < -Math.abs(deck.strobe.interval))) {
+                            deck.ctx.globalAlpha = 1;
+                            deck.strobe.scale = 1.2;
+                        } else if (deck.strobe.scale < 1) {
+                            deck.strobe.scale -= mod
+                        } else {
+                            deck.ctx.globalAlpha = 0;
+                            deck.strobe.scale -= mod
+                        }
                     } else {
-                        deck.ctx.globalAlpha = 0;
-                        deck.strobe.scale += mod
+                        if ((deck.strobe.beatSync && hydra.audio.bpm.beatOn) || (!deck.strobe.beatSync && deck.strobe.scale > deck.strobe.interval)) {
+                            deck.ctx.globalAlpha = 1;
+                            deck.strobe.scale = 0;
+                        } else if (deck.strobe.scale < 1) {
+                            deck.strobe.scale += mod
+                        } else {
+                            deck.ctx.globalAlpha = 0;
+                            deck.strobe.scale += mod
+                        }
                     }
 
                     if (deck.strobe.shape == 'circle') {
                         deck.ctx.save();
-                        const radius = deck.canvas.width * deck.strobe.scale;
+                        const radius = deck.canvas.width * (deck.strobe.scale >= 0 ? deck.strobe.scale : 0);
                         deck.ctx.fillStyle = `rgb(${deck.strobe.color.r}, ${deck.strobe.color.g}, ${deck.strobe.color.b})`;
                         deck.ctx.beginPath();
                         deck.ctx.arc(hydra.centerX, hydra.centerY, radius, 0, 2 * Math.PI);
@@ -6847,19 +6887,12 @@
     <script>
         hydra.boot({
             id: 'hydra',
-            // renderers: {
-            //     quark: quark,
-            //     neuromute: neuromute,
-            //     lockdown: lockdown,
-            //     pink: pink
-            // },
             deck1: {
                 visual: 'quark',
-                preset: 1
+                preset: 2
             },
             deck2: {
-                visual: 'pink',
-                preset: 1
+                visual: 'pink'
             }
         });
     </script>
