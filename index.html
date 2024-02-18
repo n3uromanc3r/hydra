@@ -4414,14 +4414,19 @@
                                 }
                             },
                             adjust: function(type, value) {
-                                if (type == 'scale') {
-                                    return (value/100) * (window.hydra.audio.percentage * deck.reactivity.scale.strength);
-                                } else if (type == 'color') {
+                                const strength = deck.reactivity[type].strength;
+                                const cause = deck.reactivity[type].cause;
+                                const effect = deck.reactivity[type].effect;
 
-                                } else if (type == 'alpha') {
+                                const impactor = window.hydra.audio[cause];
 
-                                } else if (type == 'amp') {
-
+                                if (effect == 'add') {
+                                    return value + (impactor * strength);
+                                } else if (effect == 'subtract') {
+                                    const adjustedValue = value - (impactor * strength);
+                                    return adjustedValue >= 0 ? adjustedValue : 0;
+                                } else if (effect == 'multiply') {
+                                    return (value/100) * (impactor * strength);
                                 }
                             },
                             init: function() {
@@ -6051,28 +6056,28 @@
                         on: true,
                         cause: 'average',
                         effect: 'add',
-                        strength: 10
+                        strength: 2
                     },
                     color: {
                         enabled: true,
                         on: true,
                         cause: 'average',
                         effect: 'add',
-                        strength: 10
+                        strength: 2
                     },
                     alpha: {
                         enabled: true,
                         on: false,
                         cause: 'average',
                         effect: 'add',
-                        strength: 10
+                        strength: 2
                     },
                     amp: {
                         enabled: true,
                         on: false,
                         cause: 'average',
                         effect: 'add',
-                        strength: 10
+                        strength: 2
                     }
                 };
 
