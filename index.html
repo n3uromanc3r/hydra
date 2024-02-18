@@ -4665,7 +4665,7 @@
 
                         // fetch our presets (json) via ajax
                         if (presets) {
-                            deck[name] = this.importPresets(deck, name, presets);
+                            this.importPresets(deck, name, presets);
                         }
 
                         // inject markup here...
@@ -4832,7 +4832,7 @@
                         return deck[name];
                     },
                     importPresets: function(deck, name, json) {
-                        return fetch(json)
+                        fetch(json)
                             .then((response) => response.json())
                             .then((responseData) => responseData.presets)
                             .then(response => (deck[name].presets = response))
@@ -6496,17 +6496,21 @@
     <script>
         window.hydra.renderers['lockdown'] = {
             init: function(deck) {
-                deck.lockdown = window.hydra.renderer.init(deck, 'lockdown', {}, {}, './js/renderers/lockdown/presets.json');
-
-                deck.lockdown.reactivity = {
-                    scale: {
-                        enabled: true,
-                        on: true,
-                        cause: 'average',
-                        effect: 'add',
-                        strength: 10
+                const defaults = {
+                    reactivity: {
+                        scale: {
+                            enabled: true,
+                            on: true,
+                            cause: 'average',
+                            effect: 'add',
+                            strength: 10
+                        }
                     }
                 };
+                const ui = {
+
+                };
+                deck.lockdown = window.hydra.renderer.init(deck, 'lockdown', defaults, ui, './js/renderers/lockdown/presets.json');
 
                 deck.lockdown.frequencySingleInput = document.querySelector(`[data-visual="lockdown"][data-deck="${deck.id}"] .frequencySingle`);
                 deck.lockdown.frequencySplitInputs = document.querySelectorAll(`[data-visual="lockdown"][data-deck="${deck.id}"] .frequencySplit`);
@@ -6700,6 +6704,9 @@
     <script>
         window.hydra.renderers['pink'] = {
             init: function(deck) {
+                const defaults = {
+                    scale: 1
+                };
                 const ui = {
                     fieldsets: [
                         {
@@ -6722,7 +6729,7 @@
                         }
                     ]
                 };
-                deck.pink = window.hydra.renderer.init(deck, 'pink', {scale: 1}, ui);
+                deck.pink = window.hydra.renderer.init(deck, 'pink', defaults, ui);
 
                 deck.pink.render = () => {
                     deck.ctx.clearRect(0, 0, deck.canvas.width, deck.canvas.height);
@@ -6767,6 +6774,9 @@
     <script>
         window.hydra.renderers['strobe'] = {
             init: function(deck) {
+                const defaults = {
+                    scale: 0
+                };
                 const ui = {
                     fieldsets: [
                         {
@@ -6852,7 +6862,7 @@
                         },
                     ]
                 };
-                deck.strobe = window.hydra.renderer.init(deck, 'strobe', {scale: 0}, ui);
+                deck.strobe = window.hydra.renderer.init(deck, 'strobe', defaults, ui);
 
                 deck.strobe.render = () => {
                     deck.ctx.clearRect(0, 0, deck.canvas.width, deck.canvas.height);
