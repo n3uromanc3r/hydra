@@ -3860,7 +3860,142 @@
                     injectRendererUI: function(callback) {
                         // insert renderer-related markup here
                         callback()
+                    },
+                    openTabPanel: function(deckId, name) {
+                        return `<div data-tab-panel="renderer" data-visual="${name}" data-deck="${deckId}" class="hide">`;
+                    },
+                    closeTabPanel: function() {
+                        return `</div>`;
+                    },
+                    generateFieldset: function(deckId, name, fieldset) {
+                        let markup = `<fieldset>`;
+
+                        if (fieldset.heading) {
+                            markup += `<div class="heading">${fieldset.heading}</div>`;
+                        }
+
+                        markup += `<group class="${fieldset.class}" ${fieldset.attributes}>`;
+
+                        fieldset.items.forEach(item => {
+                            markup += hydra.markup.generateItem(deckId, name, item);
+                        });
+
+                        markup += `</group>
+                        </fieldset>`;
+
+                        return markup;
+                    },
+                    generateCheckboxInput: function(deckId, name, item) {
+                        let markup = `<div class="inline-input ${item.class || ''}">`;
+
+                        if (item.label) {
+                            markup += `<span class="input-label">${item.label}</span>`;
+                        }
+
+                        markup += `<label class="switch">
+                                <input type="checkbox" ${item.checked ? 'checked' : ''} data-deck="${deckId}" data-visual="${name}" data-variable="${item.variable}" ${item.randomiseable ? 'data-randomiseable' : ''}>
+                                <span class="slider"></span>
+                            </label>
+                        </div>`;
+
+                        return markup;
+                    },
+                    generateRangeOrNumberInput: function(deckId, name, item) {
+                        let markup = `<div class="inline-input ${item.class || ''}">`;
+
+                        if (item.label) {
+                            markup += `<span class="input-label">${item.label}</span>`;
+                        }
+
+                        markup += `<span class="value">${item.value}</span>
+                            <input type="${item.type}" min="${item.min}" max="${item.max}" step="${item.step}" value="${item.value}" 
+                                data-deck="${deckId}" data-visual="${name}" data-variable="${item.variable}" ${item.randomiseable ? 'data-randomiseable' : ''}>
+                        </div>`;
+
+                        return markup;
+                    },
+                    generateColorInput: function(deckId, name, item) {
+                        let markup = `<div class="inline-input ${item.class || ''}">`;
+
+                        if (item.label) {
+                            markup += `<span class="input-label">${item.label}</span>`;
+                        }
+
+                        markup += `<input type="color" value="${item.value}" data-deck="${deckId}" data-visual="${name}"
+                            data-variable="${item.variable}" ${item.randomiseable ? 'data-randomiseable' : ''}>
+                        </div>`;
+
+                        return markup;
+                    },
+                    generateButton: function(deckId, name, item) {
+                        let markup = `<div class="inline-input ${item.class || ''}">`;
+
+                        if (item.label) {
+                            markup += `<span class="input-label">${item.label}</span>`
+                        }
+
+                        markup += `<button data-deck="${deckId}" data-visual="${name}" data-variable="${item.variable}" 
+                            data-options="${item.options}" ${item.randomiseable ? 'data-randomiseable' : ''}>${item.text}</button>
+                        </div>`;
+
+                        return markup;
+                    },
+                    generateSelectInput: function(deckId, name, item) {
+                        let markup = `<div class="inline-input ${item.class || ''}">`;
+
+                        if (item.label) {
+                            markup += `<span class="input-label">${item.label}</span>`;
+                        }
+
+                        markup += `<select data-deck="${deckId}" data-visual="${name}" data-variable="${item.variable}">`;
+
+                        item.options.forEach(option => {
+                            markup += `<option value="${option.value}"${option.selected ? ' selected' : ''}>${option.text}</option>`;
+                        });
+
+                        markup += `</select>
+                        </div>`;
+
+                        return markup;
+                    },
+                    generateColorMeter: function(deckId, name, item) {
+                        let markup = `<div class="inline-input ${item.class || ''}">`;
+
+                        if (item.label) {
+                            markup += `<span class="input-label">${item.label}</span>`;
+                        }
+
+                        markup += `<div class="color-meter ${item.color}"><div></div></div>
+                        </div>`;
+
+                        return markup;
+                    },
+                    generateItem: function(deckId, name, item) {
+                        if (item.type == 'checkbox') {
+                            return this.generateCheckboxInput(deckId, name, item);
+                        }
+
+                        if (item.type == 'range' || item.type == 'number') {
+                            return this.generateRangeOrNumberInput(deckId, name, item);
+                        }
+
+                        if (item.type == 'color') {
+                            return this.generateColorInput(deckId, name, item);
+                        }
+
+                        if (item.type == 'button') {
+                            return this.generateButton(deckId, name, item);
+                        }
+
+                        if (item.type == 'select') {
+                            return this.generateSelectInput(deckId, name, item);
+                        }
+
+                        if (item.type == 'color-meter') {
+                            return this.generateColorMeter(deckId, name, item);
+                        }
                     }
+
                 },
                 deck: {
                     init: function(id, visual) {
@@ -4671,99 +4806,14 @@
                         // inject markup here...
                         if (ui) {
                             const uiContainer = document.querySelector(`[data-deck="${deck.id}"].visual-settings`);
-                            let markup = `<div data-tab-panel="renderer" data-visual="${name}" data-deck="${deck.id}" class="hide">`;
+                            let markup = hydra.markup.openTabPanel(deck.id, name);
 
                             if (ui.fieldsets) {
                                 ui.fieldsets.forEach(fieldset => {
-                                    markup += `<fieldset>`;
-
-                                    if (fieldset.heading) {
-                                        markup += `<div class="heading">${fieldset.heading}</div>`;
-                                    }
-
-                                    markup += `<group class="${fieldset.class}" ${fieldset.attributes}>`;
-
-                                    fieldset.items.forEach(item => {
-
-                                        if (item.type == 'checkbox') {
-                                            markup+= `<div class="inline-input ${item.class}">`;
-
-                                            if (item.label) {
-                                                markup+= `<span class="input-label">${item.label}</span>`;
-                                            }
-
-                                            markup+= `<label class="switch">
-                                                    <input type="checkbox" ${item.checked ? 'checked' : ''} data-deck="${deck.id}" data-visual="${name}" data-variable="${item.variable}" ${item.randomiseable ? 'data-randomiseable' : ''}>
-                                                    <span class="slider"></span>
-                                                </label>
-                                            </div>`;
-                                        }
-
-                                        if (item.type == 'range' || item.type == 'number') {
-                                            markup+= `<div class="inline-input ${item.class}">`;
-
-                                            if (item.label) {
-                                                markup+= `<span class="input-label">${item.label}</span>`;
-                                            }
-
-                                            markup+= `<span class="value">${item.value}</span>
-                                                <input type="${item.type}" min="${item.min}" max="${item.max}" step="${item.step}" value="${item.value}" data-deck="${deck.id}" data-visual="${name}"
-                                                    data-variable="${item.variable}" ${item.randomiseable ? 'data-randomiseable' : ''}>
-                                            </div>`;
-                                        }
-
-                                        if (item.type == 'color') {
-                                            markup+= `<div class="inline-input ${item.class}">`;
-
-                                            if (item.label) {
-                                                markup+= `<span class="input-label">${item.label}</span>`;
-                                            }
-
-                                            markup+= `<input type="color" value="${item.value}" data-deck="${deck.id}" data-visual="${name}"
-                                                    data-variable="${item.variable}" ${item.randomiseable ? 'data-randomiseable' : ''}>
-                                            </div>`;
-                                        }
-
-                                        if (item.type == 'button') {
-                                            markup+= `<div class="inline-input ${item.class}">`;
-
-                                            if (item.label) {
-                                                markup+= `<span class="input-label">${item.label}</span>`
-                                            }
-
-                                            markup+= `<button data-deck="${deck.id}" data-visual="${name}" data-variable="${item.variable}" data-options="${item.options}" ${item.randomiseable ? 'data-randomiseable' : ''}>${item.text}</button>
-                                            </div>`;
-                                        }
-
-                                        if (item.type == 'select') {
-                                            markup+= `<div class="inline-input ${item.class}">`;
-
-                                            if (item.label) {
-                                                markup+= `<span class="input-label">${item.label}</span>`;
-                                            }
-
-                                            markup += `<select data-deck="${deck.id}" data-visual="${name}" data-variable="${item.variable}">`;
-
-                                            item.options.forEach(option => {
-                                                markup += `<option value="${option.value}"${option.selected ? ' selected' : ''}>${option.text}</option>`;
-                                            });
-
-                                            markup += `</select>
-                                            </div>`;
-                                        }
-
-                                        if (item.type == 'color-meter') {
-                                            // TODO
-                                        }
-                                    });
-
-
-                                    markup += `</group>
-                                    </fieldset>`;
+                                    markup += hydra.markup.generateFieldset(deck.id, name, fieldset);
                                 });
                             }
-
-                            markup += `</div>`;
+                            markup += hydra.markup.closeTabPanel();;
                             uiContainer.insertAdjacentHTML('beforeend', markup);
                         }
 
