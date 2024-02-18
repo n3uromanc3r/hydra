@@ -3819,8 +3819,6 @@
 
                         this.audio.init();
 
-                        // this.scale = 0.75;
-
                         this.mirrorEnabled = false;
                         this.mirrorMode = 'clip';
 
@@ -3901,7 +3899,6 @@
                                 if (deck.current.presets && deck.current.presets.length) {
                                     deck.presets.select(1);
                                 }
-                                //hydra.deck1.lockdown.triangleScaleInput.value = 1; hydra.deck1.lockdown.triangleScaleInput.dispatchEvent(new Event('input', { bubbles: true }));
                             }
                         }
 
@@ -3910,6 +3907,7 @@
                                 this.panel = document.querySelector(`[data-deck="${deck.id}"] [data-tab-panel="randomisation"]`);
                             },
                             update: function() {
+                                // TODO - add renderer input specific randomisation options...
                                 // let markup = '';
                                 // deck.current.inputs.forEach(input => {
                                 //     markup += ``;
@@ -4696,7 +4694,7 @@
                                             </div>`;
                                         }
 
-                                        if (item.type == 'range') {
+                                        if (item.type == 'range' || item.type == 'number') {
                                             markup+= `<div class="inline-input ${item.class}">`;
 
                                             if (item.label) {
@@ -4704,7 +4702,7 @@
                                             }
 
                                             markup+= `<span class="value">${item.value}</span>
-                                                <input type="range" min="${item.min}" max="${item.max}" step="${item.step}" value="${item.value}" data-deck="${deck.id}" data-visual="${name}"
+                                                <input type="${item.type}" min="${item.min}" max="${item.max}" step="${item.step}" value="${item.value}" data-deck="${deck.id}" data-visual="${name}"
                                                     data-variable="${item.variable}" ${item.randomiseable ? 'data-randomiseable' : ''}>
                                             </div>`;
                                         }
@@ -4718,6 +4716,17 @@
 
                                             markup+= `<input type="color" value="${item.value}" data-deck="${deck.id}" data-visual="${name}"
                                                     data-variable="${item.variable}" ${item.randomiseable ? 'data-randomiseable' : ''}>
+                                            </div>`;
+                                        }
+
+                                        if (item.type == 'button') {
+                                            markup+= `<div class="inline-input ${item.class}">`;
+
+                                            if (item.label) {
+                                                markup+= `<span class="input-label">${item.label}</span>`
+                                            }
+
+                                            markup+= `<button data-deck="${deck.id}" data-visual="${name}" data-variable="${item.variable}" data-options="${item.options}" ${item.randomiseable ? 'data-randomiseable' : ''}>${item.text}</button>
                                             </div>`;
                                         }
 
@@ -4740,17 +4749,6 @@
 
                                         if (item.type == 'color-meter') {
                                             // TODO
-                                        }
-
-                                        if (item.type == 'button') {
-                                            markup+= `<div class="inline-input ${item.class}">`;
-
-                                            if (item.label) {
-                                                markup+= `<span class="input-label">${item.label}</span>`
-                                            }
-
-                                            markup+= `<button data-deck="${deck.id}" data-visual="${name}" data-variable="${item.variable}" data-options="${item.options}" ${item.randomiseable ? 'data-randomiseable' : ''}>${item.text}</button>
-                                            </div>`;
                                         }
                                     });
 
@@ -6483,10 +6481,6 @@
 
                             deck.ctx.globalAlpha = globalAlpha;
                         }
-
-                        // if (i == 0) {
-                        //     window.requestAnimationFrame(renderer.draw);
-                        // }
                     }
                 }
 
