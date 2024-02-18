@@ -10,7 +10,43 @@ Available online at https://hydra.virusav.com/
 
 - Crossfade visuals
 - Visual blend/layer composition modes
+  - Color-burn
+  - Color-dodge
+  - Color
+  - Copy
+  - Darken
+  - Destination-atop
+  - Destination-in
+  - Destination-out
+  - Destination-over
+  - Difference
+  - Exclusion
+  - Hard-light
+  - Hue
+  - Lighten
+  - Lighter
+  - Luminosity
+  - Multiply
+  - Overlay
+  - Saturation
+  - Screen
+  - Soft-light
+  - Source-atop
+  - Source-in
+  - Source-out
+  - Source-over
+  - Xor
 - Filters
+  - Blur
+  - Brightness
+  - Contrast
+  - Drop-shadow
+  - Grayscale
+  - Hue-rotate
+  - Invert
+  - Opacity
+  - Saturate
+  - Sepia
 - Effects
   - Kaleidoscope
   - Mirror
