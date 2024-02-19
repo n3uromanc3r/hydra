@@ -4538,6 +4538,18 @@
                             }
                         };
 
+                        deck.mouse = {
+                            init: function() {
+                                deck.mouse.x = 0;
+                                deck.mouse.y = 0;
+                                deck.mouse.lockedPosition = false;
+
+                                deck.pipeCanvas.addEventListener('click', function() {
+                                    deck.mouse.lockedPosition = !deck.mouse.lockedPosition;
+                                });
+                            }
+                        }
+
                         deck.render = () => {
                             deck.current.render();
                         }
@@ -4548,6 +4560,7 @@
                         deck.reactivity.init();
                         deck.filters.init();
                         deck.randomisation.init();
+                        deck.mouse.init();
 
                         for (const renderer in hydra.renderers) {
                             deck = hydra.renderers[renderer].init(deck);
@@ -4956,6 +4969,16 @@
                         window.onmousemove = (e) => {
                             hydra.mouseX = e.clientX;
                             hydra.mouseY = e.clientY;
+
+                            if (!hydra.deck1.mouse.lockedPosition) {
+                                hydra.deck1.mouse.x = hydra.mouseX;
+                                hydra.deck1.mouse.y = hydra.mouseY;
+                            }
+
+                            if (!hydra.deck2.mouse.lockedPosition) {
+                                hydra.deck2.mouse.x = hydra.mouseX;
+                                hydra.deck2.mouse.y = hydra.mouseY;
+                            }
                         };
                     }
                 },
@@ -5904,7 +5927,6 @@
                 deck.neuromute.red = 255;
                 deck.neuromute.green = 255;
                 deck.neuromute.blue = 255;
-                deck.neuromute.lockedPosition = false;
 
                 deck.neuromute.getRandomNumberBetween = (min, max) => {
                     return Math.floor(Math.random() * (max - min + 1) + min);
@@ -5915,12 +5937,6 @@
                 deck.neuromute.redMeter = document.querySelector(`[data-deck="${deck.id}"][data-visual="neuromute"] .color-meter.red > div`);
                 deck.neuromute.greenMeter = document.querySelector(`[data-deck="${deck.id}"][data-visual="neuromute"] .color-meter.green > div`);
                 deck.neuromute.blueMeter = document.querySelector(`[data-deck="${deck.id}"][data-visual="neuromute"] .color-meter.blue > div`);
-
-                deck.pipeCanvas.addEventListener('click', function() {
-                    if (deck.visual.current == 'neuromute') {
-                        deck.neuromute.lockedPosition = !deck.neuromute.lockedPosition;
-                    }
-                });
 
                 deck.neuromute.render = () => {
 
@@ -5933,9 +5949,9 @@
                     let globalAmp = deck.neuromute.globalAmp;
 
                     // bug in chrome means getBoundingClientRect on canvas returns 0 due to the use of flex, so workaround by finding closest column
-                    if (!deck.neuromute.lockedPosition) {
-                        deck.neuromute.mouseX = hydra.mouseX - deck.neuromute.canvas.closest('.column').getBoundingClientRect().x - 10;
-                        deck.neuromute.mouseY = hydra.mouseY - deck.neuromute.canvas.closest('.column').getBoundingClientRect().y - 10;
+                    if (!deck.mouse.lockedPosition) {
+                        deck.neuromute.mouseX = deck.mouse.x - deck.canvas.closest('.column').getBoundingClientRect().x - 10;
+                        deck.neuromute.mouseY = deck.mouse.y - deck.canvas.closest('.column').getBoundingClientRect().y - 10;
                     }
 
                     if (deck.neuromute.counter > trailLength) {
@@ -6336,14 +6352,16 @@
                                     label: 'X Axis',
                                     variable: 'translateModeX',
                                     text: 'center',
-                                    options: 'center,wave'
+                                    options: 'center,wave,mouse',
+                                    randomiseable: true
                                 },
                                 {
                                     type: 'button',
                                     label: 'Y Axis',
                                     variable: 'translateModeY',
                                     text: 'center',
-                                    options: 'center,wave'
+                                    options: 'center,wave,mouse',
+                                    randomiseable: true
                                 }
                             ]
                         },
@@ -6360,7 +6378,8 @@
                                     max: 100,
                                     value: 40,
                                     step: 1,
-                                    trigger: 'enableForceUpdate'
+                                    trigger: 'enableForceUpdate',
+                                    randomiseable: true
                                 },
                                 {
                                     type: 'range',
@@ -6369,7 +6388,8 @@
                                     min: 0,
                                     max: 6,
                                     value: 1,
-                                    step: 0.001
+                                    step: 0.001,
+                                    randomiseable: true
                                 },
                                 {
                                     type: 'range',
@@ -6379,7 +6399,8 @@
                                     max: 20,
                                     value: 1,
                                     step: 1,
-                                    disabled: true
+                                    disabled: true,
+                                    randomiseable: true
                                 },
                                 {
                                     type: 'button',
@@ -6387,7 +6408,8 @@
                                     variable: 'triangleScaleMode',
                                     text: 'lin',
                                     options: 'lin,log',
-                                    trigger: 'enableForceUpdate'
+                                    trigger: 'enableForceUpdate',
+                                    randomiseable: true
                                 },
                                 {
                                     type: 'button',
@@ -6395,7 +6417,8 @@
                                     variable: 'triangleStyle',
                                     text: 'fill',
                                     options: 'fill,stroke',
-                                    trigger: 'updateDisabledUIComponents'
+                                    trigger: 'updateDisabledUIComponents',
+                                    randomiseable: true
                                 }
                             ]
                         },
@@ -6409,14 +6432,16 @@
                                     label: 'Type',
                                     variable: 'rotationType',
                                     text: 'alternate',
-                                    options: 'alternate,normal,reverse'
+                                    options: 'alternate,normal,reverse',
+                                    randomiseable: true
                                 },
                                 {
                                     type: 'button',
                                     label: 'From',
                                     variable: 'rotationFrom',
                                     text: 'inside-out',
-                                    options: 'inside-out,outside-in'
+                                    options: 'inside-out,outside-in',
+                                    randomiseable: true
                                 },
                                 {
                                     type: 'range',
@@ -6425,7 +6450,8 @@
                                     min: 0,
                                     max: 5,
                                     value: 0.5,
-                                    step: 0.00001
+                                    step: 0.00001,
+                                    randomiseable: true
                                 },
                                 {
                                     type: 'range',
@@ -6434,7 +6460,8 @@
                                     min: 0,
                                     max: 360,
                                     value: 120,
-                                    step: 1
+                                    step: 1,
+                                    randomiseable: true
                                 }
                             ]
                         },
@@ -6449,7 +6476,8 @@
                                     variable: 'frequencyControl',
                                     text: 'single',
                                     options: 'single,split',
-                                    trigger: 'updateDisabledUIComponents'
+                                    trigger: 'updateDisabledUIComponents',
+                                    randomiseable: true
                                 },
                                 {
                                     type: 'range',
@@ -6459,7 +6487,8 @@
                                     max: 0.00025,
                                     value: 0.0001,
                                     step: 0.00001,
-                                    class: 'frequencySingle'
+                                    class: 'frequencySingle',
+                                    randomiseable: true
                                 },
                                 {
                                     type: 'empty'
@@ -6473,7 +6502,8 @@
                                     value: 0.0001,
                                     step: 0.00001,
                                     disabled: true,
-                                    class: 'frequencySplit'
+                                    class: 'frequencySplit',
+                                    randomiseable: true
                                 },
                                 {
                                     type: 'range',
@@ -6484,7 +6514,8 @@
                                     value: 0.0001,
                                     step: 0.00001,
                                     disabled: true,
-                                    class: 'frequencySplit'
+                                    class: 'frequencySplit',
+                                    randomiseable: true
                                 },
                                 {
                                     type: 'range',
@@ -6495,7 +6526,8 @@
                                     value: 0.0001,
                                     step: 0.00001,
                                     disabled: true,
-                                    class: 'frequencySplit'
+                                    class: 'frequencySplit',
+                                    randomiseable: true
                                 }
                             ]
                         },
@@ -6509,14 +6541,16 @@
                                     label: 'Foreground Mode',
                                     variable: 'colorMode',
                                     text: 'normal',
-                                    options: 'normal,cycle'
+                                    options: 'normal,cycle',
+                                    randomiseable: true
                                 },
                                 {
                                     type: 'button',
                                     label: 'Background Mode',
                                     variable: 'bgColorMode',
                                     text: 'black',
-                                    options: 'black,match,opposite'
+                                    options: 'black,match,opposite',
+                                    randomiseable: true
                                 }
                             ]
                         }
@@ -6524,13 +6558,14 @@
                 };
                 deck.lockdown = window.hydra.renderer.init(deck, 'lockdown', defaults, ui, './js/renderers/lockdown/presets.json');
 
-                deck.lockdown.frequencySingleInput = document.querySelector(`[data-visual="lockdown"][data-deck="${deck.id}"] .frequencySingle`);
-                deck.lockdown.frequencySplitInputs = document.querySelectorAll(`[data-visual="lockdown"][data-deck="${deck.id}"] .frequencySplit`);
-
                 deck.lockdown.updateDisabledUIComponents = () => {
                     if (deck.lockdown.frequencyControl == 'split') {
-                        deck.lockdown.frequencySingleInput.disabled = true;
-                        deck.lockdown.frequencySplitInputs.forEach(frequencySplitInput => {
+                        deck.lockdown.frequencyInput.disabled = true;
+                        [
+                            deck.lockdown.frequencyMovementInput,
+                            deck.lockdown.frequencyRotationInput,
+                            deck.lockdown.frequencyColorInput
+                        ].forEach(frequencySplitInput => {
                             frequencySplitInput.disabled = false;;
                         });
 
@@ -6539,8 +6574,12 @@
                         deck.lockdown.frequencyColor = deck.lockdown.frequencyColorInput.value;
 
                     } else {
-                        deck.lockdown.frequencySingleInput.disabled = false;
-                        deck.lockdown.frequencySplitInputs.forEach(frequencySplitInput => {
+                        deck.lockdown.frequencyInput.disabled = false;
+                        [
+                            deck.lockdown.frequencyMovementInput,
+                            deck.lockdown.frequencyRotationInput,
+                            deck.lockdown.frequencyColorInput
+                        ].forEach(frequencySplitInput => {
                             frequencySplitInput.disabled = true;
                         });
                     }
@@ -6600,7 +6639,9 @@
                         } else if (deck.lockdown.translateModeX == 'wave') {
                             deck.lockdown.translateX = deck.canvas.width * (0.5*(1+Math.sin(2 * Math.PI * deck.lockdown.frequencyMovement * (Date.now() - (index * 100)))));
                         } else if (deck.lockdown.translateModeX == 'mouse') {
-                            deck.lockdown.translateX = mouseX;
+                            if (!deck.mouse.lockedPosition) {
+                                deck.lockdown.translateX = deck.mouse.x - deck.canvas.closest('.column').getBoundingClientRect().x - 10;
+                            }
                         }
 
                         if (deck.lockdown.translateModeY == 'center') {
@@ -6608,7 +6649,9 @@
                         } else if (deck.lockdown.translateModeY == 'wave') {
                             deck.lockdown.translateY = deck.canvas.height * (0.5*(1+Math.sin(2 * Math.PI * (deck.lockdown.frequencyMovement / 2) * (Date.now() - (index * 100)))));
                         } else if (deck.lockdown.translateModeY == 'mouse') {
-                            deck.lockdown.translateY = mouseY;
+                            if (!deck.mouse.lockedPosition) {
+                                deck.lockdown.translateY = deck.mouse.y - deck.canvas.closest('.column').getBoundingClientRect().y - 10;
+                            }
                         }
 
                         deck.ctx.translate(deck.lockdown.translateX, deck.lockdown.translateY);
