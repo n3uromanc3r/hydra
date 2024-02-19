@@ -6290,13 +6290,13 @@
                             // apply audio reactive global alpha setting
                             if (deck.reactivity.on && deck.reactivity.alpha.on) {
                                 if (deck.reactivity.alpha.effect == 'add') {
-                                    globalAlpha = Math.min(1, (hydra.audio[deck.reactivity.alpha.cause]/50) * deck.reactivity.alpha.strength);
+                                    globalAlpha = Math.min(1, (hydra.audio[deck.reactivity.alpha.cause]/50) * deck.reactivity.alpha.strength) * deck.alpha;
                                 }
                                 if (deck.reactivity.alpha.effect == 'subtract') {
-                                    globalAlpha = Math.max(0, globalAlpha - ((((100/150) * hydra.audio[deck.reactivity.alpha.cause]) * deck.reactivity.alpha.strength)/100));
+                                    globalAlpha = Math.max(0, globalAlpha - ((((100/150) * hydra.audio[deck.reactivity.alpha.cause]) * deck.reactivity.alpha.strength)/100)) * deck.alpha;
                                 }
                                 if (deck.reactivity.alpha.effect == 'multipy') {
-                                    globalAlpha = Math.min(1, (Math.max(0, (globalAlpha/10) + ((globalAlpha * hydra.audio[deck.reactivity.alpha.cause]) * (deck.reactivity.alpha.strength/10)))));
+                                    globalAlpha = Math.min(1, (Math.max(0, (globalAlpha/10) + ((globalAlpha * hydra.audio[deck.reactivity.alpha.cause]) * (deck.reactivity.alpha.strength/10))))) * deck.alpha;
                                 }
                             }
 
