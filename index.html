@@ -843,6 +843,10 @@
             border-right: none;
         }
 
+        .inline-field-group.inline-input {
+            padding-top: 0;
+        }
+
         .flex {
             display: flex;
             gap: 15px;
@@ -1932,218 +1936,6 @@
                             </fieldset>
                         </div>
                     </div>
-                    <div data-tab-panel="renderer" data-visual="neuromute" data-deck="1" class="hide">
-                        <div>
-                            <fieldset>
-                                <div class="heading">Arc</div>
-                                <group class="flex-grid" data-columns="3">
-                                    <div class="inline-input">
-                                        <span class="input-label">Min Width</span>
-                                        <span class="value">1</span>
-                                        <input type="range" min="1" max="596" step="1" value="1" data-deck="1" data-visual="neuromute" data-variable="minWidth" data-randomiseable>
-                                    </div>
-                                    <div class="inline-input">
-                                        <span class="input-label">Width Mode</span>
-                                        <span class="value">1</span>
-                                        <input type="range" min="1" max="8" step="1" value="1" data-deck="1" data-visual="neuromute" data-variable="widthMode" data-randomiseable>
-                                    </div>
-                                    <div class="inline-input">
-                                        <span class="input-label">Mode</span>
-                                        <span class="value">1</span>
-                                        <input type="range" min="1" max="12" step="1" value="1" data-deck="1" data-visual="neuromute" data-variable="arcMode" data-randomiseable>
-                                    </div>
-                                </group>
-                            </fieldset>
-                        </div>
-                        <div>
-                            <fieldset>
-                                <div class="heading">Line</div>
-                                <group class="flex-grid" data-columns="2">
-                                    <div class="inline-input">
-                                        <span class="input-label">Width</span>
-                                        <span class="value">1</span>
-                                        <input type="range" min="1" max="20" step="1" value="1" data-deck="1" data-visual="neuromute" data-variable="lineWidth" data-randomiseable>
-                                    </div>
-                                    <div class="inline-input">
-                                        <span class="input-label">Mode</span>
-                                        <span class="value">1</span>
-                                        <input type="range" min="1" max="3" step="1" value="1" data-deck="1" data-visual="neuromute" data-variable="lineMode" data-randomiseable>
-                                    </div>
-                                </group>
-                            </fieldset>
-                        </div>
-                        <div>
-                            <fieldset>
-                                <div class="heading">Trail</div>
-                                <group class="flex-grid" data-columns="2">
-                                    <div class="inline-input">
-                                        <span class="input-label">Length</span>
-                                        <span class="value">100</span>
-                                        <input type="range" min="5" max="155" step="1" value="100" data-deck="1" data-visual="neuromute" data-variable="trailLength" data-randomiseable>
-                                    </div>
-                                    <div class="inline-input">
-                                        <span class="input-label">Modulo</span>
-                                        <span class="value">1</span>
-                                        <input type="range" min="1" max="20" step="1" value="1" data-deck="1" data-visual="neuromute" data-variable="modulo" data-randomiseable>
-                                    </div>
-                                </group>
-                            </fieldset>
-                        </div>
-                        <div>
-                            <fieldset class="flex">
-                                <div class="inline-field-group">
-                                    <div class="heading">Fill</div>
-                                    <group class="flex-grid" data-columns="3">
-                                        <div class="inline-input">
-                                            <span class="input-label">Frequency</span>
-                                            <span class="value">1</span>
-                                            <input type="range" min="1" max="200" step="1" value="1" data-deck="1" data-visual="neuromute" data-variable="fillFreq" data-randomiseable>
-                                        </div>
-                                        <div>
-                                            <div class="inline-input">
-                                                <span class="input-label">Enabled</span>
-                                                <label class="switch">
-                                                    <input type="checkbox" data-deck="1" data-visual="neuromute" data-variable="fillMode" data-randomiseable>
-                                                    <span class="slider"></span>
-                                                </label>
-                                            </div>
-                                            <div class="inline-input">
-                                                <span class="input-label">Random</span>
-                                                <label class="switch">
-                                                    <input type="checkbox" data-deck="1" data-visual="neuromute" data-variable="fillRand" data-randomiseable>
-                                                    <span class="slider"></span>
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </group>
-                                </div>
-                            </fieldset>
-                        </div>
-                        <div>
-                            <fieldset class="flex">
-                                <div class="inline-field-group">
-                                    <div class="heading">Dash</div>
-                                    <group class="flex-grid" data-columns="3">
-                                        <div class="inline-input">
-                                            <span class="input-label">Length</span>
-                                            <span class="value">1</span>
-                                            <input type="range" min="1" max="30" step="1" value="1" data-deck="1" data-visual="neuromute" data-variable="dashLength" data-randomiseable>
-                                        </div>
-                                        <div class="inline-input">
-                                            <span class="input-label">Gap</span>
-                                            <span class="value">1</span>
-                                            <input type="range" min="1" max="100" step="1" value="1" data-deck="1" data-visual="neuromute" data-variable="gapLength" data-randomiseable>
-                                        </div>
-                                        <div class="inline-input">
-                                            <span class="input-label">Enabled</span>
-                                            <label class="switch">
-                                                <input type="checkbox" checked data-deck="1" data-visual="neuromute" data-variable="dashMode" data-randomiseable>
-                                                <span class="slider"></span>
-                                            </label>
-                                        </div>
-                                    </group>
-                                </div>
-                            </fieldset>
-                        </div>
-                        <div>
-                            <fieldset class="flex">
-                                <div class="inline-field-group">
-                                    <div class="heading">Colour - Global</div>
-                                    <group class="flex-grid" data-columns="4">
-                                        <div class="inline-input">
-                                            <span class="input-label">Mode</span>
-                                            <span class="value">1</span>
-                                            <input type="range" min="1" max="14" step="1" value="1" data-deck="1" data-visual="neuromute" data-variable="colorMode" data-randomiseable>
-                                        </div>
-                                        <div class="inline-input">
-                                            <span class="input-label">Shift</span>
-                                            <span class="value">0</span>
-                                            <input type="range" min="-255" max="255" step="1" value="0" data-deck="1" data-visual="neuromute" data-variable="globalShift">
-                                        </div>
-                                        <div class="inline-input">
-                                            <span class="input-label">Alpha</span>
-                                            <span class="value">1</span>
-                                            <input type="range" min="0" max="1" step="0.01" value="1" data-deck="1" data-visual="neuromute" data-variable="globalAlpha">
-                                        </div>
-                                        <div class="inline-input">
-                                            <span class="input-label">Amp</span>
-                                            <span class="value">1</span>
-                                            <input type="range" min="0" max="20" step="0.1" value="1" data-deck="1" data-visual="neuromute" data-variable="globalAmp">
-                                        </div>
-                                    </group>
-                                </div>
-                            </fieldset>
-                        </div>
-                        <div>
-                            <fieldset class="flex">
-                                <div class="inline-field-group">
-                                    <div class="heading">Red</div>
-                                    <group class="flex-grid" data-columns="3">
-                                        <div class="inline-input">
-                                            <span class="input-label">Shift</span>
-                                            <span class="value">0</span>
-                                            <input type="range" min="-255" max="255" step="1" value="0" data-deck="1" data-visual="neuromute" data-variable="redShift">
-                                        </div>
-                                        <div class="inline-input">
-                                            <span class="input-label">Level</span>
-                                            <div class="color-meter red"><div></div></div>
-                                        </div>
-                                        <div class="inline-input">
-                                            <span class="input-label">Amp</span>
-                                            <span class="value">1</span>
-                                            <input type="range" min="0" max="20" step="0.1" value="1" data-deck="1" data-visual="neuromute" data-variable="redAmp">
-                                        </div>
-                                    </group>
-                                </div>
-                            </fieldset>
-                        </div>
-                        <div>
-                            <fieldset class="flex">
-                                <div class="inline-field-group">
-                                    <div class="heading">Green</div>
-                                    <group class="flex-grid" data-columns="3">
-                                        <div class="inline-input">
-                                            <span class="input-label">Shift</span>
-                                            <span class="value">0</span>
-                                            <input type="range" min="-255" max="255" step="1" value="0" data-deck="1" data-visual="neuromute" data-variable="greenShift">
-                                        </div>
-                                        <div class="inline-input">
-                                            <span class="input-label">Level</span>
-                                            <div class="color-meter green"><div></div></div>
-                                        </div>
-                                        <div class="inline-input">
-                                            <span class="input-label">Amp</span>
-                                            <span class="value">1</span>
-                                            <input type="range" min="0" max="20" step="0.1" value="1" data-deck="1" data-visual="neuromute" data-variable="greenAmp">
-                                        </div>
-                                    </group>
-                                </div>
-                            </fieldset>
-                        </div>
-                        <div>
-                            <fieldset class="flex">
-                                <div class="inline-field-group">
-                                    <div class="heading">Blue</div>
-                                    <group class="flex-grid" data-columns="3">
-                                        <div class="inline-input">
-                                            <span class="input-label">Shift</span>
-                                            <span class="value">0</span>
-                                            <input type="range" min="-255" max="255" step="1" value="0" data-deck="1" data-visual="neuromute" data-variable="blueShift">
-                                        </div>
-                                        <div class="inline-input">
-                                            <span class="input-label">Level</span>
-                                            <div class="color-meter blue"><div></div></div>
-                                        </div>
-                                        <div class="inline-input">
-                                            <span class="input-label">Amp</span>
-                                            <span class="value">1</span>
-                                            <input type="range" min="0" max="20" step="0.1" value="1" data-deck="1" data-visual="neuromute" data-variable="blueAmp">
-                                        </div>
-                                    </group>
-                                </div>
-                            </fieldset>
-                        </div>
-                    </div>
                 </div>
                 <div class="button-group">
                     <div><button class="pink" data-deck="1" data-send>Send</button></div>
@@ -2666,218 +2458,6 @@
                     <div data-tab-panel="randomisation" class="randomisation hide">
                         Randomisation options
                     </div>
-                    <div data-tab-panel="renderer" data-visual="neuromute" data-deck="2" class="hide">
-                        <div>
-                            <fieldset>
-                                <div class="heading">Arc</div>
-                                <group class="flex-grid" data-columns="3">
-                                    <div class="inline-input">
-                                        <span class="input-label">Min Width</span>
-                                        <span class="value">1</span>
-                                        <input type="range" min="1" max="596" step="1" value="1" data-deck="2" data-visual="neuromute" data-variable="minWidth">
-                                    </div>
-                                    <div class="inline-input">
-                                        <span class="input-label">Width Mode</span>
-                                        <span class="value">1</span>
-                                        <input type="range" min="1" max="8" step="1" value="1" data-deck="2" data-visual="neuromute" data-variable="widthMode">
-                                    </div>
-                                    <div class="inline-input">
-                                        <span class="input-label">Mode</span>
-                                        <span class="value">1</span>
-                                        <input type="range" min="1" max="12" step="1" value="1" data-deck="2" data-visual="neuromute" data-variable="arcMode">
-                                    </div>
-                                </group>
-                            </fieldset>
-                        </div>
-                        <div>
-                            <fieldset>
-                                <div class="heading">Line</div>
-                                <group class="flex-grid" data-columns="2">
-                                    <div class="inline-input">
-                                        <span class="input-label">Width</span>
-                                        <span class="value">1</span>
-                                        <input type="range" min="1" max="20" step="1" value="1" data-deck="2" data-visual="neuromute" data-variable="lineWidth">
-                                    </div>
-                                    <div class="inline-input">
-                                        <span class="input-label">Mode</span>
-                                        <span class="value">1</span>
-                                        <input type="range" min="1" max="3" step="1" value="1" data-deck="2" data-visual="neuromute" data-variable="lineMode">
-                                    </div>
-                                </group>
-                            </fieldset>
-                        </div>
-                        <div>
-                            <fieldset>
-                                <div class="heading">Trail</div>
-                                <group class="flex-grid" data-columns="2">
-                                    <div class="inline-input">
-                                        <span class="input-label">Length</span>
-                                        <span class="value">155</span>
-                                        <input type="range" min="5" max="500" step="1" value="155" data-deck="2" data-visual="neuromute" data-variable="trailLength">
-                                    </div>
-                                    <div class="inline-input">
-                                        <span class="input-label">Modulo</span>
-                                        <span class="value">1</span>
-                                        <input type="range" min="1" max="20" step="1" value="1" data-deck="2" data-visual="neuromute" data-variable="modulo">
-                                    </div>
-                                </group>
-                            </fieldset>
-                        </div>
-                        <div>
-                            <fieldset class="flex">
-                                <div class="inline-field-group">
-                                    <div class="heading">Fill</div>
-                                    <group class="flex-grid" data-columns="3">
-                                        <div class="inline-input">
-                                            <span class="input-label">Frequency</span>
-                                            <span class="value">1</span>
-                                            <input type="range" min="1" max="200" step="1" value="1" data-deck="2" data-visual="neuromute" data-variable="fillFreq">
-                                        </div>
-                                        <div>
-                                            <div class="inline-input">
-                                                <span class="input-label">Enabled</span>
-                                                <label class="switch">
-                                                    <input type="checkbox" data-deck="2" data-visual="neuromute" data-variable="fillMode">
-                                                    <span class="slider"></span>
-                                                </label>
-                                            </div>
-                                            <div class="inline-input">
-                                                <span class="input-label">Random</span>
-                                                <label class="switch">
-                                                    <input type="checkbox" data-deck="2" data-visual="neuromute" data-variable="fillRand">
-                                                    <span class="slider"></span>
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </group>
-                                </div>
-                            </fieldset>
-                        </div>
-                        <div>
-                            <fieldset class="flex">
-                                <div class="inline-field-group">
-                                    <div class="heading">Dash</div>
-                                    <group class="flex-grid" data-columns="3">
-                                        <div class="inline-input">
-                                            <span class="input-label">Length</span>
-                                            <span class="value">1</span>
-                                            <input type="range" min="1" max="30" step="1" value="1" data-deck="2" data-visual="neuromute" data-variable="dashLength">
-                                        </div>
-                                        <div class="inline-input">
-                                            <span class="input-label">Gap</span>
-                                            <span class="value">1</span>
-                                            <input type="range" min="1" max="100" step="1" value="1" data-deck="2" data-visual="neuromute" data-variable="gapLength">
-                                        </div>
-                                        <div class="inline-input">
-                                            <span class="input-label">Enabled</span>
-                                            <label class="switch">
-                                                <input type="checkbox" checked data-deck="2" data-visual="neuromute" data-variable="dashMode">
-                                                <span class="slider"></span>
-                                            </label>
-                                        </div>
-                                    </group>
-                                </div>
-                            </fieldset>
-                        </div>
-                        <div>
-                            <fieldset class="flex">
-                                <div class="inline-field-group">
-                                    <div class="heading">Colour - Global</div>
-                                    <group class="flex-grid" data-columns="4">
-                                        <div class="inline-input">
-                                            <span class="input-label">Mode</span>
-                                            <span class="value">1</span>
-                                            <input type="range" min="1" max="14" step="1" value="1" data-deck="2" data-visual="neuromute" data-variable="colorMode">
-                                        </div>
-                                        <div class="inline-input">
-                                            <span class="input-label">Shift</span>
-                                            <span class="value">0</span>
-                                            <input type="range" min="-255" max="255" step="1" value="0" data-deck="2" data-visual="neuromute" data-variable="globalShift">
-                                        </div>
-                                        <div class="inline-input">
-                                            <span class="input-label">Alpha</span>
-                                            <span class="value">1</span>
-                                            <input type="range" min="0" max="1" step="0.01" value="1" data-deck="2" data-visual="neuromute" data-variable="globalAlpha">
-                                        </div>
-                                        <div class="inline-input">
-                                            <span class="input-label">Amp</span>
-                                            <span class="value">1</span>
-                                            <input type="range" min="0" max="20" step="0.1" value="1" data-deck="2" data-visual="neuromute" data-variable="globalAmp">
-                                        </div>
-                                    </group>
-                                </div>
-                            </fieldset>
-                        </div>
-                        <div>
-                            <fieldset class="flex">
-                                <div class="inline-field-group">
-                                    <div class="heading">Red</div>
-                                    <group class="flex-grid" data-columns="3">
-                                        <div class="inline-input">
-                                            <span class="input-label">Shift</span>
-                                            <span class="value">0</span>
-                                            <input type="range" min="-255" max="255" step="1" value="0" data-deck="2" data-visual="neuromute" data-variable="redShift">
-                                        </div>
-                                        <div class="inline-input">
-                                            <span class="input-label">Level</span>
-                                            <div class="color-meter red"><div></div></div>
-                                        </div>
-                                        <div class="inline-input">
-                                            <span class="input-label">Amp</span>
-                                            <span class="value">1</span>
-                                            <input type="range" min="0" max="20" step="0.1" value="1" data-deck="2" data-visual="neuromute" data-variable="redAmp">
-                                        </div>
-                                    </group>
-                                </div>
-                            </fieldset>
-                        </div>
-                        <div>
-                            <fieldset class="flex">
-                                <div class="inline-field-group">
-                                    <div class="heading">Green</div>
-                                    <group class="flex-grid" data-columns="3">
-                                        <div class="inline-input">
-                                            <span class="input-label">Shift</span>
-                                            <span class="value">0</span>
-                                            <input type="range" min="-255" max="255" step="1" value="0" data-deck="2" data-visual="neuromute" data-variable="greenShift">
-                                        </div>
-                                        <div class="inline-input">
-                                            <span class="input-label">Level</span>
-                                            <div class="color-meter green"><div></div></div>
-                                        </div>
-                                        <div class="inline-input">
-                                            <span class="input-label">Amp</span>
-                                            <span class="value">1</span>
-                                            <input type="range" min="0" max="20" step="0.1" value="1" data-deck="2" data-visual="neuromute" data-variable="greenAmp">
-                                        </div>
-                                    </group>
-                                </div>
-                            </fieldset>
-                        </div>
-                        <div>
-                            <fieldset class="flex">
-                                <div class="inline-field-group">
-                                    <div class="heading">Blue</div>
-                                    <group class="flex-grid" data-columns="3">
-                                        <div class="inline-input">
-                                            <span class="input-label">Shift</span>
-                                            <span class="value">0</span>
-                                            <input type="range" min="-255" max="255" step="1" value="0" data-deck="2" data-visual="neuromute" data-variable="blueShift">
-                                        </div>
-                                        <div class="inline-input">
-                                            <span class="input-label">Level</span>
-                                            <div class="color-meter blue"><div></div></div>
-                                        </div>
-                                        <div class="inline-input">
-                                            <span class="input-label">Amp</span>
-                                            <span class="value">1</span>
-                                            <input type="range" min="0" max="20" step="0.1" value="1" data-deck="2" data-visual="neuromute" data-variable="blueAmp">
-                                        </div>
-                                    </group>
-                                </div>
-                            </fieldset>
-                        </div>
-                    </div>
                 </div>
                 <div class="button-group">
                     <div><button class="pink" data-deck="2" data-send>Send</button></div>
@@ -2983,7 +2563,7 @@
 
                         fieldset.items.forEach(item => {
                             if (item.type == 'group') {
-                                markup += `<div class="inline-field-group">`;
+                                markup += `<div class="inline-field-group ${item.class || ''}">`;
 
                                 if (item.heading) {
                                     markup += `<div class="heading">${item.heading}</div>`;
@@ -5765,52 +5345,359 @@
     <script>
         window.hydra.renderers['neuromute'] = {
             init: function(deck) {
-                deck.neuromute = window.hydra.renderer.init(deck, 'neuromute', {}, {}, './js/renderers/neuromute/presets.json');
-
-                deck.neuromute.reactivity = {
-                    scale: {
-                        enabled: true,
-                        on: true,
-                        cause: 'average',
-                        effect: 'add',
-                        strength: 2
+                const defaults = {
+                    reactivity: {
+                        scale: {
+                            enabled: true,
+                            on: true,
+                            cause: 'average',
+                            effect: 'add',
+                            strength: 2
+                        },
+                        color: {
+                            enabled: true,
+                            on: true,
+                            cause: 'average',
+                            effect: 'add',
+                            strength: 2
+                        },
+                        alpha: {
+                            enabled: true,
+                            on: false,
+                            cause: 'average',
+                            effect: 'add',
+                            strength: 2
+                        },
+                        amp: {
+                            enabled: true,
+                            on: false,
+                            cause: 'average',
+                            effect: 'add',
+                            strength: 2
+                        }
                     },
-                    color: {
-                        enabled: true,
-                        on: true,
-                        cause: 'average',
-                        effect: 'add',
-                        strength: 2
-                    },
-                    alpha: {
-                        enabled: true,
-                        on: false,
-                        cause: 'average',
-                        effect: 'add',
-                        strength: 2
-                    },
-                    amp: {
-                        enabled: true,
-                        on: false,
-                        cause: 'average',
-                        effect: 'add',
-                        strength: 2
+                    triangleSize: 10,
+                    trails: [],
+                    counter: 0,
+                    speed: 0.0001,
+                    red: 255,
+                    green: 255,
+                    blue: 255,
+                    canvas: deck.canvas,
+                    getRandomNumberBetween: (min, max) => {
+                        return Math.floor(Math.random() * (max - min + 1) + min);
                     }
                 };
-
-                deck.neuromute.trails = [];
-                deck.neuromute.counter = 0;
-                deck.neuromute.speed = 0.0001;
-                deck.neuromute.width;
-                deck.neuromute.red = 255;
-                deck.neuromute.green = 255;
-                deck.neuromute.blue = 255;
-
-                deck.neuromute.getRandomNumberBetween = (min, max) => {
-                    return Math.floor(Math.random() * (max - min + 1) + min);
-                }
-
-                deck.neuromute.canvas = deck.canvas;
+                const ui = {
+                    fieldsets: [
+                        {
+                            heading: 'Arc',
+                            class: 'flex-grid',
+                            attributes: 'data-columns="3"',
+                            items: [
+                                {
+                                    type: 'range',
+                                    label: 'Min Width',
+                                    variable: 'minWidth',
+                                    min: 1,
+                                    max: 596,
+                                    value: 1,
+                                    step: 1,
+                                    randomiseable: true
+                                },
+                                {
+                                    type: 'range',
+                                    label: 'Width Mode',
+                                    variable: 'widthMode',
+                                    min: 1,
+                                    max: 8,
+                                    value: 1,
+                                    step: 1,
+                                    randomiseable: true
+                                },
+                                {
+                                    type: 'range',
+                                    label: 'Mode',
+                                    variable: 'arcMode',
+                                    min: 1,
+                                    max: 12,
+                                    value: 1,
+                                    step: 1,
+                                    randomiseable: true
+                                }
+                            ]
+                        },
+                        {
+                            heading: 'Line',
+                            class: 'flex-grid',
+                            attributes: 'data-columns="2"',
+                            items: [
+                                {
+                                    type: 'range',
+                                    label: 'Width',
+                                    variable: 'lineWidth',
+                                    min: 1,
+                                    max: 20,
+                                    value: 1,
+                                    step: 1,
+                                    randomiseable: true
+                                },
+                                {
+                                    type: 'range',
+                                    label: 'Mode',
+                                    variable: 'lineMode',
+                                    min: 1,
+                                    max: 3,
+                                    value: 1,
+                                    step: 1,
+                                    randomiseable: true
+                                }
+                            ]
+                        },
+                        {
+                            heading: 'Trail',
+                            class: 'flex-grid',
+                            attributes: 'data-columns="2"',
+                            items: [
+                                {
+                                    type: 'range',
+                                    label: 'Length',
+                                    variable: 'trailLength',
+                                    min: 1,
+                                    max: 155,
+                                    value: 100,
+                                    step: 1,
+                                    randomiseable: true
+                                },
+                                {
+                                    type: 'range',
+                                    label: 'Modulo',
+                                    variable: 'modulo',
+                                    min: 1,
+                                    max: 20,
+                                    value: 1,
+                                    step: 1,
+                                    randomiseable: true
+                                }
+                            ]
+                        },
+                        {
+                            heading: 'Fill',
+                            class: 'flex-grid',
+                            attributes: 'data-columns="3"',
+                            items: [
+                                {
+                                    type: 'range',
+                                    label: 'Frequency',
+                                    variable: 'fillFreq',
+                                    min: 1,
+                                    max: 200,
+                                    value: 1,
+                                    step: 1,
+                                    randomiseable: true
+                                },
+                                {
+                                    type: 'group',
+                                    class: 'inline-input',
+                                    items: [
+                                        {
+                                            type: 'checkbox',
+                                            label: 'Enabled',
+                                            variable: 'fillMode',
+                                            checked: false,
+                                            randomiseable: true
+                                        },
+                                        {
+                                            type: 'checkbox',
+                                            label: 'Random',
+                                            variable: 'fillRand',
+                                            checked: false,
+                                            randomiseable: true
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            heading: 'Dash',
+                            class: 'flex-grid',
+                            attributes: 'data-columns="3"',
+                            items: [
+                                {
+                                    type: 'range',
+                                    label: 'Length',
+                                    variable: 'dashLength',
+                                    min: 1,
+                                    max: 30,
+                                    value: 1,
+                                    step: 1,
+                                    randomiseable: true
+                                },
+                                {
+                                    type: 'range',
+                                    label: 'Gap',
+                                    variable: 'gapLength',
+                                    min: 1,
+                                    max: 100,
+                                    value: 1,
+                                    step: 1,
+                                    randomiseable: true
+                                },
+                                {
+                                    type: 'checkbox',
+                                    label: 'Enabled',
+                                    variable: 'dashMode',
+                                    checked: true,
+                                    randomiseable: true
+                                }
+                            ]
+                        },
+                        {
+                            heading: 'Color - Global',
+                            class: 'flex-grid',
+                            attributes: 'data-columns="4"',
+                            items: [
+                                {
+                                    type: 'range',
+                                    label: 'Mode',
+                                    variable: 'colorMode',
+                                    min: 1,
+                                    max: 14,
+                                    value: 1,
+                                    step: 1,
+                                    randomiseable: true
+                                },
+                                {
+                                    type: 'range',
+                                    label: 'Shift',
+                                    variable: 'globalShift',
+                                    min: -255,
+                                    max: 255,
+                                    value: 0,
+                                    step: 1,
+                                    randomiseable: true
+                                },
+                                {
+                                    type: 'range',
+                                    label: 'Alpha',
+                                    variable: 'globalAlpha',
+                                    min: 0,
+                                    max: 1,
+                                    value: 1,
+                                    step: 0.01,
+                                    randomiseable: true
+                                },
+                                {
+                                    type: 'range',
+                                    label: 'Amp',
+                                    variable: 'globalAmp',
+                                    min: 0,
+                                    max: 20,
+                                    value: 1,
+                                    step: 0.1,
+                                    randomiseable: true
+                                },
+                            ]
+                        },
+                        {
+                            heading: 'Red',
+                            class: 'flex-grid',
+                            attributes: 'data-columns="3"',
+                            items: [
+                                {
+                                    type: 'range',
+                                    label: 'Shift',
+                                    variable: 'redShift',
+                                    min: -255,
+                                    max: 255,
+                                    value: 0,
+                                    step: 1,
+                                    randomiseable: true
+                                },
+                                {
+                                    type: 'color-meter',
+                                    label: 'Level',
+                                    color: 'red'
+                                },
+                                {
+                                    type: 'range',
+                                    label: 'Amp',
+                                    variable: 'redAmp',
+                                    min: 0,
+                                    max: 20,
+                                    value: 1,
+                                    step: 0.1,
+                                    randomiseable: true
+                                }
+                            ]
+                        },
+                        {
+                            heading: 'Green',
+                            class: 'flex-grid',
+                            attributes: 'data-columns="3"',
+                            items: [
+                                {
+                                    type: 'range',
+                                    label: 'Shift',
+                                    variable: 'greenShift',
+                                    min: -255,
+                                    max: 255,
+                                    value: 0,
+                                    step: 1,
+                                    randomiseable: true
+                                },
+                                {
+                                    type: 'color-meter',
+                                    label: 'Level',
+                                    color: 'green'
+                                },
+                                {
+                                    type: 'range',
+                                    label: 'Amp',
+                                    variable: 'greenAmp',
+                                    min: 0,
+                                    max: 20,
+                                    value: 1,
+                                    step: 0.1,
+                                    randomiseable: true
+                                }
+                            ]
+                        },
+                        {
+                            heading: 'Blue',
+                            class: 'flex-grid',
+                            attributes: 'data-columns="3"',
+                            items: [
+                                {
+                                    type: 'range',
+                                    label: 'Shift',
+                                    variable: 'blueShift',
+                                    min: -255,
+                                    max: 255,
+                                    value: 0,
+                                    step: 1,
+                                    randomiseable: true
+                                },
+                                {
+                                    type: 'color-meter',
+                                    label: 'Level',
+                                    color: 'blue'
+                                },
+                                {
+                                    type: 'range',
+                                    label: 'Amp',
+                                    variable: 'blueAmp',
+                                    min: 0,
+                                    max: 20,
+                                    value: 1,
+                                    step: 0.1,
+                                    randomiseable: true
+                                }
+                            ]
+                        }
+                    ]
+                };
+                deck.neuromute = window.hydra.renderer.init(deck, 'neuromute', defaults, ui, './js/renderers/neuromute/presets.json');
 
                 deck.neuromute.redMeter = document.querySelector(`[data-deck="${deck.id}"][data-visual="neuromute"] .color-meter.red > div`);
                 deck.neuromute.greenMeter = document.querySelector(`[data-deck="${deck.id}"][data-visual="neuromute"] .color-meter.green > div`);
