@@ -9,6 +9,13 @@ Available online at https://hydra.virusav.com/
 ### Features
 
 - Crossfade visuals
+- Multiple renderers (visuals)
+  - Lockdown (ported from https://lockdown.virusav.com)
+  - Matrix
+  - Neuromute (ported from https://neuromute.virusav.com)
+  - Pink
+  - Quark (ported from https://quark.virusav.com)
+  - Strobe
 - Visual blend/layer composition modes
   - Color-burn
   - Color-dodge
@@ -58,7 +65,7 @@ Available online at https://hydra.virusav.com/
   - Color
   - Alpha
   - Amp
-- Audio scource selection (TODO)
+- Audio source selection (TODO)
 - Audio meter
   - Knightrider effect when not connected to source
 - Multiple configurable and randomisable renderers (visuals)
@@ -77,12 +84,13 @@ Available online at https://hydra.virusav.com/
 - Theming (TODO)
 - Stream via WebRTC (TODO)
 - Extensible
+- Free/Libre Open Source Software
 
 ## User Guide
 Coming soon.  There's still some work to do to add a built-in help system, and to add a few roadmap features which will need documenting.
 
 ## Extending - Create New Renderers
-Coming soon.  There's still some work to do to make the renderers inject their own markup, which will decouple the HTML from the standalone rendering component.  Once this is done, then a guide to building bolt-on renderers will be added.
+Coming soon.  ~There's still some work to do to make the renderers inject their own markup, which will decouple the HTML from the standalone rendering component.  Once this is done, then a guide to building bolt-on renderers will be added.~ Renderers now inject their own markup!..  Guide on its way!
 
 ---
 Ⓐ 🄯 
