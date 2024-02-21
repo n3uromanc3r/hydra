@@ -1269,7 +1269,7 @@
                 <button class="reset" data-deck="1">⭮</button>
             </div>
             <div class="column dropdowns">
-                <button class="raise-to-top raised" data-deck="1">↥</button>
+                <button class="raise-to-top" data-deck="1">↥</button>
                 <group>
                     <label>Mode</label>
                     <select id="composition-mode-selector">
@@ -1301,7 +1301,7 @@
                         <option value="xor">xor</option>
                     </select>
                 </group>
-                <button class="raise-to-top" data-deck="2">↥</button>
+                <button class="raise-to-top raised" data-deck="2">↥</button>
             </div>
             <div class="column dropdowns">
                 <group>
@@ -2722,7 +2722,7 @@
                         deck.pipeCanvas = document.getElementById(`deck-${deck.id}-pipe-canvas`);
                         deck.pipeCtx = deck.pipeCanvas.getContext('2d');
                         deck.crossfaderAlpha = 1;
-                        deck.raised = id == 1;
+                        deck.raised = id == 2;
                         deck.scale = 0.75;
                         deck.current = null;
                         deck.visibleTab = 'renderer';
@@ -3991,7 +3991,7 @@
                         hydra.effects.mirror.clip(hydra.mixedCtx, hydra.mixedCanvas, hydra.effects.mirror.output.mode);
                     }
 
-                    if (!hydra.deck1.raised) {
+                    if (hydra.deck1.raised) {
                         hydra.mixedCtx.globalAlpha = hydra.deck1.crossfaderAlpha;
                         hydra.mixedCtx.drawImage(hydra.deck1.pipeCanvas, 0, 0);
                         hydra.mixedCtx.globalAlpha = 1;
@@ -4001,7 +4001,7 @@
                     hydra.mixedCtx.drawImage(hydra.deck2.pipeCanvas, 0, 0);
                     hydra.mixedCtx.globalAlpha = 1;
 
-                    if (hydra.deck1.raised) {
+                    if (!hydra.deck1.raised) {
                         hydra.mixedCtx.globalAlpha = hydra.deck1.crossfaderAlpha;
                         hydra.mixedCtx.drawImage(hydra.deck1.pipeCanvas, 0, 0);
                         hydra.mixedCtx.globalAlpha = 1;
