@@ -3358,10 +3358,8 @@
                                 if (deck.current.presets && deck.current.presets.length) {
                                     deck.current.presets.forEach((preset, i) => {
                                         deck.controls.presetBtns[i].disabled = false;
-                                        if (i == 0) {
-                                            deck.controls.presetBtns[i].classList.add('active');
-                                        }
                                     });
+                                    deck.presets.select(1)
                                 } else {
                                     console.debug('no presets found')
                                 }
