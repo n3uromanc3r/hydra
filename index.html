@@ -1149,6 +1149,10 @@
             flex-grow: 1;
         }
 
+        .inline-block {
+            display: inline-block;
+        }
+
         #settings-open {
             margin: 0 auto 30px;
             width: 60px;
@@ -1667,55 +1671,6 @@
                         </div>
                     </div>
                     <div data-tab-panel="randomisation" class="randomisation hide">
-                        <div class="renderer">
-                            <fieldset>
-                                <div class="heading">Enabled</div>
-                                <group>
-                                    <div class="inline-input">
-                                        <span class="input-label">Outer Circle</span>
-                                        <label class="switch">
-                                            <input type="checkbox" checked data-deck="1" data-visual="quark" data-target="outerCircleEnabled" data-toggle-randomisation>
-                                            <span class="slider"></span>
-                                        </label>
-                                    </div>
-                                    <div class="inline-input">
-                                        <span class="input-label">Middle Circle</span>
-                                        <label class="switch">
-                                            <input type="checkbox" checked data-deck="1" data-visual="quark" data-target="middleCircleEnabled" data-toggle-randomisation>
-                                            <span class="slider"></span>
-                                        </label>
-                                    </div>
-                                    <div class="inline-input">
-                                        <span class="input-label">Inner Circle</span>
-                                        <label class="switch">
-                                            <input type="checkbox" checked data-deck="1" data-visual="quark" data-target="innerCircleEnabled" data-toggle-randomisation>
-                                            <span class="slider"></span>
-                                        </label>
-                                    </div>
-                                    <div class="inline-input">
-                                        <span class="input-label">4-point Circles</span>
-                                        <label class="switch">
-                                            <input type="checkbox" checked data-deck="1" data-visual="quark" data-target="fourPointCirclesEnabled" data-toggle-randomisation>
-                                            <span class="slider"></span>
-                                        </label>
-                                    </div>
-                                    <div class="inline-input">
-                                        <span class="input-label">Large Triangle</span>
-                                        <label class="switch">
-                                            <input type="checkbox" checked data-deck="1" data-visual="quark" data-target="largeTriangleEnabled" data-toggle-randomisation>
-                                            <span class="slider"></span>
-                                        </label>
-                                    </div>
-                                    <div class="inline-input">
-                                        <span class="input-label">Small Triangle</span>
-                                        <label class="switch">
-                                            <input type="checkbox" checked data-deck="1" data-visual="quark" data-target="smallTriangleEnabled" data-toggle-randomisation>
-                                            <span class="slider"></span>
-                                        </label>
-                                    </div>
-                                </group>
-                            </fieldset>
-                        </div>
                         <div class="effects flex">
                             <fieldset>
                                 <div class="heading">Blur</div>
@@ -2456,7 +2411,225 @@
                         </div>
                     </div>
                     <div data-tab-panel="randomisation" class="randomisation hide">
-                        Randomisation options
+                        <div class="effects flex">
+                            <fieldset>
+                                <div class="heading">Blur</div>
+                                <group>
+                                    <div class="inline-input">
+                                        <span class="input-label">Enable</span>
+                                        <label class="switch">
+                                            <input type="checkbox" data-deck="2" data-target="data-blur-toggle" data-toggle-randomisation>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="inline-input">
+                                        <span class="input-label">Value</span>
+                                        <label class="switch">
+                                            <input type="checkbox" data-deck="2" data-target="data-blur-value" data-toggle-randomisation>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                </group>
+                            </fieldset>
+                            <fieldset>
+                                <div class="heading">Brightness</div>
+                                <group>
+                                    <div class="inline-input">
+                                        <span class="input-label">Enable</span>
+                                        <label class="switch">
+                                            <input type="checkbox" data-deck="2" data-target="data-brightness-toggle" data-toggle-randomisation>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="inline-input">
+                                        <span class="input-label">Value</span>
+                                        <label class="switch">
+                                            <input type="checkbox" data-deck="2" data-target="data-brightness-value" data-toggle-randomisation>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                </group>
+                            </fieldset>
+                            <fieldset>
+                                <div class="heading">Contrast</div>
+                                <group>
+                                    <div class="inline-input">
+                                        <span class="input-label">Enable</span>
+                                        <label class="switch">
+                                            <input type="checkbox" data-deck="2" data-target="data-contrast-toggle" data-toggle-randomisation>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="inline-input">
+                                        <span class="input-label">Value</span>
+                                        <label class="switch">
+                                            <input type="checkbox" data-deck="2" data-target="data-contrast-value" data-toggle-randomisation>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                </group>
+                            </fieldset>
+                        </div>
+                        <div class="effects flex">
+                            <fieldset>
+                                <div class="heading">Drop-Shadow</div>
+                                <group>
+                                    <div class="inline-input">
+                                        <span class="input-label">Enable</span>
+                                        <label class="switch">
+                                            <input type="checkbox" data-deck="2" data-target="data-drop-shadow-toggle" data-toggle-randomisation>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="inline-input">
+                                        <span class="input-label">Color</span>
+                                        <label class="switch">
+                                            <input type="checkbox" data-deck="2" data-target="data-drop-shadow-color" data-toggle-randomisation>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="inline-input">
+                                        <span class="input-label">Offset X</span>
+                                        <label class="switch">
+                                            <input type="checkbox" data-deck="2" data-target="data-drop-shadow-offset-x" data-toggle-randomisation>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="inline-input">
+                                        <span class="input-label">Offset Y</span>
+                                        <label class="switch">
+                                            <input type="checkbox" data-deck="2" data-target="data-drop-shadow-offset-y" data-toggle-randomisation>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="inline-input">
+                                        <span class="input-label">Blur</span>
+                                        <label class="switch">
+                                            <input type="checkbox" data-deck="2" data-target="data-drop-shadow-blur" data-toggle-randomisation>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                </group>
+                            </fieldset>
+                        </div>
+                        <div class="effects flex">
+                            <fieldset>
+                                <div class="heading">Grayscale</div>
+                                <group>
+                                    <div class="inline-input">
+                                        <span class="input-label">Enable</span>
+                                        <label class="switch">
+                                            <input type="checkbox" data-deck="2" data-target="data-grayscale-toggle" data-toggle-randomisation>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="inline-input">
+                                        <span class="input-label">Value</span>
+                                        <label class="switch">
+                                            <input type="checkbox" data-deck="2" data-target="data-grayscale-value" data-toggle-randomisation>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                </group>
+                            </fieldset>
+                            <fieldset>
+                                <div class="heading">Hue-Rotate</div>
+                                <group>
+                                    <div class="inline-input">
+                                        <span class="input-label">Enable</span>
+                                        <label class="switch">
+                                            <input type="checkbox" data-deck="2" data-target="data-hue-rotate-toggle" data-toggle-randomisation>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="inline-input">
+                                        <span class="input-label">Value</span>
+                                        <label class="switch">
+                                            <input type="checkbox" data-deck="2" data-target="data-hue-rotate-value" data-toggle-randomisation>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                </group>
+                            </fieldset>
+                            <fieldset>
+                                <div class="heading">Invert</div>
+                                <group>
+                                    <div class="inline-input">
+                                        <span class="input-label">Enable</span>
+                                        <label class="switch">
+                                            <input type="checkbox" data-deck="2" data-target="data-invert-toggle" data-toggle-randomisation>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="inline-input">
+                                        <span class="input-label">Value</span>
+                                        <label class="switch">
+                                            <input type="checkbox" data-deck="2" data-target="data-invert-value" data-toggle-randomisation>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                </group>
+                            </fieldset>
+                        </div>
+                        <div class="effects flex">
+                            <fieldset>
+                                <div class="heading">Opacity</div>
+                                <group>
+                                    <div class="inline-input">
+                                        <span class="input-label">Enable</span>
+                                        <label class="switch">
+                                            <input type="checkbox" data-deck="2" data-target="data-opacity-toggle" data-toggle-randomisation>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="inline-input">
+                                        <span class="input-label">Value</span>
+                                        <label class="switch">
+                                            <input type="checkbox" data-deck="2" data-target="data-opacity-value" data-toggle-randomisation>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                </group>
+                            </fieldset>
+                            <fieldset>
+                                <div class="heading">Saturate</div>
+                                <group>
+                                    <div class="inline-input">
+                                        <span class="input-label">Enable</span>
+                                        <label class="switch">
+                                            <input type="checkbox" data-deck="2" data-target="data-saturate-toggle" data-toggle-randomisation>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="inline-input">
+                                        <span class="input-label">Value</span>
+                                        <label class="switch">
+                                            <input type="checkbox" data-deck="2" data-target="data-saturate-value" data-toggle-randomisation>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                </group>
+                            </fieldset>
+                            <fieldset>
+                                <div class="heading">Sepia</div>
+                                <group>
+                                    <div class="inline-input">
+                                        <span class="input-label">Enable</span>
+                                        <label class="switch">
+                                            <input type="checkbox" data-deck="2" data-target="data-sepia-toggle" data-toggle-randomisation>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="inline-input">
+                                        <span class="input-label">Value</span>
+                                        <label class="switch">
+                                            <input type="checkbox" data-deck="2" data-target="data-sepia-value" data-toggle-randomisation>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                </group>
+                            </fieldset>
+                        </div>
                     </div>
                 </div>
                 <div class="button-group">
@@ -2540,14 +2713,39 @@
                             });
                         });
 
-                        this.injectRendererUI(callback);
+                        if (typeof callback == 'function') {
+                            callback();
+                        }
                     },
-                    injectRendererUI: function(callback) {
-                        // insert renderer-related markup here
-                        callback()
+                    injectRendererTabUI: function(deck, name, ui) {
+                        // insert renderer tab markup here
+                        const uiContainer = document.querySelector(`[data-deck="${deck.id}"].visual-settings`);
+                        let markup = hydra.markup.openTabPanel(deck.id, name, null, 'data-tab-panel="renderer"');
+
+                        if (ui.fieldsets) {
+                            ui.fieldsets.forEach(fieldset => {
+                                markup += hydra.markup.generateFieldset(deck.id, name, fieldset);
+                            });
+                        }
+                        markup += hydra.markup.closeTabPanel();;
+                        uiContainer.insertAdjacentHTML('beforeend', markup);
                     },
-                    openTabPanel: function(deckId, name) {
-                        return `<div data-tab-panel="renderer" data-visual="${name}" data-deck="${deckId}" class="hide">`;
+                    injectRandomisationTabUI: function(deck, name, ui) {
+                        // insert renderer-related randomisation markup here
+                        const uiContainer = document.querySelector(`[data-deck="${deck.id}"].visual-settings [data-tab-panel="randomisation"]`);
+                        let markup = hydra.markup.openTabPanel(deck.id, name, 'renderer');
+
+                        if (ui.fieldsets) {
+                            ui.fieldsets.forEach(fieldset => {
+                                markup += hydra.markup.generateRandomisationFieldset(deck.id, name, fieldset);
+                            });
+                        }
+
+                        markup += hydra.markup.closeTabPanel();
+                        uiContainer.insertAdjacentHTML('beforeend', markup);
+                    },
+                    openTabPanel: function(deckId, name, className, attributes) {
+                        return `<div ${attributes || ''} data-visual="${name}" data-deck="${deckId}" class="${className || '' } hide">`;
                     },
                     closeTabPanel: function() {
                         return `</div>`;
@@ -2710,8 +2908,63 @@
                         if (item.type == 'empty') {
                             return this.generateEmptySlot();
                         }
-                    }
+                    },
+                    generateRandomisationFieldset: function(deckId, name, fieldset) {
+                        let markup = `<fieldset>`;
 
+                        if (fieldset.heading) {
+                            markup += `<div class="heading">${fieldset.heading}</div>`;
+                        }
+
+                        markup += `<group>`;
+
+                        fieldset.items.forEach(item => {
+                            if (item.type == 'group') {
+                                markup += `<div class="inline-block">`;
+
+                                if (item.heading) {
+                                    markup += `<div class="heading">${item.heading}</div>`;
+                                }
+
+                                item.items.forEach(groupItem => {
+                                    markup += hydra.markup.generateRandomisationToggle(deckId, name, groupItem);
+                                });
+
+                                markup += `</div>`;
+
+                            } else {
+                                markup += hydra.markup.generateRandomisationToggle(deckId, name, item);
+                            }
+                        });
+
+                        markup += `</group>
+                        </fieldset>`;
+
+                        return markup;
+                    },
+                    generateRandomisationToggle: function(deckId, name, item) {
+                        if (item.type == 'empty') return '';
+
+                        let markup = `<div class="inline-input">`;
+
+                        if (item.label) {
+                            markup += `<span class="input-label">${item.label || item.heading || ''}`;
+
+                            if (item.subLabel) {
+                                markup += `<sub>${item.subLabel}</sub>`;
+                            }
+
+                            markup += `</span>`;
+                        }
+
+                        markup += `<label class="switch">
+                                <input type="checkbox" ${item.randomiseable ? 'checked' : ''} data-deck="${deckId}" data-visual="${name}" data-target="${item.variable}" data-toggle-randomisation>
+                                <span class="slider"></span>
+                            </label>
+                        </div>`
+
+                        return markup;
+                    }
                 },
                 deck: {
                     init: function(id, visual) {
@@ -2735,12 +2988,18 @@
                                 this.current = visual;
                                 deck.current = deck[visual];
 
-                                const visualSettingsPanels = document.querySelectorAll(`[data-deck="${deck.id}"].visual-settings > div:not(.effects):not(.reactivity)`);
+                                const visualSettingsPanels = document.querySelectorAll(`[data-deck="${deck.id}"].visual-settings > div:not(.effects):not(.reactivity):not(.randomisation)`);
                                 visualSettingsPanels.forEach(panel => {
                                     if (deck.visibleTab == 'renderer') {
                                         panel.className = (panel.dataset.deck == deck.id) && (panel.dataset.visual == deck.visual.current) ? 'show' : 'hide';
                                     }
                                 });
+
+                                const randomisationRendererPanels = document.querySelectorAll(`[data-deck="${deck.id}"] [data-tab-panel="randomisation"] .renderer`);
+                                randomisationRendererPanels.forEach(randomisationRendererPanel => randomisationRendererPanel.classList.add('hide'));
+
+                                const currentRandomisationRendererPanel = document.querySelector(`[data-deck="${deck.id}"] [data-tab-panel="randomisation"] .renderer[data-visual="${visual}"]`);
+                                currentRandomisationRendererPanel.classList.remove('hide');
 
                                 deck.reactivity.update();
                                 deck.presets.update();
@@ -3532,18 +3791,9 @@
                             this.importPresets(deck, name, presets);
                         }
 
-                        // inject markup here...
+                        // inject renderer tab markup here...
                         if (ui) {
-                            const uiContainer = document.querySelector(`[data-deck="${deck.id}"].visual-settings`);
-                            let markup = hydra.markup.openTabPanel(deck.id, name);
-
-                            if (ui.fieldsets) {
-                                ui.fieldsets.forEach(fieldset => {
-                                    markup += hydra.markup.generateFieldset(deck.id, name, fieldset);
-                                });
-                            }
-                            markup += hydra.markup.closeTabPanel();;
-                            uiContainer.insertAdjacentHTML('beforeend', markup);
+                            hydra.markup.injectRendererTabUI(deck, name, ui);
                         }
 
                         // apply event listeners
@@ -3605,8 +3855,16 @@
                             }
                         });
 
+                        // insert renderer randomisation markup here
+                        if (ui) {
+                            hydra.markup.injectRandomisationTabUI(deck, name, ui);
+                        }
+
+                        const effectsRandomisationInputs = document.querySelectorAll(`[data-deck="${deck.id}"] [data-tab-panel="randomisation"] .effects input[type="checkbox"]`);
+                        const rendererRandomisationInputs = document.querySelectorAll(`[data-deck="${deck.id}"] [data-tab-panel="randomisation"] [data-visual="${name}"].renderer input[type="checkbox"]`);
+
                         // merge all our possible inputs into the deck
-                        deck[name].inputs = [...inputs, ...deck.reactivity.inputs, ...deck.filters.inputs];
+                        deck[name].inputs = [...inputs, ...deck.filters.inputs, ...deck.reactivity.inputs, ...effectsRandomisationInputs, ...rendererRandomisationInputs];
 
                         return deck[name];
                     },
