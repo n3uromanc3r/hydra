@@ -5,57 +5,10 @@
     <title>Hydra</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="./css/reset.css">
+    <!-- <link rel="stylesheet" href="./css/hydra.css"> -->
+    <!-- <link rel="stylesheet" href="./css/high-contrast.css"> -->
     <style>
-        html, body, div, span, applet, object, iframe,
-        h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-        a, abbr, acronym, address, big, cite, code,
-        del, dfn, em, img, ins, kbd, q, s, samp,
-        small, strike, strong, sub, sup, tt, var,
-        b, u, i, center,
-        dl, dt, dd, ol, ul, li,
-        fieldset, form, label, legend,
-        table, caption, tbody, tfoot, thead, tr, th, td,
-        article, aside, canvas, details, embed,
-        figure, figcaption, footer, header, hgroup,
-        menu, nav, output, ruby, section, summary,
-        time, mark, audio, video {
-            margin: 0;
-            padding: 0;
-            border: 0;
-            font-size: 100%;
-            font: inherit;
-            vertical-align: baseline;
-        }
-        /* HTML5 display-role reset for older browsers */
-        article, aside, details, figcaption, figure,
-        footer, header, hgroup, menu, nav, section {
-            display: block;
-        }
-        html {
-            height: 100%;
-            overflow: hidden;
-        }
-        body {
-            line-height: 1;
-            height: 100%;
-            overflow: hidden;
-        }
-        ol, ul {
-            list-style: none;
-        }
-        blockquote, q {
-            quotes: none;
-        }
-        blockquote:before, blockquote:after,
-        q:before, q:after {
-            content: '';
-            content: none;
-        }
-        table {
-            border-collapse: collapse;
-            border-spacing: 0;
-        }
-
         html {
             height: 100%;
             width: 100%;
@@ -80,6 +33,7 @@
             height: 100%;
             display: flex;
             flex-direction: column;
+            width: 80%;
             max-width: 1920px;
             margin: auto;
             border-left: solid 1px #1c1c1c;
@@ -201,6 +155,10 @@
 
         button:hover {
             color: white;
+        }
+
+        button:focus-visible {
+            outline: none;
         }
 
         button.on {
@@ -1137,6 +1095,50 @@
             padding: 4px 8px;
         }
 
+        .relative {
+            position: relative;
+        }
+
+        .tooltip {
+            position: absolute;
+            bottom: 100%;
+            background: #000000db;
+            padding: 10px;
+            border-radius: 3px;
+            font-size: 9px;
+            line-height: 14px;
+            text-align: center;
+            text-transform: uppercase;
+            font-weight: 600;
+            transition: all 300ms ease;
+            opacity: 1;
+        }
+
+        .tooltip.success {
+            color: #23e648;
+        }
+
+        .tooltip.error {
+            color: #e62323;
+        }
+
+        .tooltip.transparent {
+            opacity: 0;
+        }
+
+        .tooltip:after {
+            content: '';
+            position: absolute;
+            left: calc(50% - 10px);
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 10px solid #000000db;
+            clear: both;
+            bottom: -10px;
+        }
+
         .push-top {
             margin-top: auto;
         }
@@ -1201,6 +1203,100 @@
         #tap-bpm:active {
             background: #23e648;
             color: black;
+        }
+
+        #sync:active {
+            background: #ffffff;
+        }
+
+        body.assigning #assign {
+            -webkit-animation: borderBlink 1s step-end infinite;
+            animation: borderBlink 1s step-end infinite;
+        }
+
+        body.assigning .inline-input:not([data-assignable]),
+        body.assigning .inline-input:not([data-assignable]) input,
+        body.assigning .inline-input:not([data-assignable]) button,
+        body.assigning .inline-input:not([data-assignable]) .slider {
+            opacity: 0.2;
+            cursor: not-allowed;
+        }
+
+        body.assigning .inline-input:not([data-assignable]) input[type=range]::-webkit-slider-runnable-track,
+        body.assigning .inline-input:not([data-assignable]) input[type=range]::-webkit-slider-thumb {
+            opacity: 0.2;
+            cursor: not-allowed;
+        }
+        body.assigning .inline-input:not([data-assignable]) input[type=range]::-moz-range-track,
+        body.assigning .inline-input:not([data-assignable]) input[type=range]::-moz-range-thumb {
+            opacity: 0.2;
+            cursor: not-allowed;
+        }
+        body.assigning .inline-input:not([data-assignable]) input[type=range]::-ms-track,
+        body.assigning .inline-input:not([data-assignable]) input[type=range]::-ms-thumb {
+            opacity: 0.2;
+            cursor: not-allowed;
+        }
+
+        body.assigning [data-assignable],
+        body.assigning [data-assignable] input,
+        body.assigning [data-assignable] button,
+        body.assigning [data-assignable] .slider {
+            cursor: crosshair;
+        }
+
+        body.assigning [data-assignable] input[type=range]::-webkit-slider-runnable-track,
+        body.assigning [data-assignable] input[type=range]::-webkit-slider-thumb {
+            cursor: crosshair;
+        }
+        body.assigning [data-assignable] input[type=range]::-moz-range-track,
+        body.assigning [data-assignable] input[type=range]::-moz-range-thumb {
+            cursor: crosshair;
+        }
+        body.assigning [data-assignable] input[type=range]::-ms-track,
+        body.assigning [data-assignable] input[type=range]::-ms-thumb  {
+            cursor: crosshair;
+        }
+
+        body.assigning.selected [data-assignable],
+        body.assigning.selected [data-assignable] input,
+        body.assigning.selected [data-assignable] button,
+        body.assigning.selected [data-assignable] .slider {
+            cursor: wait;
+        }
+
+        body.assigning.selected [data-assignable] input[type=range]::-webkit-slider-runnable-track,
+        body.assigning.selected [data-assignable] input[type=range]::-webkit-slider-thumb {
+            cursor: wait;
+        }
+        body.assigning.selected [data-assignable] input[type=range]::-moz-range-track,
+        body.assigning.selected [data-assignable] input[type=range]::-moz-range-thumb {
+            cursor: wait;
+        }
+        body.assigning.selected [data-assignable] input[type=range]::-ms-track,
+        body.assigning.selected [data-assignable] input[type=range]::-ms-thumb  {
+            cursor: wait;
+        }
+
+        @-webkit-keyframes borderBlink {
+            from, to {
+                border-color: #222;
+                color: #ffffff;
+            }
+            50% {
+                border-color: #ffa500;
+                color: #ffa500;
+            }
+        }
+        @keyframes borderBlink {
+            from, to {
+                border-color: #222;
+                color: #ffffff;
+            }
+            50% {
+                border-color: #ffa500;
+                color: #ffa500;
+            }
         }
 
         @-webkit-keyframes backgroundBlink {
@@ -1343,9 +1439,9 @@
                             <div class="mirror-mode-buttons-container disabled">
                                 <span class="input-label">Mirror Type</span>
                                 <div class="button-group button-radio-switch-group">
-                                    <div><button class="mirror-mode clip button-radio-switch" data-target="deck1">clip</button></div>
-                                    <div><button class="mirror-mode button-radio-switch" data-target="deck1">full</button></div>
-                                    <div><button class="mirror-mode button-radio-switch" data-target="deck1">bleed</button></div>
+                                    <div><button class="mirror-mode applies-clip clip button-radio-switch" data-target="deck1">clip</button></div>
+                                    <div><button class="mirror-mode applies-full button-radio-switch" data-target="deck1">full</button></div>
+                                    <div><button class="mirror-mode applies-bleed button-radio-switch" data-target="deck1">bleed</button></div>
                                 </div>
                             </div>
                         </fieldset>
@@ -1893,8 +1989,14 @@
                     </div>
                 </div>
                 <div class="button-group">
-                    <div><button class="pink" data-deck="1" data-send>Send</button></div>
-                    <div><button class="blue" data-deck="1" data-receive>Receive</button></div>
+                    <div class="relative">
+                        <div class="tooltip hide"></div>
+                        <button class="pink" data-deck="1" data-send>Send</button>
+                    </div>
+                    <div class="relative">
+                        <div class="tooltip hide"></div>
+                        <button class="blue" data-deck="1" data-receive>Receive</button>
+                    </div>
                     <div><button class="yellow" data-deck="1" data-save>Save</button></div>
                     <div><button class="green" class="green" data-deck="1" data-randomise>Randomise</button></div>
                 </div>
@@ -1930,9 +2032,9 @@
                         <div class="mirror-mode-buttons-container disabled">
                             <span class="input-label">Mirror Type</span>
                             <div class="button-group button-radio-switch-group">
-                                <div><button class="mirror-mode clip button-radio-switch" data-target="output">clip</button></div>
-                                <div><button class="mirror-mode button-radio-switch" data-target="output">full</button></div>
-                                <div><button class="mirror-mode button-radio-switch" data-target="output">bleed</button></div>
+                                <div><button class="mirror-mode applies-clip clip button-radio-switch" data-target="output">clip</button></div>
+                                <div><button class="mirror-mode applies-full button-radio-switch" data-target="output">full</button></div>
+                                <div><button class="mirror-mode applies-bleed button-radio-switch" data-target="output">bleed</button></div>
                             </div>
                         </div>
                         <div class="button-group hide">
@@ -2041,7 +2143,7 @@
                     <div class="button-group">
                         <div><button id="tap-bpm">Tap</button></div>
                         <div><button id="sync" class="on">Sync</button></div>
-                        <div><button>Assign</button></div>
+                        <div><button id="assign">Assign</button></div>
                     </div>
                 </div>
                 <div id="settings" class="hide">
@@ -2083,9 +2185,9 @@
                             <div class="mirror-mode-buttons-container disabled">
                                 <span class="input-label">Mirror Type</span>
                                 <div class="button-group button-radio-switch-group">
-                                    <div><button class="mirror-mode clip button-radio-switch" data-target="deck2">clip</button></div>
-                                    <div><button class="mirror-mode button-radio-switch" data-target="deck2">full</button></div>
-                                    <div><button class="mirror-mode button-radio-switch" data-target="deck2">bleed</button></div>
+                                    <div><button class="mirror-mode applies-clip clip button-radio-switch" data-target="deck2">clip</button></div>
+                                    <div><button class="mirror-mode applies-full button-radio-switch" data-target="deck2">full</button></div>
+                                    <div><button class="mirror-mode applies-bleed button-radio-switch" data-target="deck2">bleed</button></div>
                                 </div>
                             </div>
                         </fieldset>
@@ -2633,14 +2735,20 @@
                     </div>
                 </div>
                 <div class="button-group">
-                    <div><button class="pink" data-deck="2" data-send>Send</button></div>
-                    <div><button class="blue" data-deck="2" data-receive>Receive</button></div>
+                    <div class="relative">
+                        <div class="tooltip hide"></div>
+                        <button class="pink" data-deck="2" data-send>Send</button>
+                    </div>
+                    <div class="relative">
+                        <div class="tooltip hide"></div>
+                        <button class="blue" data-deck="2" data-receive>Receive</button>
+                    </div>
                     <div><button class="yellow" data-deck="2" data-save>Save</button></div>
                     <div><button class="green" class="green" data-deck="2" data-randomise>Randomise</button></div>
                 </div>
                 <div class="button-group">
                     <div><button data-deck="2" data-react>React</button></div>
-                    <div><button data-deck="2" data-keyboard disabled>Keyboard</button></div>
+                    <div><button data-deck="2" data-keyboard>Keyboard</button></div>
                     <div><button data-deck="2" data-guide disabled>Guide</button></div>
                     <div><button class="red" data-deck="2" data-revert>Revert</button></div>
                 </div>
@@ -2666,6 +2774,8 @@
             return {
                 boot: function(settings) {
                     this.markup.init(settings, () => {
+                        this.body = document.querySelector('body');
+
                         this.mixedCanvas = document.getElementById('mixed-canvas');
                         this.mixedCtx = this.mixedCanvas.getContext('2d');
 
@@ -2674,6 +2784,8 @@
 
                         this.mouseX;
                         this.mouseY;
+
+                        this.settings = settings;
 
                         this.audio.init();
 
@@ -2692,6 +2804,7 @@
                         this.effects.init();
                         this.handlers.init();
                         this.keyboard.init();
+                        this.midi.init();
 
                         this.helpers.detectSizes();
 
@@ -2709,7 +2822,9 @@
                         visualSelectorDropdowns.forEach(visualSelectorDropdown => {
                             const selectedVisual = settings[`deck${visualSelectorDropdown.dataset.deck}`].visual;
                             Object.keys(hydra.renderers).sort().forEach(renderer => {
-                                visualSelectorDropdown.add(new Option(renderer, renderer, renderer == selectedVisual, renderer == selectedVisual));
+                                if (settings.renderers.includes(renderer)) {
+                                    visualSelectorDropdown.add(new Option(renderer, renderer, renderer == selectedVisual, renderer == selectedVisual));
+                                }
                             });
                         });
 
@@ -2784,14 +2899,15 @@
                         return markup;
                     },
                     generateCheckboxInput: function(deckId, name, item) {
-                        let markup = `<div class="inline-input ${item.containerClass || ''}">`;
+                        let markup = `<div class="inline-input ${item.containerClass || ''}" data-assignable>`;
 
                         if (item.label) {
                             markup += `<span class="input-label">${item.label}</span>`;
                         }
 
                         markup += `<label class="switch">
-                                <input type="checkbox" ${item.checked ? 'checked' : ''} class="${item.class || ''}" data-deck="${deckId}" data-visual="${name}" data-variable="${item.variable}" ${item.randomiseable ? 'data-randomiseable' : ''} ${item.disabled ? 'disabled' : ''}>
+                                <input type="checkbox" ${item.checked ? 'checked' : ''} class="${item.class || ''}" data-deck="${deckId}" data-visual="${name}"
+                                    data-variable="${item.variable}" ${item.randomiseable ? 'data-randomiseable' : ''} ${item.disabled ? 'disabled' : ''}>
                                 <span class="slider"></span>
                             </label>
                         </div>`;
@@ -2799,7 +2915,7 @@
                         return markup;
                     },
                     generateRangeOrNumberInput: function(deckId, name, item) {
-                        let markup = `<div class="inline-input ${item.containerClass || ''}">`;
+                        let markup = `<div class="inline-input ${item.containerClass || ''}" data-assignable>`;
 
                         if (item.label) {
                             markup += `<span class="input-label">${item.label}`;
@@ -2834,7 +2950,7 @@
                         return markup;
                     },
                     generateButton: function(deckId, name, item) {
-                        let markup = `<div class="inline-input ${item.containerClass || ''}">`;
+                        let markup = `<div class="inline-input ${item.containerClass || ''}" data-assignable>`;
 
                         if (item.label) {
                             markup += `<span class="input-label">${item.label}</span>`
@@ -2945,7 +3061,7 @@
                     generateRandomisationToggle: function(deckId, name, item) {
                         if (item.type == 'empty') return '';
 
-                        let markup = `<div class="inline-input">`;
+                        let markup = `<div class="inline-input" data-assignable>`;
 
                         if (item.label) {
                             markup += `<span class="input-label">${item.label || item.heading || ''}`;
@@ -2958,7 +3074,8 @@
                         }
 
                         markup += `<label class="switch">
-                                <input type="checkbox" ${item.randomiseable ? 'checked' : ''} data-deck="${deckId}" data-visual="${name}" data-target="${item.variable}" data-toggle-randomisation>
+                                <input type="checkbox" ${item.randomiseable ? 'checked' : ''} data-deck="${deckId}" data-visual="${name}"
+                                    data-target="${item.variable}" data-toggle-randomisation>
                                 <span class="slider"></span>
                             </label>
                         </div>`
@@ -3067,12 +3184,14 @@
 
                                 this.sendBtn = document.querySelector(`[data-deck="${deck.id}"][data-send]`);
                                 this.sendBtn.addEventListener('click', function(e) {
-                                    deck.presets.send();
+                                    const tooltip = e.target.closest('.relative').querySelector('.tooltip');
+                                    deck.presets.send(tooltip);
                                 });
 
                                 this.receiveBtn = document.querySelector(`[data-deck="${deck.id}"][data-receive]`);
                                 this.receiveBtn.addEventListener('click', function(e) {
-                                    deck.presets.receive();
+                                    const tooltip = e.target.closest('.relative').querySelector('.tooltip');
+                                    deck.presets.receive(tooltip);
                                 });
 
                                 this.saveBtn = document.querySelector(`[data-deck="${deck.id}"][data-save]`);
@@ -3096,7 +3215,14 @@
 
                                 this.keyboardBtn = document.querySelector(`[data-deck="${deck.id}"][data-keyboard]`);
                                 this.keyboardBtn.addEventListener('click', function(e) {
-                                    console.debug('keyboard')
+                                    if (!e.target.classList.contains('on')) {
+                                        document.querySelectorAll(`[data-keyboard]`).forEach(btn => btn.classList.remove('on'));
+                                        e.target.classList.add('on');
+                                        hydra.keyboard.claimed = deck.id;
+                                    } else {
+                                        e.target.classList.remove('on');
+                                        hydra.keyboard.claimed = false;
+                                    }
                                 });
 
                                 this.guideBtn = document.querySelector(`[data-deck="${deck.id}"][data-guide]`);
@@ -3412,6 +3538,7 @@
                             },
                             load: function(preset) {
                                 for (const option in preset) {
+                                    // TODO get non-renderer variables here too and set them (effects, reactivity, randomisation)
                                     const input = document.querySelector(`[data-visual="${deck.visual.current}"][data-deck="${deck.id}"][data-variable="${option}"]`);
 
                                     if (!input) {
@@ -3435,16 +3562,36 @@
                                     }
                                 }
                             },
-                            send: function() {
+                            send: function(tooltip) {
                                 const currentPresetConfiguration = JSON.stringify(this.getCurrentPresetConfiguration());
                                 navigator.clipboard
                                     .writeText(currentPresetConfiguration).then(function() {
                                         console.debug('Preset copied!', currentPresetConfiguration);
+                                        tooltip.textContent = 'Copied to clipboard!';
+                                        tooltip.classList.remove('hide', 'transparent');
+                                        tooltip.classList.add('success');
+                                        setTimeout(() => {
+                                            tooltip.classList.add('transparent');
+                                            setTimeout(() => {
+                                                tooltip.classList.add('hide');
+                                                tooltip.classList.remove('success');
+                                            }, 350);
+                                        },2000);
                                     }, function(err) {
                                         console.error('Could not copy preset: ', err);
+                                        tooltip.textContent = 'Failed to copy to clipboard';
+                                        tooltip.classList.remove('hide', 'transparent');
+                                        tooltip.classList.add('error');
+                                        setTimeout(() => {
+                                            tooltip.classList.add('transparent');
+                                            setTimeout(() => {
+                                                tooltip.classList.add('hide');
+                                                tooltip.classList.remove('error');
+                                            }, 350);
+                                        },2000);
                                     });
                             },
-                            receive: function() {
+                            receive: function(tooltip) {
                                 navigator.clipboard
                                     .readText().then(function(presetConfiguration) {
                                         presetConfiguration = JSON.parse(presetConfiguration);
@@ -3454,8 +3601,28 @@
                                         }
 
                                         deck.presets.load(presetConfiguration.settings);
+                                        tooltip.textContent = 'Loaded from clipboard!';
+                                        tooltip.classList.remove('hide', 'transparent');
+                                        tooltip.classList.add('success');
+                                        setTimeout(() => {
+                                            tooltip.classList.add('transparent');
+                                            setTimeout(() => {
+                                                tooltip.classList.add('hide');
+                                                tooltip.classList.remove('success');
+                                            }, 350);
+                                        },2000);
                                     }, function(err) {
                                         console.error('Could not receive preset: ', err);
+                                        tooltip.textContent = 'Failed to load from clipboard';
+                                        tooltip.classList.remove('hide', 'transparent');
+                                        tooltip.classList.add('error');
+                                        setTimeout(() => {
+                                            tooltip.classList.add('transparent');
+                                            setTimeout(() => {
+                                                tooltip.classList.add('hide');
+                                                tooltip.classList.remove('error');
+                                            }, 350);
+                                        },2000);
                                     });
                             },
                             save: function() {
@@ -3909,6 +4076,12 @@
                         this.setMode = (mode) => {
                             hydra.mixedCtx.globalCompositeOperation = mode;
                         };
+                        this.previousMode = () => {
+                            console.log('previous mode');
+                        };
+                        this.nextMode = () => {
+                            console.log('next mode');
+                        };
                     }
                 },
                 effects: {
@@ -4167,6 +4340,26 @@
                         const syncBtn = document.getElementById('sync');
                         syncBtn.addEventListener('click', function(e) {
                             hydra.audio.bpm.sync();
+                        });
+
+                        const assignBtn = document.getElementById('assign');
+                        assignBtn.addEventListener('click', function(e) {
+                            if (hydra.body.classList.contains('assigning')) {
+                                hydra.midi.cancelAssignment();
+                            } else {
+                                hydra.body.classList.add('assigning');
+                            }
+                        });
+
+                        const assignableInputs = document.querySelectorAll('[data-assignable]');
+                        assignableInputs.forEach(assignableInput => {
+                            assignableInput.addEventListener('mousedown', function(e) {
+                                if (hydra.body.classList.contains('assigning')) {
+                                    assignableInput.assigning = true;
+                                    console.log(assignableInput)
+                                    hydra.body.classList.add('selected');
+                                }
+                            });
                         });
                     }
                 },
@@ -4597,29 +4790,47 @@
                     }
                 },
                 keyboard: {
+                    claimed: false,
+                    whitelist: [
+                        'Escape',
+                        'ArrowLeft',
+                        'ArrowRight',
+                        '§',
+                        ']',
+                        '\\',
+                        ',',
+                        '.',
+                        '/',
+                        ' ',
+                        'Alt',
+                        'AltGraph',
+                        'Enter',
+                        'Shift',
+                    ],
                     init: function() {
                         window.addEventListener('keydown', function(e) {
+                            if (!hydra.keyboard.claimed && !hydra.keyboard.whitelist.includes(e.key)) {
+                                return;
+                            }
+                            console.debug(e.key);
                             switch (e.key) {
-                                // case '§':
-                                // case ']':
-                                //     if (!knobs.assigning) {
-                                //         document.getElementById('assign').click();
-                                //     }
-                                //     break;
+                                case '§':
+                                case ']':
+                                    if (!hydra.midi.assigning) {
+                                        document.getElementById('assign').click();
+                                    }
+                                    break;
                                 case 'Escape':
-                                    // if (body.classList.contains('assigning')) {
-                                    //     knobs.cancelAssignment();
-                                    // }
-                                    // if (body.classList.contains('automationModalOpen')) {
-                                    //     document.getElementById('automation').click();
-                                    // }
+                                    if (hydra.body.classList.contains('assigning')) {
+                                        hydra.midi.cancelAssignment();
+                                    }
                                     // if (body.classList.contains('menuModalOpen')) {
                                     //     document.getElementById('menu').click();
                                     // }
                                     const savingPreset = document.querySelector('.saving-preset');
                                     if (savingPreset) {
                                         const deck = savingPreset.dataset.deck;
-                                        document.querySelector(`[data-deck="${deck}"][data-save-preset]`).click();
+                                        document.querySelector(`[data-deck="${deck}"][data-save]`).click();
                                     }
                                     break;
                                 // case 'q':
@@ -4688,56 +4899,48 @@
                                 // case '\'':
                                 //     knobs.valueChange('globalAmp', 'down');
                                 //     break;
-                                // case '\\':
-                                //     let activeCanvasRecorderControl = document.querySelector('.canvasRecorderControl:not(:disabled)');
-                                //     activeCanvasRecorderControl.click();
-                                //     break;
-                                // case '1':
-                                //     presets.select(1);
-                                //     break;
-                                // case '2':
-                                //     presets.select(2);
-                                //     break;
-                                // case '3':
-                                //     presets.select(3);
-                                //     break;
-                                // case '4':
-                                //     presets.select(4);
-                                //     break;
-                                // case '5':
-                                //     presets.select(5);
-                                //     break;
-                                // case '6':
-                                //     presets.select(6);
-                                //     break;
-                                // case '7':
-                                //     presets.select(7);
-                                //     break;
-                                // case '8':
-                                //     presets.select(8);
-                                //     break;
-                                // case '9':
-                                //     presets.select(9);
-                                //     break;
-                                // case '0':
-                                //     presets.select(10);
-                                //     break;
-                                // case '-':
-                                //     if (!presets.current || (presets.current == 1)) {
-                                //         presets.current = presets.items.length;
-                                //     } else {
-                                //         presets.current--;
-                                //     }
-                                //     presets.select(presets.current);
-                                //     break;
-                                // case '=':
-                                //     if (!presets.current || (presets.current == presets.items.length)) {
-                                //         presets.current = 1;
-                                //     } else {
-                                //         presets.current++;
-                                //     }
-                                //     presets.select(presets.current);
-                                //     break;
+                                case 'Backspace':
+                                    console.log('what to do?');
+                                    break;
+                                case '\\':
+                                    document.getElementById('record').click();
+                                    break;
+                                case '1':
+                                    hydra[`deck${hydra.keyboard.claimed}`].presets.select(1);
+                                    break;
+                                case '2':
+                                    hydra[`deck${hydra.keyboard.claimed}`].presets.select(2);
+                                    break;
+                                case '3':
+                                    hydra[`deck${hydra.keyboard.claimed}`].presets.select(3);
+                                    break;
+                                case '4':
+                                    hydra[`deck${hydra.keyboard.claimed}`].presets.select(4);
+                                    break;
+                                case '5':
+                                    hydra[`deck${hydra.keyboard.claimed}`].presets.select(5);
+                                    break;
+                                case '6':
+                                    hydra[`deck${hydra.keyboard.claimed}`].presets.select(6);
+                                    break;
+                                case '7':
+                                    hydra[`deck${hydra.keyboard.claimed}`].presets.select(7);
+                                    break;
+                                case '8':
+                                    hydra[`deck${hydra.keyboard.claimed}`].presets.select(8);
+                                    break;
+                                case '9':
+                                    hydra[`deck${hydra.keyboard.claimed}`].presets.select(9);
+                                    break;
+                                case '0':
+                                    hydra[`deck${hydra.keyboard.claimed}`].presets.select(10);
+                                    break;
+                                case '-':
+                                    hydra[`deck${hydra.keyboard.claimed}`].presets.previous();
+                                    break;
+                                case '=':
+                                    hydra[`deck${hydra.keyboard.claimed}`].presets.next();
+                                    break;
                                 // case '`':
                                 //     neuromute.state.toggle();
                                 //     break;
@@ -4762,17 +4965,132 @@
                                 // case 'm':
                                 //     audio.react.set('cause', 'percentage');
                                 //     break;
-                                // case ',':
-                                //     audio.react.set('effect', 'add');
-                                //     break;
-                                // case '.':
-                                //     audio.react.set('effect', 'sub');
-                                //     break;
-                                // case '/':
-                                //     audio.react.set('effect', 'multi');
-                                //     break;
+                                case ',':
+                                    const mirrorClipBtn = !hydra.keyboard.claimed
+                                        ? '[data-target="output"].mirror-mode.applies-clip'
+                                        : `[data-target="deck${hydra.keyboard.claimed}"].mirror-mode.applies-clip`;
+                                    document.querySelector(mirrorClipBtn).click();
+                                    break;
+                                case '.':
+                                    const mirrorFullBtn = !hydra.keyboard.claimed
+                                        ? '[data-target="output"].mirror-mode.applies-full'
+                                        : `[data-target="deck${hydra.keyboard.claimed}"].mirror-mode.applies-full`;
+                                    document.querySelector(mirrorFullBtn).click();
+                                    break;
+                                case '/':
+                                    const mirrorBleedBtn = !hydra.keyboard.claimed
+                                        ? '[data-target="output"].mirror-mode.applies-bleed'
+                                        : `[data-target="deck${hydra.keyboard.claimed}"].mirror-mode.applies-bleed`;
+                                    document.querySelector(mirrorBleedBtn).click();
+                                    break;
+                                case 'ArrowUp':
+                                    document.querySelector(`[data-deck="${hydra.keyboard.claimed}"].raise-to-top`).click();
+                                    break;
+                                case 'ArrowDown':
+                                    document.querySelector(`[data-deck="${hydra.keyboard.claimed == 1 ? 2 : 1}"].raise-to-top`).click();
+                                    break;
+                                case 'ArrowLeft':
+                                    document.querySelector('[data-deck="1"][data-keyboard]').click();
+                                    break;
+                                case 'ArrowRight':
+                                    document.querySelector('[data-deck="2"][data-keyboard]').click();
+                                    break;
+                                case ' ':
+                                    document.getElementById('tap-bpm').click();
+                                    break;
+                                case 'Alt':
+                                    hydra.composition.previousMode();  // TODO
+                                    break;
+                                case 'AltGraph':
+                                    hydra.composition.nextMode();  // TODO
+                                    break;
+                                case 'Enter':
+                                    const kaleidoscopeToggleBtn = !hydra.keyboard.claimed
+                                        ? 'kaleidoscope-output-toggle'
+                                        : `kaleidoscope-deck${hydra.keyboard.claimed}-toggle`;
+                                    document.getElementById(kaleidoscopeToggleBtn).click();
+                                    break;
+                                case 'Shift':
+                                    const mirrorToggleBtn = !hydra.keyboard.claimed
+                                        ? 'mirror-output-toggle'
+                                        : `mirror-deck${hydra.keyboard.claimed}-toggle`;
+                                    document.getElementById(mirrorToggleBtn).click();
+                                    break;
                             }
                         });
+                    }
+                },
+                midi: {
+                    assigning: false,
+                    init: function() {
+                        this.requestAccess();
+                    },
+                    requestAccess: function() {
+                        try {
+                            navigator.requestMIDIAccess()
+                                .then(this.onMIDISuccess, this.onMIDIFailure);
+                        } catch (err) {
+                            // bad things happened... weird browser, lacking ssl?
+                        }
+                    },
+                    onMIDISuccess: function(midiAccess) {
+                        for (let input of midiAccess.inputs.values()) {
+                            input.onmidimessage = hydra.midi.getMIDIMessage;
+                        }
+                    },
+                    onMIDIFailure: function() {
+                        console.log('Could not access MIDI devices.');
+                    },
+                    getMIDIMessage: function(midiMessage) {
+
+                        switch (midiMessage.data[0]) {
+                            //pad or key
+                            case 144:
+                                try {
+                                    presets.select(midiMessage.data[1] - 47);
+                                } catch (e) {}
+                                break;
+                            // dial
+                            case 176:
+                                if (knobs.assigning) {
+                                    midi.assignments.knobs[midiMessage.data[1]] = knobs.assigning;
+                                    storage.db.setItem('assignments', JSON.stringify(midi.assignments));
+                                    knobs.cancelAssignment();
+                                } else {
+                                    try {
+                                        let dial = midi.assignments.knobs[parseInt(midiMessage.data[1])],
+                                            min = knobs.knob[dial]._input.min,
+                                            max = knobs.knob[dial]._input.max,
+                                            incrementSize = (Math.abs(min - max)/127);
+
+                                        if (Math.sign(min) == -1) {
+                                            knobs.knob[dial].value = (incrementSize - Math.abs(min) - incrementSize) + (incrementSize * midiMessage.data[2]);
+                                        } else {
+                                            knobs.knob[dial].value = (knobs.knob[dial]._input.max/127) * midiMessage.data[2];
+                                        }
+                                    } catch (e) {}
+                                }
+                                break;
+
+                        }
+
+                    },
+                    cancelAssignment: function() {
+                        hydra.body.classList.remove('assigning');
+                        hydra.body.classList.remove('selected');
+                        hydra.midi.assigning = false;
+                    },
+                    assignments: {
+                        knobs: {
+                            1: 'reactivity',
+                            2: 'minWidth',
+                            3: 'widthMode',
+                            4: 'trailLength',
+                            5: 'modulo',
+                            6: 'arcMode',
+                            7: 'fillMode',
+                            8: 'colorMode',
+                        }
                     }
                 },
                 helpers: {
@@ -4916,2138 +5234,34 @@
             }
         })();
     </script>
-    <script>
-        window.hydra.renderers['quark'] = {
-            init: function(deck) {
-                const defaults = {
-                    reactivity: {
-                        scale: {
-                            enabled: true,
-                            on: true,
-                            cause: 'average',
-                            effect: 'add',
-                            strength: 10
-                        }
-                    },
-                    triangleSize: 10
-                };
-                const ui = {
-                    fieldsets: [
-                        {
-                            heading: 'Enabled',
-                            items: [
-                                {
-                                    type: 'checkbox',
-                                    label: 'Outer Circle',
-                                    variable: 'outerCircleEnabled',
-                                    checked: true,
-                                    randomiseable: true
-                                },
-                                {
-                                    type: 'checkbox',
-                                    label: 'Middle Circle',
-                                    variable: 'middleCircleEnabled',
-                                    checked: true,
-                                    randomiseable: true
-                                },
-                                {
-                                    type: 'checkbox',
-                                    label: 'Inner Circle',
-                                    variable: 'innerCircleEnabled',
-                                    checked: true,
-                                    randomiseable: true
-                                },
-                                {
-                                    type: 'checkbox',
-                                    label: '4-Point Circles',
-                                    variable: 'fourPointCirclesEnabled',
-                                    checked: false,
-                                    randomiseable: true
-                                },
-                                {
-                                    type: 'checkbox',
-                                    label: 'Large Triangle',
-                                    variable: 'largeTriangleEnabled',
-                                    checked: true,
-                                    randomiseable: true
-                                },
-                                {
-                                    type: 'checkbox',
-                                    label: 'Small Triangle',
-                                    variable: 'smallTriangleEnabled',
-                                    checked: true,
-                                    randomiseable: true
-                                }
-                            ]
-                        },
-                        {
-                            heading: 'Color',
-                            items: [
-                                {
-                                    type: 'color',
-                                    label: 'Outer Circle',
-                                    variable: 'outerCircleColor',
-                                    value: '#ff0000',
-                                    randomiseable: true
-                                },
-                                {
-                                    type: 'color',
-                                    label: 'Middle Circle',
-                                    variable: 'middleCircleColor',
-                                    value: '#ff0000',
-                                    randomiseable: true
-                                },
-                                {
-                                    type: 'color',
-                                    label: 'Inner Circle',
-                                    variable: 'innerCircleColor',
-                                    value: '#000000',
-                                    randomiseable: true
-                                },
-                                {
-                                    type: 'color',
-                                    label: '4-Point Circles',
-                                    variable: 'fourPointCirclesColor',
-                                    value: '#ff0000',
-                                    randomiseable: true
-                                },
-                                {
-                                    type: 'color',
-                                    label: 'Large Triangle',
-                                    variable: 'largeTriangleColor',
-                                    value: '#ff0000',
-                                    randomiseable: true
-                                },
-                                {
-                                    type: 'color',
-                                    label: 'Small Triangle',
-                                    variable: 'smallTriangleColor',
-                                    value: '#ff0000',
-                                    randomiseable: true
-                                }
-                            ]
-                        },
-                        {
-                            heading: 'Alpha',
-                            class: 'flex-grid',
-                            attributes: 'data-columns="3"',
-                            items: [
-                                {
-                                    type: 'range',
-                                    label: 'Outer Circle',
-                                    variable: 'outerCircleAlpha',
-                                    min: 0,
-                                    max: 1,
-                                    value: 1,
-                                    step: 0.01,
-                                    randomiseable: true
-                                },
-                                {
-                                    type: 'range',
-                                    label: 'Middle Circle',
-                                    variable: 'middleCircleAlpha',
-                                    min: 0,
-                                    max: 1,
-                                    value: 1,
-                                    step: 0.01,
-                                    randomiseable: true
-                                },
-                                {
-                                    type: 'range',
-                                    label: 'Inner Circle',
-                                    variable: 'innerCircleAlpha',
-                                    min: 0,
-                                    max: 1,
-                                    value: 1,
-                                    step: 0.01,
-                                    randomiseable: true
-                                },
-                                {
-                                    type: 'range',
-                                    label: '4-Point Circles',
-                                    variable: 'fourPointCirclesAlpha',
-                                    min: 0,
-                                    max: 1,
-                                    value: 1,
-                                    step: 0.01,
-                                    randomiseable: true
-                                },
-                                {
-                                    type: 'range',
-                                    label: 'Large Triangle',
-                                    variable: 'largeTriangleAlpha',
-                                    min: 0,
-                                    max: 1,
-                                    value: 1,
-                                    step: 0.01,
-                                    randomiseable: true
-                                },
-                                {
-                                    type: 'range',
-                                    label: 'Small Triangle',
-                                    variable: 'smallTriangleAlpha',
-                                    min: 0,
-                                    max: 1,
-                                    value: 1,
-                                    step: 0.01,
-                                    randomiseable: true
-                                }
-                            ]
-                        },
-                        {
-                            class: 'flex no-wrap',
-                            items: [
-                                {
-                                    type: 'group',
-                                    heading: 'Cycle Color',
-                                    items: [
-                                        {
-                                            type: 'checkbox',
-                                            label: '4-Point Circles',
-                                            variable: 'fourPointCirclesCycleColor',
-                                            checked: true,
-                                            randomiseable: true
-                                        },
-                                        {
-                                            type: 'checkbox',
-                                            label: 'Large Triangle',
-                                            variable: 'largeTriangleCycleColor',
-                                            checked: true,
-                                            randomiseable: true
-                                        },
-                                        {
-                                            type: 'checkbox',
-                                            label: 'Small Triangle',
-                                            variable: 'smallTriangleCycleColor',
-                                            checked: true,
-                                            randomiseable: true
-                                        }
-                                    ]
-                                },
-                                {
-                                    type: 'group',
-                                    heading: 'Cycle Interval',
-                                    items: [
-                                        {
-                                            containerClass: 'w100',
-                                            type: 'range',
-                                            label: '4-Point Circles',
-                                            variable: 'fourPointCirclesCycleInterval',
-                                            min: 0,
-                                            max: 30,
-                                            value: 1,
-                                            step: 0.1,
-                                            randomiseable: true
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            heading: 'Cycle Frequency',
-                            class: 'flex-grid',
-                            attributes: 'data-columns="3"',
-                            items: [
-                                {
-                                    type: 'range',
-                                    label: 'Red',
-                                    subLabel: 'Large Triangle',
-                                    variable: 'largeTriangleCycleFrequencyR',
-                                    min: 0,
-                                    max: 5000,
-                                    value: 1200,
-                                    step: 1,
-                                    randomiseable: true
-                                },
-                                {
-                                    type: 'range',
-                                    label: 'Green',
-                                    subLabel: 'Large Triangle',
-                                    variable: 'largeTriangleCycleFrequencyG',
-                                    min: 0,
-                                    max: 5000,
-                                    value: 1800,
-                                    step: 1,
-                                    randomiseable: true
-                                },
-                                {
-                                    type: 'range',
-                                    label: 'Blue',
-                                    subLabel: 'Large Triangle',
-                                    variable: 'largeTriangleCycleFrequencyB',
-                                    min: 0,
-                                    max: 5000,
-                                    value: 2400,
-                                    step: 1,
-                                    randomiseable: true
-                                },
-                                {
-                                    type: 'range',
-                                    label: 'Red',
-                                    subLabel: 'Small Triangle',
-                                    variable: 'smallTriangleCycleFrequencyR',
-                                    min: 0,
-                                    max: 5,
-                                    value: 1,
-                                    step: 0.1,
-                                    randomiseable: true
-                                },
-                                {
-                                    type: 'range',
-                                    label: 'Green',
-                                    subLabel: 'Small Triangle',
-                                    variable: 'smallTriangleCycleFrequencyG',
-                                    min: 0,
-                                    max: 5,
-                                    value: 1,
-                                    step: 0.1,
-                                    randomiseable: true
-                                },
-                                {
-                                    type: 'range',
-                                    label: 'Blue',
-                                    subLabel: 'Small Triangle',
-                                    variable: 'smallTriangleCycleFrequencyB',
-                                    min: 0,
-                                    max: 5,
-                                    value: 1,
-                                    step: 0.1,
-                                    randomiseable: true
-                                }
-                            ]
-                        },
-                        {
-                            heading: 'Rotation',
-                            class: 'flex-grid',
-                            attributes: 'data-columns="3"',
-                            items: [
-                                {
-                                    type: 'range',
-                                    label: 'Degree',
-                                    subLabel: 'Large Triangle',
-                                    variable: 'largeTriangleDegree',
-                                    min: 0,
-                                    max: 1000,
-                                    value: 0,
-                                    step: 1,
-                                    randomiseable: true
-                                },
-                                {
-                                    type: 'range',
-                                    label: 'Degree Mod',
-                                    subLabel: 'Large Triangle',
-                                    variable: 'largeTriangleDegreeIncrement',
-                                    min: 0,
-                                    max: 1000,
-                                    value: 0,
-                                    step: 0.001,
-                                    randomiseable: true,
-                                    dispatchEvent: 'largeTriangleDegreeInput'
-                                },
-                                {
-                                    type: 'range',
-                                    label: 'Degree Limit',
-                                    subLabel: 'Large Triangle',
-                                    variable: 'largeTriangleDegreeRestart',
-                                    min: 0,
-                                    max: 1000,
-                                    value: 360,
-                                    step: 1,
-                                    randomiseable: true,
-                                    dispatchEvent: 'largeTriangleDegreeInput'
-                                },
-                                {
-                                    type: 'range',
-                                    label: 'Degree Wave Max',
-                                    subLabel: 'Large Triangle',
-                                    variable: 'largeTriangleDegreeWaveMax',
-                                    min: 0,
-                                    max: 1000,
-                                    value: 15,
-                                    step: 1,
-                                    randomiseable: true,
-                                    dispatchEvent: 'largeTriangleDegreeInput'
-                                },
-                                {
-                                    type: 'range',
-                                    label: 'Degree Wave Amplitude',
-                                    subLabel: 'Large Triangle',
-                                    variable: 'largeTriangleDegreeWaveAmplitude',
-                                    min: 0,
-                                    max: 1000,
-                                    value: 30,
-                                    step: 1,
-                                    randomiseable: true,
-                                    dispatchEvent: 'largeTriangleDegreeInput'
-                                },
-                                {
-                                    type: 'range',
-                                    label: 'Degree Frequency',
-                                    subLabel: 'Large Triangle',
-                                    variable: 'largeTriangleDegreeWaveFrequency',
-                                    min: 0,
-                                    max: 24000,
-                                    value: 12000,
-                                    step: 1,
-                                    randomiseable: true,
-                                    dispatchEvent: 'largeTriangleDegreeInput'
-                                }
-                            ]
-                        },
-                        {
-                            class: 'flex-grid',
-                            attributes: 'data-columns="3"',
-                            items: [
-                                {
-                                    type: 'range',
-                                    label: 'Degree',
-                                    subLabel: 'Small Triangle',
-                                    variable: 'smallTriangleDegree',
-                                    min: 0,
-                                    max: 1000,
-                                    value: 0,
-                                    step: 1,
-                                    randomiseable: true
-                                },
-                                {
-                                    type: 'range',
-                                    label: 'Degree Mod',
-                                    subLabel: 'Small Triangle',
-                                    variable: 'smallTriangleDegreeIncrement',
-                                    min: 0,
-                                    max: 1000,
-                                    value: 10,
-                                    step: 1,
-                                    randomiseable: true,
-                                    dispatchEvent: 'smallTriangleDegreeInput'
-                                },
-                                {
-                                    type: 'range',
-                                    label: 'Degree Limit',
-                                    subLabel: 'Small Triangle',
-                                    variable: 'smallTriangleDegreeRestart',
-                                    min: 0,
-                                    max: 1000,
-                                    value: 360,
-                                    step: 1,
-                                    randomiseable: true,
-                                    dispatchEvent: 'smallTriangleDegreeInput'
-                                },
-                                {
-                                    type: 'range',
-                                    label: 'Degree Wave Max',
-                                    subLabel: 'Small Triangle',
-                                    variable: 'smallTriangleDegreeWaveMax',
-                                    min: 0,
-                                    max: 1000,
-                                    value: 15,
-                                    step: 1,
-                                    randomiseable: true,
-                                    dispatchEvent: 'smallTriangleDegreeInput'
-                                },
-                                {
-                                    type: 'range',
-                                    label: 'Degree Wave Amplitude',
-                                    subLabel: 'Small Triangle',
-                                    variable: 'smallTriangleDegreeWaveAmplitude',
-                                    min: 0,
-                                    max: 1000,
-                                    value: 30,
-                                    step: 1,
-                                    randomiseable: true,
-                                    dispatchEvent: 'smallTriangleDegreeInput'
-                                },
-                                {
-                                    type: 'range',
-                                    label: 'Degree Frequency',
-                                    subLabel: 'Small Triangle',
-                                    variable: 'smallTriangleDegreeWaveFrequency',
-                                    min: 0,
-                                    max: 24000,
-                                    value: 12000,
-                                    step: 1,
-                                    randomiseable: true,
-                                    dispatchEvent: 'smallTriangleDegreeInput'
-                                }
-                            ]
-                        },
-                        {
-                            heading: 'Sync',
-                            items: [
-                                {
-                                    type: 'checkbox',
-                                    label: 'Sync',
-                                    variable: 'smallTriangleSync',
-                                    checked: true,
-                                    randomiseable: true
-                                }
-                            ]
-                        },
-                        {
-                            class: 'flex no-wrap',
-                            items: [
-                                {
-                                    type: 'group',
-                                    heading: 'Scale',
-                                    items: [
-                                        {
-                                            type: 'range',
-                                            containerClass: 'w100',
-                                            variable: 'scale',
-                                            min: 0,
-                                            max: 30,
-                                            value: 0.75,
-                                            step: 0.05
-                                        }
-                                    ]
-                                },
-                                {
-                                    type: 'group',
-                                    heading: 'Radius',
-                                    items: [
-                                        {
-                                            type: 'range',
-                                            containerClass: 'w100',
-                                            variable: 'radius',
-                                            min: 0,
-                                            max: 1000,
-                                            value: 200,
-                                            step: 1
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            class: 'flex',
-                            heading: 'Offset',
-                            items: [
-                                {
-                                    type: 'range',
-                                    containerClass: 'w100',
-                                    label: '4-Point Circles',
-                                    variable: 'fourPointCirclesOffset',
-                                    min: -200,
-                                    max: 200,
-                                    value: 50,
-                                    step: 1,
-                                    dispatchEvent: 'smallTriangleDegreeInput'
-                                }
-                            ]
-                        }
-                    ]
-                };
-                deck.quark = window.hydra.renderer.init(deck, 'quark', defaults, ui, './js/renderers/quark/presets.json');
-
-                deck.quark.radius = parseInt(deck.quark.radiusInput.value);
-
-                deck.quark.render = () => {
-                    let radius = deck.quark.radius * deck.scale;
-                    if (deck.reactivity.on && deck.reactivity.scale.on) {
-                        radius = deck.reactivity.adjust('scale', radius);
-
-                    }
-                    let time = Date.now();
-
-                    deck.ctx.clearRect(0, 0, deck.canvas.width, deck.canvas.height);
-
-                    if (deck.quark.smallTriangleSync) {
-                        deck.quark.smallTriangleDegree = deck.quark.smallTriangleDegree/1000;
-                    }
-
-                    deck.quark.largeTriangleDegree += (deck.quark.largeTriangleDegreeIncrement + (deck.quark.largeTriangleDegreeWaveMax/2 + deck.quark.largeTriangleDegreeWaveAmplitude * Math.sin(time/deck.quark.largeTriangleDegreeWaveFrequency)));
-                    deck.quark.smallTriangleDegree += deck.quark.smallTriangleDegreeIncrement;
-
-                    if (deck.quark.largeTriangleDegree >= deck.quark.largeTriangleDegreeRestart) deck.quark.largeTriangleDegree = 0;
-                    if (deck.quark.smallTriangleDegree >= deck.quark.smallTriangleDegreeRestart) deck.quark.smallTriangleDegree = 0;
-
-                    deck.ctx.translate(hydra.centerX, hydra.centerY);
-                    deck.ctx.rotate((Math.PI / 180) * deck.quark.largeTriangleDegree);
-                    deck.ctx.translate(-hydra.centerX, -hydra.centerY);
-
-                    if (deck.quark.outerCircleEnabled) {
-                        deck.ctx.strokeStyle = `rgba(${deck.quark.outerCircleColor.r}, ${deck.quark.outerCircleColor.g}, ${deck.quark.outerCircleColor.b}, ${deck.quark.outerCircleAlpha})`;
-                        deck.ctx.lineWidth = 4;
-                        if (deck.reactivity.on && deck.reactivity.scale.on) {
-                            deck.ctx.lineWidth = (4/50) * (window.hydra.audio.percentage * deck.reactivity.scale.strength);
-                        }
-                        deck.ctx.beginPath();
-                        deck.ctx.arc(hydra.centerX, hydra.centerY, radius + (radius * 0.57), 0, 2 * Math.PI);
-                        deck.ctx.stroke();
-                        deck.ctx.closePath();
-                    }
-
-                    if (deck.quark.middleCircleEnabled) {
-                        deck.ctx.strokeStyle = `rgba(${deck.quark.middleCircleColor.r}, ${deck.quark.middleCircleColor.g}, ${deck.quark.middleCircleColor.b}, ${deck.quark.middleCircleAlpha})`;
-                        deck.ctx.lineWidth = 4;
-                        deck.ctx.beginPath();
-                        deck.ctx.arc(hydra.centerX, hydra.centerY, radius, 0, 2 * Math.PI);
-                        deck.ctx.stroke();
-                        deck.ctx.closePath();
-                    }
-
-                    y = (Math.sqrt(3)/2)*radius;
-                    x = (radius * Math.sqrt(3))/2;
-
-                    let r = 255/2 + 255 * Math.sin(time/deck.quark.largeTriangleCycleFrequencyR);
-                    let g = 255/2 + 255 * Math.sin(time/deck.quark.largeTriangleCycleFrequencyG);
-                    let b = 255/2 + 255 * Math.sin(time/deck.quark.largeTriangleCycleFrequencyB);
-
-                    let color = `rgba(${r}, ${g}, ${b}, ${deck.quark.largeTriangleAlpha})`;
-
-                    if (deck.quark.largeTriangleEnabled) {
-                        deck.ctx.fillStyle = deck.quark.largeTriangleCycleColor
-                            ? color
-                            : `rgba(${deck.quark.largeTriangleColor.r}, ${deck.quark.largeTriangleColor.g}, ${deck.quark.largeTriangleColor.b}, ${deck.quark.largeTriangleAlpha})`;
-                        deck.ctx.beginPath();
-                        deck.ctx.moveTo(hydra.centerX, hydra.centerY-radius);
-                        deck.ctx.lineTo(hydra.centerX+x, hydra.centerY+(radius/2));
-                        deck.ctx.lineTo(hydra.centerX-x, hydra.centerY+(radius/2));
-                        deck.ctx.fill();
-                    }
-
-                    if (deck.quark.innerCircleEnabled) {
-                        deck.ctx.fillStyle = `rgba(${deck.quark.innerCircleColor.r}, ${deck.quark.innerCircleColor.g}, ${deck.quark.innerCircleColor.b}, ${deck.quark.innerCircleAlpha})`;
-                        deck.ctx.beginPath();
-                        deck.ctx.arc(hydra.centerX, hydra.centerY, (radius/2), 0, 2 * Math.PI);
-                        deck.ctx.fill();
-                        deck.ctx.closePath();
-                    }
-
-                    deck.ctx.translate(hydra.centerX, hydra.centerY);
-                    deck.ctx.rotate( (Math.PI / 180) * -deck.quark.largeTriangleDegree);
-                    deck.ctx.translate(-hydra.centerX, -hydra.centerY);
-
-                    deck.ctx.translate(hydra.centerX, hydra.centerY);
-                    deck.ctx.rotate( (Math.PI / 180) * deck.quark.smallTriangleDegree);
-                    deck.ctx.translate(-hydra.centerX, -hydra.centerY);
-
-                    if (deck.reactivity.on && deck.reactivity.scale.on) {
-                        radius = (radius/1000) * (window.hydra.audio.percentage * deck.reactivity.scale.strength * 2);
-                    }
-
-                    y = (Math.sqrt(3)/2)*(radius/2);
-                    x = ((radius/2) * Math.sqrt(3))/2;
-
-                    r = 255/2 + 255 * Math.sin(time/deck.quark.smallTriangleCycleFrequencyR);
-                    g = 255/2 + 255 * Math.sin(time/deck.quark.smallTriangleCycleFrequencyG);
-                    b = 255/2 + 255 * Math.sin(time/deck.quark.smallTriangleCycleFrequencyB);
-
-                    color = `rgba(${r}, ${g}, ${b}, ${deck.quark.smallTriangleAlpha})`;
-
-                    if (deck.quark.smallTriangleEnabled) {
-                        deck.ctx.fillStyle = deck.quark.smallTriangleCycleColor
-                            ? color
-                            : `rgba(${deck.quark.smallTriangleColor.r}, ${deck.quark.smallTriangleColor.g}, ${deck.quark.smallTriangleColor.b}, ${deck.quark.smallTriangleAlpha})`;
-                        deck.ctx.beginPath();
-                        deck.ctx.moveTo(hydra.centerX, hydra.centerY-(radius/2));
-                        deck.ctx.lineTo(hydra.centerX+x, hydra.centerY+((radius/2)/2));
-                        deck.ctx.lineTo(hydra.centerX-x, hydra.centerY+((radius/2)/2));
-
-                        deck.ctx.fill();
-                    }
-
-                    if (!deck.quark.smallTriangleSync) {
-                        deck.ctx.setTransform(1, 0, 0, 1, 0, 0);
-                    }
-
-                    if (deck.quark.fourPointCirclesEnabled) {
-                        let timeInSecs = parseInt(time/(deck.quark.fourPointCirclesCycleInterval*1000));
-
-                        let offset = deck.quark.fourPointCirclesOffset;
-
-                        if (deck.reactivity.on && deck.reactivity.scale.on) {
-                            offset = (offset/100) * (window.hydra.audio.percentage * deck.reactivity.scale.strength * 3);
-                        }
-
-                        deck.ctx.strokeStyle = ((timeInSecs % 4 == 0) && deck.quark.fourPointCirclesCycleColor)
-                            ? `rgba(${r}, ${g}, ${b}, ${deck.quark.fourPointCirclesAlpha})`
-                            : `rgba(${deck.quark.fourPointCirclesColor.r}, ${deck.quark.fourPointCirclesColor.g}, ${deck.quark.fourPointCirclesColor.b}, ${deck.quark.fourPointCirclesAlpha})`;
-                        deck.ctx.lineWidth = 4;
-                        deck.ctx.beginPath();
-                        deck.ctx.arc(hydra.centerX, hydra.centerY - (radius + offset), radius/10, 0, 2 * Math.PI);
-                        deck.ctx.stroke();
-                        deck.ctx.closePath();
-
-                        deck.ctx.strokeStyle = (((timeInSecs-1) % 4 == 0) && deck.quark.fourPointCirclesCycleColor)
-                            ? `rgba(${r}, ${g}, ${b}, ${deck.quark.fourPointCirclesAlpha})`
-                            : `rgba(${deck.quark.fourPointCirclesColor.r}, ${deck.quark.fourPointCirclesColor.g}, ${deck.quark.fourPointCirclesColor.b}, ${deck.quark.fourPointCirclesAlpha})`;
-                        deck.ctx.lineWidth = 4;
-                        deck.ctx.beginPath();
-                        deck.ctx.arc(hydra.centerX + (radius + offset), hydra.centerY, radius/10, 0, 2 * Math.PI);
-                        deck.ctx.stroke();
-                        deck.ctx.closePath();
-
-                        deck.ctx.strokeStyle = (((timeInSecs-2) % 4 == 0) && deck.quark.fourPointCirclesCycleColor)
-                            ? `rgba(${r}, ${g}, ${b}, ${deck.quark.fourPointCirclesAlpha})`
-                            : `rgba(${deck.quark.fourPointCirclesColor.r}, ${deck.quark.fourPointCirclesColor.g}, ${deck.quark.fourPointCirclesColor.b}, ${deck.quark.fourPointCirclesAlpha})`;
-                        deck.ctx.lineWidth = 4;
-                        deck.ctx.beginPath();
-                        deck.ctx.arc(hydra.centerX, hydra.centerY + (radius + offset), radius/10, 0, 2 * Math.PI);
-                        deck.ctx.stroke();
-                        deck.ctx.closePath();
-
-                        deck.ctx.strokeStyle = (((timeInSecs-3) % 4 == 0) && deck.quark.fourPointCirclesCycleColor)
-                            ? `rgba(${r}, ${g}, ${b}, ${deck.quark.fourPointCirclesAlpha})`
-                            : `rgba(${deck.quark.fourPointCirclesColor.r}, ${deck.quark.fourPointCirclesColor.g}, ${deck.quark.fourPointCirclesColor.b}, ${deck.quark.fourPointCirclesAlpha})`;
-                        deck.ctx.lineWidth = 4;
-                        deck.ctx.beginPath();
-                        deck.ctx.arc(hydra.centerX - (radius + offset), hydra.centerY, radius/10, 0, 2 * Math.PI);
-                        deck.ctx.stroke();
-                        deck.ctx.closePath();
-                    }
-                };
-
-                return deck;
-            }
-        };
-    </script>
-    <script>
-        window.hydra.renderers['neuromute'] = {
-            init: function(deck) {
-                const defaults = {
-                    reactivity: {
-                        scale: {
-                            enabled: true,
-                            on: true,
-                            cause: 'average',
-                            effect: 'add',
-                            strength: 2
-                        },
-                        color: {
-                            enabled: true,
-                            on: true,
-                            cause: 'average',
-                            effect: 'add',
-                            strength: 2
-                        },
-                        alpha: {
-                            enabled: true,
-                            on: false,
-                            cause: 'average',
-                            effect: 'add',
-                            strength: 2
-                        },
-                        amp: {
-                            enabled: true,
-                            on: false,
-                            cause: 'average',
-                            effect: 'add',
-                            strength: 2
-                        }
-                    },
-                    triangleSize: 10,
-                    trails: [],
-                    counter: 0,
-                    speed: 0.0001,
-                    red: 255,
-                    green: 255,
-                    blue: 255,
-                    canvas: deck.canvas,
-                    getRandomNumberBetween: (min, max) => {
-                        return Math.floor(Math.random() * (max - min + 1) + min);
-                    }
-                };
-                const ui = {
-                    fieldsets: [
-                        {
-                            heading: 'Arc',
-                            class: 'flex-grid',
-                            attributes: 'data-columns="3"',
-                            items: [
-                                {
-                                    type: 'range',
-                                    label: 'Min Width',
-                                    variable: 'minWidth',
-                                    min: 1,
-                                    max: 596,
-                                    value: 1,
-                                    step: 1,
-                                    randomiseable: true
-                                },
-                                {
-                                    type: 'range',
-                                    label: 'Width Mode',
-                                    variable: 'widthMode',
-                                    min: 1,
-                                    max: 8,
-                                    value: 1,
-                                    step: 1,
-                                    randomiseable: true
-                                },
-                                {
-                                    type: 'range',
-                                    label: 'Mode',
-                                    variable: 'arcMode',
-                                    min: 1,
-                                    max: 12,
-                                    value: 1,
-                                    step: 1,
-                                    randomiseable: true
-                                }
-                            ]
-                        },
-                        {
-                            heading: 'Line',
-                            class: 'flex-grid',
-                            attributes: 'data-columns="2"',
-                            items: [
-                                {
-                                    type: 'range',
-                                    label: 'Width',
-                                    variable: 'lineWidth',
-                                    min: 1,
-                                    max: 20,
-                                    value: 1,
-                                    step: 1,
-                                    randomiseable: true
-                                },
-                                {
-                                    type: 'range',
-                                    label: 'Mode',
-                                    variable: 'lineMode',
-                                    min: 1,
-                                    max: 3,
-                                    value: 1,
-                                    step: 1,
-                                    randomiseable: true
-                                }
-                            ]
-                        },
-                        {
-                            heading: 'Trail',
-                            class: 'flex-grid',
-                            attributes: 'data-columns="2"',
-                            items: [
-                                {
-                                    type: 'range',
-                                    label: 'Length',
-                                    variable: 'trailLength',
-                                    min: 1,
-                                    max: 155,
-                                    value: 100,
-                                    step: 1,
-                                    randomiseable: true
-                                },
-                                {
-                                    type: 'range',
-                                    label: 'Modulo',
-                                    variable: 'modulo',
-                                    min: 1,
-                                    max: 20,
-                                    value: 1,
-                                    step: 1,
-                                    randomiseable: true
-                                }
-                            ]
-                        },
-                        {
-                            heading: 'Fill',
-                            class: 'flex-grid',
-                            attributes: 'data-columns="3"',
-                            items: [
-                                {
-                                    type: 'range',
-                                    label: 'Frequency',
-                                    variable: 'fillFreq',
-                                    min: 1,
-                                    max: 200,
-                                    value: 1,
-                                    step: 1,
-                                    randomiseable: true
-                                },
-                                {
-                                    type: 'group',
-                                    class: 'inline-input',
-                                    items: [
-                                        {
-                                            type: 'checkbox',
-                                            label: 'Enabled',
-                                            variable: 'fillMode',
-                                            checked: false,
-                                            randomiseable: true
-                                        },
-                                        {
-                                            type: 'checkbox',
-                                            label: 'Random',
-                                            variable: 'fillRand',
-                                            checked: false,
-                                            randomiseable: true
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            heading: 'Dash',
-                            class: 'flex-grid',
-                            attributes: 'data-columns="3"',
-                            items: [
-                                {
-                                    type: 'range',
-                                    label: 'Length',
-                                    variable: 'dashLength',
-                                    min: 1,
-                                    max: 30,
-                                    value: 1,
-                                    step: 1,
-                                    randomiseable: true
-                                },
-                                {
-                                    type: 'range',
-                                    label: 'Gap',
-                                    variable: 'gapLength',
-                                    min: 1,
-                                    max: 100,
-                                    value: 1,
-                                    step: 1,
-                                    randomiseable: true
-                                },
-                                {
-                                    type: 'checkbox',
-                                    label: 'Enabled',
-                                    variable: 'dashMode',
-                                    checked: true,
-                                    randomiseable: true
-                                }
-                            ]
-                        },
-                        {
-                            heading: 'Color - Global',
-                            class: 'flex-grid',
-                            attributes: 'data-columns="4"',
-                            items: [
-                                {
-                                    type: 'range',
-                                    label: 'Mode',
-                                    variable: 'colorMode',
-                                    min: 1,
-                                    max: 14,
-                                    value: 1,
-                                    step: 1,
-                                    randomiseable: true
-                                },
-                                {
-                                    type: 'range',
-                                    label: 'Shift',
-                                    variable: 'globalShift',
-                                    min: -255,
-                                    max: 255,
-                                    value: 0,
-                                    step: 1,
-                                    randomiseable: true
-                                },
-                                {
-                                    type: 'range',
-                                    label: 'Alpha',
-                                    variable: 'globalAlpha',
-                                    min: 0,
-                                    max: 1,
-                                    value: 1,
-                                    step: 0.01,
-                                    randomiseable: true
-                                },
-                                {
-                                    type: 'range',
-                                    label: 'Amp',
-                                    variable: 'globalAmp',
-                                    min: 0,
-                                    max: 20,
-                                    value: 1,
-                                    step: 0.1,
-                                    randomiseable: true
-                                },
-                            ]
-                        },
-                        {
-                            heading: 'Red',
-                            class: 'flex-grid',
-                            attributes: 'data-columns="3"',
-                            items: [
-                                {
-                                    type: 'range',
-                                    label: 'Shift',
-                                    variable: 'redShift',
-                                    min: -255,
-                                    max: 255,
-                                    value: 0,
-                                    step: 1,
-                                    randomiseable: true
-                                },
-                                {
-                                    type: 'color-meter',
-                                    label: 'Level',
-                                    color: 'red'
-                                },
-                                {
-                                    type: 'range',
-                                    label: 'Amp',
-                                    variable: 'redAmp',
-                                    min: 0,
-                                    max: 20,
-                                    value: 1,
-                                    step: 0.1,
-                                    randomiseable: true
-                                }
-                            ]
-                        },
-                        {
-                            heading: 'Green',
-                            class: 'flex-grid',
-                            attributes: 'data-columns="3"',
-                            items: [
-                                {
-                                    type: 'range',
-                                    label: 'Shift',
-                                    variable: 'greenShift',
-                                    min: -255,
-                                    max: 255,
-                                    value: 0,
-                                    step: 1,
-                                    randomiseable: true
-                                },
-                                {
-                                    type: 'color-meter',
-                                    label: 'Level',
-                                    color: 'green'
-                                },
-                                {
-                                    type: 'range',
-                                    label: 'Amp',
-                                    variable: 'greenAmp',
-                                    min: 0,
-                                    max: 20,
-                                    value: 1,
-                                    step: 0.1,
-                                    randomiseable: true
-                                }
-                            ]
-                        },
-                        {
-                            heading: 'Blue',
-                            class: 'flex-grid',
-                            attributes: 'data-columns="3"',
-                            items: [
-                                {
-                                    type: 'range',
-                                    label: 'Shift',
-                                    variable: 'blueShift',
-                                    min: -255,
-                                    max: 255,
-                                    value: 0,
-                                    step: 1,
-                                    randomiseable: true
-                                },
-                                {
-                                    type: 'color-meter',
-                                    label: 'Level',
-                                    color: 'blue'
-                                },
-                                {
-                                    type: 'range',
-                                    label: 'Amp',
-                                    variable: 'blueAmp',
-                                    min: 0,
-                                    max: 20,
-                                    value: 1,
-                                    step: 0.1,
-                                    randomiseable: true
-                                }
-                            ]
-                        }
-                    ]
-                };
-                deck.neuromute = window.hydra.renderer.init(deck, 'neuromute', defaults, ui, './js/renderers/neuromute/presets.json');
-
-                deck.neuromute.redMeter = document.querySelector(`[data-deck="${deck.id}"][data-visual="neuromute"] .color-meter.red > div`);
-                deck.neuromute.greenMeter = document.querySelector(`[data-deck="${deck.id}"][data-visual="neuromute"] .color-meter.green > div`);
-                deck.neuromute.blueMeter = document.querySelector(`[data-deck="${deck.id}"][data-visual="neuromute"] .color-meter.blue > div`);
-
-                deck.neuromute.render = () => {
-
-                    let opacity = 1;
-                    let angles;
-                    let trailLength = deck.neuromute.trailLength;
-                    let fillMode = deck.neuromute.fillMode;
-                    let globalShift = deck.neuromute.globalShift;
-                    let globalAlpha = deck.neuromute.globalAlpha;
-                    let globalAmp = deck.neuromute.globalAmp;
-
-                    // bug in chrome means getBoundingClientRect on canvas returns 0 due to the use of flex, so workaround by finding closest column
-                    if (!deck.mouse.lockedPosition) {
-                        deck.neuromute.mouseX = deck.mouse.x - deck.canvas.closest('.column').getBoundingClientRect().x - 10;
-                        deck.neuromute.mouseY = deck.mouse.y - deck.canvas.closest('.column').getBoundingClientRect().y - 10;
-                    }
-
-                    if (deck.neuromute.counter > trailLength) {
-                        deck.neuromute.counter = 0;
-                    }
-
-                    deck.neuromute.counter++;
-
-                    if (deck.neuromute.trails.length >= trailLength) {
-                        deck.neuromute.trails.shift();
-
-                        // trailLength has been reduced
-                        if (deck.neuromute.trails.length > trailLength) {
-                            deck.neuromute.trails.pop();
-                        }
-                    }
-
-                    switch (parseInt(deck.neuromute.colorMode)) {
-                        case 1:
-                            deck.neuromute.red = deck.neuromute.counter;
-                            deck.neuromute.green = (255-deck.neuromute.counter);
-                            deck.neuromute.blue = parseInt((255/(255/deck.neuromute.mouseY) * (255/deck.neuromute.mouseX)));
-                            opacity = parseInt(((trailLength*deck.neuromute.counter)));
-                            opacity = 1;
-                            break;
-                        case 2:
-                            deck.neuromute.red = parseInt(hydra.helpers.sine(deck.neuromute.counter, 255));
-                            deck.neuromute.green = (255-deck.neuromute.counter);
-                            deck.neuromute.blue = parseInt((255/(255/deck.neuromute.mouseY) * (255/deck.neuromute.mouseX)));
-                            break;
-                        case 3:
-                            deck.neuromute.red = parseInt(hydra.helpers.sine(deck.neuromute.counter, trailLength));
-                            deck.neuromute.green = parseInt(hydra.helpers.sine(deck.neuromute.counter, trailLength/2));
-                            deck.neuromute.blue = parseInt(hydra.helpers.sine(deck.neuromute.counter, trailLength/3));
-                            break;
-                        case 4:
-                            deck.neuromute.red = parseInt(((deck.neuromute.mouseX/(deck.neuromute.canvas.width)) * 255));
-                            deck.neuromute.green = parseInt(((deck.neuromute.mouseY/(deck.neuromute.canvas.height)) * 255));
-                            deck.neuromute.blue = parseInt(hydra.helpers.sine(deck.neuromute.counter, trailLength));
-                            break;
-                        case 5:
-                            deck.neuromute.red = parseInt(hydra.helpers.sine(deck.neuromute.counter, 255));
-                            deck.neuromute.green = parseInt(hydra.helpers.sine(deck.neuromute.counter, 155));
-                            deck.neuromute.blue = parseInt(hydra.helpers.sine(deck.neuromute.counter, 55));
-                            break;
-                        case 6:
-                            deck.neuromute.red = deck.neuromute.counter*3;
-                            deck.neuromute.green = 0;
-                            deck.neuromute.blue = 0;
-                            break;
-                        case 7:
-                            deck.neuromute.red = 0;
-                            deck.neuromute.green = deck.neuromute.counter*3;
-                            deck.neuromute.blue = 0;
-                            break;
-                        case 8:
-                            deck.neuromute.red = 0;
-                            deck.neuromute.green = 0;
-                            deck.neuromute.blue = deck.neuromute.counter*3;
-                            break;
-                        case 9:
-                            deck.neuromute.red = parseInt(hydra.helpers.sine(deck.neuromute.counter, 255));
-                            deck.neuromute.green = parseInt(hydra.helpers.sine(deck.neuromute.counter + 100, 255));
-                            deck.neuromute.blue = parseInt(hydra.helpers.sine(deck.neuromute.counter + 200, 255));
-                            break;
-                        case 10:
-                            deck.neuromute.red = Math.sin(0.1*deck.neuromute.counter + 0) * 127 + 128;
-                            deck.neuromute.green = Math.sin(0.1*deck.neuromute.counter + 2) * 127 + 128;
-                            deck.neuromute.blue = Math.sin(0.1*deck.neuromute.counter + 4) * 127 + 128;
-                            break;
-                        case 11:
-                            deck.neuromute.red = Math.sin(0.05*deck.neuromute.counter + 0) * 127 + 128;
-                            deck.neuromute.green = Math.sin(0.05*deck.neuromute.counter + 2) * 127 + 128;
-                            deck.neuromute.blue = Math.sin(0.05*deck.neuromute.counter + 4) * 127 + 128;
-                            break;
-                        case 12:
-                            deck.neuromute.red = Math.sin(0.3*deck.neuromute.counter + 0) * 103 + 152;
-                            deck.neuromute.green = Math.sin(0.3*deck.neuromute.counter + 2) * 103 + 152;
-                            deck.neuromute.blue = Math.sin(0.3*deck.neuromute.counter + 4) * 103 + 152;
-                            break;
-                        case 13:
-                            deck.neuromute.red = Math.sin(0.1*deck.neuromute.counter + 0) * 103 + 152;
-                            deck.neuromute.green = parseInt(hydra.helpers.sine(deck.neuromute.counter, 255));
-                            deck.neuromute.blue = Math.sin(0.1*deck.neuromute.counter + 4) * 103 + 152;
-                            break;
-                        case 14:
-                            deck.neuromute.red = Math.sin((0.1*(deck.neuromute.counter/3)) + 0) * 127 + 128;
-                            deck.neuromute.green = Math.sin((0.2*(deck.neuromute.counter/3)) + 2) * 115 + 140;
-                            deck.neuromute.blue = Math.sin((0.3*(deck.neuromute.counter/3)) + 4) * 103 + 152;
-                            break;
-                    }
-
-                    // update rgb displays before any potential reactor is applied, otherwise we're gonna have a bad time
-                    const redScaleX = Math.min(Math.max((1/255) * ((deck.neuromute.red + deck.neuromute.redShift + globalShift) * deck.neuromute.redAmp * globalAmp), 0), 1);
-                    const greenScaleX = Math.min(Math.max((1/255) * ((deck.neuromute.green + deck.neuromute.greenShift + globalShift) * deck.neuromute.greenAmp * globalAmp), 0), 1);
-                    const blueScaleX = Math.min(Math.max((1/255) * ((deck.neuromute.blue + deck.neuromute.blueShift + globalShift) * deck.neuromute.blueAmp * globalAmp), 0), 1);
-                    deck.neuromute.redMeter.style.transform = `scaleX(${redScaleX})`;
-                    deck.neuromute.greenMeter.style.transform = `scaleX(${greenScaleX})`;
-                    deck.neuromute.blueMeter.style.transform = `scaleX(${blueScaleX})`;
-
-
-                    // apply audio reactive shift and amp settings
-                    if (deck.reactivity.on) {
-                        if (deck.reactivity.color.on) {
-                            if (deck.reactivity.color.effect == 'add') {
-                                globalShift = globalShift + (hydra.audio[deck.reactivity.color.cause] * deck.reactivity.color.strength);
-                            }
-                            if (deck.reactivity.color.effect == 'subtract') {
-                                globalShift = globalShift - (hydra.audio[deck.reactivity.color.cause] * deck.reactivity.color.strength);
-                            }
-                            if (deck.reactivity.color.effect == 'multiply') {
-                                globalShift = (globalShift + (hydra.audio[deck.reactivity.color.cause] * deck.reactivity.color.strength)) * (hydra.audio[deck.reactivity.color.cause] * deck.reactivity.color.strength);
-                            }
-                        }
-                        if (deck.reactivity.amp.on) {
-                            if (deck.reactivity.amp.effect == 'add') {
-                                globalAmp = Math.max(0, (globalAmp * deck.reactivity.amp.strength) + (hydra.audio[deck.reactivity.amp.cause] * (deck.reactivity.amp.strength)));
-                            }
-                            if (deck.reactivity.amp.effect == 'subtract') {
-                                globalAmp = Math.max(0, globalAmp - ((((100/150) * hydra.audio[deck.reactivity.amp.cause]) * deck.reactivity.amp.strength)/100));
-                            }
-                            if (deck.reactivity.amp.effect == 'multiply') {
-                                globalAmp = Math.max(0, (globalAmp/10) + ((globalAmp * hydra.audio[deck.reactivity.amp.cause]) * (deck.reactivity.amp.strength/10)));
-                            }
-                        }
-                    }
-
-                    // handle color shift
-                    deck.neuromute.red = deck.neuromute.red + deck.neuromute.redShift;
-                    deck.neuromute.green = deck.neuromute.green + deck.neuromute.greenShift;
-                    deck.neuromute.blue = deck.neuromute.blue + deck.neuromute.blueShift;
-
-                    // handle global shift (cycles, unlike r/g/b shifts)
-                    if (globalShift) {
-                        deck.neuromute.red = deck.neuromute.red + globalShift;
-                        deck.neuromute.green = deck.neuromute.green + globalShift;
-                        deck.neuromute.blue = deck.neuromute.blue + globalShift;
-
-                        deck.neuromute.red = deck.neuromute.red % 255;
-                        deck.neuromute.green = deck.neuromute.green % 255;
-                        deck.neuromute.blue = deck.neuromute.blue % 255;
-
-                        if (Math.sign(deck.neuromute.red) == -1) {
-                            deck.neuromute.red = 255 - deck.neuromute.red;
-                        }
-
-                        if (Math.sign(deck.neuromute.green) == -1) {
-                            deck.neuromute.green = 255 - deck.neuromute.green;
-                        }
-
-                        if (Math.sign(deck.neuromute.blue) == -1) {
-                            deck.neuromute.blue = 255 - deck.neuromute.blue;
-                        }
-                    }
-
-                    // handle color amp
-                    deck.neuromute.red = deck.neuromute.red * deck.neuromute.redAmp * globalAmp;
-                    deck.neuromute.green = deck.neuromute.green * deck.neuromute.greenAmp * globalAmp;
-                    deck.neuromute.blue = deck.neuromute.blue * deck.neuromute.blueAmp * globalAmp;
-
-                    const colorMode = 'rgba(' + deck.neuromute.red + ',' + deck.neuromute.green + ',' + deck.neuromute.blue + ',' + opacity + ')';
-
-                    if (deck.neuromute.arcMode == 7) {
-                        deck.neuromute.arcMode = deck.neuromute.getRandomNumberBetween(1,6);
-                    }
-
-                    // determine arc mode
-                    switch (deck.neuromute.arcMode) {
-                        case 1:
-                            angles = {
-                                start: 0,
-                                end: (2 * Math.PI)
-                            };
-                            break;
-                        case 2:
-                            angles = {
-                                start: hydra.helpers.sine(deck.neuromute.counter, 360),
-                                end: (hydra.helpers.sine(deck.neuromute.counter, 360) + 2)
-                            };
-                            break;
-                        case 3:
-                            angles = {
-                                start: Math.PI,
-                                end: (2 * Math.PI)
-                            };
-                            break;
-                        case 4:
-                            angles = {
-                                start: hydra.helpers.sine(deck.neuromute.counter, 2 * Math.PI),
-                                end: (hydra.helpers.sine(deck.neuromute.counter, 2 * Math.PI) + 0.3)
-                            };
-                            break;
-                        case 5:
-                            angles = {
-                                start: (1.25 * Math.PI),
-                                end: (1.75 * Math.PI)
-                            };
-                            break;
-                        case 6:
-                            angles = {
-                                start: hydra.helpers.sine(deck.neuromute.counter, 2 * Math.PI),
-                                end: (hydra.helpers.sine(deck.neuromute.counter, 2 * Math.PI) + 0.1)
-                            };
-                            break;
-                        case 7:
-                            angles = {
-                                start: hydra.helpers.sine(deck.neuromute.counter, 2 * Math.PI),
-                                end: (hydra.helpers.sine(deck.neuromute.counter, 2 * Math.PI) + 1)
-                            };
-                            break;
-                        case 8:
-                            angles = {
-                                start: 0,
-                                end: (deck.neuromute.counter/trailLength) * (2 * Math.PI)
-                            };
-                            break;
-                        case 9:
-                            angles = {
-                                start: (trailLength/(2 * Math.PI)) * deck.neuromute.counter,
-                                end: (deck.neuromute.counter/trailLength) * (2 * Math.PI)
-                            };
-                            break;
-                        case 10:
-                            angles = {
-                                start: (Math.PI/trailLength) * deck.neuromute.counter,
-                                end: ((Math.PI/trailLength) * deck.neuromute.counter) + Math.PI
-                            };
-                            break;
-                        case 11:
-                            angles = {
-                                start: 0,
-                                end: Math.sin(0.1 * Math.PI/deck.neuromute.counter) + 0.2
-                            };
-                            break;
-                        case 12:
-                            angles = {
-                                start: ((deck.neuromute.counter-1) * ((Math.PI)/trailLength)),
-                                end: ((deck.neuromute.counter-1) * ((Math.PI*2)/trailLength))
-                            };
-                            break;
-                    }
-
-                    // determine overall fill configuration
-                    if (fillMode && deck.neuromute.fillRand) {
-                        fillMode = (deck.neuromute.getRandomNumberBetween(1, deck.neuromute.fillFreq) == 1);
-                    } else if (fillMode) {
-                        fillMode = deck.neuromute.counter % deck.neuromute.fillFreq == 0;
-                    }
-
-                    // determine lineMode
-                    switch (deck.neuromute.lineMode) {
-                        case 1:
-                            deck.neuromute.lineMode = 'butt';
-                            break;
-                        case 2:
-                            deck.neuromute.lineMode = 'line';
-                            break;
-                        case 3:
-                            deck.neuromute.lineMode = 'square';
-                            break;
-                    }
-
-                    // add our settings to the trails array
-                    deck.neuromute.trails.push({
-                        strokeStyle: colorMode,
-                        position: {
-                            x: Math.floor(deck.neuromute.mouseX),
-                            y: Math.floor(deck.neuromute.mouseY)
-                        },
-                        arcMode: deck.neuromute.arcMode,
-                        angles: angles,
-                        minWidth: deck.neuromute.minWidth,
-                        widthMode: deck.neuromute.widthMode,
-                        lineWidth: deck.neuromute.lineWidth,
-                        lineMode: deck.neuromute.lineMode,
-                        fillMode: fillMode,
-                        dashMode: deck.neuromute.dashMode,
-                        dashLength: deck.neuromute.dashLength,
-                        gapLength: deck.neuromute.gapLength,
-                    });
-
-                    // draw our trails
-                    for (let i = deck.neuromute.trails.length - 1; i >= 0; i--) {
-
-                        if (deck.neuromute.trails[i] === undefined) {
-                            return;
-                        }
-
-                        if (deck.neuromute.trails[i].widthMode == 8) {
-                            deck.neuromute.trails[i].widthMode = deck.neuromute.getRandomNumberBetween(1, 7);
-                        }
-
-                        // determine width mode
-                        switch (deck.neuromute.trails[i].widthMode) {
-                            case 1:
-                                deck.neuromute.width = hydra.helpers.sine(i, 40);
-                                break;
-                            case 2:
-                                deck.neuromute.width = i/2;
-                                break;
-                            case 3:
-                                deck.neuromute.width = hydra.helpers.sine(i, 60);
-                                break;
-                            case 4:
-                                deck.neuromute.width = hydra.helpers.sine(i/2, 255);
-                                break;
-                            case 5:
-                                deck.neuromute.width = deck.neuromute.minWidth;
-                                break;
-                            case 6:
-                                deck.neuromute.width = (trailLength/2) - (hydra.helpers.sine(i, trailLength)/2);
-                                break;
-                            case 7:
-                                deck.neuromute.width = trailLength - hydra.helpers.sine(i, trailLength);
-                                break;
-                        }
-
-                        // apply min width setting
-                        deck.neuromute.width = deck.neuromute.width + deck.neuromute.trails[i].minWidth;
-
-                        // apply audio reactive width setting
-                        if (deck.reactivity.on && deck.reactivity.scale.on) {
-                            if (deck.reactivity.scale.effect == 'add') {
-                                deck.neuromute.width = Math.max(0, deck.neuromute.width + (hydra.audio[deck.reactivity.scale.cause] * deck.reactivity.scale.strength));
-                            }
-                            if (deck.reactivity.scale.effect == 'subtract') {
-                                deck.neuromute.width = Math.max(0, deck.neuromute.width - (hydra.audio[deck.reactivity.scale.cause] * deck.reactivity.scale.strength));
-                            }
-                            if (deck.reactivity.scale.effect == 'multiply') {
-                                deck.neuromute.width = Math.max(0, deck.neuromute.width * (hydra.audio[deck.reactivity.scale.cause] * (deck.reactivity.scale.strength/10)));
-                            }
-                        }
-
-                        if (i % deck.neuromute.modulo == 0) {
-
-                            deck.ctx.beginPath();
-                            deck.ctx.lineWidth = deck.neuromute.trails[i].lineWidth;
-                            deck.ctx.lineCap = deck.neuromute.trails[i].lineMode;
-                            if (deck.neuromute.trails[i].dashMode) {
-                                deck.ctx.setLineDash([deck.neuromute.trails[i].dashLength, deck.neuromute.trails[i].gapLength]);
-                            } else {
-                                deck.ctx.setLineDash([]);
-                            }
-                            deck.ctx.strokeStyle = deck.neuromute.trails[i].strokeStyle;
-                            deck.ctx.arc(deck.neuromute.trails[i].position.x, deck.neuromute.trails[i].position.y, deck.neuromute.width, deck.neuromute.trails[i].angles.start, deck.neuromute.trails[i].angles.end);
-                            deck.ctx.stroke();
-                            if (deck.neuromute.trails[i].fillMode) {
-                                deck.ctx.fillStyle = deck.neuromute.trails[i].strokeStyle;
-                                deck.ctx.fill();
-                            }
-
-                            // apply audio reactive global alpha setting
-                            if (deck.reactivity.on && deck.reactivity.alpha.on) {
-                                if (deck.reactivity.alpha.effect == 'add') {
-                                    globalAlpha = Math.min(1, (hydra.audio[deck.reactivity.alpha.cause]/50) * deck.reactivity.alpha.strength) * deck.alpha;
-                                }
-                                if (deck.reactivity.alpha.effect == 'subtract') {
-                                    globalAlpha = Math.max(0, globalAlpha - ((((100/150) * hydra.audio[deck.reactivity.alpha.cause]) * deck.reactivity.alpha.strength)/100)) * deck.alpha;
-                                }
-                                if (deck.reactivity.alpha.effect == 'multipy') {
-                                    globalAlpha = Math.min(1, (Math.max(0, (globalAlpha/10) + ((globalAlpha * hydra.audio[deck.reactivity.alpha.cause]) * (deck.reactivity.alpha.strength/10))))) * deck.alpha;
-                                }
-                            }
-
-                            deck.ctx.globalAlpha = globalAlpha;
-                        }
-                    }
-                }
-
-                return deck;
-            }
-        };
-    </script>
-    <script>
-        window.hydra.renderers['lockdown'] = {
-            init: function(deck) {
-                const defaults = {
-                    reactivity: {
-                        scale: {
-                            enabled: true,
-                            on: true,
-                            cause: 'average',
-                            effect: 'add',
-                            strength: 10
-                        }
-                    },
-                    triangleSize: 10
-                };
-                const ui = {
-                    fieldsets: [
-                        {
-                            heading: 'Translate Mode',
-                            class: 'flex-grid',
-                            attributes: 'data-columns="3"',
-                            items: [
-                                {
-                                    type: 'button',
-                                    label: 'X Axis',
-                                    variable: 'translateModeX',
-                                    text: 'center',
-                                    options: 'center,wave,mouse',
-                                    randomiseable: true
-                                },
-                                {
-                                    type: 'button',
-                                    label: 'Y Axis',
-                                    variable: 'translateModeY',
-                                    text: 'center',
-                                    options: 'center,wave,mouse',
-                                    randomiseable: true
-                                }
-                            ]
-                        },
-                        {
-                            heading: 'Triangle',
-                            class: 'flex-grid',
-                            attributes: 'data-columns="3"',
-                            items: [
-                                {
-                                    type: 'range',
-                                    label: 'Count',
-                                    variable: 'triangleCount',
-                                    min: 1,
-                                    max: 100,
-                                    value: 40,
-                                    step: 1,
-                                    trigger: 'enableForceUpdate',
-                                    randomiseable: true
-                                },
-                                {
-                                    type: 'range',
-                                    label: 'Scale',
-                                    variable: 'triangleScale',
-                                    min: 0,
-                                    max: 6,
-                                    value: 1,
-                                    step: 0.001,
-                                    randomiseable: true
-                                },
-                                {
-                                    type: 'range',
-                                    label: 'Line Width',
-                                    variable: 'lineWidth',
-                                    min: 1,
-                                    max: 20,
-                                    value: 1,
-                                    step: 1,
-                                    disabled: true,
-                                    randomiseable: true
-                                },
-                                {
-                                    type: 'button',
-                                    label: 'Scale Mode',
-                                    variable: 'triangleScaleMode',
-                                    text: 'lin',
-                                    options: 'lin,log',
-                                    trigger: 'enableForceUpdate',
-                                    randomiseable: true
-                                },
-                                {
-                                    type: 'button',
-                                    label: 'Style',
-                                    variable: 'triangleStyle',
-                                    text: 'fill',
-                                    options: 'fill,stroke',
-                                    trigger: 'updateDisabledUIComponents',
-                                    randomiseable: true
-                                }
-                            ]
-                        },
-                        {
-                            heading: 'Rotation',
-                            class: 'flex-grid',
-                            attributes: 'data-columns="3"',
-                            items: [
-                                {
-                                    type: 'button',
-                                    label: 'Type',
-                                    variable: 'rotationType',
-                                    text: 'alternate',
-                                    options: 'alternate,normal,reverse',
-                                    randomiseable: true
-                                },
-                                {
-                                    type: 'button',
-                                    label: 'From',
-                                    variable: 'rotationFrom',
-                                    text: 'inside-out',
-                                    options: 'inside-out,outside-in',
-                                    randomiseable: true
-                                },
-                                {
-                                    type: 'range',
-                                    label: 'Degree Multiplier',
-                                    variable: 'degreeMultiplier',
-                                    min: 0,
-                                    max: 5,
-                                    value: 0.5,
-                                    step: 0.00001,
-                                    randomiseable: true
-                                },
-                                {
-                                    type: 'range',
-                                    label: 'Max Rotation',
-                                    variable: 'maxRotation',
-                                    min: 0,
-                                    max: 360,
-                                    value: 120,
-                                    step: 1,
-                                    randomiseable: true
-                                }
-                            ]
-                        },
-                        {
-                            heading: 'Frequencies',
-                            class: 'flex-grid',
-                            attributes: 'data-columns="3"',
-                            items: [
-                                {
-                                    type: 'button',
-                                    label: 'Frequency Control',
-                                    variable: 'frequencyControl',
-                                    text: 'single',
-                                    options: 'single,split',
-                                    trigger: 'updateDisabledUIComponents',
-                                    randomiseable: true
-                                },
-                                {
-                                    type: 'range',
-                                    label: 'Frequency',
-                                    variable: 'frequency',
-                                    min: 0.00001,
-                                    max: 0.00025,
-                                    value: 0.0001,
-                                    step: 0.00001,
-                                    class: 'frequencySingle',
-                                    randomiseable: true
-                                },
-                                {
-                                    type: 'empty'
-                                },
-                                {
-                                    type: 'range',
-                                    label: 'Frequency X/Y',
-                                    variable: 'frequencyMovement',
-                                    min: 0.00001,
-                                    max: 0.00045,
-                                    value: 0.0001,
-                                    step: 0.00001,
-                                    disabled: true,
-                                    class: 'frequencySplit',
-                                    randomiseable: true
-                                },
-                                {
-                                    type: 'range',
-                                    label: 'Frequency Rotation',
-                                    variable: 'frequencyRotation',
-                                    min: 0.00001,
-                                    max: 0.00025,
-                                    value: 0.0001,
-                                    step: 0.00001,
-                                    disabled: true,
-                                    class: 'frequencySplit',
-                                    randomiseable: true
-                                },
-                                {
-                                    type: 'range',
-                                    label: 'Frequency Color',
-                                    variable: 'frequencyColor',
-                                    min: 0.00001,
-                                    max: 0.00050,
-                                    value: 0.0001,
-                                    step: 0.00001,
-                                    disabled: true,
-                                    class: 'frequencySplit',
-                                    randomiseable: true
-                                }
-                            ]
-                        },
-                        {
-                            heading: 'Color',
-                            class: 'flex-grid',
-                            attributes: 'data-columns="3"',
-                            items: [
-                                {
-                                    type: 'button',
-                                    label: 'Foreground Mode',
-                                    variable: 'colorMode',
-                                    text: 'normal',
-                                    options: 'normal,cycle',
-                                    randomiseable: true
-                                },
-                                {
-                                    type: 'button',
-                                    label: 'Background Mode',
-                                    variable: 'bgColorMode',
-                                    text: 'black',
-                                    options: 'black,match,opposite',
-                                    randomiseable: true
-                                }
-                            ]
-                        }
-                    ]
-                };
-                deck.lockdown = window.hydra.renderer.init(deck, 'lockdown', defaults, ui, './js/renderers/lockdown/presets.json');
-
-                deck.lockdown.updateDisabledUIComponents = () => {
-                    if (deck.lockdown.frequencyControl == 'split') {
-                        deck.lockdown.frequencyInput.disabled = true;
-                        [
-                            deck.lockdown.frequencyMovementInput,
-                            deck.lockdown.frequencyRotationInput,
-                            deck.lockdown.frequencyColorInput
-                        ].forEach(frequencySplitInput => {
-                            frequencySplitInput.disabled = false;;
-                        });
-
-                        deck.lockdown.frequencyMovement = deck.lockdown.frequencyMovementInput.value;
-                        deck.lockdown.frequencyRotation = deck.lockdown.frequencyRotationInput.value;
-                        deck.lockdown.frequencyColor = deck.lockdown.frequencyColorInput.value;
-
-                    } else {
-                        deck.lockdown.frequencyInput.disabled = false;
-                        [
-                            deck.lockdown.frequencyMovementInput,
-                            deck.lockdown.frequencyRotationInput,
-                            deck.lockdown.frequencyColorInput
-                        ].forEach(frequencySplitInput => {
-                            frequencySplitInput.disabled = true;
-                        });
-                    }
-
-                    if (deck.lockdown.triangleStyle == 'fill') {
-                        deck.lockdown.lineWidthInput.disabled = true;
-                    } else {
-                        deck.lockdown.lineWidthInput.disabled = false;
-                    }
-                };
-
-                deck.lockdown.updateTriangles = () => {
-                    deck.lockdown.triangles = [];
-                    for (let i = 1; i <= deck.lockdown.triangleCount; i++) {
-                        deck.lockdown.triangleScaleMultiplier = deck.lockdown.triangleScaleMode == 'lin' ? 1 : (i/2);
-                        deck.lockdown.triangles.push({side: (deck.lockdown.triangleSize * i * deck.lockdown.triangleScaleMultiplier)});
-                    }
-
-                    deck.lockdown.triangles = deck.lockdown.triangles.reverse();
-
-                    deck.lockdown.forceUpdate = false;
-                };
-
-                deck.lockdown.enableForceUpdate = () => {
-                    deck.lockdown.forceUpdate = true;
-                }
-
-                deck.lockdown.render = () => {
-                    deck.ctx.translate(0, 0);
-                    deck.ctx.clearRect(0, 0, deck.canvas.width, deck.canvas.height);
-                    deck.ctx.fillStyle = deck.lockdown.bgColorMode == 'black' ? 'rgba(0,0,0,0)' : deck.lockdown.bgColor;
-                    deck.ctx.fillRect(0, 0, deck.canvas.width, deck.canvas.height);
-
-                    const totalTriangles = deck.lockdown.triangles.length;
-
-                    deck.lockdown.triangles.forEach(function(triangle, index) {
-
-                        if (deck.lockdown.frequencyControl == 'single') {
-                            deck.lockdown.frequencyMovement = deck.lockdown.frequency;
-                            deck.lockdown.frequencyRotation = deck.lockdown.frequency;
-                            deck.lockdown.frequencyColor = deck.lockdown.frequency;
-                        }
-
-                        let triangleSide = triangle.side * deck.lockdown.triangleScale;
-
-                        if (deck.reactivity.on && deck.reactivity.scale.on) {
-                            triangleSide = (triangleSide/100) * (window.hydra.audio.percentage * deck.reactivity.scale.strength * 3);
-                        }
-
-                        triangle.height = triangleSide * (Math.sqrt(3)/2);
-                        triangle.radius = triangleSide * (Math.sqrt(3)/3);
-
-                        deck.ctx.save();
-
-                        if (deck.lockdown.translateModeX == 'center') {
-                            deck.lockdown.translateX = deck.canvas.width/2;
-                        } else if (deck.lockdown.translateModeX == 'wave') {
-                            deck.lockdown.translateX = deck.canvas.width * (0.5*(1+Math.sin(2 * Math.PI * deck.lockdown.frequencyMovement * (Date.now() - (index * 100)))));
-                        } else if (deck.lockdown.translateModeX == 'mouse') {
-                            if (!deck.mouse.lockedPosition) {
-                                deck.lockdown.translateX = deck.mouse.x - deck.canvas.closest('.column').getBoundingClientRect().x - 10;
-                            }
-                        }
-
-                        if (deck.lockdown.translateModeY == 'center') {
-                            deck.lockdown.translateY = deck.canvas.height/2;
-                        } else if (deck.lockdown.translateModeY == 'wave') {
-                            deck.lockdown.translateY = deck.canvas.height * (0.5*(1+Math.sin(2 * Math.PI * (deck.lockdown.frequencyMovement / 2) * (Date.now() - (index * 100)))));
-                        } else if (deck.lockdown.translateModeY == 'mouse') {
-                            if (!deck.mouse.lockedPosition) {
-                                deck.lockdown.translateY = deck.mouse.y - deck.canvas.closest('.column').getBoundingClientRect().y - 10;
-                            }
-                        }
-
-                        deck.ctx.translate(deck.lockdown.translateX, deck.lockdown.translateY);
-
-                        let degree;
-
-                        if (deck.lockdown.rotationFrom == 'inside-out') {
-                            degree = (deck.lockdown.degreeMultiplier * (1 + Math.sin(2 * Math.PI * deck.lockdown.frequencyRotation * (Date.now() + (index * 100))))) * deck.lockdown.maxRotation;
-                        } else if (deck.lockdown.rotationFrom == 'outside-in') {
-                            degree = (deck.lockdown.degreeMultiplier * (1 + Math.sin(2 * Math.PI * deck.lockdown.frequencyRotation * (Date.now() - (index * 100))))) * deck.lockdown.maxRotation;
-                        }
-
-                        let rotationInRadians = degree * Math.PI / 180;
-
-                        if (deck.lockdown.rotationType == 'normal') {
-                            deck.ctx.rotate(rotationInRadians);
-                        } else if (deck.lockdown.rotationType == 'reverse') {
-                            deck.ctx.rotate(-rotationInRadians);
-                        } else if (deck.lockdown.rotationType == 'alternate') {
-                            deck.ctx.rotate(index % 2 == 0 ? rotationInRadians : -rotationInRadians);
-                        }
-
-                        deck.ctx.beginPath();
-                        deck.ctx.moveTo(0, -triangle.radius);
-                        deck.ctx.lineTo(triangleSide/2, (triangle.height - triangle.radius));
-                        deck.ctx.lineTo(-triangleSide/2, (triangle.height - triangle.radius));
-                        deck.ctx.lineTo(0, -triangle.radius);
-                        deck.ctx.closePath();
-
-                        let r, g, b;
-
-                        if (deck.lockdown.colorMode == 'cycle') {
-
-                            r = (0.5 * (1 + Math.sin(2 * Math.PI * (deck.lockdown.frequencyColor * 0.8) * (Date.now() - (index * 10))))) * 212;
-                            g = (0.5 * (1 + Math.sin(2 * Math.PI * (deck.lockdown.frequencyColor * 1.2) * (Date.now() - (index * 10))))) * 241;
-                            b = (0.5 * (1 + Math.sin(2 * Math.PI * (deck.lockdown.frequencyColor * 1) * (Date.now() - (index * 10))))) * 202;
-
-                            r = r - (totalTriangles - index);
-                            g = g - (totalTriangles - index);
-                            b = b - (totalTriangles - index);
-
-                        } else {
-
-                            r = (212 - (15*(totalTriangles - index)));
-                            g = (241 - (7*(totalTriangles - index)));
-                            b = (201 - (6*(totalTriangles - index)));
-
-                        }
-
-                        deck.ctx.shadowOffsetX = 2;
-                        deck.ctx.shadowOffsetY = 2;
-                        deck.ctx.shadowColor = 'rgba(0,0,0,0.2)';
-                        deck.ctx.shadowBlur = 5;
-
-                        if (deck.lockdown.triangleStyle == 'fill') {
-                            deck.ctx.fillStyle = `rgb(${r}, ${g}, ${b})`;
-                            deck.ctx.fill();
-                        } else {
-                            deck.ctx.strokeStyle = `rgb(${r}, ${g}, ${b})`;
-                            deck.ctx.lineWidth = deck.lockdown.lineWidth;
-                            deck.ctx.stroke();
-                        }
-
-                        if (index == 1) {
-                            if (deck.lockdown.bgColorMode == 'opposite') {
-                                r = 255 - r;
-                                g = 255 - g;
-                                b = 255 - b;
-                            }
-                            deck.lockdown.bgColor = `rgb(${r}, ${g}, ${b})`;
-                        }
-
-                        deck.ctx.restore();
-
-                        if ((index+1) == totalTriangles) {
-                            if (deck.lockdown.forceUpdate) {
-                                deck.lockdown.updateTriangles();
-                            }
-                        }
-                    });
-                };
-
-                deck.lockdown.updateTriangles(deck);
-
-                return deck;
-            }
-        };
-    </script>
-    <script>
-        window.hydra.renderers['pink'] = {
-            init: function(deck) {
-                const defaults = {
-                    scale: 1
-                };
-                const ui = {
-                    fieldsets: [
-                        {
-                            heading: 'Mods',
-                            class: 'flex',
-                            items: [
-                                {
-                                    type: 'checkbox',
-                                    label: 'Beat Sync',
-                                    variable: 'beatSync',
-                                    checked: false
-                                },
-                                {
-                                    type: 'checkbox',
-                                    label: 'Quark Sync',
-                                    variable: 'quarkSync',
-                                    checked: false
-                                }
-                            ]
-                        }
-                    ]
-                };
-                deck.pink = window.hydra.renderer.init(deck, 'pink', defaults, ui);
-
-                deck.pink.render = () => {
-                    deck.ctx.clearRect(0, 0, deck.canvas.width, deck.canvas.height);
-
-                    let radius;
-
-                    if (deck.pink.beatSync) {
-                        if (hydra.audio.bpm.beatOn) {
-                            deck.pink.scale = 2.5;
-                        } else if (deck.pink.scale > 1 && deck.pink.scale !== 1) {
-                            deck.pink.scale -= 0.1;
-                        } else {
-                            deck.pink.scale = 1
-                        }
-                    }
-
-                    if (deck.pink.quarkSync) {
-                        radius = hydra.deck1.quark.radius * hydra.deck1.quark.scale;
-                        if (hydra.deck1.reactivity.on && hydra.deck1.reactivity.scale.enabled && hydra.deck1.reactivity.scale.on) {
-                            radius = (radius/100) * (window.hydra.audio.percentage * deck.reactivity.scale.strength);
-                        }
-                    } else {
-                        radius = (deck.canvas.height/2) * deck.scale * deck.pink.scale;
-                    }
-
-                    const y = (Math.sqrt(3)/2)*(radius/2);
-                    const x = ((radius/2) * Math.sqrt(3))/2;
-
-                    deck.ctx.fillStyle = '#ff00e4';
-                    deck.ctx.beginPath();
-                    deck.ctx.moveTo(hydra.centerX, hydra.centerY-(radius/2));
-                    deck.ctx.lineTo(hydra.centerX+x, hydra.centerY+((radius/2)/2));
-                    deck.ctx.lineTo(hydra.centerX-x, hydra.centerY+((radius/2)/2));
-
-                    deck.ctx.fill();
-                }
-
-                return deck;
-            }
-        };
-    </script>
-    <script>
-        window.hydra.renderers['strobe'] = {
-            init: function(deck) {
-                const defaults = {
-                    scale: 0
-                };
-                const ui = {
-                    fieldsets: [
-                        {
-                            heading: 'Shape',
-                            class: 'flex-grid',
-                            attributes: 'data-columns="1"',
-                            items: [
-                                {
-                                    type: 'select',
-                                    variable: 'shape',
-                                    options: [
-                                        {text: 'circle', value: 'circle', selected: true},
-                                        {text: 'rectangle', value: 'rectangle', selected: false},
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            heading: 'Mods',
-                            class: 'flex',
-                            items: [
-                                {
-                                    type: 'checkbox',
-                                    label: 'Beat Sync',
-                                    variable: 'beatSync',
-                                    checked: true
-                                },
-                                {
-                                    type: 'color',
-                                    label: 'Color',
-                                    variable: 'color',
-                                    value: '#ffffff'
-                                },
-                                {
-                                    type: 'button',
-                                    label: 'Direction',
-                                    variable: 'direction',
-                                    text: 'forwards',
-                                    options: 'forwards,backwards'
-                                }
-                            ]
-                        },
-                        {
-                            heading: 'Speed',
-                            class: 'flex',
-                            items: [
-                                {
-                                    type: 'range',
-                                    label: 'Frequency',
-                                    variable: 'frequency',
-                                    min: 0,
-                                    max: 100,
-                                    value: 0,
-                                    step: 0.1,
-                                    containerClass: 'grow'
-                                }
-                            ]
-                        },
-                        {
-                            class: 'flex',
-                            items: [
-                                {
-                                    type: 'range',
-                                    label: 'Interval',
-                                    variable: 'interval',
-                                    min: 0,
-                                    max: 100,
-                                    value: 20,
-                                    step: 0.1,
-                                    containerClass: 'grow'
-                                },
-                                {
-                                    type: 'range',
-                                    label: 'Acceleration',
-                                    variable: 'acceleration',
-                                    min: 0,
-                                    max: 0.6,
-                                    value: 0.1,
-                                    step: 0.001,
-                                    containerClass: 'grow'
-                                }
-                            ]
-                        },
-                    ]
-                };
-                deck.strobe = window.hydra.renderer.init(deck, 'strobe', defaults, ui);
-
-                deck.strobe.render = () => {
-                    deck.ctx.clearRect(0, 0, deck.canvas.width, deck.canvas.height);
-
-                    const mod = deck.strobe.beatSync ? deck.strobe.acceleration : deck.strobe.acceleration * deck.strobe.frequency;
-
-                    if (deck.strobe.direction == 'backwards') {
-                        if ((deck.strobe.beatSync && hydra.audio.bpm.beatOn) || (!deck.strobe.beatSync && (deck.strobe.scale - 1.2) < -Math.abs(deck.strobe.interval))) {
-                            deck.ctx.globalAlpha = 1;
-                            deck.strobe.scale = 1.2;
-                        } else if (deck.strobe.scale < 1) {
-                            deck.strobe.scale -= mod
-                        } else {
-                            deck.ctx.globalAlpha = 0;
-                            deck.strobe.scale -= mod
-                        }
-                    } else {
-                        if ((deck.strobe.beatSync && hydra.audio.bpm.beatOn) || (!deck.strobe.beatSync && deck.strobe.scale > deck.strobe.interval)) {
-                            deck.ctx.globalAlpha = 1;
-                            deck.strobe.scale = 0;
-                        } else if (deck.strobe.scale < 1) {
-                            deck.strobe.scale += mod
-                        } else {
-                            deck.ctx.globalAlpha = 0;
-                            deck.strobe.scale += mod
-                        }
-                    }
-
-                    if (deck.strobe.shape == 'circle') {
-                        deck.ctx.save();
-                        const radius = deck.canvas.width * (deck.strobe.scale >= 0 ? deck.strobe.scale : 0);
-                        deck.ctx.fillStyle = `rgb(${deck.strobe.color.r}, ${deck.strobe.color.g}, ${deck.strobe.color.b})`;
-                        deck.ctx.beginPath();
-                        deck.ctx.arc(hydra.centerX, hydra.centerY, radius, 0, 2 * Math.PI);
-                        deck.ctx.fill();
-                        deck.ctx.restore();
-                    }
-
-                    if (deck.strobe.shape == 'rectangle') {
-                        deck.ctx.save();
-                        const width = deck.canvas.width * deck.strobe.scale;
-                        const height = deck.canvas.height * deck.strobe.scale;
-                        deck.ctx.fillStyle = `rgb(${deck.strobe.color.r}, ${deck.strobe.color.g}, ${deck.strobe.color.b})`;
-                        deck.ctx.fillRect(hydra.centerX - (width/2), hydra.centerY - (height/2), width, height);
-                        deck.ctx.restore();
-                    }
-                }
-
-                return deck;
-            }
-        };
-    </script>
-    <script>
-        window.hydra.renderers['matrix'] = {
-            init: function(deck) {
-                const defaults = {
-                    clearsSelf: true,
-                    katakana: 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン',
-                    latin: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
-                    nums: '0123456789',
-                    fontSize: 10,
-                    columns: 0,
-                    rainDrops: [],
-                    calculatedProperties: false,
-                    calculateProperties: () => {
-                        deck.matrix.alphabet = deck.matrix.katakana + deck.matrix.latin + deck.matrix.nums;
-
-                        deck.matrix.columns = deck.canvas.width / deck.matrix.fontSize;
-
-                        for (let x = 0; x < deck.matrix.columns; x++) {
-                            deck.matrix.rainDrops[x] = 1;
-                        }
-
-                        deck.matrix.calculatedProperties = true;
-                    }
-                };
-                deck.matrix = window.hydra.renderer.init(deck, 'matrix', defaults, {});
-                deck.matrix.shouldRender = true;
-
-                deck.matrix.render = () => {
-                    if (!deck.matrix.calculatedProperties) {
-                        deck.matrix.calculateProperties();
-                    } else {
-                        if (deck.matrix.shouldRender) {
-                            // gradually fades out previous rendered content
-                            deck.ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-                            deck.ctx.fillRect(0, 0, deck.canvas.width, deck.canvas.height);
-
-                            deck.ctx.fillStyle = '#0F0';
-                            deck.ctx.font = deck.matrix.fontSize + 'px monospace';
-
-                            for(let i = 0; i < deck.matrix.rainDrops.length; i++)
-                            {
-                                const text = deck.matrix.alphabet.charAt(Math.floor(Math.random() * deck.matrix.alphabet.length));
-                                deck.ctx.fillText(text, i * deck.matrix.fontSize, deck.matrix.rainDrops[i] * deck.matrix.fontSize);
-
-                                if(deck.matrix.rainDrops[i] * deck.matrix.fontSize > deck.canvas.height && Math.random() > 0.985){
-                                    deck.matrix.rainDrops[i] = 0;
-                                }
-                                deck.matrix.rainDrops[i]++;
-                            }
-                            deck.matrix.shouldRender = false;
-                        } else {
-                            deck.matrix.shouldRender = true;
-                        }
-                    }
-                }
-
-                return deck;
-            }
-        };
-    </script>
+    <script src="./js/renderers/lockdown/renderer.js"></script>
+    <script src="./js/renderers/matrix/renderer.js"></script>
+    <script src="./js/renderers/neuromute/renderer.js"></script>
+    <script src="./js/renderers/pink/renderer.js"></script>
+    <script src="./js/renderers/strobe/renderer.js"></script>
+    <script src="./js/renderers/quark/renderer.js"></script>
     <script>
         hydra.boot({
             id: 'hydra',
+            themes: [
+                'default',
+                'high-contrast'
+            ],
+            renderers: [
+                'lockdown',
+                'matrix',
+                'neuromute',
+                'pink',
+                'quark',
+                'strobe'
+            ],
             deck1: {
                 visual: 'quark',
-                preset: 2
+                preset: 3
             },
             deck2: {
-                visual: 'pink'
+                visual: 'lockdown',
+                preset: 6
             }
         });
     </script>
