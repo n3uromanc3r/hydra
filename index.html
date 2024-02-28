@@ -1101,6 +1101,7 @@
 
         .tooltip {
             position: absolute;
+            width: 100%;
             bottom: 100%;
             background: #000000db;
             padding: 10px;
@@ -3567,28 +3568,10 @@
                                 navigator.clipboard
                                     .writeText(currentPresetConfiguration).then(function() {
                                         console.debug('Preset copied!', currentPresetConfiguration);
-                                        tooltip.textContent = 'Copied to clipboard!';
-                                        tooltip.classList.remove('hide', 'transparent');
-                                        tooltip.classList.add('success');
-                                        setTimeout(() => {
-                                            tooltip.classList.add('transparent');
-                                            setTimeout(() => {
-                                                tooltip.classList.add('hide');
-                                                tooltip.classList.remove('success');
-                                            }, 350);
-                                        },2000);
+                                        deck.presets.displayTooltip(tooltip, 'success', 'Copied to clipboard!');
                                     }, function(err) {
                                         console.error('Could not copy preset: ', err);
-                                        tooltip.textContent = 'Failed to copy to clipboard';
-                                        tooltip.classList.remove('hide', 'transparent');
-                                        tooltip.classList.add('error');
-                                        setTimeout(() => {
-                                            tooltip.classList.add('transparent');
-                                            setTimeout(() => {
-                                                tooltip.classList.add('hide');
-                                                tooltip.classList.remove('error');
-                                            }, 350);
-                                        },2000);
+                                        deck.presets.displayTooltip(tooltip, 'error', 'Failed to copy to clipboard');
                                     });
                             },
                             receive: function(tooltip) {
@@ -3597,32 +3580,15 @@
                                         presetConfiguration = JSON.parse(presetConfiguration);
 
                                         if (presetConfiguration.name !== deck.visual.current) {
+                                            deck.presets.displayTooltip(tooltip, 'error', 'Preset is not valid for current visual renderer');
                                             throw new Error('Preset is not valid for current visual renderer');
                                         }
 
                                         deck.presets.load(presetConfiguration.settings);
-                                        tooltip.textContent = 'Loaded from clipboard!';
-                                        tooltip.classList.remove('hide', 'transparent');
-                                        tooltip.classList.add('success');
-                                        setTimeout(() => {
-                                            tooltip.classList.add('transparent');
-                                            setTimeout(() => {
-                                                tooltip.classList.add('hide');
-                                                tooltip.classList.remove('success');
-                                            }, 350);
-                                        },2000);
+                                        deck.presets.displayTooltip(tooltip, 'success', 'Loaded from clipboard!');
                                     }, function(err) {
                                         console.error('Could not receive preset: ', err);
-                                        tooltip.textContent = 'Failed to load from clipboard';
-                                        tooltip.classList.remove('hide', 'transparent');
-                                        tooltip.classList.add('error');
-                                        setTimeout(() => {
-                                            tooltip.classList.add('transparent');
-                                            setTimeout(() => {
-                                                tooltip.classList.add('hide');
-                                                tooltip.classList.remove('error');
-                                            }, 350);
-                                        },2000);
+                                        deck.presets.displayTooltip(tooltip, 'error', 'Failed to load from clipboard');
                                     });
                             },
                             save: function() {
@@ -3653,6 +3619,18 @@
                                     }
                                 });
                                 return currentPresetConfiguration;
+                            },
+                            displayTooltip(tooltip, status, message) {
+                                tooltip.textContent = message;
+                                tooltip.classList.remove('hide', 'transparent');
+                                tooltip.classList.add(status);
+                                setTimeout(() => {
+                                    tooltip.classList.add('transparent');
+                                    setTimeout(() => {
+                                        tooltip.classList.add('hide');
+                                        tooltip.classList.remove(status);
+                                    }, 350);
+                                }, 2000);
                             }
                         }
 
