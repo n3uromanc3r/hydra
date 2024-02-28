@@ -3478,6 +3478,7 @@
                             current: 1,
                             init: function() {
                                 this.presetsContainer = document.querySelector(`[data-deck="${deck.id}"].presets`);
+                                this.presetBtns = this.presetsContainer.querySelectorAll('.preset');
                             },
                             update: function() {
                                 this.clear();
@@ -3502,6 +3503,8 @@
                                         this.presetsContainer.classList.remove('saving-preset');
 
                                         this.select(preset);
+
+                                        this.disableEmpty();
 
                                     } catch(e) {}
 
@@ -3593,6 +3596,15 @@
                             },
                             save: function() {
                                 this.presetsContainer.classList.toggle('saving-preset');
+
+                                if (this.presetsContainer.classList.contains('saving-preset')) {
+                                    const length = (deck.current.presets.length < 30) ? deck.current.presets.length + 1 : 30;
+                                    [...deck.presets.presetBtns].slice(0, length).forEach(preset => {
+                                        preset.disabled = false;
+                                    });
+                                } else {
+                                    this.disableEmpty();
+                                }
                             },
                             import: function() {
                                 console.debug('importing')
@@ -3619,6 +3631,11 @@
                                     }
                                 });
                                 return currentPresetConfiguration;
+                            },
+                            disableEmpty: function() {
+                                [...deck.presets.presetBtns].slice(deck.current.presets.length).forEach(preset => {
+                                    preset.disabled = true;
+                                });
                             },
                             displayTooltip(tooltip, status, message) {
                                 tooltip.textContent = message;
@@ -4334,7 +4351,6 @@
                             assignableInput.addEventListener('mousedown', function(e) {
                                 if (hydra.body.classList.contains('assigning')) {
                                     assignableInput.assigning = true;
-                                    console.log(assignableInput)
                                     hydra.body.classList.add('selected');
                                 }
                             });
@@ -5017,7 +5033,7 @@
                         }
                     },
                     onMIDIFailure: function() {
-                        console.log('Could not access MIDI devices.');
+                        console.debug('Could not access MIDI devices.');
                     },
                     getMIDIMessage: function(midiMessage) {
 
