@@ -3568,31 +3568,39 @@
                             },
                             send: function(tooltip) {
                                 const currentPresetConfiguration = JSON.stringify(this.getCurrentPresetConfiguration());
-                                navigator.clipboard
-                                    .writeText(currentPresetConfiguration).then(function() {
-                                        console.debug('Preset copied!', currentPresetConfiguration);
-                                        deck.presets.displayTooltip(tooltip, 'success', 'Copied to clipboard!');
-                                    }, function(err) {
-                                        console.error('Could not copy preset: ', err);
-                                        deck.presets.displayTooltip(tooltip, 'error', 'Failed to copy to clipboard');
-                                    });
+                                try {
+                                    navigator.clipboard
+                                        .writeText(currentPresetConfiguration).then(function() {
+                                            console.debug('Preset copied!', currentPresetConfiguration);
+                                            deck.presets.displayTooltip(tooltip, 'success', 'Copied to clipboard!');
+                                        }, function(err) {
+                                            console.error('Could not copy preset: ', err);
+                                            deck.presets.displayTooltip(tooltip, 'error', 'Failed to copy to clipboard');
+                                        });
+                                } catch (err) {
+                                    deck.presets.displayTooltip(tooltip, 'error', 'Browser doesn\'t support clipboard API');
+                                }
                             },
                             receive: function(tooltip) {
-                                navigator.clipboard
-                                    .readText().then(function(presetConfiguration) {
-                                        presetConfiguration = JSON.parse(presetConfiguration);
+                                try {
+                                    navigator.clipboard
+                                        .readText().then(function(presetConfiguration) {
+                                            presetConfiguration = JSON.parse(presetConfiguration);
 
-                                        if (presetConfiguration.name !== deck.visual.current) {
-                                            deck.presets.displayTooltip(tooltip, 'error', 'Preset is not valid for current visual renderer');
-                                            throw new Error('Preset is not valid for current visual renderer');
-                                        }
+                                            if (presetConfiguration.name !== deck.visual.current) {
+                                                deck.presets.displayTooltip(tooltip, 'error', 'Preset is not valid for current visual renderer');
+                                                throw new Error('Preset is not valid for current visual renderer');
+                                            }
 
-                                        deck.presets.load(presetConfiguration.settings);
-                                        deck.presets.displayTooltip(tooltip, 'success', 'Loaded from clipboard!');
-                                    }, function(err) {
-                                        console.error('Could not receive preset: ', err);
-                                        deck.presets.displayTooltip(tooltip, 'error', 'Failed to load from clipboard');
-                                    });
+                                            deck.presets.load(presetConfiguration.settings);
+                                            deck.presets.displayTooltip(tooltip, 'success', 'Loaded from clipboard!');
+                                        }, function(err) {
+                                            console.error('Could not receive preset: ', err);
+                                            deck.presets.displayTooltip(tooltip, 'error', 'Failed to load from clipboard');
+                                        });
+                                } catch (err) {
+                                    deck.presets.displayTooltip(tooltip, 'error', 'Browser doesn\'t support clipboard API');
+                                }
                             },
                             save: function() {
                                 this.presetsContainer.classList.toggle('saving-preset');
