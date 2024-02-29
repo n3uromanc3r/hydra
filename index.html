@@ -2989,6 +2989,8 @@
                         <li><button class="tab active" data-tab-target="keyboard-shortcuts">Keyboard Shortcuts</button></li>
                         <li><button class="tab" data-tab-target="default-midi-assignments">Default MIDI Assignments</button></li>
                         <li><button class="tab" data-tab-target="import-export">Import / Export</button></li>
+                        <li><button class="tab" data-tab-target="audio-configuration">Audio Configuration</button></li>
+                        <li><button class="tab" data-tab-target="themes">Themes</button></li>
                     </ul>
                     <div data-target="keyboard-shortcuts">
                         <ul>
@@ -3160,9 +3162,18 @@
                             <span class="message"></span>
                         </fieldset>
                     </div>
+                    <div data-target="audio-configuration" class="hide"></div>
+                    <div data-target="themes" class="hide">
+                        <select id="theme-selection"></select>
+                    </div>
                 </div>
                 <div class="guide modal-section">
-
+                    <ul class="tabs">
+                        <li><button class="tab active" data-tab-target="keyboard-shortcuts">Keyboard Shortcuts</button></li>
+                        <li><button class="tab" data-tab-target="user-guide">User Guide</button></li>
+                    </ul>
+                    <div data-target="keyboard-shortcuts"></div>
+                    <div data-target="user-guide" class="hide"></div>
                 </div>
             </div>
         </div>
@@ -3205,6 +3216,7 @@
                         this.modal.init();
                         this.keyboard.init();
                         this.midi.init();
+                        this.themes.init();
 
                         this.helpers.detectSizes();
 
@@ -4852,21 +4864,6 @@
                         });
                     }
                 },
-                streamer: {
-                    canvasToStream: 'mix',
-                    launch: function() {
-                        const canvas = this.canvasToStream == 'mix' ? hydra.mixedCanvas : hydra[`deck${this.canvasToStream}`].pipeCanvas;
-                        const stream = canvas.captureStream()
-                        const popUpWindow = window.open('', '_blank', 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no');
-                        popUpWindow.document.body.style = 'background: black; margin: 0;';
-                        const videoEl = document.createElement('video');
-                        videoEl.autoplay = true;
-                        videoEl.muted = true;
-                        videoEl.style = 'aspect-ratio: 16 / 9; width: 100%; height: 100%;';
-                        const remoteVideo = popUpWindow.document.body.appendChild(videoEl);
-                        remoteVideo.srcObject = stream;
-                    }
-                },
                 modal: {
                     isOpen: false,
                     init: function() {
@@ -5255,6 +5252,21 @@
                         }, 100);
                     }
                 },
+                streamer: {
+                    canvasToStream: 'mix',
+                    launch: function() {
+                        const canvas = this.canvasToStream == 'mix' ? hydra.mixedCanvas : hydra[`deck${this.canvasToStream}`].pipeCanvas;
+                        const stream = canvas.captureStream()
+                        const popUpWindow = window.open('', '_blank', 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no');
+                        popUpWindow.document.body.style = 'background: black; margin: 0;';
+                        const videoEl = document.createElement('video');
+                        videoEl.autoplay = true;
+                        videoEl.muted = true;
+                        videoEl.style = 'aspect-ratio: 16 / 9; width: 100%; height: 100%;';
+                        const remoteVideo = popUpWindow.document.body.appendChild(videoEl);
+                        remoteVideo.srcObject = stream;
+                    }
+                },
                 storage: {
                     init: function() {
                         this.db = window.localStorage;
@@ -5634,6 +5646,18 @@
                             7: 'fillMode',
                             8: 'colorMode',
                         }
+                    }
+                },
+                themes: {
+                    init: function() {
+                        this.select = document.getElementById('theme-selection');
+                        hydra.settings.themes.forEach(theme => {
+                            hydra.themes.select.add(new Option(theme, theme, theme == 'default', theme == 'default'));
+                        });
+
+                        this.select.addEventListener('change', function(e) {
+                            hydra.body.className = this.value;
+                        });
                     }
                 },
                 helpers: {
