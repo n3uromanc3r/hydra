@@ -1121,7 +1121,6 @@
         #modal [data-target="default-midi-assignments"] .key-explanations .key-explanation {
             padding: 0;
             list-style: none;
-            width: 170px;
         }
         #modal [data-target="default-midi-assignments"] .key-explanations .key-explanation {
             color: #fff;
@@ -1231,7 +1230,17 @@
 
         #modal fieldset label {
             display: block;
-            color: #555;
+            color: #94c163;
+            text-transform: uppercase;
+            font-weight: 600;
+            font-size: 10px;
+        }
+
+        #modal fieldset select {
+            margin: 15px 0;
+            width: 230px;
+            display: block;
+            background: #0d0d0d;
         }
 
         #modal fieldset form {
@@ -1246,6 +1255,11 @@
             width: auto;
             font-weight: 500;
             font-size: 9px;
+        }
+
+        #modal fieldset button:hover {
+            background: #ffa500;
+            color: #000;
         }
 
         #modal-open {
@@ -2236,8 +2250,8 @@
                             <div class="main-mixer-panel-group">
                                 <div class="deck-1">
                                     <label class="heading">Presets</label>
-                                    <button data-deck="1" data-import-presets>Import</button>
-                                    <button data-deck="1" data-export-presets>Export</button>
+                                    <button data-deck="1" disabled>Bank 1</button>
+                                    <button data-deck="1" disabled>Bank 2</button>
                                     <div class="flex-grid presets" data-deck="1">
                                         <button class="preset" data-deck="1" data-preset="1" disabled>1</button>
                                         <button class="preset" data-deck="1" data-preset="2" disabled>2</button>
@@ -2281,8 +2295,8 @@
                                 </div>
                                 <div class="deck-2">
                                     <label class="heading">Presets</label>
-                                    <button data-deck="2" data-import-presets>Import</button>
-                                    <button data-deck="2" data-export-presets>Export</button>
+                                    <button data-deck="2" disabled>Bank 1</button>
+                                    <button data-deck="2" disabled>Bank 2</button>
                                     <div class="flex-grid presets" data-deck="2">
                                         <button class="preset" data-deck="2" data-preset="1" disabled>1</button>
                                         <button class="preset" data-deck="2" data-preset="2" disabled>2</button>
@@ -2942,7 +2956,6 @@
                         <li><button class="tab active" data-tab-target="keyboard-shortcuts">Keyboard Shortcuts</button></li>
                         <li><button class="tab" data-tab-target="default-midi-assignments">Default MIDI Assignments</button></li>
                         <li><button class="tab" data-tab-target="import-export">Import / Export</button></li>
-                        <li><button class="tab" data-tab-target="state-factory-reset">State / Factory Reset</button></li>
                     </ul>
                     <div data-target="keyboard-shortcuts">
                         <ul>
@@ -3082,30 +3095,33 @@
                         </div>
                     </div>
                     <div data-target="import-export" class="hide">
-                        <fieldset data-local-storage-item-key="presets">
-                            <label>Presets</label>
-                            <form id="presetsFileForm" name="presetsFileForm" enctype="multipart/form-data" method="post">
-                                <input type="file" id="presetsFile">
-                                <button class="import">Import</button>
+                        <fieldset data-type="presets">
+                            <label>Presets - Deck 1</label>
+                            <form id="presets-file-form-deck-1" name="presets-file-form-deck-1" enctype="multipart/form-data" method="post">
+                                <input type="file" id="presets-file-deck-1">
+                                <button data-deck="1" data-import>Import</button>
                             </form>
-                            <button class="export">Export</button>
-                            <button class="factoryReset">Factory Reset</button>
+                            <button class="export" data-deck="1" data-export-presets>Export</button>
+                            <button class="factory-reset" data-deck="1" data-factory-reset-presets>Factory Reset</button>
                         </fieldset>
-                        <fieldset data-local-storage-item-key="assignments">
+                        <fieldset data-type="presets">
+                            <label>Presets - Deck 2</label>
+                            <form id="presets-file-form-deck-2" name="presets-file-form-deck-2" enctype="multipart/form-data" method="post">
+                                <input type="file" id="presets-file-deck-2">
+                                <button data-deck="2" data-import>Import</button>
+                            </form>
+                            <button class="export" data-deck="2" data-export-presets>Export</button>
+                            <button class="factory-reset" data-deck="2" data-factory-reset-presets>Factory Reset</button>
+                        </fieldset>
+                        <fieldset data-type="assignments">
                             <label>MIDI Assignments</label>
-                            <form id="assignmentsFileForm" name="assignmentsFileForm" enctype="multipart/form-data" method="post">
-                                <input type="file" id="assignmentsFile">
-                                <button class="import">Import</button>
+                            <form id="assignments-file-form" name="assignments-file-form" enctype="multipart/form-data" method="post">
+                                <input type="file" id="assignments-file" disabled>
+                                <button data-import disabled>Import</button>
                             </form>
-                            <button class="export">Export</button>
-                            <button class="factoryReset">Factory Reset</button>
+                            <button class="export" data-export-midi-assignments disabled>Export</button>
+                            <button class="factory-reset" data-export-midi-assignments disabled>Factory Reset</button>
                         </fieldset>
-                    </div>
-                    <div data-target="state-factory-reset" class="hide">
-                        <p>By default, Hydra is ephemeral. This means a page reload will lose all your previous settings/adjustments.
-                        To avoid having to repeat the same configurations, you can store a state to load back to, by clicking "Snapshot".</p>
-
-                        <p>Click "Factory reset" to revert to the default state.</p>
                     </div>
                 </div>
                 <div class="guide modal-section">
@@ -3466,7 +3482,7 @@
                                 currentRandomisationRendererPanel.classList.remove('hide');
 
                                 deck.reactivity.update();
-                                deck.presets.update();
+                                deck.presets.updateBtns();
                                 deck.randomisation.update();
                             },
                             reset: function() {
@@ -3582,14 +3598,14 @@
                                     deck.presets.select(deck.presets.current);
                                 });
 
-                                this.importBtn = document.querySelector(`[data-deck="${deck.id}"][data-import-presets]`);
-                                this.importBtn.addEventListener('click', function(e) {
-                                    deck.presets.import();
-                                });
-
                                 this.exportBtn = document.querySelector(`[data-deck="${deck.id}"][data-export-presets]`);
                                 this.exportBtn.addEventListener('click', function(e) {
                                     deck.presets.export();
+                                });
+
+                                this.factoryResetBtn = document.querySelector(`[data-deck="${deck.id}"][data-factory-reset-presets]`);
+                                this.factoryResetBtn.addEventListener('click', function(e) {
+                                    deck.presets.reset();
                                 });
 
                                 this.presetBtns = document.querySelectorAll(`.preset[data-deck="${deck.id}"]`);
@@ -3826,8 +3842,12 @@
                                 this.presetsContainer = document.querySelector(`[data-deck="${deck.id}"].presets`);
                                 this.presetBtns = this.presetsContainer.querySelectorAll('.preset');
                             },
-                            update: function() {
-                                this.clear();
+                            reset: function() {
+                                // deck.current.presets = deck[deck.visual.current].presets;
+                                // console.log(deck[deck.visual.current].presets.length, deck.current.presets)
+                            },
+                            updateBtns: function() {
+                                this.clearBtns();
 
                                 if (deck.current.presets && deck.current.presets.length) {
                                     deck.current.presets.forEach((preset, i) => {
@@ -3835,8 +3855,14 @@
                                     });
                                     deck.presets.select(1)
                                 } else {
-                                    console.debug('no presets found')
+                                    console.debug('no presets found');
                                 }
+                            },
+                            clearBtns: function() {
+                                deck.controls.presetBtns.forEach(btn => {
+                                    btn.className = 'preset';
+                                    btn.disabled = true;
+                                });
                             },
                             select: function(preset) {
                                 if (this.presetsContainer.classList.contains('saving-preset')) {
@@ -3844,7 +3870,6 @@
                                         const currentPresetConfiguration = this.getCurrentPresetConfiguration();
 
                                         deck.current.presets[preset-1] = currentPresetConfiguration.settings;
-                                        // deck[deck.visual.current].presets[preset-1] = presetConfiguration.settings;
 
                                         this.presetsContainer.classList.remove('saving-preset');
 
@@ -3879,12 +3904,6 @@
                                     const next = this.current == deck.current.presets.length ? 1 : (this.current + 1);
                                     this.select(next);
                                 }
-                            },
-                            clear: function() {
-                                deck.controls.presetBtns.forEach(btn => {
-                                    btn.className = 'preset';
-                                    btn.disabled = true;
-                                });
                             },
                             load: function(preset) {
                                 for (const option in preset) {
@@ -3960,8 +3979,31 @@
                                     this.disableEmpty();
                                 }
                             },
-                            import: function() {
-                                console.debug('importing')
+                            import: function(input) {
+                                if (typeof window.FileReader !== 'function') {
+                                    console.debug("The file API isn't supported on this browser yet.");
+                                    return;
+                                } else if (!input.files) {
+                                    console.debug("This browser doesn't seem to support the `files` property of file inputs.");
+                                } else if (!input.files[0]) {
+                                    console.debug("Please select a file before clicking 'Import'.");
+                                } else if (input.files[0].type != 'application/json') {
+                                    console.debug("File selected for import is not a valid JSON file.");
+                                } else {
+                                    let file = input.files[0];
+                                    let fr = new FileReader();
+                                    fr.onload = this.loadFile;
+                                    fr.readAsText(file);
+                                }
+                            },
+                            loadFile: function(e) {
+                                let data = e.target.result;
+
+                                try {
+                                    deck.current.presets = JSON.parse(data);
+                                } catch(e) {
+                                    console.debug('There was a problem importing the selected file.');
+                                }
                             },
                             export: function() {
                                 const data = JSON.stringify({
@@ -4707,6 +4749,20 @@
                                 }
                             });
                         });
+
+                        const importBtns = document.querySelectorAll('[data-import]');
+                        importBtns.forEach(function(btn) {
+                            btn.addEventListener('click', function(e) {
+                                e.preventDefault();
+                                const type = e.target.parentElement.parentElement.dataset.type
+                                const input = e.target.parentNode.elements[0];
+
+                                if (type =='presets') {
+                                    const deck = e.target.dataset.deck;
+                                    hydra[`deck${deck}`].presets.import(input);
+                                }
+                            });
+                        });
                     }
                 },
                 modal: {
@@ -5187,6 +5243,7 @@
                         'AltGraph',
                         'Enter',
                         'Shift',
+                        '`',
                     ],
                     init: function() {
                         window.addEventListener('keydown', function(e) {
@@ -5378,6 +5435,9 @@
                                     break;
                                 case ' ':
                                     document.getElementById('tap-bpm').click();
+                                    break;
+                                case '`':
+                                    document.getElementById('sync').click();
                                     break;
                                 case 'Alt':
                                     hydra.composition.previousMode();  // TODO
