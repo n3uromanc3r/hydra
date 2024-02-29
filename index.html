@@ -1039,60 +1039,242 @@
             position: fixed;
             background: black;
             border: solid 1px #ff5f00;
-            padding: 20px;
+            padding: 15px;
+            width: 1000px;
+            height: 800px;
+            top: calc(50% - 390px);
+            left: calc(50% - 500px);
+            font-size: 12px;
+            color: #666;
         }
 
         #modal:not(.hide) {
             display: block;
         }
 
-        #modal.import-presets {
-            width: 600px;
-            height: 400px;
-            top: calc(50% - 200px);
-            left: calc(50% - 300px);
-        }
-
-        #modal.guide {
-            display: block;
-            width: 1000px;
-            height: 800px;
-            top: calc(50% - 390px);
-            left: calc(50% - 500px);
-        }
-
         #modal > div {
             position: relative;
         }
 
-        #modal > div > div {
-            display: none;
-        }
-
-        #modal.import-presets .import-presets,
-        #modal.iguide .guide {
+        #modal > div {
             display: block;
             font-size: 13px;
         }
 
-        #modal .heading {
-            text-transform: uppercase;
-            font-size: 12px;
-            font-weight: 600;
-            margin-bottom: 20px;
-            border-bottom: solid 1px #3b3b3b;
-            padding-bottom: 15px;
+        #modal .tabs {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
         }
 
-        #close-modal {
+        #modal .tab {
+            border: solid 1px #222;
+            color: #fff;
+            border-radius: 0;
+            width: auto;
+            font-size: 9px;
+            padding: 10px;
+            border-bottom: none;
+            position: relative;
+            top: 1px;
+            margin: 0 2px 0 0;
+            background: #181818;
+        }
+
+        #modal .tab.active {
+            background: #000;
+        }
+
+        #modal .settings > div,
+        #modal .guide > div {
+            padding: 20px;
+            background: #000;
+            border: solid 1px #212121;
+        }
+
+        #modal kbd {
+            border: solid 1px #202020;
+            background: #181818;
+            padding: 4px 6px;
+            display: inline-block;
+            margin: 0 5px 10px 0;
+            border-radius: 2px;
+            color: #999;
+            min-width: 22px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        #modal .ellipsis {
+            margin-right: 5px;
+        }
+
+        #modal [data-target="default-midi-assignments"] .knob-explanations .knob-explanations-row,
+        #modal [data-target="default-midi-assignments"] .key-explanations {
+            display: flex;
+            font-size: 10px;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        #modal [data-target="default-midi-assignments"] .knob-explanations .knob-explanations-row .knob-explanation,
+        #modal [data-target="default-midi-assignments"] .key-explanations .key-explanation {
+            padding: 0;
+            list-style: none;
+            width: 170px;
+        }
+        #modal [data-target="default-midi-assignments"] .key-explanations .key-explanation {
+            color: #fff;
+        }
+        #modal [data-target="default-midi-assignments"] .knob-explanations .knob-explanations-row .knob-explanation[data-midi-keyboard-knob="1"] {
+            color: #ff0000;
+        }
+        #modal [data-target="default-midi-assignments"] .knob-explanations .knob-explanations-row .knob-explanation[data-midi-keyboard-knob="2"] {
+            color: #ffa500;
+        }
+        #modal [data-target="default-midi-assignments"] .knob-explanations .knob-explanations-row .knob-explanation[data-midi-keyboard-knob="3"] {
+            color: #9aff00;
+        }
+        #modal [data-target="default-midi-assignments"] .knob-explanations .knob-explanations-row .knob-explanation[data-midi-keyboard-knob="4"] {
+            color: #00d9ff;
+        }
+        #modal [data-target="default-midi-assignments"] .knob-explanations .knob-explanations-row .knob-explanation[data-midi-keyboard-knob="5"] {
+            color: #001dff;
+        }
+        #modal [data-target="default-midi-assignments"] .knob-explanations .knob-explanations-row .knob-explanation[data-midi-keyboard-knob="6"] {
+            color: #ab00ff;
+        }
+        #modal [data-target="default-midi-assignments"] .knob-explanations .knob-explanations-row .knob-explanation[data-midi-keyboard-knob="7"] {
+            color: #ff0096;
+        }
+        #modal [data-target="default-midi-assignments"] .knob-explanations .knob-explanations-row .knob-explanation[data-midi-keyboard-knob="8"] {
+            color: #ffffff;
+        }
+        #modal [data-target="default-midi-assignments"] .knob-explanations .knob-explanations-row .knob-explanation label,
+        #modal [data-target="default-midi-assignments"] .key-explanations .key-explanation label {
+            margin-right: 10px;
+            color: #666;
+        }
+        #modal [data-target="default-midi-assignments"] .midi-keyboard {
+            border: solid 2px #666;
+            border-radius: 6px;
+            width: 500px;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            margin: 25px 0;
+        }
+        #modal [data-target="default-midi-assignments"] .midi-keyboard ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        #modal [data-target="default-midi-assignments"] .midi-keyboard .midi-keyboard-knobs {
+            padding: 0 0 15px;
+        }
+        #modal [data-target="default-midi-assignments"] .midi-keyboard .midi-keyboard-knobs li[data-midi-keyboard-knob] {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border-radius: 10px;
+            margin: 10px;
+        }
+        #modal [data-target="default-midi-assignments"] .midi-keyboard .midi-keyboard-knobs li[data-midi-keyboard-knob="1"] {
+            background: #ff0000;
+        }
+        #modal [data-target="default-midi-assignments"] .midi-keyboard .midi-keyboard-knobs li[data-midi-keyboard-knob="2"] {
+            background: #ffa500;
+        }
+        #modal [data-target="default-midi-assignments"] .midi-keyboard .midi-keyboard-knobs li[data-midi-keyboard-knob="3"] {
+            background: #9aff00;
+        }
+        #modal [data-target="default-midi-assignments"] .midi-keyboard .midi-keyboard-knobs li[data-midi-keyboard-knob="4"] {
+            background: #00d9ff;
+        }
+        #modal [data-target="default-midi-assignments"] .midi-keyboard .midi-keyboard-knobs li[data-midi-keyboard-knob="5"] {
+            background: #001dff;
+        }
+        #modal [data-target="default-midi-assignments"] .midi-keyboard .midi-keyboard-knobs li[data-midi-keyboard-knob="6"] {
+            background: #ab00ff;
+        }
+        #modal [data-target="default-midi-assignments"] .midi-keyboard .midi-keyboard-knobs li[data-midi-keyboard-knob="7"] {
+            background: #ff0096;
+        }
+        #modal [data-target="default-midi-assignments"] .midi-keyboard .midi-keyboard-knobs li[data-midi-keyboard-knob="8"] {
+            background: #ffffff;
+        }
+        #modal [data-target="default-midi-assignments"] .midi-keyboard .midi-keyboard-keys {
+            display: flex;
+        }
+        #modal [data-target="default-midi-assignments"] .midi-keyboard .midi-keyboard-keys li {
+            height: 140px;
+            background: #fff;
+            border: solid 2px black;
+            display: inline-block;
+            width: 30px;
+        }
+        #modal [data-target="default-midi-assignments"] .midi-keyboard .midi-keyboard-keys li.black-after:after {
+            content: '';
+            display: block;
+            width: 20px;
+            height: 75px;
+            background: black;
+            left: 21px;
+            position: relative;
+        }
+
+        #modal fieldset {
+            border: solid 1px #212121;
+            padding: 10px 20px 20px;
+            margin-top: 30px;
+        }
+
+        #modal fieldset label {
+            display: block;
+            color: #555;
+        }
+
+        #modal fieldset form {
+            display: inline-block;
+        }
+
+        #modal fieldset button {
+            background: #353535;
+            color: #fff;
+            border-radius: 4px;
+            padding: 4px 8px;
+            width: auto;
+            font-weight: 500;
+            font-size: 9px;
+        }
+
+        #modal-open {
+            margin: 0 auto 30px;
+            width: 60px;
+            font-size: 20px;
+        }
+
+        #modal-close {
             display: inline-block;
             width: initial;
             position: absolute;
-            top: -10px;
+            top: 0;
             right: 0;
             margin: 0;
             border: solid 1px #3b3b3b;
             padding: 4px 8px;
+
+            border: solid 1px #222;
+            background: black;
+            color: white;
+            border-radius: 0;
+            padding: 4px;
+            width: auto;
+            margin: 0 2px;
+            outline: none;
+            text-transform: uppercase;
+            font-size: 9px;
+            cursor: pointer;
         }
 
         .relative {
@@ -1154,35 +1336,6 @@
 
         .inline-block {
             display: inline-block;
-        }
-
-        #settings-open {
-            margin: 0 auto 30px;
-            width: 60px;
-            font-size: 20px;
-        }
-
-        #settings-close {
-            display: inline-block;
-            width: initial;
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            margin: 0;
-            border: solid 1px #3b3b3b;
-            padding: 4px 8px;
-        }
-
-        #settings {
-            position: absolute;
-            z-index: 1;
-            background: #050505;
-            left: 0;
-            right: 0;
-            top: 0;
-            bottom: 0;
-            border: solid 1px #0a0a0a;
-            padding: 15px;
         }
 
         [data-tab-panel="randomisation"] .renderer,
@@ -1315,6 +1468,43 @@
             50% {
                 background: rgba(0, 205, 255, 0.4);
             }
+        }
+    </style>
+
+    <style>
+        .high-contrast {
+            background: #000;
+        }
+
+        .high-contrast .column {
+            background: #fff;
+        }
+
+        .high-contrast #audio-meter {
+            background: #fff;
+        }
+
+        .high-contrast #audio-meter-chrome {
+            background: #fff;
+        }
+
+        .high-contrast .visual-settings-tabs ul {
+            background: #fff;
+        }
+
+        .high-contrast .mirror-mode-buttons-container.disabled .clip,
+        .high-contrast .mirror-mode-buttons-container.disabled .full,
+        .high-contrast .mirror-mode-buttons-container.disabled .bleed {
+            opacity: initial;
+        }
+
+        .high-contrast button {
+            color: #000;
+        }
+
+        .high-contrast button:hover {
+            background: #000;
+            color: #fff;
         }
     </style>
 </head>
@@ -2086,7 +2276,7 @@
                                     </div>
                                 </div>
                                 <div class="push-top text-align-center">
-                                    <button id="settings-open">⚙</button>
+                                    <button id="modal-open">⚙</button>
                                     <button id="launch">Launch</button>
                                 </div>
                                 <div class="deck-2">
@@ -2145,17 +2335,6 @@
                         <div><button id="tap-bpm">Tap</button></div>
                         <div><button id="sync" class="on">Sync</button></div>
                         <div><button id="assign">Assign</button></div>
-                    </div>
-                </div>
-                <div id="settings" class="hide">
-                    <button id="settings-close">🗙</button>
-                    <div class="import-presets">
-                        <div class="heading">Import Presets</div>
-                        Here you can import presets...
-                    </div>
-                    <div class="guide">
-                        <div class="heading">Guide</div>
-                        This is some text to guide you.
                     </div>
                 </div>
             </div>
@@ -2755,16 +2934,182 @@
                 </div>
             </div>
         </section>
-        <div id="modal" class="hide import-presets" data-deck>
+        <div id="modal" class="hide" data-deck>
             <div>
-                <button id="close-modal">🗙</button>
-                <div class="import-presets">
-                    <div class="heading">Import Presets</div>
-                    Here you can import presets...
+                <button id="modal-close">close</button>
+                <div class="settings modal-section">
+                    <ul class="tabs">
+                        <li><button class="tab active" data-tab-target="keyboard-shortcuts">Keyboard Shortcuts</button></li>
+                        <li><button class="tab" data-tab-target="default-midi-assignments">Default MIDI Assignments</button></li>
+                        <li><button class="tab" data-tab-target="import-export">Import / Export</button></li>
+                        <li><button class="tab" data-tab-target="state-factory-reset">State / Factory Reset</button></li>
+                    </ul>
+                    <div data-target="keyboard-shortcuts">
+                        <ul>
+                            <li><kbd>Esc</kbd> <span>Cancel/Close</span></li>
+
+                            <li><kbd>1</kbd><span class="ellipsis">...</span><kbd>2</kbd> <span>Select Preset 1-10</span></li>
+                            <li><kbd>-</kbd> <span>Previous Preset</span></li>
+                            <li><kbd>-</kbd> <span>Next Preset</span></li>
+
+                            <li><kbd>Shift</kbd> <span>Mirror (Toggle)</span></li>
+                            <li><kbd>,</kbd> <span>Mirror Mode - Clip</span></li>
+                            <li><kbd>.</kbd> <span>Mirror Mode - Full</span></li>
+                            <li><kbd>/</kbd> <span>Mirror Mode - Bleed</span></li>
+
+                            <li><kbd>Enter</kbd> <span>Kaleidoscope (Toggle)</span></li>
+
+                            <li><kbd>↑</kbd> <span>Raise Deck to Top</span></li>
+                            <li><kbd>↓</kbd> <span>Lower Deck to Bottom</span></li>
+                            <li><kbd>←</kbd> <span>Claim Deck 1</span></li>
+                            <li><kbd>→</kbd> <span>Claim Deck 2</span></li>
+
+                            <li><kbd>Space</kbd> <span>Tap BPM</span></li>
+
+                            <li><kbd>Alt</kbd> <span>Previous Composition Mode</span></li>
+                            <li><kbd>AltGraph</kbd> <span>Next Composition Mode</span></li>
+
+                            <li><kbd>]</kbd> <span>Assign (Toggle)</span></li>
+                            <li><kbd>\</kbd> <span>Record (Toggle)</span></li>
+                        </ul>
+                    </div>
+                    <div data-target="default-midi-assignments" class="hide">
+                        <div class="knob-explanations">
+                            <div class="knob-explanations-row">
+                                <ul class="knob-explanation" data-midi-keyboard-knob="1">
+                                    <li class="midi-knob"><label>KNOB</label>1</li>
+                                    <li class="midi-data-byte-1"><label>MIDI DATA BYTE 1</label>1</li>
+                                    <li class="midi-command"><label>MIDI COMMAND</label>176 (CONTROL CHANGE)</li>
+                                    <li class="assignment"><label>ASSIGNMENT</label>REACTIVITY</li>
+                                </ul>
+                                <ul class="knob-explanation" data-midi-keyboard-knob="2">
+                                    <li class="midi-knob"><label>KNOB</label>2</li>
+                                    <li class="midi-data-byte-1"><label>MIDI DATA BYTE 1</label>2</li>
+                                    <li class="midi-command"><label>MIDI COMMAND</label>176 (CONTROL CHANGE)</li>
+                                    <li class="assignment"><label>ASSIGNMENT</label>MIN WIDTH</li>
+                                </ul>
+                                <ul class="knob-explanation" data-midi-keyboard-knob="3">
+                                    <li class="midi-knob"><label>KNOB</label>3</li>
+                                    <li class="midi-data-byte-1"><label>MIDI DATA BYTE 1</label>3</li>
+                                    <li class="midi-command"><label>MIDI COMMAND</label>176 (CONTROL CHANGE)</li>
+                                    <li class="assignment"><label>ASSIGNMENT</label>WIDTH MODE</li>
+                                </ul>
+                                <ul class="knob-explanation" data-midi-keyboard-knob="4">
+                                    <li class="midi-knob"><label>KNOB</label>4</li>
+                                    <li class="midi-data-byte-1"><label>MIDI DATA BYTE 1</label>4</li>
+                                    <li class="midi-command"><label>MIDI COMMAND</label>176 (CONTROL CHANGE)</li>
+                                    <li class="assignment"><label>ASSIGNMENT</label>TRAIL LENGTH</li>
+                                </ul>
+                            </div>
+                            <div class="knob-explanations-row">
+                                <ul class="knob-explanation" data-midi-keyboard-knob="5">
+                                    <li class="midi-knob"><label>KNOB</label>5</li>
+                                    <li class="midi-data-byte-1"><label>MIDI DATA BYTE 1</label>5</li>
+                                    <li class="midi-command"><label>MIDI COMMAND</label>176 (CONTROL CHANGE)</li>
+                                    <li class="assignment"><label>ASSIGNMENT</label>MODULO</li>
+                                </ul>
+                                <ul class="knob-explanation" data-midi-keyboard-knob="6">
+                                    <li class="midi-knob"><label>KNOB</label>6</li>
+                                    <li class="midi-data-byte-1"><label>MIDI DATA BYTE 1</label>6</li>
+                                    <li class="midi-command"><label>MIDI COMMAND</label>176 (CONTROL CHANGE)</li>
+                                    <li class="assignment"><label>ASSIGNMENT</label>ARC MODE</li>
+                                </ul>
+                                <ul class="knob-explanation" data-midi-keyboard-knob="7">
+                                    <li class="midi-knob"><label>KNOB</label>7</li>
+                                    <li class="midi-data-byte-1"><label>MIDI DATA BYTE 1</label>7</li>
+                                    <li class="midi-command"><label>MIDI COMMAND</label>176 (CONTROL CHANGE)</li>
+                                    <li class="assignment"><label>ASSIGNMENT</label>FILL MODE</li>
+                                </ul>
+                                <ul class="knob-explanation" data-midi-keyboard-knob="8">
+                                    <li class="midi-knob"><label>KNOB</label>8</li>
+                                    <li class="midi-data-byte-1"><label>MIDI DATA BYTE 1</label>8</li>
+                                    <li class="midi-command"><label>MIDI COMMAND</label>176 (CONTROL CHANGE)</li>
+                                    <li class="assignment"><label>ASSIGNMENT</label>COLOR MODE</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="midi-keyboard">
+                            <ul class="midi-keyboard-knobs">
+                                <li data-midi-keyboard-knob="1"></li>
+                                <li data-midi-keyboard-knob="2"></li>
+                                <li data-midi-keyboard-knob="3"></li>
+                                <li data-midi-keyboard-knob="4"></li>
+                                <li data-midi-keyboard-knob="5"></li>
+                                <li data-midi-keyboard-knob="6"></li>
+                                <li data-midi-keyboard-knob="7"></li>
+                                <li data-midi-keyboard-knob="8"></li>
+                            </ul>
+                            <ul class="midi-keyboard-keys">
+                                <li data-midi-keyboard-key="c" class="black-after"></li>
+                                <li data-midi-keyboard-key="d" class="black-after"></li>
+                                <li data-midi-keyboard-key="e"></li>
+                                <li data-midi-keyboard-key="f" class="black-after"></li>
+                                <li data-midi-keyboard-key="g" class="black-after"></li>
+                                <li data-midi-keyboard-key="a" class="black-after"></li>
+                                <li data-midi-keyboard-key="b"></li>
+                                <li data-midi-keyboard-key="c" class="black-after"></li>
+                                <li data-midi-keyboard-key="d" class="black-after"></li>
+                                <li data-midi-keyboard-key="e"></li>
+                                <li data-midi-keyboard-key="f" class="black-after"></li>
+                                <li data-midi-keyboard-key="g" class="black-after"></li>
+                                <li data-midi-keyboard-key="a" class="black-after"></li>
+                                <li data-midi-keyboard-key="b"></li>
+                                <li data-midi-keyboard-key="c"></li>
+                            </ul>
+                        </div>
+                        <div class="key-explanations">
+                            <ul class="key-explanation">
+                                <li class="note"><label>NOTE</label>C3</li>
+                                <li class="midi-note-number"><label>MIDI NOTE NUMBER</label>48</li>
+                                <li class="midi-command"><label>MIDI COMMAND</label>144 (NOTE ON)</li>
+                                <li class="assignment"><label>ASSIGNMENT</label>LOAD PRESET 1</li>
+                            </ul>
+                            <ul class="key-explanation">
+                                <li class="note"><label>NOTE</label>C♯3</li>
+                                <li class="midi-note-number"><label>MIDI NOTE NUMBER</label>49</li>
+                                <li class="midi-command"><label>MIDI COMMAND</label>144 (NOTE ON)</li>
+                                <li class="assignment"><label>ASSIGNMENT</label>LOAD PRESET 2</li>
+                            </ul>
+                            <ul class="key-explanation">
+                                <li class="note"><label>NOTE</label>D3</li>
+                                <li class="midi-note-number"><label>MIDI NOTE NUMBER</label>50</li>
+                                <li class="midi-command"><label>MIDI COMMAND</label>144 (NOTE ON)</li>
+                                <li class="assignment"><label>ASSIGNMENT</label>LOAD PRESET 3</li>
+                            </ul>
+                            <ul class="key-explanation">
+                                <li class="note">...this continues on, with higher notes loading higher presets</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div data-target="import-export" class="hide">
+                        <fieldset data-local-storage-item-key="presets">
+                            <label>Presets</label>
+                            <form id="presetsFileForm" name="presetsFileForm" enctype="multipart/form-data" method="post">
+                                <input type="file" id="presetsFile">
+                                <button class="import">Import</button>
+                            </form>
+                            <button class="export">Export</button>
+                            <button class="factoryReset">Factory Reset</button>
+                        </fieldset>
+                        <fieldset data-local-storage-item-key="assignments">
+                            <label>MIDI Assignments</label>
+                            <form id="assignmentsFileForm" name="assignmentsFileForm" enctype="multipart/form-data" method="post">
+                                <input type="file" id="assignmentsFile">
+                                <button class="import">Import</button>
+                            </form>
+                            <button class="export">Export</button>
+                            <button class="factoryReset">Factory Reset</button>
+                        </fieldset>
+                    </div>
+                    <div data-target="state-factory-reset" class="hide">
+                        <p>By default, Hydra is ephemeral. This means a page reload will lose all your previous settings/adjustments.
+                        To avoid having to repeat the same configurations, you can store a state to load back to, by clicking "Snapshot".</p>
+
+                        <p>Click "Factory reset" to revert to the default state.</p>
+                    </div>
                 </div>
-                <div class="guide">
-                    <div class="heading">Guide</div>
-                    This is some text to guide you.
+                <div class="guide modal-section">
+
                 </div>
             </div>
         </div>
@@ -2804,6 +3149,7 @@
                         this.composition.init();
                         this.effects.init();
                         this.handlers.init();
+                        this.modal.init();
                         this.keyboard.init();
                         this.midi.init();
 
@@ -3228,7 +3574,7 @@
 
                                 this.guideBtn = document.querySelector(`[data-deck="${deck.id}"][data-guide]`);
                                 this.guideBtn.addEventListener('click', function(e) {
-                                    console.debug('guide')
+                                    hydra.modal.open('guide');
                                 });
 
                                 this.revertBtn = document.querySelector(`[data-deck="${deck.id}"][data-revert]`);
@@ -4309,16 +4655,14 @@
                             hydra.mixedCtx.globalCompositeOperation = e.target.value;
                         });
 
-                        const settingsOpenBtn = document.getElementById('settings-open');
+                        const settingsOpenBtn = document.getElementById('modal-open');
                         settingsOpenBtn.addEventListener('click', function(e) {
-                            const settingsPanel = document.getElementById('settings');
-                            settingsPanel.classList.remove('hide');
+                            hydra.modal.open('settings');
                         });
 
-                        const settingsCloseBtn = document.getElementById('settings-close');
-                        settingsCloseBtn.addEventListener('click', function(e) {
-                            const settingsPanel = document.getElementById('settings');
-                            settingsPanel.classList.add('hide');
+                        const modalCloseBtn = document.getElementById('modal-close');
+                        modalCloseBtn.addEventListener('click', function(e) {
+                            hydra.modal.close();
                         });
 
                         const recordBtn = document.getElementById('record');
@@ -4363,6 +4707,41 @@
                                 }
                             });
                         });
+                    }
+                },
+                modal: {
+                    isOpen: false,
+                    init: function() {
+                        this.element = document.getElementById('modal');
+
+                        const tabs = this.element.querySelectorAll('.tab');
+                        tabs.forEach(tab => {
+                            tab.addEventListener('click', function(e) {
+                                const tabTarget = e.target.dataset.tabTarget;
+
+                                const relatedTabs = e.target.closest('.tabs').querySelectorAll('.tab');
+                                relatedTabs.forEach(tab => tab.classList.remove('active'));
+
+                                e.target.classList.add('active');
+
+                                const section = e.target.closest('.modal-section');
+                                const sections = section.querySelectorAll(':scope > div');
+                                sections.forEach(section => section.classList.add('hide'));
+                                section.querySelector(`[data-target="${tabTarget}"]`).classList.remove('hide');
+                            });
+                        });
+                    },
+                    open: function(section) {
+                        this.element.classList.remove('hide');
+                        this.element.querySelectorAll('.modal-section').forEach(section => {
+                            section.classList.add('hide');
+                        });
+                        this.element.querySelector(`.${section}`).classList.remove('hide');
+                        this.isOpen = true;
+                    },
+                    close: function() {
+                        this.element.classList.add('hide');
+                        this.isOpen = false;
                     }
                 },
                 mouse: {
@@ -4826,9 +5205,9 @@
                                     if (hydra.body.classList.contains('assigning')) {
                                         hydra.midi.cancelAssignment();
                                     }
-                                    // if (body.classList.contains('menuModalOpen')) {
-                                    //     document.getElementById('menu').click();
-                                    // }
+                                    if (hydra.modal.isOpen) {
+                                        document.getElementById('modal-close').click();
+                                    }
                                     const savingPreset = document.querySelector('.saving-preset');
                                     if (savingPreset) {
                                         const deck = savingPreset.dataset.deck;
@@ -5246,8 +5625,10 @@
         hydra.boot({
             id: 'hydra',
             themes: [
+                'cyberpunk',
                 'default',
-                'high-contrast'
+                'high-contrast',
+                'matrix'
             ],
             renderers: [
                 'lockdown',
