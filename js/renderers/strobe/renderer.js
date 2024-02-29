@@ -97,22 +97,22 @@ window.hydra.renderers['strobe'] = {
 
             if (deck.strobe.direction == 'backwards') {
                 if ((deck.strobe.beatSync && hydra.audio.bpm.beatOn) || (!deck.strobe.beatSync && (deck.strobe.scale - 1.2) < -Math.abs(deck.strobe.interval))) {
-                    deck.ctx.globalAlpha = 1;
+                    deck.ctx.globalAlpha = deck.ctx.globalAlpha * 1;
                     deck.strobe.scale = 1.2;
                 } else if (deck.strobe.scale < 1) {
                     deck.strobe.scale -= mod
                 } else {
-                    deck.ctx.globalAlpha = 0;
+                    deck.ctx.globalAlpha = deck.ctx.globalAlpha * 0;
                     deck.strobe.scale -= mod
                 }
             } else {
                 if ((deck.strobe.beatSync && hydra.audio.bpm.beatOn) || (!deck.strobe.beatSync && deck.strobe.scale > deck.strobe.interval)) {
-                    deck.ctx.globalAlpha = 1;
+                    deck.ctx.globalAlpha = deck.ctx.globalAlpha * 1;
                     deck.strobe.scale = 0;
                 } else if (deck.strobe.scale < 1) {
                     deck.strobe.scale += mod
                 } else {
-                    deck.ctx.globalAlpha = 0;
+                    deck.ctx.globalAlpha = deck.ctx.globalAlpha * 0;
                     deck.strobe.scale += mod
                 }
             }
