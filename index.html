@@ -1310,6 +1310,14 @@
             cursor: pointer;
         }
 
+        .canvas-to-stream button {
+            padding: 5px 0;
+        }
+
+        .canvas-to-stream button.on {
+            background: #23e648;
+        }
+
         .relative {
             position: relative;
         }
@@ -2310,6 +2318,12 @@
                                 </div>
                                 <div class="push-top text-align-center">
                                     <button id="modal-open">⚙</button>
+
+                                    <div class="button-group button-radio-switch-group canvas-to-stream">
+                                        <div><button class="launch button-radio-switch" data-canvas-to-stream="1">D1</button></div>
+                                        <div><button class="launch on button-radio-switch" data-canvas-to-stream="mix">Mix</button></div>
+                                        <div><button class="launch button-radio-switch" data-canvas-to-stream="2">D2</button></div>
+                                    </div>
                                     <button id="launch">Launch</button>
                                 </div>
                                 <div class="deck-2">
@@ -4766,6 +4780,15 @@
                             hydra.modal.close();
                         });
 
+                        const launchCanvasSelectorBtns = document.querySelectorAll('[data-canvas-to-stream]');
+                        launchCanvasSelectorBtns.forEach(launchCanvasSelectorBtn => {
+                            launchCanvasSelectorBtn.addEventListener('click', function(e) {
+                                launchCanvasSelectorBtns.forEach(btn => btn.classList.remove('on'));
+                                launchCanvasSelectorBtn.classList.add('on');
+                                hydra.streamer.canvasToStream = e.target.dataset.canvasToStream;
+                            });
+                        });
+
                         const launchBtn = document.getElementById('launch');
                         launchBtn.addEventListener('click', function(e) {
                             hydra.streamer.launch();
@@ -4830,8 +4853,10 @@
                     }
                 },
                 streamer: {
+                    canvasToStream: 'mix',
                     launch: function() {
-                        const stream = hydra.mixedCanvas.captureStream()
+                        const canvas = this.canvasToStream == 'mix' ? hydra.mixedCanvas : hydra[`deck${this.canvasToStream}`].pipeCanvas;
+                        const stream = canvas.captureStream()
                         const popUpWindow = window.open('', '_blank', 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no');
                         popUpWindow.document.body.style = 'background: black; margin: 0;';
                         const videoEl = document.createElement('video');
