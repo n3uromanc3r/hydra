@@ -370,8 +370,8 @@ window.hydra.renderers['neuromute'] = {
 
             // bug in chrome means getBoundingClientRect on canvas returns 0 due to the use of flex, so workaround by finding closest column
             if (!deck.mouse.lockedPosition) {
-                deck.neuromute.mouseX = deck.mouse.x - deck.canvas.closest('.column').getBoundingClientRect().x - 10;
-                deck.neuromute.mouseY = deck.mouse.y - deck.canvas.closest('.column').getBoundingClientRect().y - 10;
+                deck.neuromute.mouseX = (deck.mouse.x - deck.canvas.closest('.column').getBoundingClientRect().x - 10) * deck.mouse.ratio;
+                deck.neuromute.mouseY = (deck.mouse.y - deck.canvas.closest('.column').getBoundingClientRect().y - 10) * deck.mouse.ratio;
             }
 
             if (deck.neuromute.counter > trailLength) {

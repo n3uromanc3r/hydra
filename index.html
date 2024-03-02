@@ -2990,6 +2990,7 @@
                         <li><button class="tab" data-tab-target="default-midi-assignments">Default MIDI Assignments</button></li>
                         <li><button class="tab" data-tab-target="import-export">Import / Export</button></li>
                         <li><button class="tab" data-tab-target="audio-configuration">Audio Configuration</button></li>
+                        <li><button class="tab" data-tab-target="video-configuration">Video Configuration</button></li>
                         <li><button class="tab" data-tab-target="themes">Themes</button></li>
                     </ul>
                     <div data-target="keyboard-shortcuts">
@@ -3163,6 +3164,13 @@
                         </fieldset>
                     </div>
                     <div data-target="audio-configuration" class="hide"></div>
+                    <div data-target="video-configuration" class="hide">
+                        <select id="resolution-selector">
+                            <option value="match">Match Deck Screen</option>
+                            <option value="720p">1280 x 720 (HD)</option>
+                            <option value="1080p">1920 x 1080 (FHD)</option>
+                        </select>
+                    </div>
                     <div data-target="themes" class="hide">
                         <select id="theme-selection"></select>
                     </div>
@@ -3620,6 +3628,8 @@
                                 this.reactBtn.addEventListener('click', function(e) {
                                     if (!hydra.audio.listening) {
                                         hydra.audio.listen();
+                                    } else {
+                                        hydra.audio.stopListening();
                                     }
                                     this.classList.toggle('orange');
                                     deck.reactivity.on = !deck.reactivity.on;
@@ -4389,6 +4399,7 @@
                                 deck.mouse.x = 0;
                                 deck.mouse.y = 0;
                                 deck.mouse.lockedPosition = false;
+                                deck.mouse.ratio = 1;
 
                                 deck.pipeCanvas.addEventListener('click', function() {
                                     deck.mouse.lockedPosition = !deck.mouse.lockedPosition;
@@ -4862,6 +4873,24 @@
                                 }
                             });
                         });
+
+                        const resolutionSelector = document.getElementById('resolution-selector');
+                        resolutionSelector.addEventListener('change', function(e) {
+                            hydra.streamer.resolution = this.value;
+                            hydra.helpers.detectSizes();
+
+                            let ratio;
+
+                            if (hydra.streamer.resolution == 'match') {
+                                ratio = 1;
+                            } else {
+                                const width = this.value == '720p' ? 1280 : 1920;
+                                ratio = width / hydra.mixedCanvas.getBoundingClientRect().width;
+                            }
+
+                            hydra.deck1.mouse.ratio = ratio;
+                            hydra.deck2.mouse.ratio = ratio;
+                        });
                     }
                 },
                 modal: {
@@ -5089,6 +5118,9 @@
                             // bad things happened... weird browser, lacking ssl?
                         }
                     },
+                    stopListening: function() {
+                        hydra.audio.listening = false;
+                    },
                     configureMediaProcessing: function(stream) {
                         hydra.audio.context = new AudioContext();
                         hydra.audio.source = hydra.audio.context.createMediaStreamSource(stream);
@@ -5254,6 +5286,7 @@
                 },
                 streamer: {
                     canvasToStream: 'mix',
+                    resolution: 'match',
                     launch: function() {
                         const canvas = this.canvasToStream == 'mix' ? hydra.mixedCanvas : hydra[`deck${this.canvasToStream}`].pipeCanvas;
                         const stream = canvas.captureStream()
@@ -5678,33 +5711,47 @@
                         return (Math.round(value * n) / n).toFixed(precision);
                     },
                     detectSizes: function() {
-                        //// This is for full size screen - cpu gets hammered at 4k!
-                        // hydra.deck1.canvas.width = window.innerWidth;
-                        // hydra.deck1.canvas.height = window.innerHeight;
+                        if (hydra.streamer.resolution === 'match') {
+                            hydra.deck1.canvas.width = hydra.deck1.pipeCanvas.getBoundingClientRect().width;
+                            hydra.deck1.canvas.height = hydra.deck1.pipeCanvas.getBoundingClientRect().height;
 
-                        // hydra.mixedCanvas.width = window.innerWidth;
-                        // hydra.mixedCanvas.height = window.innerHeight;
+                            hydra.deck1.pipeCanvas.width = hydra.deck1.pipeCanvas.getBoundingClientRect().width;
+                            hydra.deck1.pipeCanvas.height = hydra.deck1.pipeCanvas.getBoundingClientRect().height;
 
-                        // hydra.deck2.canvas.width = window.innerWidth;
-                        // hydra.deck2.canvas.height = window.innerHeight;
+                            hydra.mixedCanvas.width = hydra.mixedCanvas.getBoundingClientRect().width;
+                            hydra.mixedCanvas.height = hydra.mixedCanvas.getBoundingClientRect().height;
 
-                        // hydra.centerX = window.innerWidth/2;
-                        // hydra.centerY = window.innerHeight/2;
+                            hydra.deck2.canvas.width = hydra.deck2.pipeCanvas.getBoundingClientRect().width;
+                            hydra.deck2.canvas.height = hydra.deck2.pipeCanvas.getBoundingClientRect().height;
 
-                        hydra.deck1.canvas.width = hydra.deck1.pipeCanvas.getBoundingClientRect().width;
-                        hydra.deck1.canvas.height = hydra.deck1.pipeCanvas.getBoundingClientRect().height;
+                            hydra.deck2.pipeCanvas.width = hydra.deck2.pipeCanvas.getBoundingClientRect().width;
+                            hydra.deck2.pipeCanvas.height = hydra.deck2.pipeCanvas.getBoundingClientRect().height;
 
-                        hydra.deck1.pipeCanvas.width = hydra.deck1.pipeCanvas.getBoundingClientRect().width;
-                        hydra.deck1.pipeCanvas.height = hydra.deck1.pipeCanvas.getBoundingClientRect().height;
+                            hydra.centerX = hydra.deck1.canvas.width/2;
+                            hydra.centerY = hydra.deck1.canvas.height/2;
 
-                        hydra.mixedCanvas.width = hydra.mixedCanvas.getBoundingClientRect().width;
-                        hydra.mixedCanvas.height = hydra.mixedCanvas.getBoundingClientRect().height;
+                        } else {
+                            const width = hydra.streamer.resolution == '720p' ? 1280 : 1920;
+                            const height = hydra.streamer.resolution == '720p' ? 720 : 1080;
 
-                        hydra.deck2.canvas.width = hydra.deck2.pipeCanvas.getBoundingClientRect().width;
-                        hydra.deck2.canvas.height = hydra.deck2.pipeCanvas.getBoundingClientRect().height;
+                            hydra.deck1.canvas.width = width;
+                            hydra.deck1.canvas.height = height;
 
-                        hydra.deck2.pipeCanvas.width = hydra.deck2.pipeCanvas.getBoundingClientRect().width;
-                        hydra.deck2.pipeCanvas.height = hydra.deck2.pipeCanvas.getBoundingClientRect().height;
+                            hydra.deck1.pipeCanvas.width = width;
+                            hydra.deck1.pipeCanvas.height = height;
+
+                            hydra.mixedCanvas.width = width;
+                            hydra.mixedCanvas.height = height;
+
+                            hydra.deck2.canvas.width = width;
+                            hydra.deck2.canvas.height = height;
+
+                            hydra.deck2.pipeCanvas.width = width;
+                            hydra.deck2.pipeCanvas.height = height;
+
+                            hydra.centerX = width/2;
+                            hydra.centerY = height/2;
+                        }
 
                         // hydra.audio.meterCanvas.width = (hydra.audio.meterCanvas.getBoundingClientRect().width
                         //     - parseInt(getComputedStyle(hydra.audio.meterCanvas).marginLeft)
@@ -5712,9 +5759,6 @@
                         // );
                         hydra.audio.meterCanvas.width = hydra.audio.meterCanvas.getBoundingClientRect().width;
                         hydra.audio.meterCanvas.height = hydra.audio.meterCanvas.getBoundingClientRect().height;
-
-                        hydra.centerX = hydra.deck1.canvas.width/2;
-                        hydra.centerY = hydra.deck1.canvas.height/2;
 
                         const sliderHeight = document.querySelector('.extend').clientHeight - document.getElementById('sliders').clientHeight - 65;
 
