@@ -70,7 +70,7 @@ Available online at https://hydra.virusav.com/
   - Knightrider effect when not connected to source
 - Multiple configurable and randomisable renderers (visuals)
 - Presets
-  - Import (TODO)
+  - Import
   - Export
   - Send (share single preset configuration as JSON)
   - Receive (load single preset configuration from JSON)
@@ -79,10 +79,11 @@ Available online at https://hydra.virusav.com/
 - BPM detection
   - Tap to calculate using linear regression
   - Sync to set beat point using existing calculated BPM
-- MIDI assignment for UI components (TODO)
-- Keyboard shortcuts (TODO)
-- Theming (TODO)
-- Stream via WebRTC (TODO)
+- MIDI assignment for UI components (WIP)
+- Keyboard shortcuts (WIP)
+- Theming
+- Cast screens (deck 1, deck2 or mixed) to a popup windows
+- Video output resolution configuration
 - Extensible
 - Free/Libre Open Source Software
 
