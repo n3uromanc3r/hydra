@@ -7,10 +7,9 @@ window.hydra.renderers['quark'] = {
                     on: true,
                     cause: 'average',
                     effect: 'add',
-                    strength: 10
+                    strength: 100
                 }
-            },
-            triangleSize: 10
+            }
         };
         const ui = {
             fieldsets: [
@@ -526,7 +525,6 @@ window.hydra.renderers['quark'] = {
             let radius = deck.quark.radius * deck.scale;
             if (deck.reactivity.on && deck.reactivity.scale.on) {
                 radius = deck.reactivity.adjust('scale', radius);
-
             }
             let time = Date.now();
 

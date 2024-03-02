@@ -2186,7 +2186,7 @@
 
                                     this[`${reactor}StrengthInput`] = document.querySelector(`[data-deck="${deck.id}"][data-${reactor}-strength]`);
                                     this[`${reactor}StrengthInput`].addEventListener('input', function(e) {
-                                        deck.reactivity[reactor].strength = parseInt(e.target.value)/10;
+                                        deck.reactivity[reactor].strength = parseInt(e.target.value);
                                         e.target.parentElement.querySelector('.value').textContent = e.target.value;
                                     });
 
@@ -2606,28 +2606,28 @@
                                     on: false,
                                     cause: 'average',
                                     effect: 'add',
-                                    strength: 10
+                                    strength: 100
                                 },
                                 color: {
                                     enabled: false,
                                     on: false,
                                     cause: 'average',
                                     effect: 'add',
-                                    strength: 10
+                                    strength: 100
                                 },
                                 alpha: {
                                     enabled: false,
                                     on: false,
                                     cause: 'average',
                                     effect: 'add',
-                                    strength: 10
+                                    strength: 100
                                 },
                                 amp: {
                                     enabled: false,
                                     on: false,
                                     cause: 'average',
                                     effect: 'add',
-                                    strength: 10
+                                    strength: 100
                                 }
                             },
                             adjust: function(type, value) {
@@ -2638,9 +2638,9 @@
                                 const impactor = window.hydra.audio[cause];
 
                                 if (effect == 'add') {
-                                    return value + (impactor * strength);
+                                    return value + (impactor * (strength/10));
                                 } else if (effect == 'subtract') {
-                                    const adjustedValue = value - (impactor * strength);
+                                    const adjustedValue = value - (impactor * (strength/10));
                                     return adjustedValue >= 0 ? adjustedValue : 0;
                                 } else if (effect == 'multiply') {
                                     return (value/100) * (impactor * strength);
@@ -2668,7 +2668,8 @@
                                     document.querySelector(`[data-deck="${deck.id}"][data-${option}-effect]`).disabled = !currentReactivityConfig[option].enabled;
 
                                     if (currentReactivityConfig[option].enabled) {
-                                        document.querySelector(`[data-deck="${deck.id}"][data-${option}-strength]`).value = currentReactivityConfig[option].strength * 10;
+                                        document.querySelector(`[data-deck="${deck.id}"][data-${option}-strength]`).value = currentReactivityConfig[option].strength;
+                                        document.querySelector(`[data-deck="${deck.id}"][data-${option}-strength]`).closest('div').querySelector('.value').textContent = currentReactivityConfig[option].strength;
                                         document.querySelector(`[data-deck="${deck.id}"][data-${option}-cause="${currentReactivityConfig[option].cause}"]`).click();
                                         document.querySelector(`[data-deck="${deck.id}"][data-${option}-effect="${currentReactivityConfig[option].effect}"]`).click();
                                     }
@@ -4324,7 +4325,7 @@
                 'neuromute',
                 'pink',
                 'quark',
-                'strobe'
+                'strobe',
             ],
             deck1: {
                 visual: 'quark',

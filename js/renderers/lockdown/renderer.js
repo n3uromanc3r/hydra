@@ -7,7 +7,7 @@ window.hydra.renderers['lockdown'] = {
                     on: true,
                     cause: 'average',
                     effect: 'add',
-                    strength: 10
+                    strength: 100
                 }
             },
             triangleSize: 10
@@ -298,7 +298,7 @@ window.hydra.renderers['lockdown'] = {
                 let triangleSide = triangle.side * deck.lockdown.triangleScale;
 
                 if (deck.reactivity.on && deck.reactivity.scale.on) {
-                    triangleSide = (triangleSide/100) * (window.hydra.audio.percentage * deck.reactivity.scale.strength * 3);
+                    triangleSide = deck.reactivity.adjust('scale', triangleSide);
                 }
 
                 triangle.height = triangleSide * (Math.sqrt(3)/2);
