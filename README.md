@@ -10,6 +10,7 @@ Available online at https://hydra.virusav.com/
 
 - Crossfade visuals
 - Multiple renderers (visuals)
+  - Camera
   - Lockdown (ported from https://lockdown.virusav.com)
   - Matrix
   - Neuromute (ported from https://neuromute.virusav.com)

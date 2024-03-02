@@ -1645,7 +1645,6 @@
                 </div>
             </div>
         </div>
-        <audio id="audio" crossorigin="anonymous"></audio>
     </div>
     <script>
         window.hydra = (function(){
@@ -4306,12 +4305,13 @@
             }
         })();
     </script>
+    <script src="./js/renderers/camera/renderer.js"></script>
     <script src="./js/renderers/lockdown/renderer.js"></script>
     <script src="./js/renderers/matrix/renderer.js"></script>
     <script src="./js/renderers/neuromute/renderer.js"></script>
     <script src="./js/renderers/pink/renderer.js"></script>
-    <script src="./js/renderers/strobe/renderer.js"></script>
     <script src="./js/renderers/quark/renderer.js"></script>
+    <script src="./js/renderers/strobe/renderer.js"></script>
     <script>
         hydra.boot({
             id: 'hydra',
@@ -4320,6 +4320,7 @@
                 'high-contrast',
             ],
             renderers: [
+                'camera',
                 'lockdown',
                 'matrix',
                 'neuromute',
