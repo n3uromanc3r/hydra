@@ -1,0 +1,34 @@
+.high-contrast {
+    background: #000;
+}
+
+.high-contrast .column {
+    background: #fff;
+}
+
+.high-contrast #audio-meter {
+    background: #fff;
+}
+
+.high-contrast #audio-meter-chrome {
+    background: #fff;
+}
+
+.high-contrast .visual-settings-tabs ul {
+    background: #fff;
+}
+
+.high-contrast .mirror-mode-buttons-container.disabled .clip,
+.high-contrast .mirror-mode-buttons-container.disabled .full,
+.high-contrast .mirror-mode-buttons-container.disabled .bleed {
+    opacity: initial;
+}
+
+.high-contrast button {
+    color: #000;
+}
+
+.high-contrast button:hover {
+    background: #000;
+    color: #fff;
+}

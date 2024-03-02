@@ -146,6 +146,10 @@ button:hover {
     color: white;
 }
 
+button:focus-visible {
+    outline: none;
+}
+
 button.on {
     background: #b1b1b1;
     color: black;
@@ -295,6 +299,11 @@ button:disabled {
 
 .main-mixer-panel-group .presets button {
     padding: 5px 0;
+}
+
+.main-mixer-panel-group .presets button:hover,
+.main-mixer-panel-group .presets button.active {
+    border: solid 1px;
 }
 
 .main-mixer-panel-group .presets button:nth-of-type(1) {
@@ -1024,60 +1033,323 @@ fieldset .heading,
     position: fixed;
     background: black;
     border: solid 1px #ff5f00;
-    padding: 20px;
+    padding: 15px;
+    width: 1000px;
+    height: 800px;
+    top: calc(50% - 390px);
+    left: calc(50% - 500px);
+    font-size: 12px;
+    color: #666;
 }
 
 #modal:not(.hide) {
     display: block;
 }
 
-#modal.import-presets {
-    width: 600px;
-    height: 400px;
-    top: calc(50% - 200px);
-    left: calc(50% - 300px);
-}
-
-#modal.guide {
-    display: block;
-    width: 1000px;
-    height: 800px;
-    top: calc(50% - 390px);
-    left: calc(50% - 500px);
-}
-
 #modal > div {
     position: relative;
 }
 
-#modal > div > div {
-    display: none;
-}
-
-#modal.import-presets .import-presets,
-#modal.iguide .guide {
+#modal > div {
     display: block;
     font-size: 13px;
 }
 
-#modal .heading {
-    text-transform: uppercase;
-    font-size: 12px;
-    font-weight: 600;
-    margin-bottom: 20px;
-    border-bottom: solid 1px #3b3b3b;
-    padding-bottom: 15px;
+#modal .tabs {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
 }
 
-#close-modal {
+#modal .tab {
+    border: solid 1px #222;
+    color: #fff;
+    border-radius: 0;
+    width: auto;
+    font-size: 9px;
+    padding: 10px;
+    border-bottom: none;
+    position: relative;
+    top: 1px;
+    margin: 0 2px 0 0;
+    background: #181818;
+}
+
+#modal .tab.active {
+    background: #000;
+}
+
+#modal .settings > div,
+#modal .guide > div {
+    padding: 20px;
+    background: #000;
+    border: solid 1px #212121;
+}
+
+#modal kbd {
+    border: solid 1px #202020;
+    background: #181818;
+    padding: 4px 6px;
+    display: inline-block;
+    margin: 0 5px 10px 0;
+    border-radius: 2px;
+    color: #999;
+    min-width: 22px;
+    box-sizing: border-box;
+    text-align: center;
+    line-height: 16px;
+}
+
+#modal .ellipsis {
+    margin-right: 5px;
+}
+
+#modal [data-target="default-midi-assignments"] .knob-explanations .knob-explanations-row,
+#modal [data-target="default-midi-assignments"] .key-explanations {
+    display: flex;
+    font-size: 10px;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    line-height: 13px;
+}
+#modal [data-target="default-midi-assignments"] .knob-explanations .knob-explanations-row .knob-explanation,
+#modal [data-target="default-midi-assignments"] .key-explanations .key-explanation {
+    padding: 0;
+    list-style: none;
+}
+#modal [data-target="default-midi-assignments"] .key-explanations .key-explanation {
+    color: #fff;
+}
+#modal [data-target="default-midi-assignments"] .knob-explanations .knob-explanations-row .knob-explanation[data-midi-keyboard-knob="1"] {
+    color: #ff0000;
+}
+#modal [data-target="default-midi-assignments"] .knob-explanations .knob-explanations-row .knob-explanation[data-midi-keyboard-knob="2"] {
+    color: #ffa500;
+}
+#modal [data-target="default-midi-assignments"] .knob-explanations .knob-explanations-row .knob-explanation[data-midi-keyboard-knob="3"] {
+    color: #9aff00;
+}
+#modal [data-target="default-midi-assignments"] .knob-explanations .knob-explanations-row .knob-explanation[data-midi-keyboard-knob="4"] {
+    color: #00d9ff;
+}
+#modal [data-target="default-midi-assignments"] .knob-explanations .knob-explanations-row .knob-explanation[data-midi-keyboard-knob="5"] {
+    color: #001dff;
+}
+#modal [data-target="default-midi-assignments"] .knob-explanations .knob-explanations-row .knob-explanation[data-midi-keyboard-knob="6"] {
+    color: #ab00ff;
+}
+#modal [data-target="default-midi-assignments"] .knob-explanations .knob-explanations-row .knob-explanation[data-midi-keyboard-knob="7"] {
+    color: #ff0096;
+}
+#modal [data-target="default-midi-assignments"] .knob-explanations .knob-explanations-row .knob-explanation[data-midi-keyboard-knob="8"] {
+    color: #ffffff;
+}
+#modal [data-target="default-midi-assignments"] .knob-explanations .knob-explanations-row .knob-explanation label,
+#modal [data-target="default-midi-assignments"] .key-explanations .key-explanation label {
+    margin-right: 10px;
+    color: #666;
+}
+#modal [data-target="default-midi-assignments"] .midi-keyboard {
+    border: solid 2px #666;
+    border-radius: 6px;
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    margin: 25px 0;
+}
+#modal [data-target="default-midi-assignments"] .midi-keyboard ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+#modal [data-target="default-midi-assignments"] .midi-keyboard .midi-keyboard-knobs {
+    padding: 0 0 15px;
+}
+#modal [data-target="default-midi-assignments"] .midi-keyboard .midi-keyboard-knobs li[data-midi-keyboard-knob] {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    margin: 10px;
+}
+#modal [data-target="default-midi-assignments"] .midi-keyboard .midi-keyboard-knobs li[data-midi-keyboard-knob="1"] {
+    background: #ff0000;
+}
+#modal [data-target="default-midi-assignments"] .midi-keyboard .midi-keyboard-knobs li[data-midi-keyboard-knob="2"] {
+    background: #ffa500;
+}
+#modal [data-target="default-midi-assignments"] .midi-keyboard .midi-keyboard-knobs li[data-midi-keyboard-knob="3"] {
+    background: #9aff00;
+}
+#modal [data-target="default-midi-assignments"] .midi-keyboard .midi-keyboard-knobs li[data-midi-keyboard-knob="4"] {
+    background: #00d9ff;
+}
+#modal [data-target="default-midi-assignments"] .midi-keyboard .midi-keyboard-knobs li[data-midi-keyboard-knob="5"] {
+    background: #001dff;
+}
+#modal [data-target="default-midi-assignments"] .midi-keyboard .midi-keyboard-knobs li[data-midi-keyboard-knob="6"] {
+    background: #ab00ff;
+}
+#modal [data-target="default-midi-assignments"] .midi-keyboard .midi-keyboard-knobs li[data-midi-keyboard-knob="7"] {
+    background: #ff0096;
+}
+#modal [data-target="default-midi-assignments"] .midi-keyboard .midi-keyboard-knobs li[data-midi-keyboard-knob="8"] {
+    background: #ffffff;
+}
+#modal [data-target="default-midi-assignments"] .midi-keyboard .midi-keyboard-keys {
+    display: flex;
+}
+#modal [data-target="default-midi-assignments"] .midi-keyboard .midi-keyboard-keys li {
+    height: 140px;
+    background: #fff;
+    border: solid 2px black;
+    display: inline-block;
+    width: 30px;
+}
+#modal [data-target="default-midi-assignments"] .midi-keyboard .midi-keyboard-keys li.black-after:after {
+    content: '';
+    display: block;
+    width: 20px;
+    height: 75px;
+    background: black;
+    left: 21px;
+    position: relative;
+}
+
+#modal fieldset {
+    border: solid 1px #212121;
+    padding: 10px 20px 20px;
+}
+
+#modal fieldset:not(:first-of-type) {
+    margin-top: 20px;
+}
+
+#modal fieldset label {
+    display: block;
+    color: #94c163;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 10px;
+}
+
+#modal fieldset label span {
+    color: #fff;
+}
+
+#modal fieldset select {
+    margin: 15px 0;
+    width: 230px;
+    display: block;
+    background: #0d0d0d;
+}
+
+#modal fieldset form {
+    display: inline-block;
+}
+
+#modal fieldset button {
+    background: #353535;
+    color: #fff;
+    border-radius: 4px;
+    padding: 4px 8px;
+    width: auto;
+    font-weight: 500;
+    font-size: 9px;
+}
+
+#modal fieldset button:hover {
+    background: #ffa500;
+    color: #000;
+}
+
+#modal fieldset .message {
+    margin-left: 30px;
+    color: #fff;
+}
+
+#modal-open {
+    margin: 0 auto 30px;
+    width: 60px;
+    font-size: 20px;
+}
+
+#modal-close {
     display: inline-block;
     width: initial;
     position: absolute;
-    top: -10px;
+    top: 0;
     right: 0;
     margin: 0;
     border: solid 1px #3b3b3b;
     padding: 4px 8px;
+
+    border: solid 1px #222;
+    background: black;
+    color: white;
+    border-radius: 0;
+    padding: 4px;
+    width: auto;
+    margin: 0 2px;
+    outline: none;
+    text-transform: uppercase;
+    font-size: 9px;
+    cursor: pointer;
+}
+
+.canvas-to-stream button {
+    padding: 5px 0;
+}
+
+.canvas-to-stream button.on {
+    background: #23e648;
+}
+
+.relative {
+    position: relative;
+}
+
+.tooltip {
+    position: absolute;
+    width: 100%;
+    bottom: 100%;
+    background: #000000db;
+    padding: 10px;
+    border-radius: 3px;
+    font-size: 9px;
+    line-height: 14px;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 600;
+    transition: all 300ms ease;
+    opacity: 1;
+}
+
+.tooltip.success {
+    color: #23e648;
+}
+
+.tooltip.error {
+    color: #e62323;
+}
+
+.tooltip.transparent {
+    opacity: 0;
+}
+
+.tooltip:after {
+    content: '';
+    position: absolute;
+    left: calc(50% - 10px);
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid #000000db;
+    clear: both;
+    bottom: -10px;
 }
 
 .push-top {
@@ -1094,35 +1366,6 @@ fieldset .heading,
 
 .inline-block {
     display: inline-block;
-}
-
-#settings-open {
-    margin: 0 auto 30px;
-    width: 60px;
-    font-size: 20px;
-}
-
-#settings-close {
-    display: inline-block;
-    width: initial;
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    margin: 0;
-    border: solid 1px #3b3b3b;
-    padding: 4px 8px;
-}
-
-#settings {
-    position: absolute;
-    z-index: 1;
-    background: #050505;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    border: solid 1px #0a0a0a;
-    padding: 15px;
 }
 
 [data-tab-panel="randomisation"] .renderer,
@@ -1144,6 +1387,100 @@ fieldset .heading,
 #tap-bpm:active {
     background: #23e648;
     color: black;
+}
+
+#sync:active {
+    background: #ffffff;
+}
+
+body.assigning #assign {
+    -webkit-animation: borderBlink 1s step-end infinite;
+    animation: borderBlink 1s step-end infinite;
+}
+
+body.assigning .inline-input:not([data-assignable]),
+body.assigning .inline-input:not([data-assignable]) input,
+body.assigning .inline-input:not([data-assignable]) button,
+body.assigning .inline-input:not([data-assignable]) .slider {
+    opacity: 0.2;
+    cursor: not-allowed;
+}
+
+body.assigning .inline-input:not([data-assignable]) input[type=range]::-webkit-slider-runnable-track,
+body.assigning .inline-input:not([data-assignable]) input[type=range]::-webkit-slider-thumb {
+    opacity: 0.2;
+    cursor: not-allowed;
+}
+body.assigning .inline-input:not([data-assignable]) input[type=range]::-moz-range-track,
+body.assigning .inline-input:not([data-assignable]) input[type=range]::-moz-range-thumb {
+    opacity: 0.2;
+    cursor: not-allowed;
+}
+body.assigning .inline-input:not([data-assignable]) input[type=range]::-ms-track,
+body.assigning .inline-input:not([data-assignable]) input[type=range]::-ms-thumb {
+    opacity: 0.2;
+    cursor: not-allowed;
+}
+
+body.assigning [data-assignable],
+body.assigning [data-assignable] input,
+body.assigning [data-assignable] button,
+body.assigning [data-assignable] .slider {
+    cursor: crosshair;
+}
+
+body.assigning [data-assignable] input[type=range]::-webkit-slider-runnable-track,
+body.assigning [data-assignable] input[type=range]::-webkit-slider-thumb {
+    cursor: crosshair;
+}
+body.assigning [data-assignable] input[type=range]::-moz-range-track,
+body.assigning [data-assignable] input[type=range]::-moz-range-thumb {
+    cursor: crosshair;
+}
+body.assigning [data-assignable] input[type=range]::-ms-track,
+body.assigning [data-assignable] input[type=range]::-ms-thumb  {
+    cursor: crosshair;
+}
+
+body.assigning.selected [data-assignable],
+body.assigning.selected [data-assignable] input,
+body.assigning.selected [data-assignable] button,
+body.assigning.selected [data-assignable] .slider {
+    cursor: wait;
+}
+
+body.assigning.selected [data-assignable] input[type=range]::-webkit-slider-runnable-track,
+body.assigning.selected [data-assignable] input[type=range]::-webkit-slider-thumb {
+    cursor: wait;
+}
+body.assigning.selected [data-assignable] input[type=range]::-moz-range-track,
+body.assigning.selected [data-assignable] input[type=range]::-moz-range-thumb {
+    cursor: wait;
+}
+body.assigning.selected [data-assignable] input[type=range]::-ms-track,
+body.assigning.selected [data-assignable] input[type=range]::-ms-thumb  {
+    cursor: wait;
+}
+
+@-webkit-keyframes borderBlink {
+    from, to {
+        border-color: #222;
+        color: #ffffff;
+    }
+    50% {
+        border-color: #ffa500;
+        color: #ffa500;
+    }
+}
+@keyframes borderBlink {
+    from, to {
+        border-color: #222;
+        color: #ffffff;
+    }
+    50% {
+        border-color: #ffa500;
+        color: #ffa500;
+    }
 }
 
 @-webkit-keyframes backgroundBlink {
