@@ -242,7 +242,7 @@ For each input we defined a `variable` (`color`, `width` and `height`). These va
 
 We then adjusted our `render` method to make use of these new variables.
 
-So no we can adjust the color of our rectangle, and change the width and height using the inputs on our `deck` interface!
+So now we can adjust the color of our rectangle, and change the width and height using the inputs on our `deck` interface!
 
 https://github.com/n3uromanc3r/hydra/assets/111563/186a18ae-6712-4897-a7ae-64a30e1d9fd4
 
