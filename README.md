@@ -326,11 +326,11 @@ window.hydra.renderers['foomanchu'] = {
     }
 };
 ```
-Here we defined some `reactivity` options in our `defaults` object.  This tells the deck that we want to enable scale reactivity.`
+Here we defined some `reactivity` options in our `defaults` object.  This tells the deck that we want to enable scale reactivity.
 
 We also modified the `render` method to utilise this functionality.
 
-We first check to see if audio reaction is turned on (someone has pressed the 'REACT' button on the deck), by checking the `deck.reactivity.on` property is `true`.  We also check to see if eractivity scaling is turned on (`deck.reactivity.scale.on`).  If both of these properties are `true`, then we should make some scale adjustments.  These adjustments are easily applied using the `deck.reactivity.adjust` helper method.
+We first check to see if audio reaction is turned on (someone has pressed the 'REACT' button on the deck), by checking the `deck.reactivity.on` property is `true`.  We also check to see if reactivity scaling is turned on (`deck.reactivity.scale.on`).  If both of these properties are `true`, then we should make some scale adjustments.  These adjustments are easily applied using the `deck.reactivity.adjust` helper method.
 
 In this instance, we have adjusted the `width` and `height` properties, like so:
 ```
