@@ -694,7 +694,7 @@
                 </div>
                 <div class="button-group">
                     <div><button data-deck="1" data-react>React</button></div>
-                    <div><button data-deck="1" data-keyboard>Keyboard</button></div>
+                    <div><button data-deck="1" data-claim>Claim</button></div>
                     <div><button data-deck="1" data-guide>Guide</button></div>
                     <div><button class="red" data-deck="1" data-revert>Revert</button></div>
                 </div>
@@ -1435,8 +1435,8 @@
                 </div>
                 <div class="button-group">
                     <div><button data-deck="2" data-react>React</button></div>
-                    <div><button data-deck="2" data-keyboard>Keyboard</button></div>
-                    <div><button data-deck="2" data-guide disabled>Guide</button></div>
+                    <div><button data-deck="2" data-claim>Claim</button></div>
+                    <div><button data-deck="2" data-guide>Guide</button></div>
                     <div><button class="red" data-deck="2" data-revert>Revert</button></div>
                 </div>
             </div>
@@ -1447,7 +1447,7 @@
                 <div class="settings modal-section">
                     <ul class="tabs">
                         <li><button class="tab active" data-tab-target="keyboard-shortcuts">Keyboard Shortcuts</button></li>
-                        <li><button class="tab" data-tab-target="default-midi-assignments">Default MIDI Assignments</button></li>
+                        <li><button class="tab" data-tab-target="midi-assignments">MIDI Assignments</button></li>
                         <li><button class="tab" data-tab-target="import-export">Import / Export</button></li>
                         <li><button class="tab" data-tab-target="audio-configuration">Audio Configuration</button></li>
                         <li><button class="tab" data-tab-target="video-configuration">Video Configuration</button></li>
@@ -1457,58 +1457,95 @@
                         <ul>
                             <li><kbd>Esc</kbd> <span>Cancel / Close</span></li>
 
-                            <li><kbd>1</kbd><span class="ellipsis">...</span><kbd>2</kbd> <span>Select Preset 1-10</span></li>
-                            <li><kbd>-</kbd> <span>Previous Preset</span></li>
-                            <li><kbd>-</kbd> <span>Next Preset</span></li>
+                            <li class="kbd-section-heading">Presets</li>
+                            <li>
+                                <ul class="flex">
+                                    <li><kbd>1</kbd><span class="ellipsis">...</span><kbd>2</kbd> <span>Select Preset 1-10</span></li>
+                                    <li><kbd>-</kbd> <span>Previous Preset</span></li>
+                                    <li><kbd>=</kbd> <span>Next Preset</span></li>
+                                </ul>
+                            </li>
 
-                            <li><kbd>Shift</kbd> <span>Mirror (Toggle)</span></li>
-                            <li><kbd>,</kbd> <span>Mirror Mode - Clip</span></li>
-                            <li><kbd>.</kbd> <span>Mirror Mode - Full</span></li>
-                            <li><kbd>/</kbd> <span>Mirror Mode - Bleed</span></li>
+                            <li class="kbd-section-heading">Effects</li>
+                            <li>
+                                <ul class="flex">
+                                    <li><kbd>Shift</kbd> <span>Mirror (Toggle)</span></li>
+                                    <li><kbd>,</kbd> <span>Mirror Mode - Clip</span></li>
+                                    <li><kbd>.</kbd> <span>Mirror Mode - Full</span></li>
+                                    <li><kbd>/</kbd> <span>Mirror Mode - Bleed</span></li>
+                                </ul>
+                                <ul class="flex">
+                                    <li><kbd>Enter</kbd> <span>Kaleidoscope (Toggle)</span></li>
+                                </ul>
+                            </li>
 
-                            <li><kbd>Enter</kbd> <span>Kaleidoscope (Toggle)</span></li>
+                            <li class="kbd-section-heading">Deck</li>
+                            <li>
+                                <ul class="flex">
+                                    <li><kbd>←</kbd> <span>Claim Deck 1</span></li>
+                                    <li><kbd>→</kbd> <span>Claim Deck 2</span></li>
+                                </ul>
+                            </li>
 
-                            <li><kbd>↑</kbd> <span>Raise Deck to Top</span></li>
-                            <li><kbd>↓</kbd> <span>Lower Deck to Bottom</span></li>
-                            <li><kbd>←</kbd> <span>Claim Deck 1</span></li>
-                            <li><kbd>→</kbd> <span>Claim Deck 2</span></li>
+                            <li class="kbd-section-heading">BPM</li>
+                            <li>
+                                <ul class="flex">
+                                    <li><kbd>Space</kbd> <span>Tap (BPM)</span></li>
+                                    <li><kbd>`</kbd> <span>Sync (BPM)</span></li>
+                                </ul>
+                            </li>
 
-                            <li><kbd>Space</kbd> <span>Tap (BPM)</span></li>
-                            <li><kbd>`</kbd> <span>Sync (BPM)</span></li>
+                            <li class="kbd-section-heading">Composition</li>
+                            <li>
+                                <ul class="flex">
+                                    <li><kbd>↑</kbd> <span>Raise Deck to Top</span></li>
+                                    <li><kbd>↓</kbd> <span>Lower Deck to Bottom</span></li>
+                                    <li><kbd>Alt</kbd> <span>Previous Composition Mode</span></li>
+                                    <li><kbd>AltGraph</kbd> <span>Next Composition Mode</span></li>
+                                </ul>
+                            </li>
 
-                            <li><kbd>Alt</kbd> <span>Previous Composition Mode</span></li>
-                            <li><kbd>AltGraph</kbd> <span>Next Composition Mode</span></li>
+                            <li class="kbd-section-heading">Recorder</li>
+                            <li>
+                                <ul class="flex">
+                                    <li><kbd>\</kbd> <span>Record (Toggle)</span></li>
+                                </ul>
+                            </li>
 
-                            <li><kbd>]</kbd> <span>Assign (Toggle)</span></li>
-                            <li><kbd>\</kbd> <span>Record (Toggle)</span></li>
+                            <li class="kbd-section-heading">MIDI</li>
+                            <li>
+                                <ul class="flex">
+                                    <li><kbd>]</kbd> <span>Assign (Toggle)</span></li>
+                                </ul>
+                            </li>
                         </ul>
                     </div>
-                    <div data-target="default-midi-assignments" class="hide">
+                    <div data-target="midi-assignments" class="hide">
                         <div class="knob-explanations">
                             <div class="knob-explanations-row">
                                 <ul class="knob-explanation" data-midi-keyboard-knob="1">
                                     <li class="midi-knob"><label>KNOB</label>1</li>
                                     <li class="midi-data-byte-1"><label>MIDI DATA BYTE 1</label>1</li>
                                     <li class="midi-command"><label>MIDI COMMAND</label>176 (CONTROL CHANGE)</li>
-                                    <li class="assignment"><label>ASSIGNMENT</label>REACTIVITY</li>
+                                    <li class="assignment"><label>ASSIGNMENT</label><span data-assignment="1">-</span></li>
                                 </ul>
                                 <ul class="knob-explanation" data-midi-keyboard-knob="2">
                                     <li class="midi-knob"><label>KNOB</label>2</li>
                                     <li class="midi-data-byte-1"><label>MIDI DATA BYTE 1</label>2</li>
                                     <li class="midi-command"><label>MIDI COMMAND</label>176 (CONTROL CHANGE)</li>
-                                    <li class="assignment"><label>ASSIGNMENT</label>MIN WIDTH</li>
+                                    <li class="assignment"><label>ASSIGNMENT</label><span data-assignment="2">-</span></li>
                                 </ul>
                                 <ul class="knob-explanation" data-midi-keyboard-knob="3">
                                     <li class="midi-knob"><label>KNOB</label>3</li>
                                     <li class="midi-data-byte-1"><label>MIDI DATA BYTE 1</label>3</li>
                                     <li class="midi-command"><label>MIDI COMMAND</label>176 (CONTROL CHANGE)</li>
-                                    <li class="assignment"><label>ASSIGNMENT</label>WIDTH MODE</li>
+                                    <li class="assignment"><label>ASSIGNMENT</label><span data-assignment="3">-</span></li>
                                 </ul>
                                 <ul class="knob-explanation" data-midi-keyboard-knob="4">
                                     <li class="midi-knob"><label>KNOB</label>4</li>
                                     <li class="midi-data-byte-1"><label>MIDI DATA BYTE 1</label>4</li>
                                     <li class="midi-command"><label>MIDI COMMAND</label>176 (CONTROL CHANGE)</li>
-                                    <li class="assignment"><label>ASSIGNMENT</label>TRAIL LENGTH</li>
+                                    <li class="assignment"><label>ASSIGNMENT</label><span data-assignment="4">-</span></li>
                                 </ul>
                             </div>
                             <div class="knob-explanations-row">
@@ -1516,25 +1553,25 @@
                                     <li class="midi-knob"><label>KNOB</label>5</li>
                                     <li class="midi-data-byte-1"><label>MIDI DATA BYTE 1</label>5</li>
                                     <li class="midi-command"><label>MIDI COMMAND</label>176 (CONTROL CHANGE)</li>
-                                    <li class="assignment"><label>ASSIGNMENT</label>MODULO</li>
+                                    <li class="assignment"><label>ASSIGNMENT</label><span data-assignment="5">-</span></li>
                                 </ul>
                                 <ul class="knob-explanation" data-midi-keyboard-knob="6">
                                     <li class="midi-knob"><label>KNOB</label>6</li>
                                     <li class="midi-data-byte-1"><label>MIDI DATA BYTE 1</label>6</li>
                                     <li class="midi-command"><label>MIDI COMMAND</label>176 (CONTROL CHANGE)</li>
-                                    <li class="assignment"><label>ASSIGNMENT</label>ARC MODE</li>
+                                    <li class="assignment"><label>ASSIGNMENT</label><span data-assignment="6">-</span></li>
                                 </ul>
                                 <ul class="knob-explanation" data-midi-keyboard-knob="7">
                                     <li class="midi-knob"><label>KNOB</label>7</li>
                                     <li class="midi-data-byte-1"><label>MIDI DATA BYTE 1</label>7</li>
                                     <li class="midi-command"><label>MIDI COMMAND</label>176 (CONTROL CHANGE)</li>
-                                    <li class="assignment"><label>ASSIGNMENT</label>FILL MODE</li>
+                                    <li class="assignment"><label>ASSIGNMENT</label><span data-assignment="7">-</span></li>
                                 </ul>
                                 <ul class="knob-explanation" data-midi-keyboard-knob="8">
                                     <li class="midi-knob"><label>KNOB</label>8</li>
                                     <li class="midi-data-byte-1"><label>MIDI DATA BYTE 1</label>8</li>
                                     <li class="midi-command"><label>MIDI COMMAND</label>176 (CONTROL CHANGE)</li>
-                                    <li class="assignment"><label>ASSIGNMENT</label>COLOR MODE</li>
+                                    <li class="assignment"><label>ASSIGNMENT</label><span data-assignment="8">-</span></li>
                                 </ul>
                             </div>
                         </div>
@@ -1596,30 +1633,30 @@
                             <label>Presets <span>- Deck 1</span></label>
                             <form id="presets-file-form-deck-1" name="presets-file-form-deck-1" enctype="multipart/form-data" method="post">
                                 <input type="file" id="presets-file-deck-1">
-                                <button data-deck="1" data-import disabled>Import</button>
+                                <button data-deck="1" data-import data-import-presets disabled>Import</button>
                             </form>
-                            <button class="export" data-deck="1" data-export-presets>Export</button>
-                            <button class="factory-reset" data-deck="1" data-factory-reset-presets>Factory Reset</button>
+                            <button class="export" data-deck="1" data-export data-export-presets>Export</button>
+                            <button class="factory-reset" data-deck="1" data-factory-reset data-factory-reset-presets>Factory Reset</button>
                             <span class="message"></span>
                         </fieldset>
                         <fieldset data-type="presets">
                             <label>Presets <span>- Deck 2</span></label>
                             <form id="presets-file-form-deck-2" name="presets-file-form-deck-2" enctype="multipart/form-data" method="post">
                                 <input type="file" id="presets-file-deck-2">
-                                <button data-deck="2" data-import disabled>Import</button>
+                                <button data-deck="2" data-import data-import-presets disabled>Import</button>
                             </form>
-                            <button class="export" data-deck="2" data-export-presets>Export</button>
-                            <button class="factory-reset" data-deck="2" data-factory-reset-presets>Factory Reset</button>
+                            <button class="export" data-deck="2" data-export data-export-presets>Export</button>
+                            <button class="factory-reset" data-deck="2" data-factory-reset data-factory-reset-presets>Factory Reset</button>
                             <span class="message"></span>
                         </fieldset>
                         <fieldset data-type="assignments">
                             <label>MIDI Assignments</label>
                             <form id="assignments-file-form" name="assignments-file-form" enctype="multipart/form-data" method="post">
-                                <input type="file" id="assignments-file" disabled>
-                                <button data-import disabled>Import</button>
+                                <input type="file" id="assignments-file">
+                                <button data-import data-import-midi-assignments disabled>Import</button>
                             </form>
-                            <button class="export" data-export-midi-assignments disabled>Export</button>
-                            <button class="factory-reset" data-export-midi-assignments disabled>Factory Reset</button>
+                            <button class="export" data-export data-export-midi-assignments>Export</button>
+                            <button class="factory-reset" data-factory-reset data-factory-reset-midi-assignments>Factory Reset</button>
                             <span class="message"></span>
                         </fieldset>
                     </div>
@@ -2094,10 +2131,10 @@
                                     deck.reactivity.on = !deck.reactivity.on;
                                 });
 
-                                this.keyboardBtn = document.querySelector(`[data-deck="${deck.id}"][data-keyboard]`);
-                                this.keyboardBtn.addEventListener('click', function(e) {
+                                this.claimBtn = document.querySelector(`[data-deck="${deck.id}"][data-claim]`);
+                                this.claimBtn.addEventListener('click', function(e) {
                                     if (!e.target.classList.contains('on')) {
-                                        document.querySelectorAll(`[data-keyboard]`).forEach(btn => btn.classList.remove('on'));
+                                        document.querySelectorAll(`[data-claim]`).forEach(btn => btn.classList.remove('on'));
                                         e.target.classList.add('on');
                                         hydra.keyboard.claimed = deck.id;
                                     } else {
@@ -2124,13 +2161,13 @@
                                     });
                                 });
 
-                                this.exportBtn = document.querySelector(`[data-deck="${deck.id}"][data-export-presets]`);
-                                this.exportBtn.addEventListener('click', function(e) {
+                                this.exportPresetsBtn = document.querySelector(`[data-deck="${deck.id}"][data-export-presets]`);
+                                this.exportPresetsBtn.addEventListener('click', function(e) {
                                     deck.presets.export();
                                 });
 
-                                this.factoryResetBtn = document.querySelector(`[data-deck="${deck.id}"][data-factory-reset-presets]`);
-                                this.factoryResetBtn.addEventListener('click', function(e) {
+                                this.factoryResetPresetsBtn = document.querySelector(`[data-deck="${deck.id}"][data-factory-reset-presets]`);
+                                this.factoryResetPresetsBtn.addEventListener('click', function(e) {
                                     deck.presets.reset();
                                     const messageEl = e.target.closest('fieldset').querySelector('.message');
                                     messageEl.textContent = 'Factory reset successful!';
@@ -2530,10 +2567,18 @@
                                         'load',
                                         (e) => {
                                             const data = e.target.result;
-                                            deck.current.presets = JSON.parse(data).presets;
-                                            deck.presets.updateBtns();
+                                            const json = JSON.parse(data);
+                                            let message;
 
-                                            messageEl.textContent = 'Import successful!';
+                                            if (deck.visual.current == json.renderer) {
+                                                deck.current.presets = json.presets;
+                                                deck.presets.updateBtns();
+                                                message = 'Import successful!';
+                                            } else {
+                                                message = 'Invalid presets for current renderer';
+                                            }
+
+                                            messageEl.textContent = message;
                                             setTimeout(() => {
                                                 messageEl.textContent = '';
                                             }, 2000);
@@ -2560,7 +2605,7 @@
                                     renderer: deck.visual.current,
                                     presets: deck.current.presets
                                 });
-                                hydra.storage.export(data, deck.visual.current + '-presets.json', 'application/json');
+                                hydra.files.export(data, deck.visual.current + '-presets.json', 'application/json');
                             },
                             getCurrentPresetConfiguration: function() {
                                 const currentPresetConfiguration = {
@@ -3020,14 +3065,20 @@
                 },
                 composition: {
                     init: function() {
+                        this.selector = document.getElementById('composition-mode-selector');
+
                         this.setMode = (mode) => {
                             hydra.mixedCtx.globalCompositeOperation = mode;
                         };
                         this.previousMode = () => {
-                            console.log('previous mode');
+                            const current = this.selector.selectedIndex;
+                            this.selector.value = this.selector.querySelectorAll('option')[current - 1].value;
+                            this.selector.dispatchEvent(new Event('input', { bubbles: true }));
                         };
                         this.nextMode = () => {
-                            console.log('next mode');
+                            const current = this.selector.selectedIndex;
+                            this.selector.value = this.selector.querySelectorAll('option')[current + 1].value;
+                            this.selector.dispatchEvent(new Event('input', { bubbles: true }));
                         };
                     }
                 },
@@ -3314,7 +3365,7 @@
                         assignableInputs.forEach(assignableInput => {
                             assignableInput.addEventListener('mousedown', function(e) {
                                 if (hydra.body.classList.contains('assigning')) {
-                                    assignableInput.assigning = true;
+                                    hydra.midi.assigning = assignableInput.querySelector('input') || assignableInput.querySelector('button');
                                     hydra.body.classList.add('selected');
                                 }
                             });
@@ -3330,8 +3381,20 @@
                                 if (type =='presets') {
                                     const deck = e.target.dataset.deck;
                                     hydra[`deck${deck}`].presets.import(e.target, input);
+                                } else {
+                                    hydra.midi.import(e.target, input);
                                 }
                             });
+                        });
+
+                        const exportMidiAssignmentsBtn = document.querySelector('[data-export-midi-assignments]');
+                        exportMidiAssignmentsBtn.addEventListener('click', function(e) {
+                            hydra.midi.export();
+                        });
+
+                        const factoryResetMidiAssignmentsBtn = document.querySelector('[data-factory-reset-midi-assignments]');
+                        factoryResetMidiAssignmentsBtn.addEventListener('click', function(e) {
+                            hydra.midi.reset();
                         });
 
                         const resolutionSelector = document.getElementById('resolution-selector');
@@ -3760,70 +3823,7 @@
                         remoteVideo.srcObject = stream;
                     }
                 },
-                storage: {
-                    init: function() {
-                        this.db = window.localStorage;
-                        // this.db.clear();
-
-                        if (!this.db.getItem('presets')) {
-                            this.db.setItem('presets', JSON.stringify(presets.collection));
-                            this.db.setItem('presetsDefault', JSON.stringify(presets.collection));
-                        } else {
-                            presets.collection = JSON.parse(this.db.getItem('presets'));
-                        }
-
-                        if (!this.db.getItem('assignments')) {
-                            this.db.setItem('assignments', JSON.stringify(midi.assignments));
-                            this.db.setItem('assignmentsDefault', JSON.stringify(midi.assignments));
-                        } else {
-                            midi.assignments = JSON.parse(this.db.getItem('assignments'));
-                        }
-                    },
-                    db: null,
-                    dataToImport: {},
-                    import: function() {
-                        let input = this.dataToImport.input;
-                        if (typeof window.FileReader !== 'function') {
-                            console.error("The file API isn't supported on this browser yet.");
-                            return;
-                        } else if (!input.files) {
-                            console.error("This browser doesn't seem to support the `files` property of file inputs.");
-                        } else if (!input.files[0]) {
-                            console.error("Please select a file before clicking 'Import'.");
-                        } else if (input.files[0].type != 'application/json') {
-                            console.error("File selected for import is not a valid JSON file.");
-                        } else {
-                            let file = input.files[0];
-                            let fr = new FileReader();
-                            fr.onload = this.loadFile;
-                            fr.readAsText(file);
-                        }
-                    },
-                    loadFile: function(e) {
-                        let data = e.target.result;
-
-                        try {
-
-                            switch(storage.dataToImport.itemKey) {
-                                case 'presets':
-                                    storage.db.setItem('presets', data);
-                                    presets.collection = JSON.parse(storage.db.getItem('presets'));
-                                    break;
-                                case 'assignments':
-                                    storage.db.setItem('assignments', data);
-                                    midi.assignments = JSON.parse(storage.db.getItem('assignments'));
-                                    break;
-                            }
-
-                            storage.dataToImport.input.value = '';
-
-                            console.error('Imported successfully.');
-
-                        } catch(e) {
-                            console.error('There was a problem importing the selected file.');
-                        }
-
-                    },
+                files: {
                     export: function(content, fileName, contentType) {
                         let file = new Blob([content], {type: contentType});
                         let a = document.createElement('a');
@@ -3986,9 +3986,6 @@
                                 case '=':
                                     hydra[`deck${hydra.keyboard.claimed}`].presets.next();
                                     break;
-                                // case '`':
-                                //     neuromute.state.toggle();
-                                //     break;
                                 // case 'z':
                                 //     audio.react.toggle();
                                 //     break;
@@ -4035,10 +4032,10 @@
                                     document.querySelector(`[data-deck="${hydra.keyboard.claimed == 1 ? 2 : 1}"].raise-to-top`).click();
                                     break;
                                 case 'ArrowLeft':
-                                    document.querySelector('[data-deck="1"][data-keyboard]').click();
+                                    document.querySelector('[data-deck="1"][data-claim]').click();
                                     break;
                                 case 'ArrowRight':
-                                    document.querySelector('[data-deck="2"][data-keyboard]').click();
+                                    document.querySelector('[data-deck="2"][data-claim]').click();
                                     break;
                                 case ' ':
                                     document.getElementById('tap-bpm').click();
@@ -4047,10 +4044,10 @@
                                     document.getElementById('sync').click();
                                     break;
                                 case 'Alt':
-                                    hydra.composition.previousMode();  // TODO
+                                    hydra.composition.previousMode();
                                     break;
                                 case 'AltGraph':
-                                    hydra.composition.nextMode();  // TODO
+                                    hydra.composition.nextMode();
                                     break;
                                 case 'Enter':
                                     const kaleidoscopeToggleBtn = !hydra.keyboard.claimed
@@ -4090,36 +4087,60 @@
                         console.debug('Could not access MIDI devices.');
                     },
                     getMIDIMessage: function(midiMessage) {
-
+                        console.debug(midiMessage)
                         switch (midiMessage.data[0]) {
-                            //pad or key
+                            // pad/key
                             case 144:
                                 try {
-                                    presets.select(midiMessage.data[1] - 47);
+                                    if (hydra.midi.assigning) {
+                                        if (hydra.midi.assigning.type == 'checkbox' || hydra.midi.assigning.type == 'submit') {
+                                            hydra.midi.assignments.padsKeys[midiMessage.data[1]] = hydra.midi.assigning;
+                                            hydra.midi.cancelAssignment();
+                                        }
+                                    } else {
+                                        if (hydra.keyboard.claimed) {
+                                            hydra.midi.assignments.pads[midiMessage.data[1]]
+                                                ? hydra.midi.assignments.padsKeys[midiMessage.data[1]].click()
+                                                : hydra[`deck${hydra.keyboard.claimed}`].presets.select(midiMessage.data[1] - 47);
+                                        } else {
+                                            hydra.midi.assignments.padsKeys[midiMessage.data[1]].click();
+                                        }
+                                    }
+
                                 } catch (e) {}
                                 break;
                             // dial
                             case 176:
-                                if (knobs.assigning) {
-                                    midi.assignments.knobs[midiMessage.data[1]] = knobs.assigning;
-                                    storage.db.setItem('assignments', JSON.stringify(midi.assignments));
-                                    knobs.cancelAssignment();
+                                if (hydra.midi.assigning) {
+                                    hydra.midi.assignments.dials[midiMessage.data[1]] = hydra.midi.assigning;
+                                    const assignmentEl = document.querySelector(`[data-target="midi-assignments"] [data-assignment="${midiMessage.data[1]}"]`);
+                                    if (assignmentEl) {
+                                        assignmentEl.textContent = `${hydra.midi.assigning.dataset.variable} [D${hydra.midi.assigning.dataset.deck} ${hydra.midi.assigning.dataset.visual}]`;
+                                    }
+                                    hydra.midi.cancelAssignment();
                                 } else {
                                     try {
-                                        let dial = midi.assignments.knobs[parseInt(midiMessage.data[1])],
-                                            min = knobs.knob[dial]._input.min,
-                                            max = knobs.knob[dial]._input.max,
-                                            incrementSize = (Math.abs(min - max)/127);
+                                        const dial = hydra.midi.assignments.dials[parseInt(midiMessage.data[1])];
+                                        const min = dial.min;
+                                        const max = dial.max;
+                                        const incrementSize = (Math.abs(min - max)/128);
 
                                         if (Math.sign(min) == -1) {
-                                            knobs.knob[dial].value = (incrementSize - Math.abs(min) - incrementSize) + (incrementSize * midiMessage.data[2]);
+                                            dial.value = (incrementSize - Math.abs(min) - incrementSize) + (incrementSize * midiMessage.data[2]);
                                         } else {
-                                            knobs.knob[dial].value = (knobs.knob[dial]._input.max/127) * midiMessage.data[2];
+                                            dial.value = (max/128) * midiMessage.data[2];
                                         }
+
+                                        dial.dispatchEvent(new Event('input', { bubbles: true }));
                                     } catch (e) {}
                                 }
                                 break;
-
+                            // joystick
+                            case 224:
+                                const value = ((2 / 128) * midiMessage.data[2]) - 1;
+                                hydra.crossfader.input.value = value;
+                                hydra.crossfader.input.dispatchEvent(new Event('input', { bubbles: true }));
+                                break;
                         }
 
                     },
@@ -4129,16 +4150,85 @@
                         hydra.midi.assigning = false;
                     },
                     assignments: {
-                        knobs: {
-                            1: 'reactivity',
-                            2: 'minWidth',
-                            3: 'widthMode',
-                            4: 'trailLength',
-                            5: 'modulo',
-                            6: 'arcMode',
-                            7: 'fillMode',
-                            8: 'colorMode',
+                        padsKeys: {},
+                        dials: {},
+                        sticks: {}
+                    },
+                    import: function(target, input) {
+                        if (typeof window.FileReader !== 'function') {
+                                    console.debug("The file API isn't supported on this browser yet.");
+                                    return;
+                                } else if (!input.files) {
+                                    console.debug("This browser doesn't seem to support the `files` property of file inputs.");
+                                } else if (!input.files[0]) {
+                                    console.debug("Please select a file before clicking 'Import'.");
+                                } else if (input.files[0].type != 'application/json') {
+                                    console.debug("File selected for import is not a valid JSON file.");
+                                } else {
+                                    const file = input.files[0];
+                                    const fr = new FileReader();
+
+                                    const messageEl = target.closest('fieldset').querySelector('.message');
+
+                                    fr.addEventListener(
+                                        'load',
+                                        (e) => {
+                                            const data = e.target.result;
+                                            const json = JSON.parse(data);
+
+                                            for (key in json.assignments) {
+                                                for (entry in json.assignments[key]) {
+                                                    const input = json.assignments[key][entry];
+                                                    json.assignments[key][entry] = document.querySelector(`[data-deck="${input.deck}"][data-visual="${input.visual}"][data-variable="${input.variable}"]`);
+                                                }
+                                            }
+
+                                            hydra.midi.assignments = json.assignments;
+
+                                            messageEl.textContent = 'Import successful!';
+                                            setTimeout(() => {
+                                                messageEl.textContent = '';
+                                            }, 2000);
+                                        },
+                                        false,
+                                    );
+
+                                    fr.addEventListener(
+                                        'error',
+                                        () => {
+                                            messageEl.textContent = 'Import failed';
+                                            setTimeout(() => {
+                                                messageEl.textContent = '';
+                                            }, 2000);
+                                        },
+                                        false,
+                                    );
+
+                                    fr.readAsText(file);
+                                }
+                    },
+                    export: function() {
+                        let assignments = hydra.midi.assignments;
+
+                        for (key in assignments) {
+                            for (entry in assignments[key]) {
+                                const input = assignments[key][entry];
+                                assignments[key][entry] = {deck: input.dataset.deck, visual: input.dataset.visual, variable: input.dataset.variable};
+                            }
                         }
+
+                        const data = JSON.stringify({
+                            assignments: assignments
+                        });
+
+                        hydra.files.export(data, 'midi-assignments.json', 'application/json');
+                    },
+                    reset: function() {
+                        this.assignments = {
+                            padsKeys: {},
+                            dials: {},
+                            sticks: {}
+                        };
                     }
                 },
                 themes: {
@@ -4213,10 +4303,6 @@
                             hydra.centerY = height/2;
                         }
 
-                        // hydra.audio.meterCanvas.width = (hydra.audio.meterCanvas.getBoundingClientRect().width
-                        //     - parseInt(getComputedStyle(hydra.audio.meterCanvas).marginLeft)
-                        //     - parseInt(getComputedStyle(hydra.audio.meterCanvas).marginRight)
-                        // );
                         hydra.audio.meterCanvas.width = hydra.audio.meterCanvas.getBoundingClientRect().width;
                         hydra.audio.meterCanvas.height = hydra.audio.meterCanvas.getBoundingClientRect().height;
 

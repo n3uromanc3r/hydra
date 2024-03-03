@@ -1087,6 +1087,14 @@ fieldset .heading,
     border: solid 1px #212121;
 }
 
+#modal .kbd-section-heading {
+    color: white;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 9px;
+    margin: 20px 0 10px;
+}
+
 #modal kbd {
     border: solid 1px #202020;
     background: #181818;
@@ -1105,52 +1113,52 @@ fieldset .heading,
     margin-right: 5px;
 }
 
-#modal [data-target="default-midi-assignments"] .knob-explanations .knob-explanations-row,
-#modal [data-target="default-midi-assignments"] .key-explanations {
+#modal [data-target="midi-assignments"] .knob-explanations .knob-explanations-row,
+#modal [data-target="midi-assignments"] .key-explanations {
     display: flex;
     font-size: 10px;
     justify-content: space-between;
     margin-bottom: 15px;
     line-height: 13px;
 }
-#modal [data-target="default-midi-assignments"] .knob-explanations .knob-explanations-row .knob-explanation,
-#modal [data-target="default-midi-assignments"] .key-explanations .key-explanation {
+#modal [data-target="midi-assignments"] .knob-explanations .knob-explanations-row .knob-explanation,
+#modal [data-target="midi-assignments"] .key-explanations .key-explanation {
     padding: 0;
     list-style: none;
 }
-#modal [data-target="default-midi-assignments"] .key-explanations .key-explanation {
+#modal [data-target="midi-assignments"] .key-explanations .key-explanation {
     color: #fff;
 }
-#modal [data-target="default-midi-assignments"] .knob-explanations .knob-explanations-row .knob-explanation[data-midi-keyboard-knob="1"] {
+#modal [data-target="midi-assignments"] .knob-explanations .knob-explanations-row .knob-explanation[data-midi-keyboard-knob="1"] {
     color: #ff0000;
 }
-#modal [data-target="default-midi-assignments"] .knob-explanations .knob-explanations-row .knob-explanation[data-midi-keyboard-knob="2"] {
+#modal [data-target="midi-assignments"] .knob-explanations .knob-explanations-row .knob-explanation[data-midi-keyboard-knob="2"] {
     color: #ffa500;
 }
-#modal [data-target="default-midi-assignments"] .knob-explanations .knob-explanations-row .knob-explanation[data-midi-keyboard-knob="3"] {
+#modal [data-target="midi-assignments"] .knob-explanations .knob-explanations-row .knob-explanation[data-midi-keyboard-knob="3"] {
     color: #9aff00;
 }
-#modal [data-target="default-midi-assignments"] .knob-explanations .knob-explanations-row .knob-explanation[data-midi-keyboard-knob="4"] {
+#modal [data-target="midi-assignments"] .knob-explanations .knob-explanations-row .knob-explanation[data-midi-keyboard-knob="4"] {
     color: #00d9ff;
 }
-#modal [data-target="default-midi-assignments"] .knob-explanations .knob-explanations-row .knob-explanation[data-midi-keyboard-knob="5"] {
+#modal [data-target="midi-assignments"] .knob-explanations .knob-explanations-row .knob-explanation[data-midi-keyboard-knob="5"] {
     color: #001dff;
 }
-#modal [data-target="default-midi-assignments"] .knob-explanations .knob-explanations-row .knob-explanation[data-midi-keyboard-knob="6"] {
+#modal [data-target="midi-assignments"] .knob-explanations .knob-explanations-row .knob-explanation[data-midi-keyboard-knob="6"] {
     color: #ab00ff;
 }
-#modal [data-target="default-midi-assignments"] .knob-explanations .knob-explanations-row .knob-explanation[data-midi-keyboard-knob="7"] {
+#modal [data-target="midi-assignments"] .knob-explanations .knob-explanations-row .knob-explanation[data-midi-keyboard-knob="7"] {
     color: #ff0096;
 }
-#modal [data-target="default-midi-assignments"] .knob-explanations .knob-explanations-row .knob-explanation[data-midi-keyboard-knob="8"] {
+#modal [data-target="midi-assignments"] .knob-explanations .knob-explanations-row .knob-explanation[data-midi-keyboard-knob="8"] {
     color: #ffffff;
 }
-#modal [data-target="default-midi-assignments"] .knob-explanations .knob-explanations-row .knob-explanation label,
-#modal [data-target="default-midi-assignments"] .key-explanations .key-explanation label {
+#modal [data-target="midi-assignments"] .knob-explanations .knob-explanations-row .knob-explanation label,
+#modal [data-target="midi-assignments"] .key-explanations .key-explanation label {
     margin-right: 10px;
     color: #666;
 }
-#modal [data-target="default-midi-assignments"] .midi-keyboard {
+#modal [data-target="midi-assignments"] .midi-keyboard {
     border: solid 2px #666;
     border-radius: 6px;
     width: 500px;
@@ -1159,56 +1167,56 @@ fieldset .heading,
     padding: 20px;
     margin: 25px 0;
 }
-#modal [data-target="default-midi-assignments"] .midi-keyboard ul {
+#modal [data-target="midi-assignments"] .midi-keyboard ul {
     list-style: none;
     margin: 0;
     padding: 0;
 }
-#modal [data-target="default-midi-assignments"] .midi-keyboard .midi-keyboard-knobs {
+#modal [data-target="midi-assignments"] .midi-keyboard .midi-keyboard-knobs {
     padding: 0 0 15px;
 }
-#modal [data-target="default-midi-assignments"] .midi-keyboard .midi-keyboard-knobs li[data-midi-keyboard-knob] {
+#modal [data-target="midi-assignments"] .midi-keyboard .midi-keyboard-knobs li[data-midi-keyboard-knob] {
     display: inline-block;
     width: 20px;
     height: 20px;
     border-radius: 10px;
     margin: 10px;
 }
-#modal [data-target="default-midi-assignments"] .midi-keyboard .midi-keyboard-knobs li[data-midi-keyboard-knob="1"] {
+#modal [data-target="midi-assignments"] .midi-keyboard .midi-keyboard-knobs li[data-midi-keyboard-knob="1"] {
     background: #ff0000;
 }
-#modal [data-target="default-midi-assignments"] .midi-keyboard .midi-keyboard-knobs li[data-midi-keyboard-knob="2"] {
+#modal [data-target="midi-assignments"] .midi-keyboard .midi-keyboard-knobs li[data-midi-keyboard-knob="2"] {
     background: #ffa500;
 }
-#modal [data-target="default-midi-assignments"] .midi-keyboard .midi-keyboard-knobs li[data-midi-keyboard-knob="3"] {
+#modal [data-target="midi-assignments"] .midi-keyboard .midi-keyboard-knobs li[data-midi-keyboard-knob="3"] {
     background: #9aff00;
 }
-#modal [data-target="default-midi-assignments"] .midi-keyboard .midi-keyboard-knobs li[data-midi-keyboard-knob="4"] {
+#modal [data-target="midi-assignments"] .midi-keyboard .midi-keyboard-knobs li[data-midi-keyboard-knob="4"] {
     background: #00d9ff;
 }
-#modal [data-target="default-midi-assignments"] .midi-keyboard .midi-keyboard-knobs li[data-midi-keyboard-knob="5"] {
+#modal [data-target="midi-assignments"] .midi-keyboard .midi-keyboard-knobs li[data-midi-keyboard-knob="5"] {
     background: #001dff;
 }
-#modal [data-target="default-midi-assignments"] .midi-keyboard .midi-keyboard-knobs li[data-midi-keyboard-knob="6"] {
+#modal [data-target="midi-assignments"] .midi-keyboard .midi-keyboard-knobs li[data-midi-keyboard-knob="6"] {
     background: #ab00ff;
 }
-#modal [data-target="default-midi-assignments"] .midi-keyboard .midi-keyboard-knobs li[data-midi-keyboard-knob="7"] {
+#modal [data-target="midi-assignments"] .midi-keyboard .midi-keyboard-knobs li[data-midi-keyboard-knob="7"] {
     background: #ff0096;
 }
-#modal [data-target="default-midi-assignments"] .midi-keyboard .midi-keyboard-knobs li[data-midi-keyboard-knob="8"] {
+#modal [data-target="midi-assignments"] .midi-keyboard .midi-keyboard-knobs li[data-midi-keyboard-knob="8"] {
     background: #ffffff;
 }
-#modal [data-target="default-midi-assignments"] .midi-keyboard .midi-keyboard-keys {
+#modal [data-target="midi-assignments"] .midi-keyboard .midi-keyboard-keys {
     display: flex;
 }
-#modal [data-target="default-midi-assignments"] .midi-keyboard .midi-keyboard-keys li {
+#modal [data-target="midi-assignments"] .midi-keyboard .midi-keyboard-keys li {
     height: 140px;
     background: #fff;
     border: solid 2px black;
     display: inline-block;
     width: 30px;
 }
-#modal [data-target="default-midi-assignments"] .midi-keyboard .midi-keyboard-keys li.black-after:after {
+#modal [data-target="midi-assignments"] .midi-keyboard .midi-keyboard-keys li.black-after:after {
     content: '';
     display: block;
     width: 20px;
