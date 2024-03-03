@@ -8,6 +8,7 @@ window.hydra.renderers['matrix'] = {
             fontSize: 10,
             columns: 0,
             rainDrops: [],
+            calculatedAt: null,
             calculatedProperties: false,
             calculateProperties: () => {
                 deck.matrix.alphabet = deck.matrix.katakana + deck.matrix.latin + deck.matrix.nums;
@@ -19,13 +20,14 @@ window.hydra.renderers['matrix'] = {
                 }
 
                 deck.matrix.calculatedProperties = true;
+                deck.matrix.calculatedAt = deck.canvas.width;
             }
         };
         deck.matrix = window.hydra.renderer.init(deck, 'matrix', defaults, {});
         deck.matrix.shouldRender = true;
 
         deck.matrix.render = () => {
-            if (!deck.matrix.calculatedProperties) {
+            if (!deck.matrix.calculatedProperties || (deck.matrix.calculatedAt && (deck.matrix.calculatedAt != deck.canvas.width))) {
                 deck.matrix.calculateProperties();
             } else {
                 if (deck.matrix.shouldRender) {
