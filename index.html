@@ -1909,6 +1909,18 @@
 
                         return markup;
                     },
+                    generateFileInput: function(deckId, name, item) {
+                        let markup = `<div class="inline-input ${item.containerClass || ''}">`;
+
+                        if (item.label) {
+                            markup += `<span class="input-label">${item.label}</span>`;
+                        }
+
+                        markup += `<input type="file" id="video-file-deck-${deckId}">
+                        </div>`;
+
+                        return markup;
+                    },
                     generateEmptySlot: function() {
                         return `<div class="inline-input"></div>`;
                     },
@@ -1935,6 +1947,10 @@
 
                         if (item.type == 'color-meter') {
                             return this.generateColorMeter(deckId, name, item);
+                        }
+
+                        if (item.type == 'file') {
+                            return this.generateFileInput(deckId, name, item);
                         }
 
                         if (item.type == 'empty') {
@@ -4156,56 +4172,56 @@
                     },
                     import: function(target, input) {
                         if (typeof window.FileReader !== 'function') {
-                                    console.debug("The file API isn't supported on this browser yet.");
-                                    return;
-                                } else if (!input.files) {
-                                    console.debug("This browser doesn't seem to support the `files` property of file inputs.");
-                                } else if (!input.files[0]) {
-                                    console.debug("Please select a file before clicking 'Import'.");
-                                } else if (input.files[0].type != 'application/json') {
-                                    console.debug("File selected for import is not a valid JSON file.");
-                                } else {
-                                    const file = input.files[0];
-                                    const fr = new FileReader();
+                            console.debug("The file API isn't supported on this browser yet.");
+                            return;
+                        } else if (!input.files) {
+                            console.debug("This browser doesn't seem to support the `files` property of file inputs.");
+                        } else if (!input.files[0]) {
+                            console.debug("Please select a file before clicking 'Import'.");
+                        } else if (input.files[0].type != 'application/json') {
+                            console.debug("File selected for import is not a valid JSON file.");
+                        } else {
+                            const file = input.files[0];
+                            const fr = new FileReader();
 
-                                    const messageEl = target.closest('fieldset').querySelector('.message');
+                            const messageEl = target.closest('fieldset').querySelector('.message');
 
-                                    fr.addEventListener(
-                                        'load',
-                                        (e) => {
-                                            const data = e.target.result;
-                                            const json = JSON.parse(data);
+                            fr.addEventListener(
+                                'load',
+                                (e) => {
+                                    const data = e.target.result;
+                                    const json = JSON.parse(data);
 
-                                            for (key in json.assignments) {
-                                                for (entry in json.assignments[key]) {
-                                                    const input = json.assignments[key][entry];
-                                                    json.assignments[key][entry] = document.querySelector(`[data-deck="${input.deck}"][data-visual="${input.visual}"][data-variable="${input.variable}"]`);
-                                                }
-                                            }
+                                    for (key in json.assignments) {
+                                        for (entry in json.assignments[key]) {
+                                            const input = json.assignments[key][entry];
+                                            json.assignments[key][entry] = document.querySelector(`[data-deck="${input.deck}"][data-visual="${input.visual}"][data-variable="${input.variable}"]`);
+                                        }
+                                    }
 
-                                            hydra.midi.assignments = json.assignments;
+                                    hydra.midi.assignments = json.assignments;
 
-                                            messageEl.textContent = 'Import successful!';
-                                            setTimeout(() => {
-                                                messageEl.textContent = '';
-                                            }, 2000);
-                                        },
-                                        false,
-                                    );
+                                    messageEl.textContent = 'Import successful!';
+                                    setTimeout(() => {
+                                        messageEl.textContent = '';
+                                    }, 2000);
+                                },
+                                false,
+                            );
 
-                                    fr.addEventListener(
-                                        'error',
-                                        () => {
-                                            messageEl.textContent = 'Import failed';
-                                            setTimeout(() => {
-                                                messageEl.textContent = '';
-                                            }, 2000);
-                                        },
-                                        false,
-                                    );
+                            fr.addEventListener(
+                                'error',
+                                () => {
+                                    messageEl.textContent = 'Import failed';
+                                    setTimeout(() => {
+                                        messageEl.textContent = '';
+                                    }, 2000);
+                                },
+                                false,
+                            );
 
-                                    fr.readAsText(file);
-                                }
+                            fr.readAsText(file);
+                        }
                     },
                     export: function() {
                         let assignments = hydra.midi.assignments;
@@ -4392,12 +4408,15 @@
         })();
     </script>
     <script src="./js/renderers/camera/renderer.js"></script>
+    <script src="./js/renderers/foomanchu/renderer.js"></script>
     <script src="./js/renderers/lockdown/renderer.js"></script>
     <script src="./js/renderers/matrix/renderer.js"></script>
     <script src="./js/renderers/neuromute/renderer.js"></script>
     <script src="./js/renderers/pink/renderer.js"></script>
     <script src="./js/renderers/quark/renderer.js"></script>
     <script src="./js/renderers/strobe/renderer.js"></script>
+    <script src="./js/renderers/video/renderer.js"></script>
+    <script src="./js/renderers/wave/renderer.js"></script>
     <script>
         hydra.boot({
             id: 'hydra',
@@ -4407,12 +4426,15 @@
             ],
             renderers: [
                 'camera',
+                'foomanchu',
                 'lockdown',
                 'matrix',
                 'neuromute',
                 'pink',
                 'quark',
                 'strobe',
+                'video',
+                'wave',
             ],
             deck1: {
                 visual: 'quark',
