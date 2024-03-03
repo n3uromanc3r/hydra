@@ -80,7 +80,7 @@ Available online at https://hydra.virusav.com/
 - BPM detection
   - Tap to calculate using linear regression
   - Sync to set beat point using existing calculated BPM
-- MIDI assignment for UI components (WIP)
+- MIDI assignment for UI components
 - Keyboard shortcuts (WIP)
 - Theming
 - Cast screens (deck 1, deck2 or mixed) to a popup windows
