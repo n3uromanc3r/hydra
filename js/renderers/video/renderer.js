@@ -27,26 +27,18 @@ window.hydra.renderers['video'] = {
                 const url = URL.createObjectURL(file);
                 const reader = new FileReader();
 
-                const addedVideo = document.getElementById(`video-video-${deck.id}`);
-                if (addedVideo) {
-                    addedVideo.remove();
-                }
-
-                hydra.body.insertAdjacentHTML('beforeend', `<video id="video-video-${deck.id}" style="display:none;" hidden playsinline muted autoplay loop></video>`);
-                deck.video.video = document.getElementById(`video-video-${deck.id}`);
-
                 reader.onload = function() {
-                    deck.video.video.src = url;
-                    deck.video.video.play();
+                    deck.videoEl.src = url;
+                    deck.videoEl.play();
                 }
                 reader.readAsDataURL(file);
             }
         }
 
         deck.video.render = () => {
-            if (deck.video.video) {
-                const ratio = deck.canvas.width / deck.video.video.videoWidth;
-                deck.ctx.drawImage(deck.video.video, 0, 0, deck.video.video.videoWidth * ratio, deck.video.video.videoHeight * ratio);
+            if (deck.videoEl.src) {
+                const ratio = deck.canvas.width / deck.videoEl.videoWidth;
+                deck.ctx.drawImage(deck.videoEl, 0, 0, deck.videoEl.videoWidth * ratio, deck.videoEl.videoHeight * ratio);
             }
         }
 

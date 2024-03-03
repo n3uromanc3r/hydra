@@ -6,9 +6,6 @@ window.hydra.renderers['camera'] = {
         const ui = {};
         deck.camera = window.hydra.renderer.init(deck, 'camera', defaults, ui);
 
-        hydra.body.insertAdjacentHTML('beforeend', `<video id="camera-deck-${deck.id}" style="display:none;" playsinline autoplay></video>`);
-        const video = document.getElementById(`camera-deck-${deck.id}`);
-
         const constraints = {
             'video': true,
             'audio': false
@@ -21,7 +18,7 @@ window.hydra.renderers['camera'] = {
             if (!deck.camera.connected) {
                 navigator.mediaDevices.getUserMedia(constraints)
                     .then(stream => {
-                        video.srcObject = stream;
+                        deck.cameraEl.srcObject = stream;
                         cameraStream = stream;
                         deck.camera.connected = true;
                     });
@@ -29,13 +26,13 @@ window.hydra.renderers['camera'] = {
 
             clearInterval(cameraShutoffInterval);
 
-            const ratio = deck.canvas.width / video.videoWidth;
-            deck.ctx.drawImage(video, 0, 0, video.videoWidth * ratio, video.videoHeight * ratio);
+            const ratio = deck.canvas.width / deck.cameraEl.videoWidth;
+            deck.ctx.drawImage(deck.cameraEl, 0, 0, deck.cameraEl.videoWidth * ratio, deck.cameraEl.videoHeight * ratio);
 
             cameraShutoffInterval = setInterval(() => {
                 deck.camera.connected = false;
-                video.pause();
-                video.src = "";
+                deck.cameraEl.pause();
+                deck.cameraEl.src = "";
                 cameraStream.getTracks().forEach(track => track.stop());
             }, 200);
         }
