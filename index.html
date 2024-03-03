@@ -1916,7 +1916,19 @@
                             markup += `<span class="input-label">${item.label}</span>`;
                         }
 
-                        markup += `<input type="file" id="video-file-deck-${deckId}">
+                        markup += `<input type="file" data-deck="${deckId}" data-visual="${name}" data-variable="${item.variable}">
+                        </div>`;
+
+                        return markup;
+                    },
+                    generateTextarea: function(deckId, name, item) {
+                        let markup = `<div class="inline-input ${item.containerClass || ''}">`;
+
+                        if (item.label) {
+                            markup += `<span class="input-label">${item.label}</span>`;
+                        }
+
+                        markup += `<textarea data-deck="${deckId}" data-visual="${name}" data-variable="${item.variable}"></textarea>
                         </div>`;
 
                         return markup;
@@ -1951,6 +1963,10 @@
 
                         if (item.type == 'file') {
                             return this.generateFileInput(deckId, name, item);
+                        }
+
+                        if (item.type == 'textarea') {
+                            return this.generateTextarea(deckId, name, item);
                         }
 
                         if (item.type == 'empty') {
@@ -2169,7 +2185,7 @@
                                     deck.presets.select(deck.presets.current);
                                 });
 
-                                this.importFileInputs = document.querySelectorAll('input[type="file"]');
+                                this.importFileInputs = document.querySelectorAll('[data-target="import-export"] input[type="file"]');
                                 this.importFileInputs.forEach(importFileInput => {
                                     importFileInput.addEventListener('change', function(e) {
                                         const submitBtn = e.target.closest('form').querySelector('button');
@@ -3870,7 +3886,7 @@
                     ],
                     init: function() {
                         window.addEventListener('keydown', function(e) {
-                            if (!hydra.keyboard.claimed && !hydra.keyboard.whitelist.includes(e.key)) {
+                            if ((!hydra.keyboard.claimed && !hydra.keyboard.whitelist.includes(e.key)) || (document.activeElement.type == 'textarea')) {
                                 return;
                             }
                             console.debug(e.key);
@@ -4415,6 +4431,7 @@
     <script src="./js/renderers/pink/renderer.js"></script>
     <script src="./js/renderers/quark/renderer.js"></script>
     <script src="./js/renderers/strobe/renderer.js"></script>
+    <script src="./js/renderers/text/renderer.js"></script>
     <script src="./js/renderers/video/renderer.js"></script>
     <script src="./js/renderers/wave/renderer.js"></script>
     <script>
@@ -4433,6 +4450,7 @@
                 'pink',
                 'quark',
                 'strobe',
+                'text',
                 'video',
                 'wave',
             ],

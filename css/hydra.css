@@ -928,6 +928,12 @@ fieldset .heading,
     padding-right: 15px;
 }
 
+.visual-settings textarea {
+    width: 100%;
+    height: 100px;
+    padding: 5px;
+}
+
 ::-webkit-scrollbar {
     width:2px
 }

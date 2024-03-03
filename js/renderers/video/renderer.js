@@ -21,10 +21,9 @@ window.hydra.renderers['video'] = {
         };
         deck.video = window.hydra.renderer.init(deck, 'video', defaults, ui);
 
-        const fileInput = document.getElementById(`video-file-deck-${deck.id}`);
-        fileInput.onchange = (e) => {
-            if (fileInput.files && fileInput.files[0]) {
-                const file = fileInput.files[0];
+        deck.video.fileInput.onchange = (e) => {
+            if (deck.video.fileInput.files && deck.video.fileInput.files[0]) {
+                const file = deck.video.fileInput.files[0];
                 const url = URL.createObjectURL(file);
                 const reader = new FileReader();
 
