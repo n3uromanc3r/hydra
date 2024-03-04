@@ -4299,6 +4299,9 @@
                         return (Math.round(value * n) / n).toFixed(precision);
                     },
                     detectSizes: function() {
+                        // weird bug where composition mode resets to 'source-over' on resize, so let's save our current mode and re-apply it afterwards...
+                        const currentMode = hydra.mixedCtx.globalCompositeOperation;
+
                         if (hydra.streamer.resolution === 'match') {
                             hydra.deck1.canvas.width = hydra.deck1.pipeCanvas.getBoundingClientRect().width;
                             hydra.deck1.canvas.height = hydra.deck1.pipeCanvas.getBoundingClientRect().height;
@@ -4306,11 +4309,8 @@
                             hydra.deck1.pipeCanvas.width = hydra.deck1.pipeCanvas.getBoundingClientRect().width;
                             hydra.deck1.pipeCanvas.height = hydra.deck1.pipeCanvas.getBoundingClientRect().height;
 
-                            // composition mode resets to 'source-over' without this weird little hack on resize
-                            const currentMode = hydra.mixedCtx.globalCompositeOperation;
                             hydra.mixedCanvas.width = hydra.mixedCanvas.getBoundingClientRect().width;
                             hydra.mixedCanvas.height = hydra.mixedCanvas.getBoundingClientRect().height;
-                            hydra.mixedCtx.globalCompositeOperation = currentMode;
 
                             hydra.deck2.canvas.width = hydra.deck2.pipeCanvas.getBoundingClientRect().width;
                             hydra.deck2.canvas.height = hydra.deck2.pipeCanvas.getBoundingClientRect().height;
@@ -4343,6 +4343,8 @@
                             hydra.centerX = width/2;
                             hydra.centerY = height/2;
                         }
+                        // re-apply composition mode - hacky but works
+                        hydra.mixedCtx.globalCompositeOperation = currentMode;
 
                         hydra.audio.meterCanvas.width = hydra.audio.meterCanvas.getBoundingClientRect().width;
                         hydra.audio.meterCanvas.height = hydra.audio.meterCanvas.getBoundingClientRect().height;
