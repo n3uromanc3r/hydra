@@ -142,6 +142,8 @@ window.hydra.renderers['wave'] = {
                     radius = deck.reactivity.adjust('scale', radius);
                 }
 
+                radius = radius * deck.mouse.ratio;
+
                 if (deck.wave.clampDistributionToWidth) {
                     x = ((deck.canvas.width / deck.wave.cols) * col) + deck.wave.radius;
                     y = ((deck.canvas.height / deck.wave.rows) * row) + deck.wave.radius;
@@ -149,8 +151,6 @@ window.hydra.renderers['wave'] = {
                     x = ((deck.wave.radius + deck.wave.gap) * col);
                     y = ((deck.wave.radius + deck.wave.gap) * row);
                 }
-
-                console.log(x,y, col, row)
 
                 deck.ctx.save();
                 deck.ctx.beginPath();

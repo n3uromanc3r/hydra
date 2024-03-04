@@ -297,6 +297,8 @@ window.hydra.renderers['lockdown'] = {
 
                 let triangleSide = triangle.side * deck.lockdown.triangleScale;
 
+                triangleSide = triangleSide * deck.mouse.ratio;
+
                 if (deck.reactivity.on && deck.reactivity.scale.on) {
                     triangleSide = deck.reactivity.adjust('scale', triangleSide);
                 }

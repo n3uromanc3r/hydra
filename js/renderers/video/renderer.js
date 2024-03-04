@@ -1,8 +1,6 @@
 window.hydra.renderers['video'] = {
     init: function(deck) {
-        const defaults = {
-            video: null
-        };
+        const defaults = {};
         const ui = {
             fieldsets: [
                 {

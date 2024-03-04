@@ -7,31 +7,30 @@ window.hydra.renderers['neuromute'] = {
                     on: true,
                     cause: 'average',
                     effect: 'add',
-                    strength: 2
+                    strength: 10
                 },
                 color: {
                     enabled: true,
                     on: true,
                     cause: 'average',
                     effect: 'add',
-                    strength: 2
+                    strength: 10
                 },
                 alpha: {
                     enabled: true,
                     on: false,
                     cause: 'average',
                     effect: 'add',
-                    strength: 2
+                    strength: 10
                 },
                 amp: {
                     enabled: true,
                     on: false,
                     cause: 'average',
                     effect: 'add',
-                    strength: 2
+                    strength: 10
                 }
             },
-            triangleSize: 10,
             trails: [],
             counter: 0,
             speed: 0.0001,
@@ -695,15 +694,17 @@ window.hydra.renderers['neuromute'] = {
                 // apply audio reactive width setting
                 if (deck.reactivity.on && deck.reactivity.scale.on) {
                     if (deck.reactivity.scale.effect == 'add') {
-                        deck.neuromute.width = Math.max(0, deck.neuromute.width + (hydra.audio[deck.reactivity.scale.cause] * deck.reactivity.scale.strength));
+                        deck.neuromute.width = Math.max(0, deck.neuromute.width + (hydra.audio[deck.reactivity.scale.cause] * deck.reactivity.scale.strength/10));
                     }
                     if (deck.reactivity.scale.effect == 'subtract') {
-                        deck.neuromute.width = Math.max(0, deck.neuromute.width - (hydra.audio[deck.reactivity.scale.cause] * deck.reactivity.scale.strength));
+                        deck.neuromute.width = Math.max(0, deck.neuromute.width - (hydra.audio[deck.reactivity.scale.cause] * deck.reactivity.scale.strength/10));
                     }
                     if (deck.reactivity.scale.effect == 'multiply') {
                         deck.neuromute.width = Math.max(0, deck.neuromute.width * (hydra.audio[deck.reactivity.scale.cause] * (deck.reactivity.scale.strength/10)));
                     }
                 }
+
+                deck.neuromute.width = deck.neuromute.width * deck.mouse.ratio;
 
                 if (i % deck.neuromute.modulo == 0) {
 
