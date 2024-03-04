@@ -142,7 +142,7 @@ window.hydra.renderers['wave'] = {
                     radius = deck.reactivity.adjust('scale', radius);
                 }
 
-                radius = radius * deck.mouse.ratio;
+                radius = radius * hydra.resolution.ratio;
 
                 if (deck.wave.clampDistributionToWidth) {
                     x = ((deck.canvas.width / deck.wave.cols) * col) + deck.wave.radius;

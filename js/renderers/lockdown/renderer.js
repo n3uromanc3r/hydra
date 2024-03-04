@@ -297,7 +297,7 @@ window.hydra.renderers['lockdown'] = {
 
                 let triangleSide = triangle.side * deck.lockdown.triangleScale;
 
-                triangleSide = triangleSide * deck.mouse.ratio;
+                triangleSide = triangleSide * hydra.resolution.ratio;
 
                 if (deck.reactivity.on && deck.reactivity.scale.on) {
                     triangleSide = deck.reactivity.adjust('scale', triangleSide);
@@ -314,7 +314,7 @@ window.hydra.renderers['lockdown'] = {
                     deck.lockdown.translateX = deck.canvas.width * (0.5*(1+Math.sin(2 * Math.PI * deck.lockdown.frequencyMovement * (Date.now() - (index * 100)))));
                 } else if (deck.lockdown.translateModeX == 'mouse') {
                     if (!deck.mouse.lockedPosition) {
-                        deck.lockdown.translateX = (deck.mouse.x - deck.canvas.closest('.column').getBoundingClientRect().x - 10) * deck.mouse.ratio;
+                        deck.lockdown.translateX = (deck.mouse.x - deck.canvas.closest('.column').getBoundingClientRect().x - 10) * hydra.resolution.ratio;
                     }
                 }
 
@@ -324,7 +324,7 @@ window.hydra.renderers['lockdown'] = {
                     deck.lockdown.translateY = deck.canvas.height * (0.5*(1+Math.sin(2 * Math.PI * (deck.lockdown.frequencyMovement / 2) * (Date.now() - (index * 100)))));
                 } else if (deck.lockdown.translateModeY == 'mouse') {
                     if (!deck.mouse.lockedPosition) {
-                        deck.lockdown.translateY = (deck.mouse.y - deck.canvas.closest('.column').getBoundingClientRect().y - 10) * deck.mouse.ratio;
+                        deck.lockdown.translateY = (deck.mouse.y - deck.canvas.closest('.column').getBoundingClientRect().y - 10) * hydra.resolution.ratio;
                     }
                 }
 

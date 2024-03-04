@@ -526,7 +526,7 @@ window.hydra.renderers['quark'] = {
             if (deck.reactivity.on && deck.reactivity.scale.on) {
                 radius = deck.reactivity.adjust('scale', radius);
             }
-            radius = radius * deck.mouse.ratio;
+            radius = radius * hydra.resolution.ratio;
 
             let time = Date.now();
 
