@@ -17,6 +17,9 @@ Available online at https://hydra.virusav.com/
   - Pink
   - Quark (ported from https://quark.virusav.com)
   - Strobe
+  - Text
+  - Video
+  - Wave
 - Visual blend/layer composition modes
   - Color-burn
   - Color-dodge
