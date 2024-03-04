@@ -16,8 +16,15 @@ window.hydra.renderers['text'] = {
                 },
                 {
                     class: 'flex-grid',
-                    attributes: 'data-columns="2"',
+                    attributes: 'data-columns="3"',
                     items: [
+                        {
+                            type: 'button',
+                            label: 'Load',
+                            variable: 'load',
+                            options: ['Load'],
+                            text: 'Load'
+                        },,
                         {
                             type: 'select',
                             label: 'Font',
@@ -87,13 +94,18 @@ window.hydra.renderers['text'] = {
         };
         deck.text = window.hydra.renderer.init(deck, 'text', defaults, ui);
 
-        (async () => {
-            deck.text.fonts = await queryLocalFonts();
+        deck.text.font = 'Arial';
 
-            deck.text.fonts.forEach(font => {
-                deck.text.fontInput.add(new Option(font.fullName, font.fullName));
-            });
-        })()
+        deck.text.loadInput.addEventListener('click', function(e) {
+            (async () => {
+                await navigator.permissions.query({name: 'local-fonts'});
+                deck.text.fonts = await queryLocalFonts();
+
+                deck.text.fonts.forEach(font => {
+                    deck.text.fontInput.add(new Option(font.fullName, font.fullName));
+                });
+            })()
+        })
 
         deck.text.render = () => {
             if (deck.text.textInput.value)  {
