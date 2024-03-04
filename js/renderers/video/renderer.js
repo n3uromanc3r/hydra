@@ -6,14 +6,149 @@ window.hydra.renderers['video'] = {
         const ui = {
             fieldsets: [
                 {
-                    heading: 'Settings',
+                    heading: 'Video 1',
                     class: 'flex-grid',
-                    attributes: 'data-columns="1"',
+                    attributes: 'data-columns="2"',
                     items: [
                         {
                             type: 'file',
                             label: 'File',
-                            variable: 'file'
+                            variable: 'file1'
+                        },
+                        {
+                            type: 'button',
+                            label: 'Play',
+                            variable: 'play1',
+                            options: ['Play'],
+                            text: 'Play',
+                            class: 'red',
+                            disabled: true
+                        }
+                    ]
+                },
+                {
+                    heading: 'Video 2',
+                    class: 'flex-grid',
+                    attributes: 'data-columns="2"',
+                    items: [
+                        {
+                            type: 'file',
+                            label: 'File',
+                            variable: 'file2'
+                        },
+                        {
+                            type: 'button',
+                            label: 'Play',
+                            variable: 'play2',
+                            options: ['Play'],
+                            text: 'Play',
+                            class: 'red',
+                            disabled: true
+                        }
+                    ]
+                },
+                {
+                    heading: 'Video 3',
+                    class: 'flex-grid',
+                    attributes: 'data-columns="2"',
+                    items: [
+                        {
+                            type: 'file',
+                            label: 'File',
+                            variable: 'file3'
+                        },
+                        {
+                            type: 'button',
+                            label: 'Play',
+                            variable: 'play3',
+                            options: ['Play'],
+                            text: 'Play',
+                            class: 'red',
+                            disabled: true
+                        }
+                    ]
+                },
+                {
+                    heading: 'Video 4',
+                    class: 'flex-grid',
+                    attributes: 'data-columns="2"',
+                    items: [
+                        {
+                            type: 'file',
+                            label: 'File',
+                            variable: 'file4'
+                        },
+                        {
+                            type: 'button',
+                            label: 'Play',
+                            variable: 'play4',
+                            options: ['Play'],
+                            text: 'Play',
+                            class: 'red',
+                            disabled: true
+                        }
+                    ]
+                },
+                {
+                    heading: 'Video 5',
+                    class: 'flex-grid',
+                    attributes: 'data-columns="2"',
+                    items: [
+                        {
+                            type: 'file',
+                            label: 'File',
+                            variable: 'file5'
+                        },
+                        {
+                            type: 'button',
+                            label: 'Play',
+                            variable: 'play5',
+                            options: ['Play'],
+                            text: 'Play',
+                            class: 'red',
+                            disabled: true
+                        }
+                    ]
+                },
+                {
+                    heading: 'Video 6',
+                    class: 'flex-grid',
+                    attributes: 'data-columns="2"',
+                    items: [
+                        {
+                            type: 'file',
+                            label: 'File',
+                            variable: 'file6'
+                        },
+                        {
+                            type: 'button',
+                            label: 'Play',
+                            variable: 'play6',
+                            options: ['Play'],
+                            text: 'Play',
+                            class: 'red',
+                            disabled: true
+                        }
+                    ]
+                },
+                {
+                    heading: 'Video 7',
+                    class: 'flex-grid',
+                    attributes: 'data-columns="2"',
+                    items: [
+                        {
+                            type: 'file',
+                            label: 'File',
+                            variable: 'file7'
+                        },
+                        {
+                            type: 'button',
+                            label: 'Play',
+                            variable: 'play7',
+                            options: ['Play'],
+                            text: 'Play',
+                            class: 'red',
+                            disabled: true
                         }
                     ]
                 }
@@ -21,19 +156,36 @@ window.hydra.renderers['video'] = {
         };
         deck.video = window.hydra.renderer.init(deck, 'video', defaults, ui);
 
-        deck.video.fileInput.onchange = (e) => {
-            if (deck.video.fileInput.files && deck.video.fileInput.files[0]) {
-                const file = deck.video.fileInput.files[0];
-                const url = URL.createObjectURL(file);
-                const reader = new FileReader();
+        const fileInputs = [
+            deck.video.file1Input,
+            deck.video.file2Input,
+            deck.video.file3Input,
+            deck.video.file4Input,
+            deck.video.file5Input,
+            deck.video.file6Input,
+            deck.video.file7Input,
+        ];
 
-                reader.onload = function() {
-                    deck.videoEl.src = url;
-                    deck.videoEl.play();
+        fileInputs.forEach(fileInput => {
+            fileInput.onchange = (e) => {
+                if (fileInput.files && fileInput.files[0]) {
+                    const file = fileInput.files[0];
+                    const url = URL.createObjectURL(file);
+                    const reader = new FileReader();
+
+                    reader.onload = function() {
+                        const playBtn = fileInput.closest('group').querySelector('button');
+                        playBtn.className = 'green';
+                        playBtn.disabled = false;
+                        playBtn.addEventListener('click', function(e) {
+                            deck.videoEl.src = url;
+                            deck.videoEl.play();
+                        });
+                    }
+                    reader.readAsDataURL(file);
                 }
-                reader.readAsDataURL(file);
             }
-        }
+        });
 
         deck.video.render = () => {
             if (deck.videoEl.src) {

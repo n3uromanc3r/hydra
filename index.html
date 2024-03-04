@@ -4306,8 +4306,11 @@
                             hydra.deck1.pipeCanvas.width = hydra.deck1.pipeCanvas.getBoundingClientRect().width;
                             hydra.deck1.pipeCanvas.height = hydra.deck1.pipeCanvas.getBoundingClientRect().height;
 
+                            // composition mode resets to 'source-over' without this weird little hack on resize
+                            const currentMode = hydra.mixedCtx.globalCompositeOperation;
                             hydra.mixedCanvas.width = hydra.mixedCanvas.getBoundingClientRect().width;
                             hydra.mixedCanvas.height = hydra.mixedCanvas.getBoundingClientRect().height;
+                            hydra.mixedCtx.globalCompositeOperation = currentMode;
 
                             hydra.deck2.canvas.width = hydra.deck2.pipeCanvas.getBoundingClientRect().width;
                             hydra.deck2.canvas.height = hydra.deck2.pipeCanvas.getBoundingClientRect().height;
