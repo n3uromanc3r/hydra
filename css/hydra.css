@@ -934,6 +934,10 @@ fieldset .heading,
     padding: 5px;
 }
 
+.visual-settings input[type="file"] {
+    width: 100%;
+}
+
 ::-webkit-scrollbar {
     width:2px
 }
