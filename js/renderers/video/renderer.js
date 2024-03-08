@@ -215,10 +215,10 @@ window.hydra.renderers['video'] = {
         });
 
         deck.video.playbackRateInput.closest('.inline-input').insertAdjacentHTML('afterend', `<div class="inline-input">
-            <span class="input-label">Time (Current)</span><span class="value" data-deck="${deck.id}" data-visual="video" data-time-current>-</span>
+            <span class="input-label">Elapsed Time</span><span class="value" data-deck="${deck.id}" data-visual="video" data-time-current>-</span>
         </div>
         <div class="inline-input">
-            <span class="input-label">Time (Duration)</span><span class="value" data-deck="${deck.id}" data-visual="video" data-time-duration>-</span>
+            <span class="input-label">Duration</span><span class="value" data-deck="${deck.id}" data-visual="video" data-time-duration>-</span>
         </div>`);
 
         const timeDisplayCurrent = document.querySelector(`[data-deck="${deck.id}"][data-visual="video"][data-time-current]`);
