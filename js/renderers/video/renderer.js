@@ -4,6 +4,23 @@ window.hydra.renderers['video'] = {
         const ui = {
             fieldsets: [
                 {
+                    heading: 'Playback',
+                    class: 'flex-grid',
+                    attributes: 'data-columns="1"',
+                    items: [
+                        {
+                            type: 'range',
+                            label: 'Rate',
+                            variable: 'playbackRate',
+                            min: 0.25,
+                            max: 10,
+                            value: 1,
+                            step: 0.25,
+                            randomiseable: true
+                        }
+                    ]
+                },
+                {
                     heading: 'Video 1',
                     class: 'flex-grid',
                     attributes: 'data-columns="2"',
@@ -173,17 +190,44 @@ window.hydra.renderers['video'] = {
 
                     reader.onload = function() {
                         const playBtn = fileInput.closest('group').querySelector('button');
-                        playBtn.className = 'green';
+                        playBtn.className = 'orange';
                         playBtn.disabled = false;
                         playBtn.addEventListener('click', function(e) {
+                            const playBtns = fileInput.closest('[data-tab-panel="renderer"]').querySelectorAll('button');
+                            playBtns.forEach(btn => {
+                                if (!btn.disabled) {
+                                    btn.className = 'orange';
+                                }
+                            });
+                            playBtn.className = 'green';
                             deck.videoEl.src = url;
                             deck.videoEl.play();
+                            deck.videoEl.playbackRate = deck.video.playbackRate;
                         });
                     }
                     reader.readAsDataURL(file);
                 }
             }
         });
+
+        deck.video.playbackRateInput.addEventListener('input', function(e) {
+            deck.videoEl.playbackRate = this.value;
+        });
+
+        deck.video.playbackRateInput.closest('.inline-input').insertAdjacentHTML('afterend', `<div class="inline-input">
+            <span class="input-label">Time (Current)</span><span class="value" data-deck="${deck.id}" data-visual="video" data-time-current>-</span>
+        </div>
+        <div class="inline-input">
+            <span class="input-label">Time (Duration)</span><span class="value" data-deck="${deck.id}" data-visual="video" data-time-duration>-</span>
+        </div>`);
+
+        const timeDisplayCurrent = document.querySelector(`[data-deck="${deck.id}"][data-visual="video"][data-time-current]`);
+        const timeDisplayDuration = document.querySelector(`[data-deck="${deck.id}"][data-visual="video"][data-time-duration]`);
+
+        deck.videoEl.addEventListener('timeupdate', () => {
+            timeDisplayCurrent.textContent = deck.videoEl.currentTime.toFixed(2);
+            timeDisplayDuration.textContent = deck.videoEl.duration.toFixed(2);
+        }, true);
 
         deck.video.render = () => {
             if (deck.videoEl.src) {
