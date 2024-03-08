@@ -11,6 +11,7 @@ Available online at https://hydra.virusav.com/
 - Crossfade visuals
 - Multiple renderers (visuals)
   - Camera
+  - Lines
   - Lockdown (ported from https://lockdown.virusav.com)
   - Matrix
   - Neuromute (ported from https://neuromute.virusav.com)
@@ -427,6 +428,18 @@ Properties:
 - `containerClass` - optional - sets the css class for the container
 - `label` - optional - sets the label
 - `color` - required - set the color (css class name) e.g. `red`
+
+Type: `file`
+Properties:
+- `containerClass` - optional - sets the css class for the container
+- `label` - optional - sets the label
+- `variable` - required - sets the variable name
+
+Type: `textarea`
+Properties:
+- `containerClass` - optional - sets the css class for the container
+- `label` - optional - sets the label
+- `variable` - required - sets the variable name
 
 Type: `empty`
 Properties: **NA**
