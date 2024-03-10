@@ -1,4 +1,4 @@
-window.hydra.renderers['oscilloscope'] = {
+window.hydra.renderers['bars'] = {
     init: function(deck) {
         const defaults = {};
         const ui = {
@@ -9,8 +9,8 @@ window.hydra.renderers['oscilloscope'] = {
                     items: [
                         {
                             type: 'color',
-                            label: 'Wave Color',
-                            variable: 'waveColor',
+                            label: 'Bar Color',
+                            variable: 'barColor',
                             value: '#33ee55',
                             randomiseable: true
                         },
@@ -29,8 +29,8 @@ window.hydra.renderers['oscilloscope'] = {
                     items: [
                         {
                             type: 'button',
-                            label: 'Wave Mode',
-                            variable: 'waveMode',
+                            label: 'Bar Mode',
+                            variable: 'barMode',
                             text: 'selected',
                             options: 'selected,cycle',
                             randomiseable: true
@@ -83,47 +83,50 @@ window.hydra.renderers['oscilloscope'] = {
                     ]
                 },
                 {
-                    heading: 'Wave',
+                    heading: 'Dimensions',
                     class: 'flex-grid',
                     attributes: 'data-columns="1"',
                     items: [
                         {
                             type: 'range',
-                            label: 'Line Width',
-                            variable: 'lineWidth',
-                            min: 1,
-                            max: 100,
-                            value: 4,
-                            step: 1,
+                            label: 'Bar Width',
+                            variable: 'barWidth',
+                            min: 0.1,
+                            max: 25,
+                            value: 2.5,
+                            step: 0.1,
+                            randomiseable: true
+                        },
+                        {
+                            type: 'range',
+                            label: 'Bar Height',
+                            variable: 'barHeight',
+                            min: 0.1,
+                            max: 5,
+                            value: 1,
+                            step: 0.1,
                             randomiseable: true
                         }
                     ]
-                }
+                },
             ]
         };
-        deck.oscilloscope = window.hydra.renderer.init(deck, 'oscilloscope', defaults, ui);
+        deck.bars = window.hydra.renderer.init(deck, 'bars', defaults, ui);
 
-        deck.oscilloscope.render = () => {
+        deck.bars.render = () => {
 
-            let v;
-            let x;
-            let y;
+            let barR = deck.bars.barMode == 'cycle' ? ((Math.sin(Date.now() / deck.bars.cycleSpeedR) + 1) / 2) * 255 : deck.bars.barColor.r;
+            let barG = deck.bars.barMode == 'cycle' ? ((Math.sin(Date.now() / deck.bars.cycleSpeedG) + 1) / 2) * 255 : deck.bars.barColor.g;
+            let barB = deck.bars.barMode == 'cycle' ? ((Math.sin(Date.now() / deck.bars.cycleSpeedB) + 1) / 2) * 255 : deck.bars.barColor.b;
 
-            let waveR = deck.oscilloscope.waveMode == 'cycle' ? ((Math.sin(Date.now() / deck.oscilloscope.cycleSpeedR) + 1) / 2) * 255 : deck.oscilloscope.waveColor.r;
-            let waveG = deck.oscilloscope.waveMode == 'cycle' ? ((Math.sin(Date.now() / deck.oscilloscope.cycleSpeedG) + 1) / 2) * 255 : deck.oscilloscope.waveColor.g;
-            let waveB = deck.oscilloscope.waveMode == 'cycle' ? ((Math.sin(Date.now() / deck.oscilloscope.cycleSpeedB) + 1) / 2) * 255 : deck.oscilloscope.waveColor.b;
-
-            deck.ctx.strokeStyle = `rgb(${waveR}, ${waveG}, ${waveB})`;
-            deck.ctx.lineWidth = deck.oscilloscope.lineWidth;
-
-            if (deck.oscilloscope.bgColorMode == 'selected') {
-                deck.ctx.fillStyle = `rgb(${deck.oscilloscope.backgroundColor.r}, ${deck.oscilloscope.backgroundColor.g}, ${deck.oscilloscope.backgroundColor.b})`;
-            } else if (deck.oscilloscope.bgColorMode == 'match') {
-                deck.ctx.fillStyle = `rgba(${waveR}, ${waveG}, ${waveB}, 0.2)`;
+            if (deck.bars.bgColorMode == 'selected') {
+                deck.ctx.fillStyle = `rgb(${deck.bars.backgroundColor.r}, ${deck.bars.backgroundColor.g}, ${deck.bars.backgroundColor.b})`;
+            } else if (deck.bars.bgColorMode == 'match') {
+                deck.ctx.fillStyle = `rgba(${barR}, ${barG}, ${barB}, 0.2)`;
             } else {
-                let bgR = 255 - waveR;
-                let bgG = 255 - waveG;
-                let bgB = 255 - waveB;
+                let bgR = 255 - barR;
+                let bgG = 255 - barG;
+                let bgB = 255 - barB;
                 deck.ctx.fillStyle = `rgb(${bgR}, ${bgG}, ${bgB})`;
             }
 
@@ -131,30 +134,23 @@ window.hydra.renderers['oscilloscope'] = {
 
             if (hydra.audio.listening && deck.reactivity.on) {
                 try {
-                    hydra.audio.analyser.getByteTimeDomainData(hydra.audio.uint8Array);
-                    const segmentWidth = deck.canvas.width / hydra.audio.analyser.frequencyBinCount;
+                    const bufferLength = hydra.audio.analyser.frequencyBinCount;
+                    const barWidth = (deck.canvas.width / bufferLength) * deck.bars.barWidth;
+                    let barHeight;
+                    let x = 0;
 
-                    deck.ctx.beginPath();
-                    deck.ctx.moveTo(-100, deck.canvas.height / 2);
+                    for (let i = 0; i < bufferLength; i++) {
+                        barHeight = hydra.audio.uint8Array[i] * deck.bars.barHeight;
 
-                    for (let i = 1; i < hydra.audio.analyser.frequencyBinCount; i += 1) {
-                        x = i * segmentWidth;
-                        v = hydra.audio.uint8Array[i] / 128.0;
-                        y = (v * deck.canvas.height) / 2;
+                        deck.ctx.fillStyle = `rgb(${barR}, ${barG}, ${barB}, ${barHeight})`;
+                        deck.ctx.fillRect(x, deck.canvas.height - barHeight, barWidth, barHeight);
 
-                        deck.ctx.lineTo(x, y);
+                        x += barWidth + 1;
                     }
                 } catch (err) {
                     // bad things happened
                 }
-            } else {
-                deck.ctx.beginPath();
-                deck.ctx.moveTo(0, deck.canvas.height / 2);
-                deck.ctx.lineTo(deck.canvas.width, deck.canvas.height / 2);
-                deck.ctx.stroke();
             }
-            deck.ctx.lineTo(deck.canvas.width + 100, deck.canvas.height / 2);
-            deck.ctx.stroke();
         }
 
         return deck;
