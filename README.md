@@ -10,6 +10,7 @@ Available online at https://hydra.virusav.com/
 
 - Crossfade visuals
 - Multiple renderers (visuals)
+  - Bars
   - Camera
   - Lines
   - Lockdown (ported from https://lockdown.virusav.com)
