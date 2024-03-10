@@ -2163,11 +2163,12 @@
                                 this.reactBtn.addEventListener('click', function(e) {
                                     if (!hydra.audio.listening) {
                                         hydra.audio.listen();
-                                    } else {
-                                        hydra.audio.stopListening();
                                     }
                                     this.classList.toggle('orange');
                                     deck.reactivity.on = !deck.reactivity.on;
+                                    if (!hydra.deck1.reactivity.on && !hydra.deck2.reactivity.on) {
+                                        hydra.audio.stopListening();
+                                    }
                                 });
 
                                 this.claimBtn = document.querySelector(`[data-deck="${deck.id}"][data-claim]`);
