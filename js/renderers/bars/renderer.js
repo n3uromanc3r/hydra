@@ -124,6 +124,23 @@ window.hydra.renderers['bars'] = {
                         }
                     ]
                 },
+                {
+                    heading: 'Non-reactive Behaviour',
+                    class: 'flex-grid',
+                    attributes: 'data-columns="1"',
+                    items: [
+                        {
+                            type: 'range',
+                            label: 'Wave Speed',
+                            variable: 'waveSpeed',
+                            min: 0.01,
+                            max: 250,
+                            value: 10,
+                            step: 0.01,
+                            randomiseable: true
+                        }
+                    ]
+                },
             ]
         };
         deck.bars = window.hydra.renderer.init(deck, 'bars', defaults, ui);
@@ -155,10 +172,10 @@ window.hydra.renderers['bars'] = {
                     let x = 0;
                     deck.bars.uint8Array = _.cloneDeep(hydra.audio.uint8Array);
 
+                    deck.ctx.fillStyle = `rgb(${barR}, ${barG}, ${barB})`;
+
                     for (let i = 0; i < bufferLength; i++) {
                         barHeight = deck.bars.uint8Array[i] * deck.bars.barHeight;
-
-                        deck.ctx.fillStyle = `rgb(${barR}, ${barG}, ${barB})`;
 
                         if (deck.bars.direction == 'down') {
                             deck.ctx.fillRect(x, 0, barWidth, barHeight);
@@ -170,6 +187,16 @@ window.hydra.renderers['bars'] = {
                     }
                 } catch (err) {
                     // bad things happened
+                }
+            } else {
+                deck.ctx.fillStyle = `rgb(${barR}, ${barG}, ${barB})`;
+                let barCount = deck.canvas.width / deck.bars.barWidth;
+                let x = 0;
+
+                for (let i = 0; i < barCount; i++) {
+                    let barHeight = hydra.helpers.sine((Date.now() + (i * deck.bars.waveSpeed)) / deck.bars.waveSpeed, deck.canvas.height);
+                    deck.ctx.fillRect(x, deck.canvas.height - barHeight, deck.bars.barWidth, barHeight);
+                    x += deck.bars.barWidth + 1;
                 }
             }
         }
