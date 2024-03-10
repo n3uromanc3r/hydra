@@ -3696,14 +3696,14 @@
                         hydra.audio.processor.connect(hydra.audio.context.destination);
 
                         hydra.audio.processor.onaudioprocess = () => {
-                            const array = new Uint8Array(hydra.audio.analyser.frequencyBinCount);
+                            hydra.audio.uint8Array = new Uint8Array(hydra.audio.analyser.frequencyBinCount);
                             let values = 0;
-                            const length = array.length;
+                            const length = hydra.audio.uint8Array.length;
 
-                            hydra.audio.analyser.getByteFrequencyData(array);
+                            hydra.audio.analyser.getByteFrequencyData(hydra.audio.uint8Array);
 
                             for (let i = 0; i < length; i++) {
-                                values += (array[i]);
+                                values += (hydra.audio.uint8Array[i]);
                             }
 
                             hydra.audio.average = values / hydra.audio.analyser.frequencyBinCount;
@@ -4443,6 +4443,7 @@
     <script src="./js/renderers/lockdown/renderer.js"></script>
     <script src="./js/renderers/matrix/renderer.js"></script>
     <script src="./js/renderers/neuromute/renderer.js"></script>
+    <script src="./js/renderers/oscilloscope/renderer.js"></script>
     <script src="./js/renderers/pink/renderer.js"></script>
     <script src="./js/renderers/quark/renderer.js"></script>
     <script src="./js/renderers/strobe/renderer.js"></script>
@@ -4463,6 +4464,7 @@
                 'lockdown',
                 'matrix',
                 'neuromute',
+                'oscilloscope',
                 'pink',
                 'quark',
                 'strobe',

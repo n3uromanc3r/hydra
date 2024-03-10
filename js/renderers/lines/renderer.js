@@ -6,6 +6,7 @@ window.hydra.renderers['lines'] = {
         const ui = {
             fieldsets: [
                 {
+                    heading: 'Color',
                     class: 'flex-grid',
                     attributes: 'data-columns="4"',
                     items: [
@@ -26,12 +27,50 @@ window.hydra.renderers['lines'] = {
                     ]
                 },
                 {
+                    heading: 'Color Frequencies',
+                    class: 'flex-grid',
+                    attributes: 'data-columns="3"',
+                    items: [
+                        {
+                            type: 'range',
+                            label: 'Cycle Speed - R',
+                            variable: 'cycleSpeedR',
+                            min: 1,
+                            max: 2000,
+                            value: 500,
+                            step: 1,
+                            randomiseable: true
+                        },
+                        {
+                            type: 'range',
+                            label: 'Cycle Speed - G',
+                            variable: 'cycleSpeedG',
+                            min: 1,
+                            max: 2000,
+                            value: 850,
+                            step: 1,
+                            randomiseable: true
+                        },
+                        {
+                            type: 'range',
+                            label: 'Cycle Speed - B',
+                            variable: 'cycleSpeedB',
+                            min: 1,
+                            max: 2000,
+                            value: 1000,
+                            step: 1,
+                            randomiseable: true
+                        }
+                    ]
+                },
+                {
+                    heading: 'Zebra',
                     class: 'flex-grid',
                     attributes: 'data-columns="3"',
                     items: [
                         {
                             type: 'checkbox',
-                            label: 'Zebra',
+                            label: 'Zebra Enabled',
                             variable: 'zebra',
                             checked: false,
                             randomiseable: true
@@ -59,12 +98,13 @@ window.hydra.renderers['lines'] = {
                     ]
                 },
                 {
+                    heading: 'Fade',
                     class: 'flex',
                     attributes: 'data-columns="2"',
                     items: [
                         {
                             type: 'checkbox',
-                            label: 'Fade',
+                            label: 'Fade Enabled',
                             variable: 'fade',
                             checked: true,
                             randomiseable: true
@@ -83,6 +123,7 @@ window.hydra.renderers['lines'] = {
                     ]
                 },
                 {
+                    heading: 'Rotation',
                     class: 'flex-grid',
                     attributes: 'data-columns="4"',
                     items: [
@@ -117,7 +158,6 @@ window.hydra.renderers['lines'] = {
                     ]
                 },
                 {
-                    heading: 'Rotation',
                     class: 'flex-grid',
                     attributes: 'data-columns="4"',
                     items: [
@@ -164,7 +204,7 @@ window.hydra.renderers['lines'] = {
                     ]
                 },
                 {
-                    heading: 'Offset',
+                    heading: 'Dimensions',
                     class: 'flex-grid',
                     attributes: 'data-columns="3"',
                     items: [
@@ -191,7 +231,7 @@ window.hydra.renderers['lines'] = {
                     ]
                 },
                 {
-                    heading: 'Offset',
+                    heading: 'Wave',
                     class: 'flex-grid',
                     attributes: 'data-columns="3"',
                     items: [
@@ -215,6 +255,7 @@ window.hydra.renderers['lines'] = {
                     ]
                 },
                 {
+                    heading: 'Line Count',
                     class: 'flex-grid',
                     attributes: 'data-columns="2"',
                     items: [
@@ -236,44 +277,7 @@ window.hydra.renderers['lines'] = {
                             randomiseable: true
                         }
                     ]
-                },
-                {
-                    heading: 'Offset',
-                    class: 'flex-grid',
-                    attributes: 'data-columns="3"',
-                    items: [
-                        {
-                            type: 'range',
-                            label: 'Cycle Speed - R',
-                            variable: 'cycleSpeedR',
-                            min: 1,
-                            max: 2000,
-                            value: 500,
-                            step: 1,
-                            randomiseable: true
-                        },
-                        {
-                            type: 'range',
-                            label: 'Cycle Speed - G',
-                            variable: 'cycleSpeedG',
-                            min: 1,
-                            max: 2000,
-                            value: 850,
-                            step: 1,
-                            randomiseable: true
-                        },
-                        {
-                            type: 'range',
-                            label: 'Cycle Speed - B',
-                            variable: 'cycleSpeedB',
-                            min: 1,
-                            max: 2000,
-                            value: 1000,
-                            step: 1,
-                            randomiseable: true
-                        }
-                    ]
-                },
+                }
             ]
         };
         deck.lines = window.hydra.renderer.init(deck, 'lines', defaults, ui, './js/renderers/lines/presets.json');
@@ -288,7 +292,9 @@ window.hydra.renderers['lines'] = {
             let rotationX;
             let rotationY;
             let zebraOn;
-            let zerbaOnCount = 0;
+            let r;
+            let g;
+            let b;
 
             let count = parseInt(deck.lines.autoDetectLineCount ? (deck.canvas.width / (deck.lines.width + deck.lines.gap) * 2) : deck.lines.lineCount);
             let countTotal = count;

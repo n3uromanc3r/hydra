@@ -281,6 +281,10 @@ button:disabled {
     margin-top: 0;
 }
 
+[data-tab-panel="reactivity"] button {
+    padding: 10px 4px;
+}
+
 .main-mixer-panel-group {
     padding-top: 40px;
 }
