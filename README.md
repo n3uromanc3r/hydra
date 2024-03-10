@@ -15,6 +15,7 @@ Available online at https://hydra.virusav.com/
   - Lockdown (ported from https://lockdown.virusav.com)
   - Matrix
   - Neuromute (ported from https://neuromute.virusav.com)
+  - Oscilloscope
   - Pink
   - Quark (ported from https://quark.virusav.com)
   - Strobe
