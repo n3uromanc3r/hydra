@@ -131,7 +131,8 @@ window.hydra.renderers['oscilloscope'] = {
 
             if (hydra.audio.listening && deck.reactivity.on) {
                 try {
-                    hydra.audio.analyser.getByteTimeDomainData(hydra.audio.uint8Array);
+                    deck.oscilloscope.uint8Array = _.cloneDeep(hydra.audio.uint8Array);
+                    hydra.audio.analyser.getByteTimeDomainData(deck.oscilloscope.uint8Array);
                     const segmentWidth = deck.canvas.width / hydra.audio.analyser.frequencyBinCount;
 
                     deck.ctx.beginPath();
@@ -139,7 +140,7 @@ window.hydra.renderers['oscilloscope'] = {
 
                     for (let i = 1; i < hydra.audio.analyser.frequencyBinCount; i += 1) {
                         x = i * segmentWidth;
-                        v = hydra.audio.uint8Array[i] / 128.0;
+                        v = deck.oscilloscope.uint8Array[i] / 128.0;
                         y = (v * deck.canvas.height) / 2;
 
                         deck.ctx.lineTo(x, y);

@@ -109,6 +109,21 @@ window.hydra.renderers['bars'] = {
                         }
                     ]
                 },
+                {
+                    heading: 'Direction',
+                    class: 'flex-grid',
+                    attributes: 'data-columns="3"',
+                    items: [
+                        {
+                            type: 'button',
+                            label: 'Direction',
+                            variable: 'direction',
+                            text: 'up',
+                            options: 'up,down',
+                            randomiseable: true
+                        }
+                    ]
+                },
             ]
         };
         deck.bars = window.hydra.renderer.init(deck, 'bars', defaults, ui);
@@ -138,12 +153,18 @@ window.hydra.renderers['bars'] = {
                     const barWidth = (deck.canvas.width / bufferLength) * deck.bars.barWidth;
                     let barHeight;
                     let x = 0;
+                    deck.bars.uint8Array = _.cloneDeep(hydra.audio.uint8Array);
 
                     for (let i = 0; i < bufferLength; i++) {
-                        barHeight = hydra.audio.uint8Array[i] * deck.bars.barHeight;
+                        barHeight = deck.bars.uint8Array[i] * deck.bars.barHeight;
 
-                        deck.ctx.fillStyle = `rgb(${barR}, ${barG}, ${barB}, ${barHeight})`;
-                        deck.ctx.fillRect(x, deck.canvas.height - barHeight, barWidth, barHeight);
+                        deck.ctx.fillStyle = `rgb(${barR}, ${barG}, ${barB})`;
+
+                        if (deck.bars.direction == 'down') {
+                            deck.ctx.fillRect(x, 0, barWidth, barHeight);
+                        } else {
+                            deck.ctx.fillRect(x, deck.canvas.height - barHeight, barWidth, barHeight);
+                        }
 
                         x += barWidth + 1;
                     }
