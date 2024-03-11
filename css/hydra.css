@@ -898,6 +898,10 @@ fieldset .heading,
     opacity: 0.2;
 }
 
+.mirror-start-position-buttons-container.disabled .mirror-start-position {
+    opacity: 0.2;
+}
+
 .mirror-start-position.active {
     background: #e4e623;
     color: black;
