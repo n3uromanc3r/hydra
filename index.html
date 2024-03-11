@@ -136,6 +136,15 @@
                                     <div><button class="mirror-mode applies-bleed button-radio-switch" data-target="deck1">bleed</button></div>
                                 </div>
                             </div>
+                            <div class="mirror-start-position-buttons-container disabled">
+                                <span class="input-label">Mirror Start Position</span>
+                                <div class="button-group button-radio-switch-group">
+                                    <div><button class="mirror-start-position applies-bottom-left button-radio-switch" data-target="deck1" data-start-position="bottom-left">⌞</button></div>
+                                    <div><button class="mirror-start-position applies-top-left button-radio-switch" data-target="deck1" data-start-position="top-left">⌜</button></div>
+                                    <div><button class="mirror-start-position applies-top-right active button-radio-switch" data-target="deck1" data-start-position="top-right">⌝</button></div>
+                                    <div><button class="mirror-start-position applies-bottom-right button-radio-switch" data-target="deck1" data-start-position="bottom-right">⌟</button></div>
+                                </div>
+                            </div>
                         </fieldset>
                         <fieldset>
                             <div class="heading">Blur</div>
@@ -729,6 +738,15 @@
                                 <div><button class="mirror-mode applies-bleed button-radio-switch" data-target="output">bleed</button></div>
                             </div>
                         </div>
+                        <div class="mirror-start-position-buttons-container disabled">
+                            <span class="input-label">Mirror Start Position</span>
+                            <div class="button-group button-radio-switch-group">
+                                <div><button class="mirror-start-position applies-bottom-left button-radio-switch" data-target="output" data-start-position="bottom-left">⌞</button></div>
+                                <div><button class="mirror-start-position applies-top-left button-radio-switch" data-target="output" data-start-position="top-left">⌜</button></div>
+                                <div><button class="mirror-start-position applies-top-right active button-radio-switch" data-target="output" data-start-position="top-right">⌝</button></div>
+                                <div><button class="mirror-start-position applies-bottom-right button-radio-switch" data-target="output" data-start-position="bottom-right">⌟</button></div>
+                            </div>
+                        </div>
                         <div class="button-group hide">
                             <button class="auto" data-deck="1">Auto</button>
                             <button class="auto" data-deck="2">Auto</button>
@@ -875,6 +893,15 @@
                                     <div><button class="mirror-mode applies-clip clip button-radio-switch" data-target="deck2">clip</button></div>
                                     <div><button class="mirror-mode applies-full button-radio-switch" data-target="deck2">full</button></div>
                                     <div><button class="mirror-mode applies-bleed button-radio-switch" data-target="deck2">bleed</button></div>
+                                </div>
+                            </div>
+                            <div class="mirror-start-position-buttons-container disabled">
+                                <span class="input-label">Mirror Start Position</span>
+                                <div class="button-group button-radio-switch-group">
+                                    <div><button class="mirror-start-position applies-bottom-left button-radio-switch" data-target="deck2" data-start-position="bottom-left">⌞</button></div>
+                                    <div><button class="mirror-start-position applies-top-left button-radio-switch" data-target="deck2" data-start-position="top-left">⌜</button></div>
+                                    <div><button class="mirror-start-position applies-top-right active button-radio-switch" data-target="deck2" data-start-position="top-right">⌝</button></div>
+                                    <div><button class="mirror-start-position applies-bottom-right button-radio-switch" data-target="deck2" data-start-position="bottom-right">⌟</button></div>
                                 </div>
                             </div>
                         </fieldset>
@@ -3221,43 +3248,83 @@
                         this.mirror.output = {
                             enabled: false,
                             mode: 'clip',
+                            startPosition: 'top-right',
                             toggle: document.getElementById('mirror-output-toggle')
                         };
                         this.mirror.deck1 = {
                             enabled: false,
                             mode: 'clip',
+                            startPosition: 'top-right',
                             toggle: document.getElementById('mirror-deck1-toggle')
                         };
                         this.mirror.deck2 = {
                             enabled: false,
                             mode: 'clip',
+                            startPosition: 'top-right',
                             toggle: document.getElementById('mirror-deck2-toggle')
                         };
 
                         this.mirror.toggles = document.querySelectorAll('.mirror-toggle');
                         this.mirror.mirrorModeBtns = document.querySelectorAll('.mirror-mode');
+                        this.mirror.mirrorStartPositionBtns = document.querySelectorAll('.mirror-start-position');
 
-                        this.mirror.clip = (ctx, canvas, mode) => {
+                        this.mirror.clip = (ctx, canvas, mode, startPosition) => {
                             ctx.save();
 
                             if (mode == 'clip') {
-                                ctx.beginPath();
-                                ctx.moveTo(canvas.width/2, 0);
-                                ctx.lineTo(canvas.width, 0);
-                                ctx.lineTo(canvas.width, canvas.height);
-                                ctx.lineTo(canvas.width/2, canvas.height);
-                                ctx.closePath();
-                                ctx.clip();
+                                if (startPosition == 'top-right' || startPosition == 'bottom-right') {
+                                    ctx.beginPath();
+                                    ctx.moveTo(canvas.width/2, 0);
+                                    ctx.lineTo(canvas.width, 0);
+                                    ctx.lineTo(canvas.width, canvas.height);
+                                    ctx.lineTo(canvas.width/2, canvas.height);
+                                    ctx.closePath();
+                                    ctx.clip();
+                                } else {
+                                    ctx.beginPath();
+                                    ctx.moveTo(0, 0);
+                                    ctx.lineTo(canvas.width/2, 0);
+                                    ctx.lineTo(canvas.width/2, canvas.height);
+                                    ctx.lineTo(0, canvas.height);
+                                    ctx.closePath();
+                                    ctx.clip();
+                                }
                             }
 
                             if (mode == 'full') {
-                                ctx.beginPath();
-                                ctx.moveTo(canvas.width/2, 0);
-                                ctx.lineTo(canvas.width, 0);
-                                ctx.lineTo(canvas.width, canvas.height/2);
-                                ctx.lineTo(canvas.width/2, canvas.height/2);
-                                ctx.closePath();
-                                ctx.clip();
+                                if (startPosition == 'top-right') {
+                                    ctx.beginPath();
+                                    ctx.moveTo(canvas.width/2, 0);
+                                    ctx.lineTo(canvas.width, 0);
+                                    ctx.lineTo(canvas.width, canvas.height/2);
+                                    ctx.lineTo(canvas.width/2, canvas.height/2);
+                                    ctx.closePath();
+                                    ctx.clip();
+                                } else if (startPosition == 'bottom-right') {
+                                    ctx.beginPath();
+                                    ctx.moveTo(canvas.width/2, canvas.height/2);
+                                    ctx.lineTo(canvas.width, canvas.height/2);
+                                    ctx.lineTo(canvas.width, canvas.height);
+                                    ctx.lineTo(canvas.width/2, canvas.height);
+                                    ctx.closePath();
+                                    ctx.clip();
+                                } else if (startPosition == 'bottom-left') {
+                                    ctx.beginPath();
+                                    ctx.moveTo(0, canvas.height/2);
+                                    ctx.lineTo(canvas.width/2, canvas.height/2);
+                                    ctx.lineTo(canvas.width/2, canvas.height);
+                                    ctx.lineTo(0, canvas.height);
+                                    ctx.closePath();
+                                    ctx.clip();
+                                } else {
+                                    ctx.beginPath();
+                                    ctx.moveTo(0, 0);
+                                    ctx.lineTo(canvas.width/2, 0);
+                                    ctx.lineTo(canvas.width/2, canvas.height/2);
+                                    ctx.lineTo(0, canvas.height/2);
+                                    ctx.closePath();
+                                    ctx.clip();
+                                }
                             }
                         };
 
@@ -3290,8 +3357,11 @@
                                 e.target.classList.toggle('on');
                                 hydra.effects.mirror[target].enabled = e.target.classList.contains('on');
 
-                                const mirrorCycleBtnsContainer = e.target.parentElement.parentElement.parentElement.querySelector('.mirror-mode-buttons-container');
-                                mirrorCycleBtnsContainer.classList.toggle('disabled');
+                                const mirrorModeCycleBtnsContainer = e.target.parentElement.parentElement.parentElement.querySelector('.mirror-mode-buttons-container');
+                                mirrorModeCycleBtnsContainer.classList.toggle('disabled');
+
+                                const mirrorStartPositionCycleBtnsContainer = e.target.parentElement.parentElement.parentElement.querySelector('.mirror-start-position-buttons-container');
+                                mirrorStartPositionCycleBtnsContainer.classList.toggle('disabled');
 
                                 if (hydra.effects.mirror[target].enabled && hydra.effects.kaleidoscope[target].enabled) {
                                     hydra.effects.kaleidoscope[target].toggle.dispatchEvent(new Event('click', { bubbles: true }));
@@ -3308,6 +3378,18 @@
                                 const target = e.target.dataset.target;
                                 hydra.effects.mirror[target].mode = e.target.textContent;
                                 e.target.classList.add(e.target.textContent);
+                            });
+                        });
+
+                        this.mirror.mirrorStartPositionBtns.forEach(mirrorStartPosition => {
+                            mirrorStartPosition.addEventListener('click', function(e) {
+                                const mirrorStartPositionBtns = e.target.parentElement.parentElement.querySelectorAll('.mirror-start-position')
+                                mirrorStartPositionBtns.forEach(btn => {
+                                    btn.classList.remove('active');
+                                });
+                                const target = e.target.dataset.target;
+                                hydra.effects.mirror[target].startPosition = e.target.dataset.startPosition;
+                                e.target.classList.add('active');
                             });
                         });
                     }
@@ -3527,7 +3609,7 @@
                         hydra.effects.kaleidoscope.clip(hydra.deck1.pipeCtx, hydra.deck1.pipeCanvas);
                     }
                     if (hydra.effects.mirror.deck1.enabled) {
-                        hydra.effects.mirror.clip(hydra.deck1.pipeCtx, hydra.deck1.pipeCanvas, hydra.effects.mirror.deck1.mode);
+                        hydra.effects.mirror.clip(hydra.deck1.pipeCtx, hydra.deck1.pipeCanvas, hydra.effects.mirror.deck1.mode, hydra.effects.mirror.deck1.startPosition);
                     }
                     hydra.deck1.pipeCtx.save();
                     hydra.deck1.filters.apply();
@@ -3537,7 +3619,7 @@
                         hydra.effects.kaleidoscope.apply(hydra.deck1.pipeCtx, hydra.deck1.pipeCanvas, hydra.effects.kaleidoscope.deck1.angle);
                     }
                     if (hydra.effects.mirror.deck1.enabled) {
-                        hydra.effects.mirror.apply(hydra.deck1.pipeCtx, hydra.deck1.pipeCanvas, hydra.effects.mirror.deck1.mode);
+                        hydra.effects.mirror.apply(hydra.deck1.pipeCtx, hydra.deck1.pipeCanvas, hydra.effects.mirror.deck1.mode, hydra.effects.mirror.deck1.startPosition);
                     }
 
                     hydra.deck2.render();
@@ -3545,7 +3627,7 @@
                         hydra.effects.kaleidoscope.clip(hydra.deck2.pipeCtx, hydra.deck2.pipeCanvas);
                     }
                     if (hydra.effects.mirror.deck2.enabled) {
-                        hydra.effects.mirror.clip(hydra.deck2.pipeCtx, hydra.deck2.pipeCanvas, hydra.effects.mirror.deck2.mode);
+                        hydra.effects.mirror.clip(hydra.deck2.pipeCtx, hydra.deck2.pipeCanvas, hydra.effects.mirror.deck2.mode, hydra.effects.mirror.deck2.startPosition);
                     }
                     hydra.deck2.pipeCtx.save();
                     hydra.deck2.filters.apply();
@@ -3555,7 +3637,7 @@
                         hydra.effects.kaleidoscope.apply(hydra.deck2.pipeCtx, hydra.deck2.pipeCanvas, hydra.effects.kaleidoscope.deck2.angle);
                     }
                     if (hydra.effects.mirror.deck2.enabled) {
-                        hydra.effects.mirror.apply(hydra.deck2.pipeCtx, hydra.deck2.pipeCanvas, hydra.effects.mirror.deck2.mode);
+                        hydra.effects.mirror.apply(hydra.deck2.pipeCtx, hydra.deck2.pipeCanvas, hydra.effects.mirror.deck2.mode, hydra.effects.mirror.deck2.startPosition);
                     }
 
 
@@ -3564,7 +3646,7 @@
                     }
 
                     if (hydra.effects.mirror.output.enabled) {
-                        hydra.effects.mirror.clip(hydra.mixedCtx, hydra.mixedCanvas, hydra.effects.mirror.output.mode);
+                        hydra.effects.mirror.clip(hydra.mixedCtx, hydra.mixedCanvas, hydra.effects.mirror.output.mode, hydra.effects.mirror.output.startPosition);
                     }
 
                     if (hydra.deck1.raised) {
@@ -3588,7 +3670,7 @@
                     }
 
                     if (hydra.effects.mirror.output.enabled) {
-                        hydra.effects.mirror.apply(hydra.mixedCtx, hydra.mixedCanvas, hydra.effects.mirror.output.mode);
+                        hydra.effects.mirror.apply(hydra.mixedCtx, hydra.mixedCanvas, hydra.effects.mirror.output.mode, hydra.effects.mirror.output.startPosition);
                     }
 
                     if (!hydra.audio.listening) {

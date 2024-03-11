@@ -881,12 +881,14 @@ fieldset .heading,
 }
 
 .kaleidoscope-slider-container,
-.mirror-mode-buttons-container {
+.mirror-mode-buttons-container,
+.mirror-start-position-buttons-container {
     opacity: 1;
 }
 
 .kaleidoscope-slider-container.disabled,
-.mirror-mode-buttons-container.disabled {
+.mirror-mode-buttons-container.disabled,
+.mirror-start-position-buttons-container.disabled {
     opacity: 0.4;
 }
 
@@ -894,6 +896,11 @@ fieldset .heading,
 .mirror-mode-buttons-container.disabled .full,
 .mirror-mode-buttons-container.disabled .bleed {
     opacity: 0.2;
+}
+
+.mirror-start-position.active {
+    background: #e4e623;
+    color: black;
 }
 
 .kaleidoscope-slider-container .inline-input {
