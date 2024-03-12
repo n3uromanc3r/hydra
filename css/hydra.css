@@ -887,24 +887,24 @@ fieldset .heading,
 
 .kaleidoscope-slider-container,
 .mirror-mode-buttons-container,
-.mirror-start-position-buttons-container {
+.mirror-start-position-buttons-container,
+.mirror-layer-mode-selector-container {
     opacity: 1;
 }
 
 .kaleidoscope-slider-container.disabled,
 .mirror-mode-buttons-container.disabled,
-.mirror-start-position-buttons-container.disabled {
+.mirror-start-position-buttons-container.disabled,
+.mirror-layer-mode-selector-container.disabled {
     opacity: 0.4;
 }
 
 .mirror-mode-buttons-container.disabled .vert,
 .mirror-mode-buttons-container.disabled .hori,
 .mirror-mode-buttons-container.disabled .quad,
-.mirror-mode-buttons-container.disabled .layer {
-    opacity: 0.2;
-}
-
-.mirror-start-position-buttons-container.disabled .mirror-start-position {
+.mirror-mode-buttons-container.disabled .layer,
+.mirror-start-position-buttons-container.disabled .mirror-start-position,
+.mirror-layer-mode-selector-container.disabled .mirror-layer-mode-selector {
     opacity: 0.2;
 }
 
@@ -930,7 +930,7 @@ fieldset .heading,
     padding-right: 15px;
 }
 
-.visual-settings .effects fieldset {
+.visual-settings .effects fieldset:first-of-type {
     border-top: none;
     padding-top: 0;
 }
