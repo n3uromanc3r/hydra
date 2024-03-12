@@ -521,17 +521,22 @@ button:disabled {
     background: rgba(0,30,255,1);
 }
 
-.mirror-mode.clip {
+.mirror-mode.vert {
     background: #23e648;
     color: black;
 }
 
-.mirror-mode.bleed {
+.mirror-mode.hori {
+    background: #e67423;
+    color: black;
+}
+
+.mirror-mode.layer {
     background: #e62323;
     color: white;
 }
 
-.mirror-mode.full {
+.mirror-mode.quad {
     background: #23c2e6;
     color: black;
 }
@@ -892,9 +897,10 @@ fieldset .heading,
     opacity: 0.4;
 }
 
-.mirror-mode-buttons-container.disabled .clip,
-.mirror-mode-buttons-container.disabled .full,
-.mirror-mode-buttons-container.disabled .bleed {
+.mirror-mode-buttons-container.disabled .vert,
+.mirror-mode-buttons-container.disabled .hori,
+.mirror-mode-buttons-container.disabled .quad,
+.mirror-mode-buttons-container.disabled .layer {
     opacity: 0.2;
 }
 

@@ -129,11 +129,12 @@
                                 </div>
                             </div>
                             <div class="mirror-mode-buttons-container disabled">
-                                <span class="input-label">Mirror Type</span>
+                                <span class="input-label">Mirror Mode</span>
                                 <div class="button-group button-radio-switch-group">
-                                    <div><button class="mirror-mode applies-clip clip button-radio-switch" data-target="deck1">clip</button></div>
-                                    <div><button class="mirror-mode applies-full button-radio-switch" data-target="deck1">full</button></div>
-                                    <div><button class="mirror-mode applies-bleed button-radio-switch" data-target="deck1">bleed</button></div>
+                                    <div><button class="mirror-mode applies-vert vert button-radio-switch" data-target="deck1">vert</button></div>
+                                    <div><button class="mirror-mode applies-hori button-radio-switch" data-target="deck1">hori</button></div>
+                                    <div><button class="mirror-mode applies-quad button-radio-switch" data-target="deck1">quad</button></div>
+                                    <div><button class="mirror-mode applies-layer button-radio-switch" data-target="deck1">layer</button></div>
                                 </div>
                             </div>
                             <div class="mirror-start-position-buttons-container disabled">
@@ -731,11 +732,12 @@
                             </div>
                         </div>
                         <div class="mirror-mode-buttons-container disabled">
-                            <span class="input-label">Mirror Type</span>
+                            <span class="input-label">Mirror Mode</span>
                             <div class="button-group button-radio-switch-group">
-                                <div><button class="mirror-mode applies-clip clip button-radio-switch" data-target="output">clip</button></div>
-                                <div><button class="mirror-mode applies-full button-radio-switch" data-target="output">full</button></div>
-                                <div><button class="mirror-mode applies-bleed button-radio-switch" data-target="output">bleed</button></div>
+                                <div><button class="mirror-mode applies-vert vert button-radio-switch" data-target="output">vert</button></div>
+                                <div><button class="mirror-mode applies-hori button-radio-switch" data-target="output">hori</button></div>
+                                <div><button class="mirror-mode applies-quad button-radio-switch" data-target="output">quad</button></div>
+                                <div><button class="mirror-mode applies-layer button-radio-switch" data-target="output">layer</button></div>
                             </div>
                         </div>
                         <div class="mirror-start-position-buttons-container disabled">
@@ -888,11 +890,12 @@
                                 </div>
                             </div>
                             <div class="mirror-mode-buttons-container disabled">
-                                <span class="input-label">Mirror Type</span>
+                                <span class="input-label">Mirror Mode</span>
                                 <div class="button-group button-radio-switch-group">
-                                    <div><button class="mirror-mode applies-clip clip button-radio-switch" data-target="deck2">clip</button></div>
-                                    <div><button class="mirror-mode applies-full button-radio-switch" data-target="deck2">full</button></div>
-                                    <div><button class="mirror-mode applies-bleed button-radio-switch" data-target="deck2">bleed</button></div>
+                                    <div><button class="mirror-mode applies-vert vert button-radio-switch" data-target="deck2">vert</button></div>
+                                    <div><button class="mirror-mode applies-hori button-radio-switch" data-target="deck2">hori</button></div>
+                                    <div><button class="mirror-mode applies-quad button-radio-switch" data-target="deck2">quad</button></div>
+                                    <div><button class="mirror-mode applies-layer button-radio-switch" data-target="deck2">layer</button></div>
                                 </div>
                             </div>
                             <div class="mirror-start-position-buttons-container disabled">
@@ -1497,9 +1500,9 @@
                             <li>
                                 <ul class="flex">
                                     <li><kbd>Shift</kbd> <span>Mirror (Toggle)</span></li>
-                                    <li><kbd>,</kbd> <span>Mirror Mode - Clip</span></li>
-                                    <li><kbd>.</kbd> <span>Mirror Mode - Full</span></li>
-                                    <li><kbd>/</kbd> <span>Mirror Mode - Bleed</span></li>
+                                    <li><kbd>,</kbd> <span>Mirror Mode - Vert</span></li>
+                                    <li><kbd>.</kbd> <span>Mirror Mode - Quad</span></li>
+                                    <li><kbd>/</kbd> <span>Mirror Mode - Layer</span></li>
                                 </ul>
                                 <ul class="flex">
                                     <li><kbd>Enter</kbd> <span>Kaleidoscope (Toggle)</span></li>
@@ -1736,7 +1739,7 @@
                         this.audio.init();
 
                         this.mirrorEnabled = false;
-                        this.mirrorMode = 'clip';
+                        this.mirrorMode = 'vert';
 
                         this.deck1 = this.deck.init(1, (settings.deck1.visual || 'quark'));
                         this.deck2 = this.deck.init(2, (settings.deck2.visual || 'pink'));
@@ -3247,19 +3250,19 @@
 
                         this.mirror.output = {
                             enabled: false,
-                            mode: 'clip',
+                            mode: 'vert',
                             startPosition: 'top-right',
                             toggle: document.getElementById('mirror-output-toggle')
                         };
                         this.mirror.deck1 = {
                             enabled: false,
-                            mode: 'clip',
+                            mode: 'vert',
                             startPosition: 'top-right',
                             toggle: document.getElementById('mirror-deck1-toggle')
                         };
                         this.mirror.deck2 = {
                             enabled: false,
-                            mode: 'clip',
+                            mode: 'vert',
                             startPosition: 'top-right',
                             toggle: document.getElementById('mirror-deck2-toggle')
                         };
@@ -3271,7 +3274,7 @@
                         this.mirror.clip = (ctx, canvas, mode, startPosition) => {
                             ctx.save();
 
-                            if (mode == 'clip') {
+                            if (mode == 'vert') {
                                 if (startPosition == 'top-right' || startPosition == 'bottom-right') {
                                     ctx.beginPath();
                                     ctx.moveTo(canvas.width/2, 0);
@@ -3291,7 +3294,27 @@
                                 }
                             }
 
-                            if (mode == 'full') {
+                            if (mode == 'hori') {
+                                if (startPosition == 'top-right' || startPosition == 'top-left') {
+                                    ctx.beginPath();
+                                    ctx.moveTo(0, 0);
+                                    ctx.lineTo(canvas.width, 0);
+                                    ctx.lineTo(canvas.width, canvas.height/2);
+                                    ctx.lineTo(0, canvas.height/2);
+                                    ctx.closePath();
+                                    ctx.clip();
+                                } else {
+                                    ctx.beginPath();
+                                    ctx.moveTo(0, canvas.height/2);
+                                    ctx.lineTo(canvas.width, canvas.height/2);
+                                    ctx.lineTo(canvas.width, canvas.height);
+                                    ctx.lineTo(0, canvas.height);
+                                    ctx.closePath();
+                                    ctx.clip();
+                                }
+                            }
+
+                            if (mode == 'quad') {
                                 if (startPosition == 'top-right') {
                                     ctx.beginPath();
                                     ctx.moveTo(canvas.width/2, 0);
@@ -3329,11 +3352,11 @@
                         };
 
                         this.mirror.apply = (ctx, canvas, mode) => {
-                            if (mode == 'clip' || mode == 'full') {
+                            if (mode == 'vert' || mode == 'hori' || mode == 'quad') {
                                 ctx.restore();
                             }
 
-                            if (mode == 'full') {
+                            if (mode == 'quad' || mode == 'hori') {
                                 ctx.save();
                                 ctx.translate(0, canvas.height);
                                 ctx.scale(1,-1);
@@ -3342,12 +3365,14 @@
                                 ctx.restore();
                             }
 
-                            ctx.save();
-                            ctx.translate(canvas.width, 0);
-                            ctx.scale(-1,1);
-                            ctx.globalCompositeOperation = 'multiply';
-                            ctx.drawImage(canvas, 0, 0);
-                            ctx.restore();
+                            if (mode !== 'hori') {
+                                ctx.save();
+                                ctx.translate(canvas.width, 0);
+                                ctx.scale(-1,1);
+                                ctx.globalCompositeOperation = 'multiply';
+                                ctx.drawImage(canvas, 0, 0);
+                                ctx.restore();
+                            }
                         }
 
                         this.mirror.toggles.forEach(toggle => {
@@ -3373,7 +3398,7 @@
                             mirrorMode.addEventListener('click', function(e) {
                                 const mirrorModeBtns = e.target.parentElement.parentElement.querySelectorAll('.mirror-mode')
                                 mirrorModeBtns.forEach(btn => {
-                                    btn.classList.remove('clip','full','bleed');
+                                    btn.classList.remove('vert','hori','quad','layer');
                                 });
                                 const target = e.target.dataset.target;
                                 hydra.effects.mirror[target].mode = e.target.textContent;
@@ -4132,22 +4157,22 @@
                                 //     audio.react.set('cause', 'percentage');
                                 //     break;
                                 case ',':
-                                    const mirrorClipBtn = !hydra.keyboard.claimed
+                                    const mirrorVertBtn = !hydra.keyboard.claimed
                                         ? '[data-target="output"].mirror-mode.applies-clip'
                                         : `[data-target="deck${hydra.keyboard.claimed}"].mirror-mode.applies-clip`;
-                                    document.querySelector(mirrorClipBtn).click();
+                                    document.querySelector(mirrorVertBtn).click();
                                     break;
                                 case '.':
-                                    const mirrorFullBtn = !hydra.keyboard.claimed
-                                        ? '[data-target="output"].mirror-mode.applies-full'
-                                        : `[data-target="deck${hydra.keyboard.claimed}"].mirror-mode.applies-full`;
-                                    document.querySelector(mirrorFullBtn).click();
+                                    const mirrorQuadBtn = !hydra.keyboard.claimed
+                                        ? '[data-target="output"].mirror-mode.applies-quad'
+                                        : `[data-target="deck${hydra.keyboard.claimed}"].mirror-mode.applies-quad`;
+                                    document.querySelector(mirrorQuadBtn).click();
                                     break;
                                 case '/':
-                                    const mirrorBleedBtn = !hydra.keyboard.claimed
-                                        ? '[data-target="output"].mirror-mode.applies-bleed'
-                                        : `[data-target="deck${hydra.keyboard.claimed}"].mirror-mode.applies-bleed`;
-                                    document.querySelector(mirrorBleedBtn).click();
+                                    const mirrorLayerBtn = !hydra.keyboard.claimed
+                                        ? '[data-target="output"].mirror-mode.applies-layer'
+                                        : `[data-target="deck${hydra.keyboard.claimed}"].mirror-mode.applies-layer`;
+                                    document.querySelector(mirrorLayerBtn).click();
                                     break;
                                 case 'ArrowUp':
                                     document.querySelector(`[data-deck="${hydra.keyboard.claimed}"].raise-to-top`).click();
