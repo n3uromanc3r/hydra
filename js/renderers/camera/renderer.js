@@ -18,21 +18,21 @@ window.hydra.renderers['camera'] = {
             if (!deck.camera.connected) {
                 navigator.mediaDevices.getUserMedia(constraints)
                     .then(stream => {
-                        deck.cameraEl.srcObject = stream;
+                        deck.streamEl.srcObject = stream;
                         cameraStream = stream;
                         deck.camera.connected = true;
                     });
             }
 
-            clearInterval(cameraShutoffInterval);
+            clearTimeout(cameraShutoffInterval);
 
-            const ratio = deck.canvas.width / deck.cameraEl.videoWidth;
-            deck.ctx.drawImage(deck.cameraEl, 0, 0, deck.cameraEl.videoWidth * ratio, deck.cameraEl.videoHeight * ratio);
+            const ratio = deck.canvas.width / deck.streamEl.videoWidth;
+            deck.ctx.drawImage(deck.streamEl, 0, 0, deck.streamEl.videoWidth * ratio, deck.streamEl.videoHeight * ratio);
 
-            cameraShutoffInterval = setInterval(() => {
+            cameraShutoffInterval = setTimeout(() => {
                 deck.camera.connected = false;
-                deck.cameraEl.pause();
-                deck.cameraEl.src = "";
+                deck.streamEl.pause();
+                deck.streamEl.src = "";
                 cameraStream.getTracks().forEach(track => track.stop());
             }, 200);
         }

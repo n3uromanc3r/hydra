@@ -1806,9 +1806,9 @@
             </div>
         </div>
         <video id="deck-1-video" style="display:none;" muted playsinline autoplay loop></video>
-        <video id="deck-1-camera" style="display:none;" playsinline autoplay></video>
+        <video id="deck-1-stream" style="display:none;" playsinline autoplay></video>
         <video id="deck-2-video" style="display:none;" muted playsinline autoplay loop></video>
-        <video id="deck-2-camera" style="display:none;" playsinline autoplay></video>
+        <video id="deck-2-stream" style="display:none;" playsinline autoplay></video>
     </div>
     <script src="./js/vendor/lodash-full-4.17.15.js"></script>
     <script>
@@ -2168,7 +2168,7 @@
                         deck.pipeCanvas = document.getElementById(`deck-${deck.id}-pipe-canvas`);
                         deck.pipeCtx = deck.pipeCanvas.getContext('2d');
                         deck.videoEl = document.getElementById(`deck-${deck.id}-video`);
-                        deck.cameraEl = document.getElementById(`deck-${deck.id}-camera`);
+                        deck.streamEl = document.getElementById(`deck-${deck.id}-stream`);
                         deck.crossfaderAlpha = 1;
                         deck.raised = id == 2;
                         deck.scale = 0.75;
@@ -4654,6 +4654,7 @@
     </script>
     <script src="./js/renderers/bars/renderer.js"></script>
     <script src="./js/renderers/camera/renderer.js"></script>
+    <script src="./js/renderers/display/renderer.js"></script>
     <script src="./js/renderers/foomanchu/renderer.js"></script>
     <script src="./js/renderers/lines/renderer.js"></script>
     <script src="./js/renderers/lockdown/renderer.js"></script>
@@ -4676,6 +4677,7 @@
             renderers: [
                 'bars',
                 'camera',
+                'display',
                 'foomanchu',
                 'lines',
                 'lockdown',

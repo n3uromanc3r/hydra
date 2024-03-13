@@ -273,8 +273,10 @@ button:disabled {
 
 .button-radio-switch-group > div:not(:first-of-type):not(:last-of-type) button {
     border-radius: 0;
+}
+
+.button-radio-switch-group > div:not(:first-of-type) button {
     border-left: none;
-    border-right: none;
 }
 
 .button-radio-switch-group button {
