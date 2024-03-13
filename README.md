@@ -12,6 +12,7 @@ Available online at https://hydra.virusav.com/
 - Multiple renderers (visuals)
   - Bars
   - Camera
+  - Display
   - Lines
   - Lockdown (ported from https://lockdown.virusav.com)
   - Matrix
