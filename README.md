@@ -65,9 +65,43 @@ Available online at https://hydra.virusav.com/
 - Effects
   - Kaleidoscope
   - Mirror
-    - Clip (vertical)
-    - Full (vertical & horizontal)
-    - Bleed (vertical + overlay)
+    - Modes
+      - Vert (vertical)
+      - Hori (horizontal)
+      - Quad (vertical & horizontal)
+      - Layer (entire screen flipped vertical and overlaid with layer effect)
+    - Start Positions
+      - Bottom-Left
+      - Top-Left
+      - Top-Right
+      - Bottom-Right
+    - Layer Mode (Composition)
+      - Color-burn
+      - Color-dodge
+      - Color
+      - Copy
+      - Darken
+      - Destination-atop
+      - Destination-in
+      - Destination-out
+      - Destination-over
+      - Difference
+      - Exclusion
+      - Hard-light
+      - Hue
+      - Lighten
+      - Lighter
+      - Luminosity
+      - Multiply
+      - Overlay
+      - Saturation
+      - Screen
+      - Soft-light
+      - Source-atop
+      - Source-in
+      - Source-out
+      - Source-over
+      - Xor
 - Audio Reactivity
   - Scale
   - Color
