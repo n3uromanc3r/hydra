@@ -3486,7 +3486,11 @@
                                 mirrorStartPositionCycleBtnsContainer.classList.toggle('disabled');
 
                                 const mirrorLayerModeSelectContainer = e.target.parentElement.parentElement.parentElement.querySelector('.mirror-layer-mode-selector-container');
-                                mirrorLayerModeSelectContainer.classList.toggle('disabled');
+                                if (hydra.effects.mirror[target].mode == 'layer') {
+                                    mirrorLayerModeSelectContainer.classList.remove('disabled');
+                                } else {
+                                    mirrorLayerModeSelectContainer.classList.add('disabled');
+                                }
 
                                 if (hydra.effects.mirror[target].enabled && hydra.effects.kaleidoscope[target].enabled) {
                                     hydra.effects.kaleidoscope[target].toggle.dispatchEvent(new Event('click', { bubbles: true }));
@@ -3503,6 +3507,13 @@
                                 const target = e.target.dataset.target;
                                 hydra.effects.mirror[target].mode = e.target.textContent;
                                 e.target.classList.add(e.target.textContent);
+
+                                const mirrorLayerModeSelectContainer = e.target.parentElement.parentElement.parentElement.parentElement.querySelector('.mirror-layer-mode-selector-container');
+                                if (hydra.effects.mirror[target].mode == 'layer') {
+                                    mirrorLayerModeSelectContainer.classList.remove('disabled');
+                                } else {
+                                    mirrorLayerModeSelectContainer.classList.add('disabled');
+                                }
                             });
                         });
 
