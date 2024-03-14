@@ -1128,6 +1128,11 @@ fieldset .heading,
     margin: 20px 0 10px;
 }
 
+#modal .kbd-group {
+    display: flex;
+    gap: 100px;
+}
+
 #modal kbd {
     border: solid 1px #202020;
     background: #181818;

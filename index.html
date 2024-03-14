@@ -1572,7 +1572,6 @@
                         <li><button class="tab active" data-tab-target="keyboard-shortcuts">Keyboard Shortcuts</button></li>
                         <li><button class="tab" data-tab-target="midi-assignments">MIDI Assignments</button></li>
                         <li><button class="tab" data-tab-target="import-export">Import / Export</button></li>
-                        <li><button class="tab" data-tab-target="audio-configuration">Audio Configuration</button></li>
                         <li><button class="tab" data-tab-target="video-configuration">Video Configuration</button></li>
                         <li><button class="tab" data-tab-target="themes">Themes</button></li>
                     </ul>
@@ -1589,16 +1588,55 @@
                                 </ul>
                             </li>
 
-                            <li class="kbd-section-heading">Effects</li>
+                            <li class="kbd-section-heading">Kaleidoscope</li>
                             <li>
                                 <ul class="flex">
-                                    <li><kbd>Shift</kbd> <span>Mirror (Toggle)</span></li>
-                                    <li><kbd>,</kbd> <span>Mirror Mode - Vert</span></li>
-                                    <li><kbd>.</kbd> <span>Mirror Mode - Quad</span></li>
-                                    <li><kbd>/</kbd> <span>Mirror Mode - Layer</span></li>
+                                    <li><kbd>Enter</kbd> <span>Toggle</span></li>
                                 </ul>
-                                <ul class="flex">
-                                    <li><kbd>Enter</kbd> <span>Kaleidoscope (Toggle)</span></li>
+                            </li>
+
+                            <li class="kbd-group">
+                                <ul>
+                                    <li class="kbd-section-heading">Mirror</li>
+                                    <li>
+                                        <ul class="flex">
+                                            <li><kbd>Shift</kbd> <span>Toggle</span></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                                <ul>
+                                    <li class="kbd-section-heading">Mirror Mode</li>
+                                    <li>
+                                        <ul class="flex">
+                                            <li><kbd>z</kbd> <span>Vert</span></li>
+                                            <li><kbd>x</kbd> <span>Hori</span></li>
+                                            <li><kbd>c</kbd> <span>Quad</span></li>
+                                            <li><kbd>v</kbd> <span>Layer</span></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="kbd-group">
+                                <ul>
+                                    <li class="kbd-section-heading">Mirror Start Position</li>
+                                    <li>
+                                        <ul class="flex">
+                                            <li><kbd>b</kbd> <span>Bottom Left</span></li>
+                                            <li><kbd>n</kbd> <span>Top Left</span></li>
+                                            <li><kbd>m</kbd> <span>Top Right</span></li>
+                                            <li><kbd>,</kbd> <span>Bottom Right</span></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                                <ul>
+                                    <li class="kbd-section-heading">Mirror Layer Mode</li>
+                                    <li>
+                                        <ul class="flex">
+                                            <li><kbd>.</kbd> <span>Previous</span></li>
+                                            <li><kbd>/</kbd> <span>Next</span></li>
+                                        </ul>
+                                    </li>
                                 </ul>
                             </li>
 
@@ -1628,17 +1666,22 @@
                                 </ul>
                             </li>
 
-                            <li class="kbd-section-heading">Recorder</li>
-                            <li>
-                                <ul class="flex">
-                                    <li><kbd>\</kbd> <span>Record (Toggle)</span></li>
+                            <li class="kbd-group">
+                                <ul>
+                                    <li class="kbd-section-heading">Recorder</li>
+                                    <li>
+                                        <ul class="flex">
+                                            <li><kbd>\</kbd> <span>Record (Toggle)</span></li>
+                                        </ul>
+                                    </li>
                                 </ul>
-                            </li>
-
-                            <li class="kbd-section-heading">MIDI</li>
-                            <li>
-                                <ul class="flex">
-                                    <li><kbd>]</kbd> <span>Assign (Toggle)</span></li>
+                                <ul>
+                                    <li class="kbd-section-heading">MIDI</li>
+                                    <li>
+                                        <ul class="flex">
+                                            <li><kbd>]</kbd> <span>Assign (Toggle)</span></li>
+                                        </ul>
+                                    </li>
                                 </ul>
                             </li>
                         </ul>
@@ -1783,7 +1826,6 @@
                             <span class="message"></span>
                         </fieldset>
                     </div>
-                    <div data-target="audio-configuration" class="hide"></div>
                     <div data-target="video-configuration" class="hide">
                         <select id="resolution-selector">
                             <option value="match">Match Deck Screen</option>
@@ -3228,18 +3270,19 @@
                 composition: {
                     init: function() {
                         this.selector = document.getElementById('composition-mode-selector');
+                        this.options = this.selector.querySelectorAll('option');
 
                         this.setMode = (mode) => {
                             hydra.mixedCtx.globalCompositeOperation = mode;
                         };
                         this.previousMode = () => {
                             const current = this.selector.selectedIndex;
-                            this.selector.value = this.selector.querySelectorAll('option')[current - 1].value;
+                            this.selector.value = this.options[(current - 1) >= 0 ? current - 1 : this.options.length - 1].value;
                             this.selector.dispatchEvent(new Event('input', { bubbles: true }));
                         };
                         this.nextMode = () => {
                             const current = this.selector.selectedIndex;
-                            this.selector.value = this.selector.querySelectorAll('option')[current + 1].value;
+                            this.selector.value = this.options[(current + 1) < this.options.length ? current + 1 : 0].value;
                             this.selector.dispatchEvent(new Event('input', { bubbles: true }));
                         };
                     }
@@ -4104,20 +4147,29 @@
                     claimed: false,
                     whitelist: [
                         'Escape',
-                        'ArrowLeft',
-                        'ArrowRight',
+                        '`',
                         '§',
                         ']',
                         '\\',
+                        ';',
+                        '\'',
+                        'Enter',
+                        'z',
+                        'x',
+                        'c',
+                        'v',
+                        'b',
+                        'n',
+                        'm',
                         ',',
                         '.',
-                        '/',
-                        ' ',
-                        'Alt',
-                        'AltGraph',
-                        'Enter',
+                        '/', 
                         'Shift',
-                        '`',
+                        'Alt',
+                        ' ',
+                        'AltGraph',
+                        'ArrowLeft',
+                        'ArrowRight',
                     ],
                     init: function() {
                         window.addEventListener('keydown', function(e) {
@@ -4126,12 +4178,6 @@
                             }
                             console.debug(e.key);
                             switch (e.key) {
-                                case '§':
-                                case ']':
-                                    if (!hydra.midi.assigning) {
-                                        document.getElementById('assign').click();
-                                    }
-                                    break;
                                 case 'Escape':
                                     if (hydra.body.classList.contains('assigning')) {
                                         hydra.midi.cancelAssignment();
@@ -4145,77 +4191,8 @@
                                         document.querySelector(`[data-deck="${deck}"][data-save]`).click();
                                     }
                                     break;
-                                // case 'q':
-                                //     knobs.valueChange('reactivity', 'up');
-                                //     break;
-                                // case 'a':
-                                //     knobs.valueChange('reactivity', 'down');
-                                //     break;
-                                // case 'w':
-                                //     knobs.valueChange('minWidth', 'up');
-                                //     break;
-                                // case 's':
-                                //     knobs.valueChange('minWidth', 'down');
-                                //     break;
-                                // case 'e':
-                                //     knobs.valueChange('widthMode', 'up');
-                                //     break;
-                                // case 'd':
-                                //     knobs.valueChange('widthMode', 'down');
-                                //     break;
-                                // case 'r':
-                                //     knobs.valueChange('trailLength', 'up');
-                                //     break;
-                                // case 'f':
-                                //     knobs.valueChange('trailLength', 'down');
-                                //     break;
-                                // case 't':
-                                //     knobs.valueChange('modulo', 'up');
-                                //     break;
-                                // case 'g':
-                                //     knobs.valueChange('modulo', 'down');
-                                //     break;
-                                // case 'y':
-                                //     knobs.valueChange('arcMode', 'up');
-                                //     break;
-                                // case 'h':
-                                //     knobs.valueChange('arcMode', 'down');
-                                //     break;
-                                // case 'u':
-                                //     knobs.valueChange('fillMode', 'up');
-                                //     break;
-                                // case 'j':
-                                //     knobs.valueChange('fillMode', 'down');
-                                //     break;
-                                // case 'i':
-                                //     knobs.valueChange('colorMode', 'up');
-                                //     break;
-                                // case 'k':
-                                //     knobs.valueChange('colorMode', 'down');
-                                //     break;
-                                // case 'o':
-                                //     knobs.valueChange('globalShift', 'up');
-                                //     break;
-                                // case 'l':
-                                //     knobs.valueChange('globalShift', 'down');
-                                //     break;
-                                // case 'p':
-                                //     knobs.valueChange('globalAlpha', 'up');
-                                //     break;
-                                // case ';':
-                                //     knobs.valueChange('globalAlpha', 'down');
-                                //     break;
-                                // case '[':
-                                //     knobs.valueChange('globalAmp', 'up');
-                                //     break;
-                                // case '\'':
-                                //     knobs.valueChange('globalAmp', 'down');
-                                //     break;
-                                case 'Backspace':
-                                    console.log('what to do?');
-                                    break;
-                                case '\\':
-                                    document.getElementById('record').click();
+                                case '`':
+                                    document.getElementById('sync').click();
                                     break;
                                 case '1':
                                     hydra[`deck${hydra.keyboard.claimed}`].presets.select(1);
@@ -4253,44 +4230,174 @@
                                 case '=':
                                     hydra[`deck${hydra.keyboard.claimed}`].presets.next();
                                     break;
-                                // case 'z':
-                                //     audio.react.toggle();
+                                case 'Backspace':
+                                    console.log('what to do?');
+                                    break;
+                                // case 'q':
+                                //     knobs.valueChange('reactivity', 'up');
                                 //     break;
-                                // case 'x':
-                                //     audio.react.set('reactor', 'width');
+                                // case 'w':
+                                //     knobs.valueChange('minWidth', 'up');
                                 //     break;
-                                // case 'c':
-                                //     audio.react.set('reactor', 'shift');
+                                // case 'e':
+                                //     knobs.valueChange('widthMode', 'up');
                                 //     break;
-                                // case 'v':
-                                //     audio.react.set('reactor', 'alpha');
+                                // case 'r':
+                                //     knobs.valueChange('trailLength', 'up');
                                 //     break;
-                                // case 'b':
-                                //     audio.react.set('reactor', 'amp');
+                                // case 't':
+                                //     knobs.valueChange('modulo', 'up');
                                 //     break;
-                                // case 'n':
-                                //     audio.react.set('cause', 'average');
+                                // case 'y':
+                                //     knobs.valueChange('arcMode', 'up');
                                 //     break;
-                                // case 'm':
-                                //     audio.react.set('cause', 'percentage');
+                                // case 'u':
+                                //     knobs.valueChange('fillMode', 'up');
                                 //     break;
-                                case ',':
+                                // case 'i':
+                                //     knobs.valueChange('colorMode', 'up');
+                                //     break;
+                                // case 'o':
+                                //     knobs.valueChange('globalShift', 'up');
+                                //     break;
+                                // case 'p':
+                                //     knobs.valueChange('globalAlpha', 'up');
+                                //     break;
+                                // case '[':
+                                //     knobs.valueChange('globalAmp', 'up');
+                                //     break;
+                                case ']':
+                                case '§':
+                                    if (!hydra.midi.assigning) {
+                                        document.getElementById('assign').click();
+                                    }
+                                    break;
+                                case '\\':
+                                    document.getElementById('record').click();
+                                    break;
+                                // case 'a':
+                                //     knobs.valueChange('reactivity', 'down');
+                                //     break;
+                                // case 's':
+                                //     knobs.valueChange('minWidth', 'down');
+                                //     break;
+                                // case 'd':
+                                //     knobs.valueChange('widthMode', 'down');
+                                //     break;
+                                // case 'f':
+                                //     knobs.valueChange('trailLength', 'down');
+                                //     break;
+                                // case 'g':
+                                //     knobs.valueChange('modulo', 'down');
+                                //     break;
+                                // case 'h':
+                                //     knobs.valueChange('arcMode', 'down');
+                                //     break;
+                                // case 'j':
+                                //     knobs.valueChange('fillMode', 'down');
+                                //     break;
+                                // case 'k':
+                                //     knobs.valueChange('colorMode', 'down');
+                                //     break;
+                                // case 'l':
+                                //     knobs.valueChange('globalShift', 'down');
+                                //     break;
+                                // case ';':
+                                //     break;
+                                // case '\'':
+                                //     break;
+                                case 'Enter':
+                                    const kaleidoscopeToggleBtn = !hydra.keyboard.claimed
+                                        ? 'kaleidoscope-output-toggle'
+                                        : `kaleidoscope-deck${hydra.keyboard.claimed}-toggle`;
+                                    document.getElementById(kaleidoscopeToggleBtn).click();
+                                    break;
+                                case 'z':
                                     const mirrorVertBtn = !hydra.keyboard.claimed
-                                        ? '[data-target="output"].mirror-mode.applies-clip'
-                                        : `[data-target="deck${hydra.keyboard.claimed}"].mirror-mode.applies-clip`;
+                                        ? '[data-target="output"].mirror-mode.applies-vert'
+                                        : `[data-target="deck${hydra.keyboard.claimed}"].mirror-mode.applies-vert`;
                                     document.querySelector(mirrorVertBtn).click();
                                     break;
-                                case '.':
+                                case 'x':
+                                    const mirrorHoriBtn = !hydra.keyboard.claimed
+                                        ? '[data-target="output"].mirror-mode.applies-hori'
+                                        : `[data-target="deck${hydra.keyboard.claimed}"].mirror-mode.applies-hori`;
+                                    document.querySelector(mirrorHoriBtn).click();
+                                    break;
+                                case 'c':
                                     const mirrorQuadBtn = !hydra.keyboard.claimed
                                         ? '[data-target="output"].mirror-mode.applies-quad'
                                         : `[data-target="deck${hydra.keyboard.claimed}"].mirror-mode.applies-quad`;
                                     document.querySelector(mirrorQuadBtn).click();
                                     break;
-                                case '/':
+                                case 'v':
                                     const mirrorLayerBtn = !hydra.keyboard.claimed
                                         ? '[data-target="output"].mirror-mode.applies-layer'
                                         : `[data-target="deck${hydra.keyboard.claimed}"].mirror-mode.applies-layer`;
                                     document.querySelector(mirrorLayerBtn).click();
+                                    break;
+                                case 'b':
+                                    const mirrorStartPositionBottomLeftBtn = !hydra.keyboard.claimed
+                                        ? '[data-target="output"].mirror-start-position.applies-bottom-left'
+                                        : `[data-target="deck${hydra.keyboard.claimed}"].mirror-start-position.applies-bottom-left`;
+                                    document.querySelector(mirrorStartPositionBottomLeftBtn).click();
+                                    break;
+                                case 'n':
+                                    const mirrorStartPositionTopLeftBtn = !hydra.keyboard.claimed
+                                        ? '[data-target="output"].mirror-start-position.applies-top-left'
+                                        : `[data-target="deck${hydra.keyboard.claimed}"].mirror-start-position.applies-top-left`;
+                                    document.querySelector(mirrorStartPositionTopLeftBtn).click();
+                                    break;
+                                case 'm':
+                                    const mirrorStartPositionTopRightBtn = !hydra.keyboard.claimed
+                                        ? '[data-target="output"].mirror-start-position.applies-top-right'
+                                        : `[data-target="deck${hydra.keyboard.claimed}"].mirror-start-position.applies-top-right`;
+                                    document.querySelector(mirrorStartPositionTopRightBtn).click();
+                                    break;
+                                case ',':
+                                    const mirrorStartPositionBottomRightBtn = !hydra.keyboard.claimed
+                                        ? '[data-target="output"].mirror-start-position.applies-bottom-right'
+                                        : `[data-target="deck${hydra.keyboard.claimed}"].mirror-start-position.applies-bottom-right`;
+                                    document.querySelector(mirrorStartPositionBottomRightBtn).click();
+                                    break;
+                                case '.':
+                                    let mirrorLayerModeSelectPrev = !hydra.keyboard.claimed
+                                        ? '[data-target="output"].mirror-layer-mode-selector'
+                                        : `[data-target="deck${hydra.keyboard.claimed}"].mirror-layer-mode-selector`;
+                                    mirrorLayerModeSelectPrev = document.querySelector(mirrorLayerModeSelectPrev);
+                                    const mirrorLayerModeSelectPrevCurrent = mirrorLayerModeSelectPrev.selectedIndex;
+                                    const mirrorLayerModeSelectPrevOptions = mirrorLayerModeSelectPrev.querySelectorAll('option');
+                                    const mirrorLayerModeSelectPrevItemIndex = (mirrorLayerModeSelectPrevCurrent - 1) >= 0 ? mirrorLayerModeSelectPrevCurrent - 1 : mirrorLayerModeSelectPrevOptions.length - 1;
+
+                                    mirrorLayerModeSelectPrev.value = mirrorLayerModeSelectPrevOptions[mirrorLayerModeSelectPrevItemIndex].value;
+                                    mirrorLayerModeSelectPrev.dispatchEvent(new Event('change', { bubbles: true }));
+                                    break;
+                                case '/':
+                                    let mirrorLayerModeSelectNext = !hydra.keyboard.claimed
+                                        ? '[data-target="output"].mirror-layer-mode-selector'
+                                        : `[data-target="deck${hydra.keyboard.claimed}"].mirror-layer-mode-selector`;
+                                    mirrorLayerModeSelectNext = document.querySelector(mirrorLayerModeSelectNext);
+                                    const mirrorLayerModeSelectNextCurrent = mirrorLayerModeSelectNext.selectedIndex;
+                                    const mirrorLayerModeSelectNextOptions = mirrorLayerModeSelectNext.querySelectorAll('option');
+                                    const mirrorLayerModeSelectNextItemIndex = (mirrorLayerModeSelectNextCurrent + 1) < mirrorLayerModeSelectNextOptions.length ? mirrorLayerModeSelectNextCurrent + 1 : 0;
+
+                                    mirrorLayerModeSelectNext.value = mirrorLayerModeSelectNextOptions[mirrorLayerModeSelectNextItemIndex].value;
+                                    mirrorLayerModeSelectNext.dispatchEvent(new Event('change', { bubbles: true }));
+                                    break;
+                                case 'Shift':
+                                    const mirrorToggleBtn = !hydra.keyboard.claimed
+                                        ? 'mirror-output-toggle'
+                                        : `mirror-deck${hydra.keyboard.claimed}-toggle`;
+                                    document.getElementById(mirrorToggleBtn).click();
+                                    break;
+                                case 'Alt':
+                                    hydra.composition.previousMode();
+                                    break;
+                                case ' ':
+                                    document.getElementById('tap-bpm').click();
+                                    break;
+                                case 'AltGraph':
+                                    hydra.composition.nextMode();
                                     break;
                                 case 'ArrowUp':
                                     document.querySelector(`[data-deck="${hydra.keyboard.claimed}"].raise-to-top`).click();
@@ -4303,30 +4410,6 @@
                                     break;
                                 case 'ArrowRight':
                                     document.querySelector('[data-deck="2"][data-claim]').click();
-                                    break;
-                                case ' ':
-                                    document.getElementById('tap-bpm').click();
-                                    break;
-                                case '`':
-                                    document.getElementById('sync').click();
-                                    break;
-                                case 'Alt':
-                                    hydra.composition.previousMode();
-                                    break;
-                                case 'AltGraph':
-                                    hydra.composition.nextMode();
-                                    break;
-                                case 'Enter':
-                                    const kaleidoscopeToggleBtn = !hydra.keyboard.claimed
-                                        ? 'kaleidoscope-output-toggle'
-                                        : `kaleidoscope-deck${hydra.keyboard.claimed}-toggle`;
-                                    document.getElementById(kaleidoscopeToggleBtn).click();
-                                    break;
-                                case 'Shift':
-                                    const mirrorToggleBtn = !hydra.keyboard.claimed
-                                        ? 'mirror-output-toggle'
-                                        : `mirror-deck${hydra.keyboard.claimed}-toggle`;
-                                    document.getElementById(mirrorToggleBtn).click();
                                     break;
                             }
                         });
