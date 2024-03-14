@@ -1188,7 +1188,6 @@ fieldset .heading,
     box-sizing: border-box;
     text-align: center;
     line-height: 16px;
-    text-transform: uppercase;
 }
 
 #modal .ellipsis {

@@ -1684,7 +1684,7 @@
                                     <li class="kbd-section-heading">MIDI</li>
                                     <li>
                                         <ul class="flex">
-                                            <li><kbd>]</kbd> <span>Assign (Toggle)</span></li>
+                                            <li><kbd>Backspace</kbd> <span>Assign (Toggle)</span></li>
                                         </ul>
                                     </li>
                                 </ul>
@@ -4167,8 +4167,7 @@
                     whitelist: [
                         'Escape',
                         '`',
-                        '§',
-                        ']',
+                        'Backspace',
                         '\\',
                         ';',
                         '\'',
@@ -4192,10 +4191,10 @@
                     ],
                     init: function() {
                         window.addEventListener('keydown', function(e) {
+                            console.debug(e.key);
                             if ((!hydra.keyboard.claimed && !hydra.keyboard.whitelist.includes(e.key)) || (document.activeElement.type == 'textarea')) {
                                 return;
                             }
-                            console.debug(e.key);
                             switch (e.key) {
                                 case 'Escape':
                                     if (hydra.body.classList.contains('assigning')) {
@@ -4250,7 +4249,9 @@
                                     hydra[`deck${hydra.keyboard.claimed}`].presets.next();
                                     break;
                                 case 'Backspace':
-                                    console.log('what to do?');
+                                    if (!hydra.midi.assigning) {
+                                        document.getElementById('assign').click();
+                                    }
                                     break;
                                 // case 'q':
                                 //     knobs.valueChange('reactivity', 'up');
@@ -4287,9 +4288,7 @@
                                 //     break;
                                 case ']':
                                 case '§':
-                                    if (!hydra.midi.assigning) {
-                                        document.getElementById('assign').click();
-                                    }
+                                    console.log('what to do?');
                                     break;
                                 case '\\':
                                     document.getElementById('record').click();
