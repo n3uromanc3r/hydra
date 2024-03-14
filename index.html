@@ -1582,16 +1582,16 @@
                             <li class="kbd-section-heading">Presets</li>
                             <li>
                                 <ul class="flex">
-                                    <li><kbd>1</kbd><span class="ellipsis">...</span><kbd>2</kbd> <span>Select Preset 1-10</span></li>
-                                    <li><kbd>-</kbd> <span>Previous Preset</span></li>
-                                    <li><kbd>=</kbd> <span>Next Preset</span></li>
+                                    <li class="claimed"><kbd>1</kbd><span class="ellipsis">...</span><kbd>2</kbd> <span>Select Preset 1-10</span></li>
+                                    <li class="claimed"><kbd>-</kbd> <span>Previous Preset</span></li>
+                                    <li class="claimed"><kbd>=</kbd> <span>Next Preset</span></li>
                                 </ul>
                             </li>
 
                             <li class="kbd-section-heading">Kaleidoscope</li>
                             <li>
                                 <ul class="flex">
-                                    <li><kbd>Enter</kbd> <span>Toggle</span></li>
+                                    <li class="claimed-and-not-claimed"><kbd>Enter</kbd> <span>Toggle</span></li>
                                 </ul>
                             </li>
 
@@ -1600,7 +1600,7 @@
                                     <li class="kbd-section-heading">Mirror</li>
                                     <li>
                                         <ul class="flex">
-                                            <li><kbd>Shift</kbd> <span>Toggle</span></li>
+                                            <li class="claimed-and-not-claimed"><kbd>Shift</kbd> <span>Toggle</span></li>
                                         </ul>
                                     </li>
                                 </ul>
@@ -1608,10 +1608,10 @@
                                     <li class="kbd-section-heading">Mirror Mode</li>
                                     <li>
                                         <ul class="flex">
-                                            <li><kbd>z</kbd> <span>Vert</span></li>
-                                            <li><kbd>x</kbd> <span>Hori</span></li>
-                                            <li><kbd>c</kbd> <span>Quad</span></li>
-                                            <li><kbd>v</kbd> <span>Layer</span></li>
+                                            <li class="claimed-and-not-claimed"><kbd>Z</kbd> <span>Vert</span></li>
+                                            <li class="claimed-and-not-claimed"><kbd>X</kbd> <span>Hori</span></li>
+                                            <li class="claimed-and-not-claimed"><kbd>C</kbd> <span>Quad</span></li>
+                                            <li class="claimed-and-not-claimed"><kbd>V</kbd> <span>Layer</span></li>
                                         </ul>
                                     </li>
                                 </ul>
@@ -1622,10 +1622,10 @@
                                     <li class="kbd-section-heading">Mirror Start Position</li>
                                     <li>
                                         <ul class="flex">
-                                            <li><kbd>b</kbd> <span>Bottom Left</span></li>
-                                            <li><kbd>n</kbd> <span>Top Left</span></li>
-                                            <li><kbd>m</kbd> <span>Top Right</span></li>
-                                            <li><kbd>,</kbd> <span>Bottom Right</span></li>
+                                            <li class="claimed-and-not-claimed"><kbd>B</kbd> <span>Bottom Left</span></li>
+                                            <li class="claimed-and-not-claimed"><kbd>N</kbd> <span>Top Left</span></li>
+                                            <li class="claimed-and-not-claimed"><kbd>M</kbd> <span>Top Right</span></li>
+                                            <li class="claimed-and-not-claimed"><kbd>,</kbd> <span>Bottom Right</span></li>
                                         </ul>
                                     </li>
                                 </ul>
@@ -1633,36 +1633,41 @@
                                     <li class="kbd-section-heading">Mirror Layer Mode</li>
                                     <li>
                                         <ul class="flex">
-                                            <li><kbd>.</kbd> <span>Previous</span></li>
-                                            <li><kbd>/</kbd> <span>Next</span></li>
+                                            <li class="claimed-and-not-claimed"><kbd>.</kbd> <span>Previous</span></li>
+                                            <li class="claimed-and-not-claimed"><kbd>/</kbd> <span>Next</span></li>
                                         </ul>
                                     </li>
                                 </ul>
                             </li>
 
-                            <li class="kbd-section-heading">Deck</li>
-                            <li>
-                                <ul class="flex">
-                                    <li><kbd>←</kbd> <span>Claim Deck 1</span></li>
-                                    <li><kbd>→</kbd> <span>Claim Deck 2</span></li>
+                            <li class="kbd-group">
+                                <ul>
+                                    <li class="kbd-section-heading">Deck</li>
+                                    <li>
+                                        <ul class="flex">
+                                            <li><kbd>←</kbd> <span>Claim Deck 1</span></li>
+                                            <li><kbd>→</kbd> <span>Claim Deck 2</span></li>
+                                        </ul>
+                                    </li>
                                 </ul>
-                            </li>
-
-                            <li class="kbd-section-heading">BPM</li>
-                            <li>
-                                <ul class="flex">
-                                    <li><kbd>Space</kbd> <span>Tap (BPM)</span></li>
-                                    <li><kbd>`</kbd> <span>Sync (BPM)</span></li>
+                                <ul>
+                                    <li class="kbd-section-heading">BPM</li>
+                                    <li>
+                                        <ul class="flex">
+                                            <li><kbd>Space</kbd> <span>Tap (BPM)</span></li>
+                                            <li><kbd>`</kbd> <span>Sync (BPM)</span></li>
+                                        </ul>
+                                    </li>
                                 </ul>
                             </li>
 
                             <li class="kbd-section-heading">Composition</li>
                             <li>
                                 <ul class="flex">
-                                    <li><kbd>↑</kbd> <span>Raise Deck to Top</span></li>
-                                    <li><kbd>↓</kbd> <span>Lower Deck to Bottom</span></li>
-                                    <li><kbd>Alt</kbd> <span>Previous Composition Mode</span></li>
-                                    <li><kbd>AltGraph</kbd> <span>Next Composition Mode</span></li>
+                                    <li class="claimed"><kbd>↑</kbd> <span>Raise Deck to Top</span></li>
+                                    <li class="claimed"><kbd>↓</kbd> <span>Lower Deck to Bottom</span></li>
+                                    <li class="padded"><kbd>Alt</kbd> <span>Previous Composition Mode</span></li>
+                                    <li class="padded"><kbd>AltGraph</kbd> <span>Next Composition Mode</span></li>
                                 </ul>
                             </li>
 
@@ -1685,6 +1690,20 @@
                                 </ul>
                             </li>
                         </ul>
+                        <hr>
+                        <div>
+                            <div class="heading">Key:</div>
+                            <ul class="legend">
+                                <li>
+                                    <span class="claimed"></span>
+                                    <label>Claimed only</label>
+                                </li>
+                                <li>
+                                    <span class="claimed-and-not-claimed"></span>
+                                    <label>Claimed and not-Claimed</label>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                     <div data-target="midi-assignments" class="hide">
                         <div class="knob-explanations">

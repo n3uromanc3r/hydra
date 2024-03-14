@@ -1120,6 +1120,11 @@ fieldset .heading,
     border: solid 1px #212121;
 }
 
+#modal hr {
+    margin: 20px 0;
+    border: solid 1px #212121;
+}
+
 #modal .kbd-section-heading {
     color: white;
     font-weight: 600;
@@ -1131,6 +1136,44 @@ fieldset .heading,
 #modal .kbd-group {
     display: flex;
     gap: 100px;
+}
+
+#modal [data-target="keyboard-shortcuts"] .claimed {
+    background: #e67423;
+    color: black;
+    padding: 10px 10px 0;
+    border-radius: 3px;
+}
+
+#modal [data-target="keyboard-shortcuts"] .claimed-and-not-claimed {
+    background: #e4e623;
+    color: black;
+    padding: 10px 10px 0;
+    border-radius: 3px;
+}
+
+#modal [data-target="keyboard-shortcuts"] .padded {
+    padding: 10px 10px 0;
+}
+
+#modal [data-target="keyboard-shortcuts"] .heading {
+    text-transform: uppercase;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 10px;
+}
+
+#modal [data-target="keyboard-shortcuts"] .legend li {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+#modal [data-target="keyboard-shortcuts"] .legend .claimed,
+#modal [data-target="keyboard-shortcuts"] .legend .claimed-and-not-claimed {
+    display: inline-block;
+    padding: 10px;
+    vertical-align: middle;
+    margin-right: 10px;
 }
 
 #modal kbd {
@@ -1145,6 +1188,7 @@ fieldset .heading,
     box-sizing: border-box;
     text-align: center;
     line-height: 16px;
+    text-transform: uppercase;
 }
 
 #modal .ellipsis {
