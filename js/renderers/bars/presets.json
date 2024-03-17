@@ -1,0 +1,8 @@
+{
+    "renderer": "bars",
+    "presets": [
+        {"barColor":"#33ee55","backgroundColor":"#181818","barMode":"selected","bgColorMode":"selected","cycleSpeedR":"500","cycleSpeedG":"850","cycleSpeedB":"1000","barWidth":"2.5","barHeight":"1","direction":"up","waveSpeed":"10"},
+        {"barColor":"#33ee55","backgroundColor":"#181818","barMode":"selected","bgColorMode":"opposite","cycleSpeedR":"500","cycleSpeedG":"850","cycleSpeedB":"1000","barWidth":"1.9","barHeight":"1","direction":"down","waveSpeed":"10"},
+        {"barColor":"#33ee55","backgroundColor":"#181818","barMode":"cycle","bgColorMode":"selected","cycleSpeedR":"500","cycleSpeedG":"850","cycleSpeedB":"1000","barWidth":"5.1","barHeight":"0.6","direction":"up","waveSpeed":"10"}
+    ]
+}

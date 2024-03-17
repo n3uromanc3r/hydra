@@ -17,23 +17,57 @@ window.hydra.renderers['lockdown'] = {
                 {
                     heading: 'Translate Mode',
                     class: 'flex-grid',
-                    attributes: 'data-columns="3"',
+                    attributes: 'data-columns="1"',
                     items: [
                         {
-                            type: 'button',
+                            type: 'buttonRadioSwitchGroup',
                             label: 'X Axis',
                             variable: 'translateModeX',
-                            text: 'center',
-                            options: 'center,wave,mouse',
-                            randomiseable: true
-                        },
+                            active: 'center',
+                            buttons: [
+                                {
+                                    text: 'center',
+                                    options: 'center',
+                                    randomiseable: true
+                                },
+                                {
+                                    text: 'wave',
+                                    options: 'wave',
+                                    randomiseable: true
+                                },
+                                {
+                                    text: 'mouse',
+                                    options: 'mouse',
+                                }
+                            ],
+                        }
+                    ]
+                },
+                {
+                    class: 'flex-grid',
+                    attributes: 'data-columns="1"',
+                    items: [
                         {
-                            type: 'button',
+                            type: 'buttonRadioSwitchGroup',
                             label: 'Y Axis',
                             variable: 'translateModeY',
-                            text: 'center',
-                            options: 'center,wave,mouse',
-                            randomiseable: true
+                            active: 'center',
+                            buttons: [
+                                {
+                                    text: 'center',
+                                    options: 'center',
+                                    randomiseable: true
+                                },
+                                {
+                                    text: 'wave',
+                                    options: 'wave',
+                                    randomiseable: true
+                                },
+                                {
+                                    text: 'mouse',
+                                    options: 'mouse',
+                                }
+                            ],
                         }
                     ]
                 },

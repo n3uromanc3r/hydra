@@ -108,7 +108,7 @@ window.hydra.renderers['text'] = {
         })
 
         deck.text.render = () => {
-            if (deck.text.textInput.value)  {
+            if (deck.text.text)  {
 
                 deck.ctx.font = `${deck.text.size}px ${deck.text.font}`;
 
@@ -116,7 +116,7 @@ window.hydra.renderers['text'] = {
                 let y = ((deck.canvas.height / 100) * deck.text.offsetY) + deck.text.size;
 
                 const lineHeight = deck.ctx.measureText('M').width * 1.2;
-                const lines = deck.text.textInput.value.split("\n");
+                const lines = deck.text.text.split("\n");
 
                 if (deck.text.stroke) {
                     deck.ctx.strokeStyle = `rgb(${deck.text.color.r}, ${deck.text.color.g}, ${deck.text.color.b})`;

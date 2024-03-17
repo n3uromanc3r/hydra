@@ -30,7 +30,7 @@ window.hydra.renderers['bars'] = {
                         {
                             type: 'button',
                             label: 'Bar Mode',
-                            variable: 'barMode',
+                            variable: 'barColorMode',
                             text: 'selected',
                             options: 'selected,cycle',
                             randomiseable: true
@@ -143,13 +143,13 @@ window.hydra.renderers['bars'] = {
                 },
             ]
         };
-        deck.bars = window.hydra.renderer.init(deck, 'bars', {defaults, ui});
+        deck.bars = window.hydra.renderer.init(deck, 'bars', {defaults, ui, presets: './js/renderers/bars/presets.json'});
 
         deck.bars.render = () => {
 
-            let barR = deck.bars.barMode == 'cycle' ? ((Math.sin(Date.now() / deck.bars.cycleSpeedR) + 1) / 2) * 255 : deck.bars.barColor.r;
-            let barG = deck.bars.barMode == 'cycle' ? ((Math.sin(Date.now() / deck.bars.cycleSpeedG) + 1) / 2) * 255 : deck.bars.barColor.g;
-            let barB = deck.bars.barMode == 'cycle' ? ((Math.sin(Date.now() / deck.bars.cycleSpeedB) + 1) / 2) * 255 : deck.bars.barColor.b;
+            let barR = deck.bars.barColorMode == 'cycle' ? ((Math.sin(Date.now() / deck.bars.cycleSpeedR) + 1) / 2) * 255 : deck.bars.barColor.r;
+            let barG = deck.bars.barColorMode == 'cycle' ? ((Math.sin(Date.now() / deck.bars.cycleSpeedG) + 1) / 2) * 255 : deck.bars.barColor.g;
+            let barB = deck.bars.barColorMode == 'cycle' ? ((Math.sin(Date.now() / deck.bars.cycleSpeedB) + 1) / 2) * 255 : deck.bars.barColor.b;
 
             if (deck.bars.bgColorMode == 'selected') {
                 deck.ctx.fillStyle = `rgb(${deck.bars.backgroundColor.r}, ${deck.bars.backgroundColor.g}, ${deck.bars.backgroundColor.b})`;

@@ -2068,6 +2068,25 @@
 
                         return markup;
                     },
+                    generateButtonRadioSwitchGroup: function(deckId, name, item) {
+                        let markup = `<div class="inline-input ${item.containerClass || ''}" data-deck="${deckId}" data-visual="${name}" data-variable="${item.variable}" data-assignable>`;
+
+                        if (item.label) {
+                            markup += `<span class="input-label">${item.label}</span>`
+                        }
+
+                        markup += `<div class="button-group button-radio-switch-group">`;
+
+                        item.buttons.forEach(btn => {
+                            markup += `<div><button class="${btn.class || ''}${item.active == btn.text ? 'on' : ''}"
+                                data-options="${btn.options}" ${btn.randomiseable ? 'data-randomiseable' : ''}
+                                ${btn.disabled ? 'disabled' : ''}>${btn.text}</button></div>`;
+                        });
+
+                        markup += `</div></div>`;
+
+                        return markup;
+                    },
                     generateSelectInput: function(deckId, name, item) {
                         let markup = `<div class="inline-input ${item.containerClass || ''}">`;
 
@@ -2140,6 +2159,10 @@
 
                         if (item.type == 'button') {
                             return this.generateButton(deckId, name, item);
+                        }
+
+                        if (item.type == 'buttonRadioSwitchGroup') {
+                            return this.generateButtonRadioSwitchGroup(deckId, name, item);
                         }
 
                         if (item.type == 'select') {
@@ -3196,63 +3219,108 @@
                             }
                         }
 
+                        // prepare for rejig
+                        const fakeInputs = [];
+
                         // apply event listeners
-                        const inputs = document.querySelectorAll(`[data-deck="${deck.id}"][data-visual="${name}"][data-variable]`);
-                        inputs.forEach(input => {
+                        const inputs = [...document.querySelectorAll(`[data-deck="${deck.id}"][data-visual="${name}"][data-variable]`)];
+                        inputs.forEach((input, index) => {
 
-                            deck[name][`${input.dataset.variable}Input`] = input;
+                            // button group, so let's get hacky...
+                            if (input.tagName == 'DIV') {
 
-                            if (input.type == 'checkbox') {
-                                deck[name][input.dataset.variable] = input.checked;
+                                const btnRadioSwitchGroupItems = input.querySelectorAll('button');
 
-                                input.addEventListener('input', function(e) {
-                                    deck[name][input.dataset.variable] = e.target.checked;
-                                });
-                            } else if (input.type == 'number' || input.type == 'range') {
-                                const isInt = (Number.isInteger(input.step) || input.step === undefined);
+                                deck[name][`${input.dataset.variable}Inputs`] = btnRadioSwitchGroupItems;
 
-                                deck[name][input.dataset.variable] = isInt
-                                    ? parseInt(input.value)
-                                    : parseFloat(input.value);
+                                btnRadioSwitchGroupItems.forEach(btnRadioSwitchGroupItem => {
 
-                                input.addEventListener('input', function(e) {
-                                    deck[name][input.dataset.variable] = isInt
-                                        ? parseInt(e.target.value)
-                                        : parseFloat(e.target.value);
-                                    e.target.parentElement.querySelector('.value').textContent = e.target.value;
+                                    btnRadioSwitchGroupItem.addEventListener('click', function(e) {
+                                        btnRadioSwitchGroupItems.forEach(item => {
+                                            item.classList.remove('on');
+                                        });
+                                        e.target.classList.add('on');
+                                        deck[name][input.dataset.variable] = btnRadioSwitchGroupItem.textContent;
+                                    });
 
-                                    hydra.helpers.dispatchEvent(deck, name, e.target.dataset.dispatchEvent, 'input')
-                                    hydra.helpers.triggerFunction(deck, name, e.target.dataset.trigger);
-                                });
-                            } else if (input.type == 'color') {
-                                deck[name][input.dataset.variable] = hydra.helpers.hexToRgb(input.value);
-
-                                input.addEventListener('input', function(e) {
-                                    deck[name][input.dataset.variable] = hydra.helpers.hexToRgb(e.target.value);
-                                });
-                            } else if (input.type =='submit') {
-                                deck[name][input.dataset.variable] = input.textContent;
-                                input.options = input.dataset.options?.split(',') || [];
-
-                                input.addEventListener('click', function(e) {
-                                    if (input.options.length) {
-                                        const index = input.options.indexOf(e.target.textContent);
-                                        const option = input.options[index+1] !== undefined ? input.options[index+1] : input.options[0];
-
-                                        deck[name][input.dataset.variable] = option;
-                                        input.textContent = option;
+                                    if (btnRadioSwitchGroupItem.classList.contains('on')) {
+                                        deck[name][input.dataset.variable] = btnRadioSwitchGroupItem.textContent;
                                     }
 
-                                    hydra.helpers.dispatchEvent(deck, name, e.target.dataset.dispatchEvent, 'input')
-                                    hydra.helpers.triggerFunction(deck, name, e.target.dataset.trigger);
+                                    inputs.push(btnRadioSwitchGroupItem);
                                 });
-                            } else if (input.tagName == 'SELECT') {
-                                deck[name][input.dataset.variable] = input.value;
 
-                                input.addEventListener('change', function(e) {
+                                fakeInputs.push(index);
+
+                            // standard input
+                            } else {
+
+                                deck[name][`${input.dataset.variable}Input`] = input;
+
+                                if (input.type == 'checkbox') {
+                                    deck[name][input.dataset.variable] = input.checked;
+
+                                    input.addEventListener('input', function(e) {
+                                        deck[name][input.dataset.variable] = e.target.checked;
+                                    });
+                                } else if (input.type == 'number' || input.type == 'range') {
+                                    const isInt = (Number.isInteger(input.step) || input.step === undefined);
+
+                                    deck[name][input.dataset.variable] = isInt
+                                        ? parseInt(input.value)
+                                        : parseFloat(input.value);
+
+                                    input.addEventListener('input', function(e) {
+                                        deck[name][input.dataset.variable] = isInt
+                                            ? parseInt(e.target.value)
+                                            : parseFloat(e.target.value);
+                                        e.target.parentElement.querySelector('.value').textContent = e.target.value;
+
+                                        hydra.helpers.dispatchEvent(deck, name, e.target.dataset.dispatchEvent, 'input')
+                                        hydra.helpers.triggerFunction(deck, name, e.target.dataset.trigger);
+                                    });
+                                } else if (input.type == 'color') {
+                                    deck[name][input.dataset.variable] = hydra.helpers.hexToRgb(input.value);
+
+                                    input.addEventListener('input', function(e) {
+                                        deck[name][input.dataset.variable] = hydra.helpers.hexToRgb(e.target.value);
+                                    });
+                                } else if (input.type == 'submit') {
+                                    deck[name][input.dataset.variable] = input.textContent;
+                                    input.options = input.dataset.options?.split(',') || [];
+
+                                    input.addEventListener('click', function(e) {
+                                        if (input.options.length) {
+                                            const index = input.options.indexOf(e.target.textContent);
+                                            const option = input.options[index+1] !== undefined ? input.options[index+1] : input.options[0];
+
+                                            deck[name][input.dataset.variable] = option;
+                                            input.textContent = option;
+                                        }
+
+                                        hydra.helpers.dispatchEvent(deck, name, e.target.dataset.dispatchEvent, 'input')
+                                        hydra.helpers.triggerFunction(deck, name, e.target.dataset.trigger);
+                                    });
+                                } else if (input.tagName == 'SELECT') {
                                     deck[name][input.dataset.variable] = input.value;
-                                });
+
+                                    input.addEventListener('change', function(e) {
+                                        deck[name][input.dataset.variable] = input.value;
+                                    });
+                                } else if (input.type == 'textarea') {
+                                    deck[name][input.dataset.variable] = input.value;
+
+                                    input.addEventListener('input', function(e) {
+                                        deck[name][input.dataset.variable] = e.target.value;
+                                    });
+                                }
+
                             }
+                        });
+
+                        // apply rejig
+                        fakeInputs.forEach(fakeInput => {
+                            inputs.splice(fakeInput, 1);
                         });
 
                         // insert renderer randomisation markup here
@@ -4205,7 +4273,7 @@
                         'm',
                         ',',
                         '.',
-                        '/', 
+                        '/',
                         'Shift',
                         'Alt',
                         ' ',
