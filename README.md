@@ -459,6 +459,18 @@ Properties:
 - `disabled` - optional - sets whether the input should be initially disabled
 - `trigger` - optional - defines a method to call `onchange`
 
+Type: `buttonRadioSwitchGroup`
+Properties:
+- `containerClass` - optional - sets the css class for the container
+- `label` - optional - sets the label
+- `class` - optional - sets the css class
+- `variable` - required - sets the variable name
+- `buttons` - option - defines the buttons for the radio switch group
+  - `button.text` - required - sets the initial text 
+  - `button.class` - optional - sets the css class
+  - `button.randomiseable` - optional - sets whether the input should default to randomiseable
+  - `button.disabled` - optional - sets whether the input should be initially disabled
+
 Type: `select`
 Properties:
 - `containerClass` - optional - sets the css class for the container
