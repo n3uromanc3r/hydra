@@ -1,0 +1,13 @@
+{
+    "renderer": "wave",
+    "presets": [
+        {"color":"#ff0000","waveColorMode":"selected","radius":"15","speed":"50","cols":"20","rows":"15","offsetX":"0","offsetY":"0","clampDistributionToWidth":true,"gap":"0"},
+        {"color":"#ff0000","waveColorMode":"cycle","radius":"21","speed":"384","cols":"30","rows":"15","offsetX":"-8","offsetY":"-11","clampDistributionToWidth":true,"gap":"0"},
+        {"color":"#ff0000","waveColorMode":"cycle","radius":"63","speed":"205","cols":"40","rows":"2","offsetX":"0","offsetY":"0","clampDistributionToWidth":true,"gap":"0"},
+        {"color":"#ff0000","waveColorMode":"cycle","radius":"7","speed":"500","cols":"35","rows":"17","offsetX":"0","offsetY":"0","clampDistributionToWidth":true,"gap":"0"},
+        {"color":"#ff0000","waveColorMode":"selected","radius":"15","speed":"361","cols":"16","rows":"15","offsetX":"0","offsetY":"0","clampDistributionToWidth":true,"gap":"0"},
+        {"color":"#00b3ff","waveColorMode":"selected","radius":"24","speed":"239","cols":"24","rows":"21","offsetX":"0","offsetY":"0","clampDistributionToWidth":true,"gap":"0"},
+        {"color":"#ffffff","waveColorMode":"selected","radius":"88","speed":"500","cols":"4","rows":"19","offsetX":"0","offsetY":"0","clampDistributionToWidth":true,"gap":"0"},
+        {"color":"#ff0000","waveColorMode":"selected","radius":"28","speed":"50","cols":"29","rows":"30","offsetX":"-11","offsetY":"-17","clampDistributionToWidth":false,"gap":"33"}
+    ]
+}

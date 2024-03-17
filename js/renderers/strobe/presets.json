@@ -1,0 +1,8 @@
+{
+    "renderer": "strobe",
+    "presets": [
+        {"beatSync":true,"color":"#ffffff","direction":"forwards","frequency":"0","interval":"20","acceleration":"0.1"},
+        {"beatSync":false,"color":"#ffffff","direction":"forwards","frequency":"100","interval":"100","acceleration":"0.6"},
+        {"beatSync":false,"color":"#ff0088","direction":"backwards","frequency":"1","interval":"2.9","acceleration":"0.006"}
+    ]
+}

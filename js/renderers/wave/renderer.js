@@ -14,7 +14,7 @@ window.hydra.renderers['wave'] = {
         const ui = {
             fieldsets: [
                 {
-                    heading: 'Shape Properties',
+                    heading: 'Color',
                     class: 'flex-grid',
                     attributes: 'data-columns="3"',
                     items: [
@@ -25,6 +25,21 @@ window.hydra.renderers['wave'] = {
                             value: '#ff0000',
                             randomiseable: true
                         },
+                        {
+                            type: 'button',
+                            label: 'Wave Mode',
+                            variable: 'waveColorMode',
+                            text: 'selected',
+                            options: 'selected,cycle',
+                            randomiseable: true
+                        }
+                    ]
+                },
+                {
+                    heading: 'Shape Properties',
+                    class: 'flex-grid',
+                    attributes: 'data-columns="2"',
+                    items: [
                         {
                             type: 'range',
                             label: 'Radius',
@@ -127,7 +142,7 @@ window.hydra.renderers['wave'] = {
                 }
             ]
         };
-        deck.wave = window.hydra.renderer.init(deck, 'wave', {defaults, ui});
+        deck.wave = window.hydra.renderer.init(deck, 'wave', {defaults, ui, presets: './js/renderers/wave/presets.json'});
 
         deck.wave.render = () => {
             let row = 0;
@@ -152,10 +167,14 @@ window.hydra.renderers['wave'] = {
                     y = ((deck.wave.radius + deck.wave.gap) * row);
                 }
 
+                const r = deck.wave.waveColorMode == 'cycle' ? ((Math.sin(Date.now() / 5000) + 1) / 2) * 255 : deck.wave.color.r;
+                const b = deck.wave.waveColorMode == 'cycle' ? ((Math.sin(Date.now() / 6000) + 1) / 2) * 255 : deck.wave.color.g;
+                const g = deck.wave.waveColorMode == 'cycle' ? ((Math.sin(Date.now() / 7000) + 1) / 2) * 255 : deck.wave.color.b;
+
                 deck.ctx.save();
                 deck.ctx.beginPath();
                 deck.ctx.arc(x + deck.wave.offsetX, y + deck.wave.offsetY, (radius > 0 ? radius : 0), 0, 2 * Math.PI, false);
-                deck.ctx.fillStyle = `rgb(${deck.wave.color.r}, ${deck.wave.color.g}, ${deck.wave.color.b})`;
+                deck.ctx.fillStyle = `rgb(${r}, ${g}, ${b})`;
                 deck.ctx.fill();
                 deck.ctx.restore();
 
