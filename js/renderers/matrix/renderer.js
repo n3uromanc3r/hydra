@@ -152,7 +152,7 @@ window.hydra.renderers['matrix'] = {
                 },
             ]
         };
-        deck.matrix = window.hydra.renderer.init(deck, 'matrix', {defaults, ui});
+        deck.matrix = window.hydra.renderer.init(deck, 'matrix', {defaults, ui, presets: './js/renderers/matrix/presets.json'});
         deck.matrix.shouldRender = true;
 
         deck.matrix.customCharactersInput.oninput = () => {

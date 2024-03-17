@@ -2069,7 +2069,7 @@
                         return markup;
                     },
                     generateButtonRadioSwitchGroup: function(deckId, name, item) {
-                        let markup = `<div class="inline-input ${item.containerClass || ''}" data-deck="${deckId}" data-visual="${name}" data-variable="${item.variable}" data-assignable>`;
+                        let markup = `<div class="inline-input ${item.containerClass || ''}" data-assignable>`;
 
                         if (item.label) {
                             markup += `<span class="input-label">${item.label}</span>`
@@ -2078,7 +2078,7 @@
                         markup += `<div class="button-group button-radio-switch-group">`;
 
                         item.buttons.forEach(btn => {
-                            markup += `<div><button class="${btn.class || ''}${item.active == btn.text ? 'on' : ''}"
+                            markup += `<div><button class="${btn.class || ''}${item.active == btn.text ? 'on' : ''}" data-deck="${deckId}" data-visual="${name}" data-variable="${item.variable}"
                                 data-options="${btn.options}" ${btn.randomiseable ? 'data-randomiseable' : ''}
                                 ${btn.disabled ? 'disabled' : ''}>${btn.text}</button></div>`;
                         });
@@ -2727,22 +2727,36 @@
                             load: function(preset) {
                                 for (const option in preset) {
                                     // TODO get non-renderer variables here too and set them (effects, reactivity, randomisation)
-                                    const input = document.querySelector(`[data-visual="${deck.visual.current}"][data-deck="${deck.id}"][data-variable="${option}"]`);
+                                    let input = document.querySelectorAll(`[data-visual="${deck.visual.current}"][data-deck="${deck.id}"][data-variable="${option}"]`);
 
                                     if (!input) {
                                         console.debug(`No input found for: [data-visual="${deck.visual.current}"][data-deck="${deck.id}"][data-variable="${option}"]`)
                                         continue;
                                     }
 
-                                    if (input.type == 'number' || input.type == 'range' || input.type == 'color') {
-                                        input.value = preset[option];
-                                        input.dispatchEvent(new Event('input', { bubbles: true }));
-                                    } else if (input.type == 'checkbox') {
-                                        input.checked = preset[option];
-                                        input.dispatchEvent(new Event('input', { bubbles: true }));
-                                    } else if (input.type == 'submit') {
+                                    // standard input
+                                    if (input.length == 1) {
+                                        input = input[0];
+
+                                        if (input.type == 'number' || input.type == 'range' || input.type == 'color' || input.type == 'textarea') {
+                                            input.value = preset[option];
+                                            input.dispatchEvent(new Event('input', { bubbles: true }));
+                                        } else if (input.type == 'checkbox') {
+                                            input.checked = preset[option];
+                                            input.dispatchEvent(new Event('input', { bubbles: true }));
+                                        } else if (input.type == 'submit') {
+                                            deck.current[option] = preset[option];
+                                            input.textContent = preset[option];
+                                        }
+                                    
+                                    // grouped input (button radio switch group)
+                                    } else {
                                         deck.current[option] = preset[option];
-                                        input.textContent = preset[option];
+                                        input.forEach(groupedInput => {
+                                            if (groupedInput.textContent == preset[option]) {
+                                                groupedInput.click();
+                                            }
+                                        });
                                     }
 
                                     if (typeof deck.current.updateDisabledUIComponents == 'function') {
@@ -2869,12 +2883,14 @@
                                     settings: {}
                                 };
                                 deck.current.inputs.forEach(input => {
-                                    if (input.type == 'number' || input.type == 'range' || input.type == 'color') {
-                                        currentPresetConfiguration.settings[input.dataset.variable] = input.value;
-                                    } else if (input.type == 'checkbox') {
-                                        currentPresetConfiguration.settings[input.dataset.variable] = input.checked;
-                                    } else if (input.type == 'submit') {
-                                        currentPresetConfiguration.settings[input.dataset.variable] = input.textContent;
+                                    if (input.dataset.variable) {
+                                        if (input.type == 'number' || input.type == 'range' || input.type == 'color' || input.type == 'textarea') {
+                                            currentPresetConfiguration.settings[input.dataset.variable] = input.value;
+                                        } else if (input.type == 'checkbox') {
+                                            currentPresetConfiguration.settings[input.dataset.variable] = input.checked;
+                                        } else if (input.type == 'submit') {
+                                            currentPresetConfiguration.settings[input.dataset.variable] = input.textContent;
+                                        }
                                     }
                                 });
                                 return currentPresetConfiguration;
@@ -3219,73 +3235,67 @@
                             }
                         }
 
-                        // prepare for rejig
-                        const fakeInputs = [];
-
                         // apply event listeners
-                        const inputs = [...document.querySelectorAll(`[data-deck="${deck.id}"][data-visual="${name}"][data-variable]`)];
+                        const inputs = document.querySelectorAll(`[data-deck="${deck.id}"][data-visual="${name}"][data-variable]`);
                         inputs.forEach((input, index) => {
 
-                            // button group, so let's get hacky...
-                            if (input.tagName == 'DIV') {
+                            deck[name][`${input.dataset.variable}Input`] = input;
 
-                                const btnRadioSwitchGroupItems = input.querySelectorAll('button');
+                            if (input.type == 'checkbox') {
+                                deck[name][input.dataset.variable] = input.checked;
 
-                                deck[name][`${input.dataset.variable}Inputs`] = btnRadioSwitchGroupItems;
-
-                                btnRadioSwitchGroupItems.forEach(btnRadioSwitchGroupItem => {
-
-                                    btnRadioSwitchGroupItem.addEventListener('click', function(e) {
-                                        btnRadioSwitchGroupItems.forEach(item => {
-                                            item.classList.remove('on');
-                                        });
-                                        e.target.classList.add('on');
-                                        deck[name][input.dataset.variable] = btnRadioSwitchGroupItem.textContent;
-                                    });
-
-                                    if (btnRadioSwitchGroupItem.classList.contains('on')) {
-                                        deck[name][input.dataset.variable] = btnRadioSwitchGroupItem.textContent;
-                                    }
-
-                                    inputs.push(btnRadioSwitchGroupItem);
+                                input.addEventListener('input', function(e) {
+                                    deck[name][input.dataset.variable] = e.target.checked;
                                 });
+                            } else if (input.type == 'number' || input.type == 'range') {
+                                const isInt = (Number.isInteger(input.step) || input.step === undefined);
 
-                                fakeInputs.push(index);
+                                deck[name][input.dataset.variable] = isInt
+                                    ? parseInt(input.value)
+                                    : parseFloat(input.value);
 
-                            // standard input
-                            } else {
-
-                                deck[name][`${input.dataset.variable}Input`] = input;
-
-                                if (input.type == 'checkbox') {
-                                    deck[name][input.dataset.variable] = input.checked;
-
-                                    input.addEventListener('input', function(e) {
-                                        deck[name][input.dataset.variable] = e.target.checked;
-                                    });
-                                } else if (input.type == 'number' || input.type == 'range') {
-                                    const isInt = (Number.isInteger(input.step) || input.step === undefined);
-
+                                input.addEventListener('input', function(e) {
                                     deck[name][input.dataset.variable] = isInt
-                                        ? parseInt(input.value)
-                                        : parseFloat(input.value);
+                                        ? parseInt(e.target.value)
+                                        : parseFloat(e.target.value);
+                                    e.target.parentElement.querySelector('.value').textContent = e.target.value;
 
-                                    input.addEventListener('input', function(e) {
-                                        deck[name][input.dataset.variable] = isInt
-                                            ? parseInt(e.target.value)
-                                            : parseFloat(e.target.value);
-                                        e.target.parentElement.querySelector('.value').textContent = e.target.value;
+                                    hydra.helpers.dispatchEvent(deck, name, e.target.dataset.dispatchEvent, 'input')
+                                    hydra.helpers.triggerFunction(deck, name, e.target.dataset.trigger);
+                                });
+                            } else if (input.type == 'color') {
+                                deck[name][input.dataset.variable] = hydra.helpers.hexToRgb(input.value);
 
-                                        hydra.helpers.dispatchEvent(deck, name, e.target.dataset.dispatchEvent, 'input')
-                                        hydra.helpers.triggerFunction(deck, name, e.target.dataset.trigger);
+                                input.addEventListener('input', function(e) {
+                                    deck[name][input.dataset.variable] = hydra.helpers.hexToRgb(e.target.value);
+                                });
+                            } else if (input.type == 'submit') {
+
+                                const buttonsWithSameVariableAssignment = document.querySelectorAll(`[data-deck="${deck.id}"][data-visual="${name}"][data-variable="${input.dataset.variable}"]`);
+                                const belongsToButtonRadioSwitchGroup = buttonsWithSameVariableAssignment.length > 1;
+
+                                if (belongsToButtonRadioSwitchGroup) {
+
+                                    const btnRadioSwitchGroupItems = buttonsWithSameVariableAssignment;
+
+                                    deck[name][`${input.dataset.variable}Inputs`] = btnRadioSwitchGroupItems;
+
+                                    btnRadioSwitchGroupItems.forEach(btnRadioSwitchGroupItem => {
+
+                                        btnRadioSwitchGroupItem.addEventListener('click', function(e) {
+                                            btnRadioSwitchGroupItems.forEach(item => {
+                                                item.classList.remove('on');
+                                            });
+                                            e.target.classList.add('on');
+                                            deck[name][input.dataset.variable] = btnRadioSwitchGroupItem.textContent;
+                                        });
+
+                                        if (btnRadioSwitchGroupItem.classList.contains('on')) {
+                                            deck[name][input.dataset.variable] = btnRadioSwitchGroupItem.textContent;
+                                        }
                                     });
-                                } else if (input.type == 'color') {
-                                    deck[name][input.dataset.variable] = hydra.helpers.hexToRgb(input.value);
-
-                                    input.addEventListener('input', function(e) {
-                                        deck[name][input.dataset.variable] = hydra.helpers.hexToRgb(e.target.value);
-                                    });
-                                } else if (input.type == 'submit') {
+                                    
+                                } else {
                                     deck[name][input.dataset.variable] = input.textContent;
                                     input.options = input.dataset.options?.split(',') || [];
 
@@ -3301,26 +3311,22 @@
                                         hydra.helpers.dispatchEvent(deck, name, e.target.dataset.dispatchEvent, 'input')
                                         hydra.helpers.triggerFunction(deck, name, e.target.dataset.trigger);
                                     });
-                                } else if (input.tagName == 'SELECT') {
-                                    deck[name][input.dataset.variable] = input.value;
-
-                                    input.addEventListener('change', function(e) {
-                                        deck[name][input.dataset.variable] = input.value;
-                                    });
-                                } else if (input.type == 'textarea') {
-                                    deck[name][input.dataset.variable] = input.value;
-
-                                    input.addEventListener('input', function(e) {
-                                        deck[name][input.dataset.variable] = e.target.value;
-                                    });
                                 }
+                                
+                            } else if (input.tagName == 'SELECT') {
+                                deck[name][input.dataset.variable] = input.value;
 
+                                input.addEventListener('change', function(e) {
+                                    deck[name][input.dataset.variable] = input.value;
+                                });
+                            } else if (input.type == 'textarea') {
+                                deck[name][input.dataset.variable] = input.value;
+
+                                input.addEventListener('input', function(e) {
+                                    deck[name][input.dataset.variable] = e.target.value;
+                                });
                             }
-                        });
 
-                        // apply rejig
-                        fakeInputs.forEach(fakeInput => {
-                            inputs.splice(fakeInput, 1);
                         });
 
                         // insert renderer randomisation markup here
