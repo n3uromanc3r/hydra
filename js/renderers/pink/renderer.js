@@ -25,7 +25,7 @@ window.hydra.renderers['pink'] = {
                 }
             ]
         };
-        deck.pink = window.hydra.renderer.init(deck, 'pink', defaults, ui);
+        deck.pink = window.hydra.renderer.init(deck, 'pink', {defaults, ui});
 
         deck.pink.render = () => {
             deck.ctx.clearRect(0, 0, deck.canvas.width, deck.canvas.height);

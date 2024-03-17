@@ -101,7 +101,7 @@ window.hydra.renderers['oscilloscope'] = {
                 }
             ]
         };
-        deck.oscilloscope = window.hydra.renderer.init(deck, 'oscilloscope', defaults, ui);
+        deck.oscilloscope = window.hydra.renderer.init(deck, 'oscilloscope', {defaults, ui});
 
         deck.oscilloscope.render = () => {
 

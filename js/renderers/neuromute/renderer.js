@@ -351,7 +351,7 @@ window.hydra.renderers['neuromute'] = {
                 }
             ]
         };
-        deck.neuromute = window.hydra.renderer.init(deck, 'neuromute', defaults, ui, './js/renderers/neuromute/presets.json');
+        deck.neuromute = window.hydra.renderer.init(deck, 'neuromute', {defaults, ui, presets: './js/renderers/neuromute/presets.json'});
 
         deck.neuromute.redMeter = document.querySelector(`[data-deck="${deck.id}"][data-visual="neuromute"] .color-meter.red > div`);
         deck.neuromute.greenMeter = document.querySelector(`[data-deck="${deck.id}"][data-visual="neuromute"] .color-meter.green > div`);

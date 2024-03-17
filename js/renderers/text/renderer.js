@@ -92,7 +92,7 @@ window.hydra.renderers['text'] = {
                 }
             ]
         };
-        deck.text = window.hydra.renderer.init(deck, 'text', defaults, ui);
+        deck.text = window.hydra.renderer.init(deck, 'text', {defaults, ui});
 
         deck.text.font = 'Arial';
 

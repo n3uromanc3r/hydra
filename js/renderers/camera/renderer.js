@@ -4,7 +4,7 @@ window.hydra.renderers['camera'] = {
             connected: false
         };
         const ui = {};
-        deck.camera = window.hydra.renderer.init(deck, 'camera', defaults, ui);
+        deck.camera = window.hydra.renderer.init(deck, 'camera', {defaults, ui});
 
         const constraints = {
             'video': true,

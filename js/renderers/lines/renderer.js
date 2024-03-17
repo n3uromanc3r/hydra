@@ -280,7 +280,7 @@ window.hydra.renderers['lines'] = {
                 }
             ]
         };
-        deck.lines = window.hydra.renderer.init(deck, 'lines', defaults, ui, './js/renderers/lines/presets.json');
+        deck.lines = window.hydra.renderer.init(deck, 'lines', {defaults, ui, presets: './js/renderers/lines/presets.json'});
 
         deck.lines.render = () => {
 

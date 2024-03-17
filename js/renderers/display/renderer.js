@@ -5,7 +5,7 @@ window.hydra.renderers['display'] = {
             connected: false
         };
         const ui = {};
-        deck.display = window.hydra.renderer.init(deck, 'display', defaults, ui);
+        deck.display = window.hydra.renderer.init(deck, 'display', {defaults, ui});
 
         const constraints = {
             'video': true,

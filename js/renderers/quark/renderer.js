@@ -517,7 +517,13 @@ window.hydra.renderers['quark'] = {
                 }
             ]
         };
-        deck.quark = window.hydra.renderer.init(deck, 'quark', defaults, ui, './js/renderers/quark/presets.json');
+        const keyboardShortcuts = {
+
+        }
+        const guide = {
+
+        }
+        deck.quark = window.hydra.renderer.init(deck, 'quark', {defaults, ui, presets: './js/renderers/quark/presets.json', keyboardShortcuts, guide});
 
         deck.quark.radius = parseInt(deck.quark.radiusInput.value);
 

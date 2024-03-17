@@ -88,7 +88,7 @@ window.hydra.renderers['strobe'] = {
                 },
             ]
         };
-        deck.strobe = window.hydra.renderer.init(deck, 'strobe', defaults, ui);
+        deck.strobe = window.hydra.renderer.init(deck, 'strobe', {defaults, ui});
 
         deck.strobe.render = () => {
             deck.ctx.clearRect(0, 0, deck.canvas.width, deck.canvas.height);

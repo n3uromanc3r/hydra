@@ -135,7 +135,9 @@ Coming soon.  There's still some work to do to add a built-in help system, and t
 ## Extending
 
 #### Create a new renderer
-To create a new renderer, you'll need to define a new renderer object and add it to the `hydra.renderers` properties.  This should be done _after_ the `hydra` script has been loaded, and _before_ the `hydra.boot` process has been called.
+To create a new renderer, you'll need to define a new renderer object and add it to the `hydra.renderers` properties.
+
+>Note: In your pages markup this should be done _after_ the `hydra` script has been loaded, and _before_ the `hydra.boot` process has been called.
 
 We'll start by adding a very basic example of a new renderer called `foomanchu`:
 ```
@@ -143,7 +145,7 @@ window.hydra.renderers['foomanchu'] = {
     init: function(deck) {
         const defaults = {};
         const ui = {};
-        deck.foomanchu = window.hydra.renderer.init(deck, 'foomanchu', defaults, ui);
+        deck.foomanchu = window.hydra.renderer.init(deck, 'foomanchu', {defaults, ui});
 
         deck.foomanchu.render = () => {
 
@@ -161,21 +163,30 @@ window.hydra.renderers['foomanchu'] = {
     }
 };
 ```
-In this basic example, we have defined our renderer object.  This has a single `init` method that has a `deck` object available to it.  
+In this basic example, we have defined the `foomanchu` renderer object.  This contains an `init` method and a `render` method.
 
-The `deck` has various properties available to it that can help us make more advanced renderers that react to playing audio and mouse movement (more on that later!).  
+When calling the `init` method, we pass the `deck` as the first parameter.
+
+The `deck` has various properties available to it that can help us make more advanced renderers that react to playing audio and mouse movement, which we'll introduce later in this guide.
 
 The `deck` also provides the `canvas` and `ctx` objects to our renderer, which we need in order to draw to our canvas.
 
-Inside the `init` we then define the `defaults` and `ui` objects.
+The second parameter is simply the name of our renderer, passed as a _string_.
 
-The `defaults` object is a place for setting default properties we may wish to assign, and for telling the deck what our `reactivity` options are.  For now we can ignore this.
+The third parameter is an object that defines the configuration of our renderer: `{defaults, ui}`
 
-The `ui` object is where we define any inputs/controls that the renderer should present to the end user in the interface, for now we can ignore this too.
+The config object in our example contains 2 properties, each an object of their own: `defaults` and `ui`.
 
-Next, the `window.hydra.renderer.init` method is called, which is where a bunch of magic happens.  It is here that any user interface items we may have defined get `click` and `input` event handlers associated, and variable assignment to the renderer object also takes place here.
+> Note: The config object can also contain other properties, which introduce additional functionality: `presets`, `keyboardShortcuts` and `guide`.
 
-The heart of the renderer is our `render` method.  This is called every frame when the renderer is active, and draws our visual to the canvas.
+The `defaults` object is a place for setting default properties we may wish to assign to our renderer.  It also allows us to define what our `reactivity` options for our renderer are.  For now we can ignore this.
+
+The `ui` object is where we define any inputs/controls that the renderer should present to the end user in the interface, we can ignore this for now too.
+
+When calling the `window.hydra.renderer.init` method a bunch of magic happens behind the scenes.  It is here that any user interface items we may have defined get `click` and `input` event handlers associated, and variable assignment to the renderer object also takes place here.
+
+The heart of the renderer is our `render` method.  This is called every frame when the renderer is active, and draws our visuals to the canvas.
+
 In this example, we determine the canvas height and width and draw a pink rectangle that is half the size at the center of the screen.
 
 Finally, we need to add our new renderer to the list of available renderers that hydra should use.  This list is defined in the `hydra.boot` object (see our new `foomanchu` addition to the `renderers` array):
@@ -257,7 +268,7 @@ window.hydra.renderers['foomanchu'] = {
                 }
             ]
         };
-        deck.foomanchu = window.hydra.renderer.init(deck, 'foomanchu', defaults, ui);
+        deck.foomanchu = window.hydra.renderer.init(deck, 'foomanchu', {defaults, ui});
 
         deck.foomanchu.render = () => {
 
@@ -344,7 +355,7 @@ window.hydra.renderers['foomanchu'] = {
                 }
             ]
         };
-        deck.foomanchu = window.hydra.renderer.init(deck, 'foomanchu', defaults, ui);
+        deck.foomanchu = window.hydra.renderer.init(deck, 'foomanchu', {defaults, ui});
 
         deck.foomanchu.render = () => {
 
@@ -391,7 +402,7 @@ The `ui` object lets us define our renderers user interface components and layou
 
 Type: `fieldset`
 Properties:
-- `heading` - optional - sets the fieldset heading 
+- `heading` - optional - sets the fieldset heading
 - `class` - optional - sets the css class
 - `attributes` - optional - can be used to set data-attributes and such
 - `items` - optional - contains our input items
@@ -482,4 +493,4 @@ Type: `empty`
 Properties: **NA**
 
 ---
-Ⓐ 🄯 
+Ⓐ 🄯

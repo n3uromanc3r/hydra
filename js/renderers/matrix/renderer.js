@@ -23,7 +23,7 @@ window.hydra.renderers['matrix'] = {
                 deck.matrix.calculatedAt = deck.canvas.width;
             }
         };
-        deck.matrix = window.hydra.renderer.init(deck, 'matrix', defaults, {});
+        deck.matrix = window.hydra.renderer.init(deck, 'matrix', {defaults});
         deck.matrix.shouldRender = true;
 
         deck.matrix.render = () => {

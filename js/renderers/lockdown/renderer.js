@@ -228,7 +228,7 @@ window.hydra.renderers['lockdown'] = {
                 }
             ]
         };
-        deck.lockdown = window.hydra.renderer.init(deck, 'lockdown', defaults, ui, './js/renderers/lockdown/presets.json');
+        deck.lockdown = window.hydra.renderer.init(deck, 'lockdown', {defaults, ui, presets: './js/renderers/lockdown/presets.json'});
 
         deck.lockdown.updateDisabledUIComponents = () => {
             if (deck.lockdown.frequencyControl == 'split') {

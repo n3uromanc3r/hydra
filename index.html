@@ -2255,7 +2255,9 @@
                                 randomisationRendererPanels.forEach(randomisationRendererPanel => randomisationRendererPanel.classList.add('hide'));
 
                                 const currentRandomisationRendererPanel = document.querySelector(`[data-deck="${deck.id}"] [data-tab-panel="randomisation"] .renderer[data-visual="${visual}"]`);
-                                currentRandomisationRendererPanel.classList.remove('hide');
+                                if (currentRandomisationRendererPanel) {
+                                    currentRandomisationRendererPanel.classList.remove('hide');
+                                }
 
                                 deck.reactivity.update();
                                 deck.presets.updateBtns();
@@ -2669,7 +2671,9 @@
 
                                         this.disableEmpty();
 
-                                    } catch(e) {}
+                                    } catch(e) {
+                                        console.debug(e);
+                                    }
 
                                 } else {
                                     deck.controls.presetBtns.forEach(btn => {
@@ -2763,10 +2767,15 @@
                                 this.presetsContainer.classList.toggle('saving-preset');
 
                                 if (this.presetsContainer.classList.contains('saving-preset')) {
-                                    const length = (deck.current.presets.length < 30) ? deck.current.presets.length + 1 : 30;
-                                    [...deck.presets.presetBtns].slice(0, length).forEach(preset => {
-                                        preset.disabled = false;
-                                    });
+                                    if (deck.current.presets) {
+                                        const length = (deck.current.presets.length < 30) ? deck.current.presets.length + 1 : 30;
+                                        [...deck.presets.presetBtns].slice(0, length).forEach(preset => {
+                                            preset.disabled = false;
+                                        });
+                                    } else {
+                                        deck.current.presets = [];
+                                        deck.presets.presetBtns[0].disabled = false;
+                                    }
                                 } else {
                                     this.disableEmpty();
                                 }
@@ -3157,8 +3166,12 @@
                     }
                 },
                 renderers: {},
+                guides: {},
                 renderer: {
-                    init: function(deck, name, defaults, ui, presets) {
+                    init: function(deck, name, config) {
+
+                        const {defaults, ui, presets, keyboardShortcuts, guide} = config;
+
                         // merge any incoming defaults with our initial renderer object
                         deck[name] = {...{}, ...defaults};
 
@@ -3170,6 +3183,17 @@
                         // inject renderer tab markup here...
                         if (ui) {
                             hydra.markup.injectRendererTabUI(deck, name, ui);
+                        }
+
+                        if (keyboardShortcuts) {
+                            deck[name].keyboardShortcuts = keyboardShortcuts;
+                        }
+
+                        // initialise guide
+                        if (guide) {
+                            if (hydra.guides.name === undefined) {
+                                hydra.guides[name] = guide;
+                            }
                         }
 
                         // apply event listeners

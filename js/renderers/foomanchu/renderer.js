@@ -48,7 +48,7 @@ window.hydra.renderers['foomanchu'] = {
                 }
             ]
         };
-        deck.foomanchu = window.hydra.renderer.init(deck, 'foomanchu', defaults, ui);
+        deck.foomanchu = window.hydra.renderer.init(deck, 'foomanchu', {defaults, ui});
 
         deck.foomanchu.render = () => {
 

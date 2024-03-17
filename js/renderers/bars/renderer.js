@@ -143,7 +143,7 @@ window.hydra.renderers['bars'] = {
                 },
             ]
         };
-        deck.bars = window.hydra.renderer.init(deck, 'bars', defaults, ui);
+        deck.bars = window.hydra.renderer.init(deck, 'bars', {defaults, ui});
 
         deck.bars.render = () => {
 

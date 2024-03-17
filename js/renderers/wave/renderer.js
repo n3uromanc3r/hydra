@@ -127,7 +127,7 @@ window.hydra.renderers['wave'] = {
                 }
             ]
         };
-        deck.wave = window.hydra.renderer.init(deck, 'wave', defaults, ui);
+        deck.wave = window.hydra.renderer.init(deck, 'wave', {defaults, ui});
 
         deck.wave.render = () => {
             let row = 0;

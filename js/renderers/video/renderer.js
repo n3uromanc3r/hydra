@@ -169,7 +169,7 @@ window.hydra.renderers['video'] = {
                 }
             ]
         };
-        deck.video = window.hydra.renderer.init(deck, 'video', defaults, ui);
+        deck.video = window.hydra.renderer.init(deck, 'video', {defaults, ui});
 
         const fileInputs = [
             deck.video.file1Input,
