@@ -2884,12 +2884,21 @@
                                 };
                                 deck.current.inputs.forEach(input => {
                                     if (input.dataset.variable) {
-                                        if (input.type == 'number' || input.type == 'range' || input.type == 'color' || input.type == 'textarea') {
-                                            currentPresetConfiguration.settings[input.dataset.variable] = input.value;
-                                        } else if (input.type == 'checkbox') {
-                                            currentPresetConfiguration.settings[input.dataset.variable] = input.checked;
-                                        } else if (input.type == 'submit') {
-                                            currentPresetConfiguration.settings[input.dataset.variable] = input.textContent;
+                                        const inputs = document.querySelectorAll(`[data-visual="${deck.visual.current}"][data-deck="${deck.id}"][data-variable="${input.dataset.variable}"]`);
+                                        if (inputs.length > 1) {
+                                            inputs.forEach(groupedInput => {
+                                                if (groupedInput.classList.contains('on')) {
+                                                    currentPresetConfiguration.settings[input.dataset.variable] = groupedInput.textContent;
+                                                }
+                                            });
+                                        } else {
+                                            if (input.type == 'number' || input.type == 'range' || input.type == 'color' || input.type == 'textarea') {
+                                                currentPresetConfiguration.settings[input.dataset.variable] = input.value;
+                                            } else if (input.type == 'checkbox') {
+                                                currentPresetConfiguration.settings[input.dataset.variable] = input.checked;
+                                            } else if (input.type == 'submit') {
+                                                currentPresetConfiguration.settings[input.dataset.variable] = input.textContent;
+                                            }
                                         }
                                     }
                                 });
