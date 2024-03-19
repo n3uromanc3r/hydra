@@ -1947,7 +1947,7 @@
                                 markup += hydra.markup.generateFieldset(deck.id, name, fieldset);
                             });
                         }
-                        markup += hydra.markup.closeTabPanel();;
+                        markup += hydra.markup.closeTabPanel();
                         uiContainer.insertAdjacentHTML('beforeend', markup);
                     },
                     injectRandomisationTabUI: function(deck, name, ui) {
@@ -1962,6 +1962,43 @@
                         }
 
                         markup += hydra.markup.closeTabPanel();
+                        uiContainer.insertAdjacentHTML('beforeend', markup);
+                    },
+                    injectRendererKeyboardShortcutUI: function(deck, name, ui) {
+                        const uiContainer = document.querySelector(`#modal .guide [data-target="keyboard-shortcuts"]`);
+                        let markup = `<div data-visual="${name}"><ul>`;
+
+                        const groups = {};
+
+                        for (const shortcut in ui) {
+                            ui[shortcut].shortcut = shortcut.toUpperCase();
+                            if (groups[ui[shortcut].category]) {
+                                groups[ui[shortcut].category].push(ui[shortcut]);
+                            } else {
+                                groups[ui[shortcut].category] = [ui[shortcut]];
+                            }
+                        }
+
+                        for (const group in groups) {
+                            markup += `<li class="kbd-section-heading">${group}</li>`;
+
+                            markup += `<li>
+                                    <ul class="flex">`
+
+                            groups[group].forEach(item => {
+                                markup += `<li class="claimed"><kbd>${item.shortcut}</kbd> <span>${item.label}</span></li>`;
+                            });
+
+                            markup += `</ul>
+                                </li>`;
+                        }
+
+                        markup += `</ul></div>`;
+                        uiContainer.insertAdjacentHTML('beforeend', markup);
+                    },
+                    injectRendererGuideUI: function(deck, name, ui) {
+                        const uiContainer = document.querySelector(`#modal .guide [data-target="user-guide"]`);
+                        let markup = `<div data-visual="${name}"></div>`;
                         uiContainer.insertAdjacentHTML('beforeend', markup);
                     },
                     openTabPanel: function(deckId, name, className, attributes) {
@@ -2285,6 +2322,7 @@
                                 deck.reactivity.update();
                                 deck.presets.updateBtns();
                                 deck.randomisation.update();
+                                hydra.modal.update(deck);
                             },
                             reset: function() {
                                 if (deck.current.presets && deck.current.presets.length) {
@@ -2394,6 +2432,20 @@
 
                                 this.guideBtn = document.querySelector(`[data-deck="${deck.id}"][data-guide]`);
                                 this.guideBtn.addEventListener('click', function(e) {
+                                    if (deck.current.keyboardShortcuts) {
+                                        hydra.modal.showKeyboardShortcutTab();
+                                        hydra.modal.showKeyboardShortcutPanel(deck.visual.current);
+                                    } else {
+                                        hydra.modal.hideKeyboardShortcutTab();
+                                    }
+
+                                    if (deck.current.guide) {
+                                        hydra.modal.showGuideTab();
+                                        hydra.modal.showGuidePanel(deck.visual.current);
+                                    } else {
+                                        hydra.modal.hideGuideTab();
+                                    }
+
                                     hydra.modal.open('guide');
                                 });
 
@@ -2748,7 +2800,7 @@
                                             deck.current[option] = preset[option];
                                             input.textContent = preset[option];
                                         }
-                                    
+
                                     // grouped input (button radio switch group)
                                     } else {
                                         deck.current[option] = preset[option];
@@ -3233,14 +3285,18 @@
                             hydra.markup.injectRendererTabUI(deck, name, ui);
                         }
 
-                        if (keyboardShortcuts) {
-                            deck[name].keyboardShortcuts = keyboardShortcuts;
+                        if (keyboardShortcuts && Object.keys(keyboardShortcuts).length) {
+                            if (deck[name].keyboardShortcuts === undefined) {
+                                deck[name].keyboardShortcuts = keyboardShortcuts;
+                                hydra.markup.injectRendererKeyboardShortcutUI(deck, name, keyboardShortcuts);
+                            }
                         }
 
                         // initialise guide
-                        if (guide) {
+                        if (guide && guide.content && guide.content.length) {
                             if (hydra.guides.name === undefined) {
                                 hydra.guides[name] = guide;
+                                hydra.markup.injectRendererGuideUI(deck, name, guide);
                             }
                         }
 
@@ -3303,7 +3359,7 @@
                                             deck[name][input.dataset.variable] = btnRadioSwitchGroupItem.textContent;
                                         }
                                     });
-                                    
+
                                 } else {
                                     deck[name][input.dataset.variable] = input.textContent;
                                     input.options = input.dataset.options?.split(',') || [];
@@ -3321,7 +3377,7 @@
                                         hydra.helpers.triggerFunction(deck, name, e.target.dataset.trigger);
                                     });
                                 }
-                                
+
                             } else if (input.tagName == 'SELECT') {
                                 deck[name][input.dataset.variable] = input.value;
 
@@ -3853,6 +3909,9 @@
                     isOpen: false,
                     init: function() {
                         this.element = document.getElementById('modal');
+                        this.guideSection = this.element.querySelector('.guide.modal-section');
+                        this.guideSectionKeyboardShortcutTab = this.guideSection.querySelector('[data-tab-target="keyboard-shortcuts"]');
+                        this.guideSectionGuideTab = this.guideSection.querySelector('[data-tab-target="user-guide"]');
 
                         const tabs = this.element.querySelectorAll('.tab');
                         tabs.forEach(tab => {
@@ -3882,6 +3941,33 @@
                     close: function() {
                         this.element.classList.add('hide');
                         this.isOpen = false;
+                    },
+                    showKeyboardShortcutTab: function() {
+                        this.guideSectionKeyboardShortcutTab.classList.remove('hide');
+                    },
+                    showKeyboardShortcutPanel: function(visual) {
+                        this.guideSection.querySelectorAll(`[data-target="keyboard-shortcuts"] div`).forEach(panel => panel.classList.add('hide'));
+                        this.guideSection.querySelector(`[data-target="keyboard-shortcuts"] div[data-visual="${visual}"]`).classList.remove('hide');
+                    },
+                    hideKeyboardShortcutTab: function() {
+                        this.guideSectionKeyboardShortcutTab.classList.add('hide');
+                    },
+                    showGuideTab: function() {
+                        this.guideSectionGuideTab.classList.remove('hide');
+                    },
+                    showGuidePanel: function(visual) {
+                        this.guideSection.querySelectorAll(`[data-tab-target="user-guide"] div`).forEach(panel => panel.classList.add('hide'));
+                        this.guideSection.querySelector(`[data-tab-target="user-guide"] div[data-visual="${visual}"]`).classList.remove('hide');
+                    },
+                    hideGuideTab: function() {
+                        this.guideSectionGuideTab.classList.add('hide');
+                    },
+                    update: function(deck) {
+                        if (deck.current.keyboardShortcuts || deck.current.guide) {
+                            deck.controls.guideBtn.disabled = false;
+                        } else {
+                            deck.controls.guideBtn.disabled = true;
+                        }
                     }
                 },
                 mouse: {
@@ -4360,77 +4446,43 @@
                                         document.getElementById('assign').click();
                                     }
                                     break;
-                                // case 'q':
-                                //     knobs.valueChange('reactivity', 'up');
-                                //     break;
-                                // case 'w':
-                                //     knobs.valueChange('minWidth', 'up');
-                                //     break;
-                                // case 'e':
-                                //     knobs.valueChange('widthMode', 'up');
-                                //     break;
-                                // case 'r':
-                                //     knobs.valueChange('trailLength', 'up');
-                                //     break;
-                                // case 't':
-                                //     knobs.valueChange('modulo', 'up');
-                                //     break;
-                                // case 'y':
-                                //     knobs.valueChange('arcMode', 'up');
-                                //     break;
-                                // case 'u':
-                                //     knobs.valueChange('fillMode', 'up');
-                                //     break;
-                                // case 'i':
-                                //     knobs.valueChange('colorMode', 'up');
-                                //     break;
-                                // case 'o':
-                                //     knobs.valueChange('globalShift', 'up');
-                                //     break;
-                                // case 'p':
-                                //     knobs.valueChange('globalAlpha', 'up');
-                                //     break;
-                                // case '[':
-                                //     knobs.valueChange('globalAmp', 'up');
-                                //     break;
+                                case 'q':
+                                case 'w':
+                                case 'e':
+                                case 'r':
+                                case 't':
+                                case 'y':
+                                case 'u':
+                                case 'i':
+                                case 'o':
+                                case 'p':
+                                case '[':
                                 case ']':
                                 case '§':
-                                    console.log('what to do?');
+                                    if (hydra.keyboard.claimed && hydra[`deck${hydra.keyboard.claimed}`].current.keyboardShortcuts && hydra[`deck${hydra.keyboard.claimed}`].current.keyboardShortcuts[e.key]
+                                    && hydra[`deck${hydra.keyboard.claimed}`].current.keyboardShortcuts[e.key].action) {
+                                        hydra[`deck${hydra.keyboard.claimed}`].current.keyboardShortcuts[e.key].action();
+                                    }
                                     break;
                                 case '\\':
                                     document.getElementById('record').click();
                                     break;
-                                // case 'a':
-                                //     knobs.valueChange('reactivity', 'down');
-                                //     break;
-                                // case 's':
-                                //     knobs.valueChange('minWidth', 'down');
-                                //     break;
-                                // case 'd':
-                                //     knobs.valueChange('widthMode', 'down');
-                                //     break;
-                                // case 'f':
-                                //     knobs.valueChange('trailLength', 'down');
-                                //     break;
-                                // case 'g':
-                                //     knobs.valueChange('modulo', 'down');
-                                //     break;
-                                // case 'h':
-                                //     knobs.valueChange('arcMode', 'down');
-                                //     break;
-                                // case 'j':
-                                //     knobs.valueChange('fillMode', 'down');
-                                //     break;
-                                // case 'k':
-                                //     knobs.valueChange('colorMode', 'down');
-                                //     break;
-                                // case 'l':
-                                //     knobs.valueChange('globalShift', 'down');
-                                //     break;
-                                // case ';':
-                                //     break;
-                                // case '\'':
-                                //     break;
+                                case 'a':
+                                case 's':
+                                case 'd':
+                                case 'f':
+                                case 'g':
+                                case 'h':
+                                case 'j':
+                                case 'k':
+                                case 'l':
+                                case ';':
+                                case '\'':
+                                    if (hydra.keyboard.claimed && hydra[`deck${hydra.keyboard.claimed}`].current.keyboardShortcuts && hydra[`deck${hydra.keyboard.claimed}`].current.keyboardShortcuts[e.key]
+                                    && hydra[`deck${hydra.keyboard.claimed}`].current.keyboardShortcuts[e.key].action) {
+                                        hydra[`deck${hydra.keyboard.claimed}`].current.keyboardShortcuts[e.key].action();
+                                    }
+                                    break;
                                 case 'Enter':
                                     const kaleidoscopeToggleBtn = !hydra.keyboard.claimed
                                         ? 'kaleidoscope-output-toggle'
@@ -4865,6 +4917,18 @@
                     triggerFunction: function(deck, visual, fn) {
                         if (fn) {
                             deck[visual][fn]();
+                        }
+                    },
+                    incrementRangeInput(input) {
+                        if ((parseFloat(input.value) + parseFloat(input.step)) <= parseFloat(input.max)) {
+                            input.value = parseFloat(input.value) + parseFloat(input.step);
+                            input.dispatchEvent(new Event('input', { bubbles: true }));
+                        }
+                    },
+                    decrementRangeInput(input) {
+                        if ((parseFloat(input.value) - parseFloat(input.step)) >= parseFloat(input.min)) {
+                            input.value = parseFloat(input.value) - parseFloat(input.step);
+                            input.dispatchEvent(new Event('input', { bubbles: true }));
                         }
                     }
                 }

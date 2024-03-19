@@ -8,6 +8,7 @@
         {"color":"#ff0000","waveColorMode":"selected","radius":"15","speed":"361","cols":"16","rows":"15","offsetX":"0","offsetY":"0","clampDistributionToWidth":true,"gap":"0"},
         {"color":"#00b3ff","waveColorMode":"selected","radius":"24","speed":"239","cols":"24","rows":"21","offsetX":"0","offsetY":"0","clampDistributionToWidth":true,"gap":"0"},
         {"color":"#ffffff","waveColorMode":"selected","radius":"88","speed":"500","cols":"4","rows":"19","offsetX":"0","offsetY":"0","clampDistributionToWidth":true,"gap":"0"},
-        {"color":"#ff0000","waveColorMode":"selected","radius":"28","speed":"50","cols":"29","rows":"30","offsetX":"-11","offsetY":"-17","clampDistributionToWidth":false,"gap":"33"}
+        {"color":"#ff0000","waveColorMode":"selected","radius":"28","speed":"50","cols":"29","rows":"30","offsetX":"-11","offsetY":"-17","clampDistributionToWidth":false,"gap":"33"},
+        {"color":"#ffffff","waveColorMode":"cycle","radius":"28","speed":"169","cols":"27","rows":"14","offsetX":"-14","offsetY":"-21","clampDistributionToWidth":false,"gap":"0"}
     ]
 }

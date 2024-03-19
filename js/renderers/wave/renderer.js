@@ -102,7 +102,7 @@ window.hydra.renderers['wave'] = {
                             max: 500,
                             value: 0,
                             step: 1,
-                            randomiseable: true
+                            randomiseable: false
                         },
                         {
                             type: 'range',
@@ -112,7 +112,7 @@ window.hydra.renderers['wave'] = {
                             max: 500,
                             value: 0,
                             step: 1,
-                            randomiseable: true
+                            randomiseable: false
                         }
                     ]
                 },

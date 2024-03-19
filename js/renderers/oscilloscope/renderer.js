@@ -29,15 +29,15 @@ window.hydra.renderers['oscilloscope'] = {
                     items: [
                         {
                             type: 'button',
-                            label: 'Wave Mode',
-                            variable: 'waveMode',
+                            label: 'Wave Color Mode',
+                            variable: 'waveColorMode',
                             text: 'selected',
                             options: 'selected,cycle',
                             randomiseable: true
                         },
                         {
                             type: 'button',
-                            label: 'Background Mode',
+                            label: 'Background Color Mode',
                             variable: 'bgColorMode',
                             text: 'selected',
                             options: 'selected,match,opposite',
@@ -101,7 +101,82 @@ window.hydra.renderers['oscilloscope'] = {
                 }
             ]
         };
-        deck.oscilloscope = window.hydra.renderer.init(deck, 'oscilloscope', {defaults, ui});
+        const keyboardShortcuts = {
+            q: {
+                label: 'Cycle Wave Mode',
+                category: 'Color',
+                action: () => {
+                    deck.oscilloscope.waveColorModeInput.click();
+                }
+            },
+            a: {
+                label: 'Cycle Background Mode',
+                category: 'Color',
+                action: () => {
+                    deck.oscilloscope.bgColorModeInput.click();
+                }
+            },
+            w: {
+                label: 'Increment',
+                category: 'Color Frequencies - Cycle Speed - R',
+                action: () => {
+                    hydra.helpers.incrementRangeInput(deck.oscilloscope.cycleSpeedRInput);
+                }
+            },
+            s: {
+                label: 'Decrement',
+                category: 'Color Frequencies - Cycle Speed - R',
+                action: () => {
+                    hydra.helpers.decrementRangeInput(deck.oscilloscope.cycleSpeedRInput);
+                }
+            },
+            e: {
+                label: 'Increment',
+                category: 'Color Frequencies - Cycle Speed - G',
+                action: () => {
+                    hydra.helpers.incrementRangeInput(deck.oscilloscope.cycleSpeedGInput);
+                }
+            },
+            d: {
+                label: 'Decrement',
+                category: 'Color Frequencies - Cycle Speed - G',
+                action: () => {
+                    hydra.helpers.decrementRangeInput(deck.oscilloscope.cycleSpeedGInput);
+                }
+            },
+            r: {
+                label: 'Increment',
+                category: 'Color Frequencies - Cycle Speed - B',
+                action: () => {
+                    hydra.helpers.incrementRangeInput(deck.oscilloscope.cycleSpeedBInput);
+                }
+            },
+            f: {
+                label: 'Decrement',
+                category: 'Color Frequencies - Cycle Speed - B',
+                action: () => {
+                    hydra.helpers.decrementRangeInput(deck.oscilloscope.cycleSpeedBInput);
+                }
+            },
+            t: {
+                label: 'Increment',
+                category: 'Wave - Line Width',
+                action: () => {
+                    hydra.helpers.incrementRangeInput(deck.oscilloscope.lineWidthInput);
+                }
+            },
+            g: {
+                label: 'Decrement',
+                category: 'Wave - Line Width',
+                action: () => {
+                    hydra.helpers.decrementRangeInput(deck.oscilloscope.lineWidthInput);
+                }
+            },
+        }
+        const guide = {
+            content: []
+        }
+        deck.oscilloscope = window.hydra.renderer.init(deck, 'oscilloscope', {defaults, ui, keyboardShortcuts, guide});
 
         deck.oscilloscope.render = () => {
 
@@ -109,9 +184,9 @@ window.hydra.renderers['oscilloscope'] = {
             let x;
             let y;
 
-            let waveR = deck.oscilloscope.waveMode == 'cycle' ? ((Math.sin(Date.now() / deck.oscilloscope.cycleSpeedR) + 1) / 2) * 255 : deck.oscilloscope.waveColor.r;
-            let waveG = deck.oscilloscope.waveMode == 'cycle' ? ((Math.sin(Date.now() / deck.oscilloscope.cycleSpeedG) + 1) / 2) * 255 : deck.oscilloscope.waveColor.g;
-            let waveB = deck.oscilloscope.waveMode == 'cycle' ? ((Math.sin(Date.now() / deck.oscilloscope.cycleSpeedB) + 1) / 2) * 255 : deck.oscilloscope.waveColor.b;
+            let waveR = deck.oscilloscope.waveColorMode == 'cycle' ? ((Math.sin(Date.now() / deck.oscilloscope.cycleSpeedR) + 1) / 2) * 255 : deck.oscilloscope.waveColor.r;
+            let waveG = deck.oscilloscope.waveColorMode == 'cycle' ? ((Math.sin(Date.now() / deck.oscilloscope.cycleSpeedG) + 1) / 2) * 255 : deck.oscilloscope.waveColor.g;
+            let waveB = deck.oscilloscope.waveColorMode == 'cycle' ? ((Math.sin(Date.now() / deck.oscilloscope.cycleSpeedB) + 1) / 2) * 255 : deck.oscilloscope.waveColor.b;
 
             deck.ctx.strokeStyle = `rgb(${waveR}, ${waveG}, ${waveB})`;
             deck.ctx.lineWidth = deck.oscilloscope.lineWidth;

@@ -19,6 +19,7 @@ window.hydra.renderers['matrix'] = {
                     '#a4228d'
                 ]
             },
+            frame: 1,
             calculatedAt: null,
             calculatedProperties: false,
             calculateProperties: () => {
@@ -150,6 +151,22 @@ window.hydra.renderers['matrix'] = {
                         }
                     ]
                 },
+                {
+                    heading: 'Speed',
+                    class: 'flex-grid',
+                    attributes: 'data-columns="1"',
+                    items: [
+                        {
+                            type: 'range',
+                            variable: 'speed',
+                            min: 1,
+                            max: 5,
+                            value: 4,
+                            step: 1,
+                            randomiseable: true
+                        }
+                    ]
+                }
             ]
         };
         deck.matrix = window.hydra.renderer.init(deck, 'matrix', {defaults, ui, presets: './js/renderers/matrix/presets.json'});
@@ -159,11 +176,26 @@ window.hydra.renderers['matrix'] = {
             deck.matrix.calculatedProperties = false;
         }
 
+        deck.matrix.speedInput.oninput = () => {
+            deck.matrix.frame = 1;
+        }
+
+        deck.matrix.shouldRender = () => {
+            const inversedSpeed = (parseInt(deck.matrix.speedInput.max) + 1) - deck.matrix.speed;
+            if (deck.matrix.frame % inversedSpeed == 0) {
+                deck.matrix.frame = 1;
+                return true;
+            } else {
+                deck.matrix.frame += 1;
+                return false;
+            }
+        }
+
         deck.matrix.render = () => {
             if (!deck.matrix.calculatedProperties || (deck.matrix.calculatedAt && (deck.matrix.calculatedAt != deck.canvas.width))) {
                 deck.matrix.calculateProperties();
             } else {
-                if (deck.matrix.shouldRender) {
+                if (deck.matrix.shouldRender()) {
                     // gradually fades out previous rendered content
                     deck.ctx.fillStyle = `rgba(${deck.matrix.backgroundColor.r}, ${deck.matrix.backgroundColor.g}, ${deck.matrix.backgroundColor.b}, 0.05)`;
                     deck.ctx.fillRect(0, 0, deck.canvas.width, deck.canvas.height);
@@ -192,9 +224,6 @@ window.hydra.renderers['matrix'] = {
                         }
                         deck.matrix.rainDrops[i]++;
                     }
-                    deck.matrix.shouldRender = false;
-                } else {
-                    deck.matrix.shouldRender = true;
                 }
             }
         }
