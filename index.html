@@ -3692,7 +3692,6 @@
                                 ctx.save();
                                 ctx.translate(0, canvas.height);
                                 ctx.scale(1,-1);
-                                ctx.globalCompositeOperation = layerMode;
                                 ctx.drawImage(canvas, 0, 0);
                                 ctx.restore();
                             }
@@ -3701,7 +3700,9 @@
                                 ctx.save();
                                 ctx.translate(canvas.width, 0);
                                 ctx.scale(-1,1);
-                                ctx.globalCompositeOperation = layerMode;
+                                if (mode == 'layer') {
+                                    ctx.globalCompositeOperation = layerMode;
+                                }
                                 ctx.drawImage(canvas, 0, 0);
                                 ctx.restore();
                             }
