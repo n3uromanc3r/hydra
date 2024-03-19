@@ -1993,7 +1993,17 @@
                                 </li>`;
                         }
 
-                        markup += `</ul></div>`;
+                        markup += `</ul><hr><div>
+                                <div class="heading">Key:</div>
+                                    <ul class="legend">
+                                        <li>
+                                            <span class="claimed"></span>
+                                            <label>Claimed</label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        `;
                         uiContainer.insertAdjacentHTML('beforeend', markup);
                     },
                     injectRendererGuideUI: function(deck, name, ui) {
@@ -3946,8 +3956,8 @@
                         this.guideSectionKeyboardShortcutTab.classList.remove('hide');
                     },
                     showKeyboardShortcutPanel: function(visual) {
-                        this.guideSection.querySelectorAll(`[data-target="keyboard-shortcuts"] div`).forEach(panel => panel.classList.add('hide'));
-                        this.guideSection.querySelector(`[data-target="keyboard-shortcuts"] div[data-visual="${visual}"]`).classList.remove('hide');
+                        this.guideSection.querySelectorAll(`[data-target="keyboard-shortcuts"] > div`).forEach(panel => panel.classList.add('hide'));
+                        this.guideSection.querySelector(`[data-target="keyboard-shortcuts"] > div[data-visual="${visual}"]`).classList.remove('hide');
                     },
                     hideKeyboardShortcutTab: function() {
                         this.guideSectionKeyboardShortcutTab.classList.add('hide');
@@ -3956,8 +3966,8 @@
                         this.guideSectionGuideTab.classList.remove('hide');
                     },
                     showGuidePanel: function(visual) {
-                        this.guideSection.querySelectorAll(`[data-tab-target="user-guide"] div`).forEach(panel => panel.classList.add('hide'));
-                        this.guideSection.querySelector(`[data-tab-target="user-guide"] div[data-visual="${visual}"]`).classList.remove('hide');
+                        this.guideSection.querySelectorAll(`[data-tab-target="user-guide"] > div`).forEach(panel => panel.classList.add('hide'));
+                        this.guideSection.querySelector(`[data-tab-target="user-guide"] > div[data-visual="${visual}"]`).classList.remove('hide');
                     },
                     hideGuideTab: function() {
                         this.guideSectionGuideTab.classList.add('hide');
