@@ -23,7 +23,7 @@ body {
     display: flex;
     flex-direction: column;
     width: 80%;
-    max-width: 1920px;
+    max-width: 1620px;
     margin: auto;
     border-left: solid 1px #1c1c1c;
 }
@@ -543,6 +543,13 @@ button:disabled {
     color: black;
 }
 
+.radial-mode.one,
+.radial-mode.two,
+.radial-mode.three {
+    background: #e623ad;
+    color: black;
+}
+
 select {
     padding: 10px;
     width: 100%;
@@ -890,14 +897,18 @@ fieldset .heading,
 .kaleidoscope-slider-container,
 .mirror-mode-buttons-container,
 .mirror-start-position-buttons-container,
-.mirror-layer-mode-selector-container {
+.mirror-layer-mode-selector-container,
+.radial-mode-buttons-container,
+.radial-slider-container {
     opacity: 1;
 }
 
 .kaleidoscope-slider-container.disabled,
 .mirror-mode-buttons-container.disabled,
 .mirror-start-position-buttons-container.disabled,
-.mirror-layer-mode-selector-container.disabled {
+.mirror-layer-mode-selector-container.disabled,
+.radial-mode-buttons-container.disabled,
+.radial-slider-container.disabled {
     opacity: 0.4;
 }
 
@@ -906,7 +917,10 @@ fieldset .heading,
 .mirror-mode-buttons-container.disabled .quad,
 .mirror-mode-buttons-container.disabled .layer,
 .mirror-start-position-buttons-container.disabled .mirror-start-position,
-.mirror-layer-mode-selector-container.disabled .mirror-layer-mode-selector {
+.mirror-layer-mode-selector-container.disabled .mirror-layer-mode-selector,
+.radial-mode-buttons-container.disabled .one,
+.radial-mode-buttons-container.disabled .two,
+.radial-mode-buttons-container.disabled .three {
     opacity: 0.2;
 }
 
@@ -915,12 +929,14 @@ fieldset .heading,
     color: black;
 }
 
-.kaleidoscope-slider-container .inline-input {
+.kaleidoscope-slider-container .inline-input,
+.radial-slider-container .inline-input {
     padding-right: 0;
     padding-bottom: 0;
 }
 
-.kaleidoscope-slider-container .inline-input span.value {
+.kaleidoscope-slider-container .inline-input span.value,
+.radial-slider-container .inline-input span.value {
     right: 0;
 }
 
@@ -938,7 +954,9 @@ fieldset .heading,
 }
 
 .visual-settings .effects .kaleidoscope-slider-container,
-.visual-settings .effects .mirror-mode-buttons-container {
+.visual-settings .effects .mirror-mode-buttons-container,
+.visual-settings .effects .radial-mode-buttons-container,
+.visual-settings .effects .radial-slider-container {
     margin-top: 12px;
 }
 

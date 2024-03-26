@@ -98,6 +98,47 @@ window.hydra.renderers['oscilloscope'] = {
                             randomiseable: true
                         }
                     ]
+                },
+                {
+                    heading: 'Trails',
+                    class: 'flex-grid',
+                    attributes: 'data-columns="2"',
+                    items: [
+                        {
+                            type: 'checkbox',
+                            label: 'Enabled',
+                            variable: 'trailsEnabled',
+                            checked: false,
+                            randomiseable: true
+                        },
+                        {
+                            type: 'range',
+                            label: 'Fade',
+                            variable: 'trailsFade',
+                            min: 0.001,
+                            max: 1,
+                            value: 0.01,
+                            step: 0.001,
+                            randomiseable: true
+                        }
+                    ]
+                },
+                {
+                    heading: 'Trails',
+                    class: 'flex-grid',
+                    attributes: 'data-columns="1"',
+                    items: [
+                        {
+                            type: 'range',
+                            label: 'Distance',
+                            variable: 'trailsDistance',
+                            min: -20,
+                            max: 20,
+                            value: -2,
+                            step: 1,
+                            randomiseable: true
+                        }
+                    ]
                 }
             ]
         };
@@ -178,6 +219,8 @@ window.hydra.renderers['oscilloscope'] = {
         }
         deck.oscilloscope = window.hydra.renderer.init(deck, 'oscilloscope', {defaults, ui, keyboardShortcuts, guide});
 
+        deck.oscilloscope.previous = false;
+
         deck.oscilloscope.render = () => {
 
             let v;
@@ -192,17 +235,23 @@ window.hydra.renderers['oscilloscope'] = {
             deck.ctx.lineWidth = deck.oscilloscope.lineWidth;
 
             if (deck.oscilloscope.bgColorMode == 'selected') {
-                deck.ctx.fillStyle = `rgb(${deck.oscilloscope.backgroundColor.r}, ${deck.oscilloscope.backgroundColor.g}, ${deck.oscilloscope.backgroundColor.b})`;
+                deck.ctx.fillStyle = `rgba(${deck.oscilloscope.backgroundColor.r}, ${deck.oscilloscope.backgroundColor.g}, ${deck.oscilloscope.backgroundColor.b}, ${deck.oscilloscope.trailsEnabled ? deck.oscilloscope.trailsFade : 1})`;
             } else if (deck.oscilloscope.bgColorMode == 'match') {
-                deck.ctx.fillStyle = `rgba(${waveR}, ${waveG}, ${waveB}, 0.2)`;
+                deck.ctx.fillStyle = `rgba(${waveR}, ${waveG}, ${waveB}, ${deck.oscilloscope.trailsEnabled ? deck.oscilloscope.trailsFade : 0.2})`;
             } else {
                 let bgR = 255 - waveR;
                 let bgG = 255 - waveG;
                 let bgB = 255 - waveB;
-                deck.ctx.fillStyle = `rgb(${bgR}, ${bgG}, ${bgB})`;
+                deck.ctx.fillStyle = `rgba(${bgR}, ${bgG}, ${bgB}, ${deck.oscilloscope.trailsEnabled ? deck.oscilloscope.trailsFade : 1})`;
+            }
+
+            if (deck.oscilloscope.trailsEnabled  && deck.oscilloscope.previous) {
+                deck.ctx.putImageData(deck.oscilloscope.previous, 0, 0);
             }
 
             deck.ctx.fillRect(0, 0, deck.canvas.width, deck.canvas.height);
+
+            deck.ctx.save();
 
             if (hydra.audio.listening && deck.reactivity.on) {
                 try {
@@ -217,7 +266,6 @@ window.hydra.renderers['oscilloscope'] = {
                         x = i * segmentWidth;
                         v = deck.oscilloscope.uint8Array[i] / 128.0;
                         y = (v * deck.canvas.height) / 2;
-
                         deck.ctx.lineTo(x, y);
                     }
                 } catch (err) {
@@ -231,6 +279,15 @@ window.hydra.renderers['oscilloscope'] = {
             }
             deck.ctx.lineTo(deck.canvas.width + 100, deck.canvas.height / 2);
             deck.ctx.stroke();
+
+            deck.ctx.restore();
+
+            if (deck.oscilloscope.trailsEnabled) {
+                deck.ctx.save()
+                deck.ctx.globalAlpha = 0.9;
+                deck.oscilloscope.previous = deck.ctx.getImageData(0, deck.oscilloscope.trailsDistance, deck.canvas.width, deck.canvas.height);
+                deck.ctx.restore();
+            }
         }
 
         return deck;

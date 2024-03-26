@@ -120,6 +120,7 @@
                             <div class="button-group">
                                 <div><button id="kaleidoscope-deck1-toggle" class="kaleidoscope-toggle" data-target="deck1">Kaleidoscope</button></div>
                                 <div><button id="mirror-deck1-toggle" class="mirror-toggle" data-target="deck1">Mirror</button></div>
+                                <div><button id="radial-deck1-toggle" class="radial-toggle" data-target="deck1">Radial</button></div>
                             </div>
                             <div class="button-group kaleidoscope-slider-container disabled">
                                 <div class="inline-input">
@@ -177,6 +178,21 @@
                                     <option value="xor">xor</option>
                                 </select>
                             </group>
+                            <div class="radial-mode-buttons-container disabled">
+                                <span class="input-label">Radial Mode</span>
+                                <div class="button-group button-radio-switch-group">
+                                    <div><button class="radial-mode applies-vert one button-radio-switch" data-target="deck1">one</button></div>
+                                    <div><button class="radial-mode applies-two button-radio-switch" data-target="deck1">two</button></div>
+                                    <div><button class="radial-mode applies-three button-radio-switch" data-target="deck1">three</button></div>
+                                </div>
+                            </div>
+                            <div class="button-group radial-slider-container disabled">
+                                <div class="inline-input">
+                                    <span class="input-label">Radial Angle</span>
+                                    <span class="value">10</span>
+                                    <input id="radial-deck1-angle" class="radial-angle" type="range" min="2" max="90" value="10" step="1" data-target="deck1">
+                                </div>
+                            </div>
                         </fieldset>
                         <fieldset>
                             <div class="heading">Blur</div>
@@ -943,6 +959,7 @@
                             <div class="button-group">
                                 <div><button id="kaleidoscope-deck2-toggle" class="kaleidoscope-toggle" data-target="deck2">Kaleidoscope</button></div>
                                 <div><button id="mirror-deck2-toggle" class="mirror-toggle" data-target="deck2">Mirror</button></div>
+                                <div><button id="radial-deck2-toggle" class="radial-toggle" data-target="deck2">Radial</button></div>
                             </div>
                             <div class="button-group kaleidoscope-slider-container disabled">
                                 <div class="inline-input">
@@ -1000,6 +1017,21 @@
                                     <option value="xor">xor</option>
                                 </select>
                             </group>
+                            <div class="radial-mode-buttons-container disabled">
+                                <span class="input-label">Radial Mode</span>
+                                <div class="button-group button-radio-switch-group">
+                                    <div><button class="radial-mode applies-vert one button-radio-switch" data-target="deck2">one</button></div>
+                                    <div><button class="radial-mode applies-two button-radio-switch" data-target="deck2">two</button></div>
+                                    <div><button class="radial-mode applies-three button-radio-switch" data-target="deck2">three</button></div>
+                                </div>
+                            </div>
+                            <div class="button-group radial-slider-container disabled">
+                                <div class="inline-input">
+                                    <span class="input-label">Radial Angle</span>
+                                    <span class="value">10</span>
+                                    <input id="radial-deck2-angle" class="radial-angle" type="range" min="2" max="90" value="10" step="1" data-target="deck2">
+                                </div>
+                            </div>
                         </fieldset>
                         <fieldset>
                             <div class="heading">Blur</div>
@@ -3563,6 +3595,10 @@
                                 if (hydra.effects.kaleidoscope[target].enabled && hydra.effects.mirror[target].enabled) {
                                     hydra.effects.mirror[target].toggle.dispatchEvent(new Event('click', { bubbles: true }));
                                 }
+
+                                if (hydra.effects.kaleidoscope[target].enabled && hydra.effects.radial[target].enabled) {
+                                    hydra.effects.radial[target].toggle.dispatchEvent(new Event('click', { bubbles: true }));
+                                }
                             });
                         });
 
@@ -3731,6 +3767,10 @@
                                 if (hydra.effects.mirror[target].enabled && hydra.effects.kaleidoscope[target].enabled) {
                                     hydra.effects.kaleidoscope[target].toggle.dispatchEvent(new Event('click', { bubbles: true }));
                                 }
+
+                                if (hydra.effects.mirror[target].enabled && hydra.effects.radial[target].enabled) {
+                                    hydra.effects.radial[target].toggle.dispatchEvent(new Event('click', { bubbles: true }));
+                                }
                             });
                         });
 
@@ -3769,6 +3809,125 @@
                             mirrorLayerModeSelect.addEventListener('change', function(e) {
                                 const target = e.target.dataset.target;
                                 hydra.effects.mirror[target].layerMode = this.value;
+                            });
+                        });
+
+                        this.radial = {};
+
+                        this.radial.output = {
+                            enabled: false,
+                            mode: 'one',
+                            angle: 10,
+                            toggle: document.getElementById('radial-output-toggle')
+                        };
+                        this.radial.deck1 = {
+                            enabled: false,
+                            mode: 'one',
+                            angle: 10,
+                            toggle: document.getElementById('radial-deck1-toggle')
+                        };
+                        this.radial.deck2 = {
+                            enabled: false,
+                            mode: 'one',
+                            angle: 10,
+                            toggle: document.getElementById('radial-deck2-toggle')
+                        };
+
+                        this.radial.sliderContainers = document.querySelectorAll('.radial-slider-container');
+                        this.radial.toggles = document.querySelectorAll('.radial-toggle');
+                        this.radial.radialModeBtns = document.querySelectorAll('.radial-mode');
+                        this.radial.angleInputs = document.querySelectorAll('.radial-angle');
+
+                        this.radial.clip = (ctx, canvas, angle) => {
+                            ctx.save();
+
+                            const hypotenuse = canvas.width/2;
+                            const opposite = hypotenuse * Math.sin(angle * Math. PI / 180.0);
+
+                            ctx.beginPath();
+                            ctx.moveTo(canvas.width/2, canvas.height/2);
+                            ctx.lineTo(canvas.width, canvas.height/2);
+                            ctx.lineTo(canvas.width, canvas.height/2 + opposite);
+                            ctx.closePath();
+                            ctx.clip();
+                        };
+
+                        this.radial.apply = (ctx, canvas, mode, angle) => {
+                            ctx.restore();
+
+                            if (mode == 'one') {
+                                for (let i = 0; i < 360; i += angle) {
+                                    ctx.save();
+                                    ctx.translate(canvas.width/2, canvas.height/2);
+                                    ctx.rotate((Math.PI / 180) * i);
+                                    ctx.translate(-canvas.width/2, -canvas.height/2);
+                                    ctx.scale(1,-1);
+                                    ctx.drawImage(canvas, 0, -canvas.height);
+                                    ctx.scale(1,-1);
+                                    ctx.restore();
+                                }
+                            } else if (mode == 'two') {
+                                for (let i = 0; i < 360; i += angle) {
+                                    ctx.save();
+                                    ctx.translate(canvas.width/2, canvas.height/2);
+                                    ctx.rotate((Math.PI / 180) * (i*2));
+                                    ctx.translate(-canvas.width/2, -canvas.height/2);
+                                    ctx.scale(1,-1);
+                                    ctx.drawImage(canvas, 0, -canvas.height);
+                                    ctx.scale(1,-1);
+                                    ctx.restore();
+                                }
+                            } else if (mode == 'three') {
+                                for (let i = 0; i < 360; i += angle) {
+                                    ctx.save();
+                                    ctx.translate(canvas.width/2, canvas.height/2);
+                                    ctx.rotate((Math.PI / 180) * i);
+                                    ctx.translate(-canvas.width/2, -canvas.height/2);
+                                    ctx.drawImage(canvas, 0, 0);
+                                    ctx.restore();
+                                }
+                            }
+                        }
+
+                        this.radial.toggles.forEach(toggle => {
+                            toggle.addEventListener('click', function(e) {
+                                const target = e.target.dataset.target;
+                                const angleInput = e.target.parentElement.parentElement.parentElement.querySelector('.radial-angle');
+                                const sliderContainer = e.target.parentElement.parentElement.parentElement.querySelector('.radial-slider-container');
+                                e.target.classList.toggle('on');
+                                hydra.effects.radial[target].enabled = e.target.classList.contains('on');
+                                sliderContainer.classList.toggle('disabled');
+
+                                const radialModeCycleBtnsContainer = e.target.parentElement.parentElement.parentElement.querySelector('.radial-mode-buttons-container');
+                                radialModeCycleBtnsContainer.classList.toggle('disabled');
+
+                                if (hydra.effects.radial[target].enabled && hydra.effects.mirror[target].enabled) {
+                                    hydra.effects.mirror[target].toggle.dispatchEvent(new Event('click', { bubbles: true }));
+                                }
+
+                                if (hydra.effects.radial[target].enabled && hydra.effects.kaleidoscope[target].enabled) {
+                                    hydra.effects.kaleidoscope[target].toggle.dispatchEvent(new Event('click', { bubbles: true }));
+                                }
+                            });
+                        });
+
+                        this.radial.radialModeBtns.forEach(radialModeBtn => {
+                            radialModeBtn.addEventListener('click', function(e) {
+                                const radialModeBtns = e.target.parentElement.parentElement.querySelectorAll('.radial-mode')
+                                radialModeBtns.forEach(btn => {
+                                    btn.classList.remove('one','two','three');
+                                });
+                                const target = e.target.dataset.target;
+                                hydra.effects.radial[target].mode = e.target.textContent;
+                                e.target.classList.add(e.target.textContent);
+                            });
+                        });
+
+                        this.radial.angleInputs.forEach(angleInput => {
+                            angleInput.addEventListener('input', function(e) {
+                                const target = e.target.dataset.target;
+                                hydra.effects.radial[target].angle = parseFloat(e.target.value);
+                                e.target.parentElement.querySelector('.value').textContent = e.target.value;
                             });
                         });
                     }
@@ -4020,6 +4179,9 @@
                     if (hydra.effects.mirror.deck1.enabled) {
                         hydra.effects.mirror.clip(hydra.deck1.pipeCtx, hydra.deck1.pipeCanvas, hydra.effects.mirror.deck1.mode, hydra.effects.mirror.deck1.startPosition);
                     }
+                    if (hydra.effects.radial.deck1.enabled) {
+                        hydra.effects.radial.clip(hydra.deck1.pipeCtx, hydra.deck1.pipeCanvas, hydra.effects.kaleidoscope.deck1.angle);
+                    }
                     hydra.deck1.pipeCtx.save();
                     hydra.deck1.filters.apply();
                     hydra.deck1.pipeCtx.drawImage(hydra.deck1.canvas, 0, 0);
@@ -4030,6 +4192,9 @@
                     if (hydra.effects.mirror.deck1.enabled) {
                         hydra.effects.mirror.apply(hydra.deck1.pipeCtx, hydra.deck1.pipeCanvas, hydra.effects.mirror.deck1.mode, hydra.effects.mirror.deck1.layerMode);
                     }
+                    if (hydra.effects.radial.deck1.enabled) {
+                        hydra.effects.radial.apply(hydra.deck1.pipeCtx, hydra.deck1.pipeCanvas, hydra.effects.radial.deck1.mode, hydra.effects.radial.deck1.angle);
+                    }
 
                     hydra.deck2.render();
                     if (hydra.effects.kaleidoscope.deck2.enabled) {
@@ -4037,6 +4202,9 @@
                     }
                     if (hydra.effects.mirror.deck2.enabled) {
                         hydra.effects.mirror.clip(hydra.deck2.pipeCtx, hydra.deck2.pipeCanvas, hydra.effects.mirror.deck2.mode, hydra.effects.mirror.deck2.startPosition);
+                    }
+                    if (hydra.effects.radial.deck2.enabled) {
+                        hydra.effects.radial.clip(hydra.deck2.pipeCtx, hydra.deck2.pipeCanvas, hydra.effects.radial.deck2.angle);
                     }
                     hydra.deck2.pipeCtx.save();
                     hydra.deck2.filters.apply();
@@ -4048,7 +4216,9 @@
                     if (hydra.effects.mirror.deck2.enabled) {
                         hydra.effects.mirror.apply(hydra.deck2.pipeCtx, hydra.deck2.pipeCanvas, hydra.effects.mirror.deck2.mode, hydra.effects.mirror.deck2.layerMode);
                     }
-
+                    if (hydra.effects.radial.deck2.enabled) {
+                        hydra.effects.radial.apply(hydra.deck2.pipeCtx, hydra.deck2.pipeCanvas, hydra.effects.radial.deck2.mode, hydra.effects.radial.deck2.angle);
+                    }
 
                     if (hydra.effects.kaleidoscope.output.enabled) {
                         hydra.effects.kaleidoscope.clip(hydra.mixedCtx, hydra.mixedCanvas);
@@ -4056,6 +4226,10 @@
 
                     if (hydra.effects.mirror.output.enabled) {
                         hydra.effects.mirror.clip(hydra.mixedCtx, hydra.mixedCanvas, hydra.effects.mirror.output.mode, hydra.effects.mirror.output.startPosition);
+                    }
+
+                    if (hydra.effects.radial.output.enabled) {
+                        hydra.effects.radial.clip(hydra.mixedCtx, hydra.mixedCanvas, hydra.effects.radial.output.angle);
                     }
 
                     if (hydra.deck1.raised) {
@@ -4080,6 +4254,10 @@
 
                     if (hydra.effects.mirror.output.enabled) {
                         hydra.effects.mirror.apply(hydra.mixedCtx, hydra.mixedCanvas, hydra.effects.mirror.output.mode, hydra.effects.mirror.output.layerMode);
+                    }
+
+                    if (hydra.effects.radial.output.enabled) {
+                        hydra.effects.radial.apply(hydra.mixedCtx, hydra.mixedCanvas, hydra.effects.radial.output.mode, hydra.effects.radial.output.angle);
                     }
 
                     if (!hydra.audio.listening) {
