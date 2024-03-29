@@ -188,9 +188,23 @@
                             </div>
                             <div class="button-group radial-slider-container disabled">
                                 <div class="inline-input">
-                                    <span class="input-label">Radial Angle</span>
+                                    <span class="input-label">Radial Angle - Both</span>
                                     <span class="value">10</span>
-                                    <input id="radial-deck1-angle" class="radial-angle" type="range" min="2" max="90" value="10" step="1" data-target="deck1">
+                                    <input class="radial-angle" type="range" min="2" max="90" value="10" step="1" data-target="deck1" data-type="both">
+                                </div>
+                            </div>
+                            <div class="button-group radial-slider-container disabled">
+                                <div class="inline-input">
+                                    <span class="input-label">Radial Angle - Clip</span>
+                                    <span class="value">10</span>
+                                    <input class="radial-angle" type="range" min="2" max="90" value="10" step="1" data-target="deck1" data-type="clip">
+                                </div>
+                            </div>
+                            <div class="button-group radial-slider-container disabled">
+                                <div class="inline-input">
+                                    <span class="input-label">Radial Angle - Apply</span>
+                                    <span class="value">10</span>
+                                    <input class="radial-angle" type="range" min="2" max="90" value="10" step="1" data-target="deck1" data-type="apply">
                                 </div>
                             </div>
                         </fieldset>
@@ -1027,9 +1041,23 @@
                             </div>
                             <div class="button-group radial-slider-container disabled">
                                 <div class="inline-input">
-                                    <span class="input-label">Radial Angle</span>
+                                    <span class="input-label">Radial Angle - Both</span>
                                     <span class="value">10</span>
-                                    <input id="radial-deck2-angle" class="radial-angle" type="range" min="2" max="90" value="10" step="1" data-target="deck2">
+                                    <input class="radial-angle" type="range" min="2" max="90" value="10" step="1" data-target="deck2" data-type="both">
+                                </div>
+                            </div>
+                            <div class="button-group radial-slider-container disabled">
+                                <div class="inline-input">
+                                    <span class="input-label">Radial Angle - Clip</span>
+                                    <span class="value">10</span>
+                                    <input class="radial-angle" type="range" min="2" max="90" value="10" step="1" data-target="deck2" data-type="clip">
+                                </div>
+                            </div>
+                            <div class="button-group radial-slider-container disabled">
+                                <div class="inline-input">
+                                    <span class="input-label">Radial Angle - Apply</span>
+                                    <span class="value">10</span>
+                                    <input class="radial-angle" type="range" min="2" max="90" value="10" step="1" data-target="deck2" data-type="apply">
                                 </div>
                             </div>
                         </fieldset>
@@ -3817,19 +3845,22 @@
                         this.radial.output = {
                             enabled: false,
                             mode: 'one',
-                            angle: 10,
+                            clipAngle: 10,
+                            applyAngle: 10,
                             toggle: document.getElementById('radial-output-toggle')
                         };
                         this.radial.deck1 = {
                             enabled: false,
                             mode: 'one',
-                            angle: 10,
+                            clipAngle: 10,
+                            applyAngle: 10,
                             toggle: document.getElementById('radial-deck1-toggle')
                         };
                         this.radial.deck2 = {
                             enabled: false,
                             mode: 'one',
-                            angle: 10,
+                            clipAngle: 10,
+                            applyAngle: 10,
                             toggle: document.getElementById('radial-deck2-toggle')
                         };
 
@@ -3892,11 +3923,11 @@
                         this.radial.toggles.forEach(toggle => {
                             toggle.addEventListener('click', function(e) {
                                 const target = e.target.dataset.target;
-                                const angleInput = e.target.parentElement.parentElement.parentElement.querySelector('.radial-angle');
-                                const sliderContainer = e.target.parentElement.parentElement.parentElement.querySelector('.radial-slider-container');
+                                const sliderContainers = e.target.parentElement.parentElement.parentElement.querySelectorAll('.radial-slider-container');
                                 e.target.classList.toggle('on');
                                 hydra.effects.radial[target].enabled = e.target.classList.contains('on');
-                                sliderContainer.classList.toggle('disabled');
+
+                                sliderContainers.forEach(sliderContainer => sliderContainer.classList.toggle('disabled'));
 
                                 const radialModeCycleBtnsContainer = e.target.parentElement.parentElement.parentElement.querySelector('.radial-mode-buttons-container');
                                 radialModeCycleBtnsContainer.classList.toggle('disabled');
@@ -3926,7 +3957,16 @@
                         this.radial.angleInputs.forEach(angleInput => {
                             angleInput.addEventListener('input', function(e) {
                                 const target = e.target.dataset.target;
-                                hydra.effects.radial[target].angle = parseFloat(e.target.value);
+                                const type = e.target.dataset.type;
+                                const angle = parseFloat(e.target.value);
+
+                                if (type == 'both') {
+                                    hydra.effects.radial[target].clipAngle = angle;
+                                    hydra.effects.radial[target].applyAngle = angle;
+                                } else {
+                                    hydra.effects.radial[target][`${type}Angle`] = angle;
+                                }
+
                                 e.target.parentElement.querySelector('.value').textContent = e.target.value;
                             });
                         });
@@ -4180,7 +4220,7 @@
                         hydra.effects.mirror.clip(hydra.deck1.pipeCtx, hydra.deck1.pipeCanvas, hydra.effects.mirror.deck1.mode, hydra.effects.mirror.deck1.startPosition);
                     }
                     if (hydra.effects.radial.deck1.enabled) {
-                        hydra.effects.radial.clip(hydra.deck1.pipeCtx, hydra.deck1.pipeCanvas, hydra.effects.kaleidoscope.deck1.angle);
+                        hydra.effects.radial.clip(hydra.deck1.pipeCtx, hydra.deck1.pipeCanvas, hydra.effects.radial.deck1.clipAngle);
                     }
                     hydra.deck1.pipeCtx.save();
                     hydra.deck1.filters.apply();
@@ -4193,7 +4233,7 @@
                         hydra.effects.mirror.apply(hydra.deck1.pipeCtx, hydra.deck1.pipeCanvas, hydra.effects.mirror.deck1.mode, hydra.effects.mirror.deck1.layerMode);
                     }
                     if (hydra.effects.radial.deck1.enabled) {
-                        hydra.effects.radial.apply(hydra.deck1.pipeCtx, hydra.deck1.pipeCanvas, hydra.effects.radial.deck1.mode, hydra.effects.radial.deck1.angle);
+                        hydra.effects.radial.apply(hydra.deck1.pipeCtx, hydra.deck1.pipeCanvas, hydra.effects.radial.deck1.mode, hydra.effects.radial.deck1.applyAngle);
                     }
 
                     hydra.deck2.render();
@@ -4204,7 +4244,7 @@
                         hydra.effects.mirror.clip(hydra.deck2.pipeCtx, hydra.deck2.pipeCanvas, hydra.effects.mirror.deck2.mode, hydra.effects.mirror.deck2.startPosition);
                     }
                     if (hydra.effects.radial.deck2.enabled) {
-                        hydra.effects.radial.clip(hydra.deck2.pipeCtx, hydra.deck2.pipeCanvas, hydra.effects.radial.deck2.angle);
+                        hydra.effects.radial.clip(hydra.deck2.pipeCtx, hydra.deck2.pipeCanvas, hydra.effects.radial.deck2.clipAngle);
                     }
                     hydra.deck2.pipeCtx.save();
                     hydra.deck2.filters.apply();
@@ -4217,7 +4257,7 @@
                         hydra.effects.mirror.apply(hydra.deck2.pipeCtx, hydra.deck2.pipeCanvas, hydra.effects.mirror.deck2.mode, hydra.effects.mirror.deck2.layerMode);
                     }
                     if (hydra.effects.radial.deck2.enabled) {
-                        hydra.effects.radial.apply(hydra.deck2.pipeCtx, hydra.deck2.pipeCanvas, hydra.effects.radial.deck2.mode, hydra.effects.radial.deck2.angle);
+                        hydra.effects.radial.apply(hydra.deck2.pipeCtx, hydra.deck2.pipeCanvas, hydra.effects.radial.deck2.mode, hydra.effects.radial.deck2.applyAngle);
                     }
 
                     if (hydra.effects.kaleidoscope.output.enabled) {
@@ -4229,7 +4269,7 @@
                     }
 
                     if (hydra.effects.radial.output.enabled) {
-                        hydra.effects.radial.clip(hydra.mixedCtx, hydra.mixedCanvas, hydra.effects.radial.output.angle);
+                        hydra.effects.radial.clip(hydra.mixedCtx, hydra.mixedCanvas, hydra.effects.radial.output.applyAngle);
                     }
 
                     if (hydra.deck1.raised) {
