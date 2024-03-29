@@ -528,7 +528,7 @@ window.hydra.renderers['quark'] = {
         deck.quark.radius = parseInt(deck.quark.radiusInput.value);
 
         deck.quark.render = () => {
-            let radius = deck.quark.radius * deck.scale;
+            let radius = deck.quark.radius * deck.quark.scale;
             if (deck.reactivity.on && deck.reactivity.scale.on) {
                 radius = deck.reactivity.adjust('scale', radius);
             }
