@@ -11,7 +11,7 @@ window.hydra.renderers['neuromute'] = {
                 },
                 color: {
                     enabled: true,
-                    on: true,
+                    on: false,
                     cause: 'average',
                     effect: 'add',
                     strength: 10
@@ -118,7 +118,7 @@ window.hydra.renderers['neuromute'] = {
                             label: 'Length',
                             variable: 'trailLength',
                             min: 1,
-                            max: 155,
+                            max: 350,
                             value: 100,
                             step: 1,
                             randomiseable: true
@@ -669,13 +669,13 @@ window.hydra.renderers['neuromute'] = {
                         deck.neuromute.width = hydra.helpers.sine(i, 40);
                         break;
                     case 2:
-                        deck.neuromute.width = i/2;
+                        deck.neuromute.width = (i/3) > 0 ? (i/3) : 0;
                         break;
                     case 3:
                         deck.neuromute.width = hydra.helpers.sine(i, 60);
                         break;
                     case 4:
-                        deck.neuromute.width = hydra.helpers.sine(i/2, 255);
+                        deck.neuromute.width = hydra.helpers.sine(i/2, deck.neuromute.trails.length);
                         break;
                     case 5:
                         deck.neuromute.width = deck.neuromute.minWidth;

@@ -1,300 +1,35 @@
 {
     "renderer": "neuromute",
     "presets": [
-        {
-            "minWidth": 1,
-            "widthMode": 2,
-            "trailLength": 25,
-            "modulo": 1,
-            "arcMode": 2,
-            "fillMode": 0,
-            "colorMode": 4
-        },
-        {
-            "minWidth": 1,
-            "widthMode": 3,
-            "trailLength": 120,
-            "modulo": 1,
-            "arcMode": 2,
-            "fillMode": 1,
-            "fillFreq": 5,
-            "fillRand": 1,
-            "colorMode": 5
-        },
-        {
-            "minWidth": 1,
-            "widthMode": 4,
-            "trailLength": 155,
-            "modulo": 14,
-            "arcMode": 1,
-            "fillMode": 0,
-            "colorMode": 5
-        },
-        {
-            "minWidth": 155,
-            "widthMode": 2,
-            "trailLength": 95,
-            "modulo": 3,
-            "arcMode": 1,
-            "fillMode": 1,
-            "colorMode": 5
-        },
-        {
-            "minWidth": 200,
-            "widthMode": 3,
-            "trailLength": 155,
-            "modulo": 20,
-            "arcMode": 2,
-            "fillMode": 1,
-            "fillFreq": 5,
-            "fillRand": 1,
-            "colorMode": 6
-        },
-        {
-            "minWidth": 1,
-            "widthMode": 2,
-            "trailLength": 155,
-            "modulo": 12,
-            "arcMode": 5,
-            "fillMode": 1,
-            "colorMode": 5
-        },
-        {
-            "minWidth": 335,
-            "widthMode": 4,
-            "trailLength": 155,
-            "modulo": 10,
-            "arcMode": 2,
-            "fillMode": 1,
-            "colorMode": 5
-        },
-        {
-            "minWidth": 110,
-            "widthMode": 4,
-            "trailLength": 155,
-            "modulo": 3,
-            "arcMode": 1,
-            "fillMode": 0,
-            "colorMode": 3
-        },
-        {
-            "minWidth": 45,
-            "widthMode": 1,
-            "trailLength": 155,
-            "modulo": 1,
-            "arcMode": 2,
-            "fillMode": 0,
-            "colorMode": 7
-        },
-        {
-            "minWidth": 1,
-            "widthMode": 2,
-            "trailLength": 70,
-            "modulo": 1,
-            "arcMode": 1,
-            "fillMode": 1,
-            "colorMode": 5
-        },
-        {
-            "minWidth": 115,
-            "widthMode": 2,
-            "trailLength": 135,
-            "modulo": 1,
-            "arcMode": 1,
-            "fillMode": 0,
-            "colorMode": 7
-        },
-        {
-            "minWidth": 1,
-            "widthMode": 1,
-            "trailLength": 30,
-            "modulo": 9,
-            "arcMode": 1,
-            "fillMode": 1,
-            "colorMode": 2
-        },
-        {
-            "minWidth": 1,
-            "widthMode": 4,
-            "trailLength": 155,
-            "modulo": 1,
-            "arcMode": 1,
-            "fillMode": 0,
-            "colorMode": 3
-        },
-        {
-            "minWidth": 1,
-            "widthMode": 1,
-            "trailLength": 135,
-            "modulo": 10,
-            "arcMode": 3,
-            "fillMode": 1,
-            "colorMode": 2
-        },
-        {
-            "minWidth": 1,
-            "widthMode": 4,
-            "trailLength": 155,
-            "modulo": 2,
-            "arcMode": 1,
-            "fillMode": 0,
-            "colorMode": 3
-        },
-        {
-            "minWidth": 240,
-            "widthMode": 3,
-            "trailLength": 155,
-            "modulo": 6,
-            "arcMode": 2,
-            "fillMode": 1,
-            "fillFreq": 5,
-            "fillRand": 1,
-            "colorMode": 7
-        },
-        {
-            "minWidth": 1,
-            "widthMode": 2,
-            "trailLength": 155,
-            "modulo": 11,
-            "arcMode": 1,
-            "fillMode": 1,
-            "colorMode": 5,
-            "redShift": -17,
-            "redAmp": 2.3,
-            "greenShift": 29,
-            "greenAmp": 2.7,
-            "blueShift": 6,
-            "blueAmp": 4.2
-        },
-        {
-            "minWidth": 245,
-            "widthMode": 4,
-            "trailLength": 155,
-            "modulo": 8,
-            "arcMode": 1,
-            "fillMode": 0,
-            "colorMode": 2
-        },
-        {
-            "minWidth": 6,
-            "widthMode": 3,
-            "trailLength": 155,
-            "modulo": 3,
-            "arcMode": 1,
-            "fillMode": 1,
-            "colorMode": 6
-        },
-        {
-            "minWidth": 40,
-            "widthMode": 2,
-            "trailLength": 155,
-            "modulo": 20,
-            "arcMode": 2,
-            "fillMode": 1,
-            "fillFreq": 5,
-            "fillRand": 1,
-            "colorMode": 4
-        },
-        {
-            "minWidth": 90,
-            "widthMode": 3,
-            "trailLength": 155,
-            "modulo": 20,
-            "arcMode": 1,
-            "fillMode": 1,
-            "fillFreq": 5,
-            "fillRand": 1,
-            "colorMode": 4
-        },
-        {
-            "minWidth": 1,
-            "widthMode": 2,
-            "trailLength": 155,
-            "modulo": 1,
-            "arcMode": 1,
-            "fillMode": 0,
-            "colorMode": 1
-        },
-        {
-            "minWidth": 1,
-            "widthMode": 4,
-            "trailLength": 255,
-            "modulo": 1,
-            "arcMode": 5,
-            "fillMode": 0,
-            "colorMode": 5
-        },
-        {
-            "minWidth": 1,
-            "widthMode": 3,
-            "trailLength": 155,
-            "modulo": 1,
-            "arcMode": 1,
-            "fillMode": 1,
-            "fillFreq": 5,
-            "fillRand": 1,
-            "colorMode": 4
-        },
-        {
-            "minWidth": 45,
-            "widthMode": 3,
-            "trailLength": 155,
-            "modulo": 1,
-            "arcMode": 1,
-            "fillMode": 0,
-            "colorMode": 6,
-            "blueShift": 125
-        },
-        {
-            "minWidth": 1,
-            "widthMode": 3,
-            "trailLength": 30,
-            "modulo": 1,
-            "arcMode": 3,
-            "fillMode": 0,
-            "colorMode": 1
-        },
-        {
-            "minWidth": 1,
-            "widthMode": 2,
-            "trailLength": 155,
-            "modulo": 1,
-            "arcMode": 1,
-            "fillMode": 1,
-            "colorMode": 4
-        },
-        {
-            "minWidth": 1,
-            "widthMode": 2,
-            "trailLength": 65,
-            "modulo": 1,
-            "arcMode": 1,
-            "fillMode": 0,
-            "colorMode": 5,
-            "redShift": -172,
-            "redAmp": 3.2,
-            "greenShift": 0,
-            "greenAmp": 1.7,
-            "blueShift": -10,
-            "blueAmp": 5
-        },
-        {
-            "minWidth": 1,
-            "widthMode": 1,
-            "trailLength": 155,
-            "modulo": 1,
-            "arcMode": 1,
-            "fillMode": 0,
-            "colorMode": 1
-        },
-        {
-            "minWidth": 1,
-            "widthMode": 2,
-            "trailLength": 155,
-            "modulo": 1,
-            "arcMode": 1,
-            "fillMode": 0,
-            "colorMode": 5
-        }
+        {"minWidth":"1","widthMode":"2","arcMode":"2","lineWidth":"1","lineMode":"1","trailLength":"25","modulo":"1","fillFreq":"1","fillMode":false,"fillRand":false,"dashLength":"1","gapLength":"1","dashMode":true,"colorMode":"4","globalShift":"0","globalAlpha":"1","globalAmp":"1","redShift":"0","redAmp":"1","greenShift":"0","greenAmp":"1","blueShift":"0","blueAmp":"1"},
+        {"minWidth":"1","widthMode":"3","arcMode":"2","lineWidth":"1","lineMode":"1","trailLength":"120","modulo":"1","fillFreq":"5","fillMode":true,"fillRand":true,"dashLength":"1","gapLength":"1","dashMode":true,"colorMode":"5","globalShift":"0","globalAlpha":"1","globalAmp":"1","redShift":"0","redAmp":"1","greenShift":"0","greenAmp":"1","blueShift":"0","blueAmp":"1"},
+        {"minWidth":"1","widthMode":"4","arcMode":"1","lineWidth":"1","lineMode":"1","trailLength":"250","modulo":"14","fillFreq":"1","fillMode":false,"fillRand":false,"dashLength":"1","gapLength":"1","dashMode":false,"colorMode":"5","globalShift":"0","globalAlpha":"1","globalAmp":"1","redShift":"0","redAmp":"1","greenShift":"0","greenAmp":"1","blueShift":"0","blueAmp":"1"},
+        {"minWidth":"200","widthMode":"3","arcMode":"2","lineWidth":"1","lineMode":"1","trailLength":"350","modulo":"20","fillFreq":"5","fillMode":true,"fillRand":true,"dashLength":"1","gapLength":"1","dashMode":true,"colorMode":"6","globalShift":"0","globalAlpha":"1","globalAmp":"1","redShift":"0","redAmp":"1","greenShift":"0","greenAmp":"1","blueShift":"0","blueAmp":"1"},
+        {"minWidth":"1","widthMode":"2","arcMode":"5","lineWidth":"1","lineMode":"1","trailLength":"345","modulo":"12","fillFreq":"1","fillMode":true,"fillRand":false,"dashLength":"1","gapLength":"1","dashMode":false,"colorMode":"5","globalShift":"0","globalAlpha":"1","globalAmp":"1","redShift":"0","redAmp":"1","greenShift":"0","greenAmp":"1","blueShift":"0","blueAmp":"1"},
+        {"minWidth":"105","widthMode":"4","arcMode":"2","lineWidth":"1","lineMode":"1","trailLength":"325","modulo":"10","fillFreq":"1","fillMode":true,"fillRand":false,"dashLength":"1","gapLength":"1","dashMode":true,"colorMode":"5","globalShift":"0","globalAlpha":"1","globalAmp":"1","redShift":"0","redAmp":"1","greenShift":"0","greenAmp":"1","blueShift":"0","blueAmp":"1"},
+        {"minWidth":"45","widthMode":"4","arcMode":"1","lineWidth":"1","lineMode":"1","trailLength":"350","modulo":"3","fillFreq":"1","fillMode":false,"fillRand":false,"dashLength":"1","gapLength":"1","dashMode":false,"colorMode":"3","globalShift":"0","globalAlpha":"1","globalAmp":"1","redShift":"0","redAmp":"1","greenShift":"0","greenAmp":"1","blueShift":"0","blueAmp":"1"},
+        {"minWidth":"21","widthMode":"1","arcMode":"2","lineWidth":"1","lineMode":"1","trailLength":"220","modulo":"1","fillFreq":"1","fillMode":false,"fillRand":false,"dashLength":"1","gapLength":"1","dashMode":false,"colorMode":"7","globalShift":"0","globalAlpha":"1","globalAmp":"1","redShift":"0","redAmp":"1","greenShift":"0","greenAmp":"1","blueShift":"0","blueAmp":"1"},
+        {"minWidth":"1","widthMode":"1","arcMode":"1","lineWidth":"1","lineMode":"1","trailLength":"30","modulo":"9","fillFreq":"1","fillMode":true,"fillRand":false,"dashLength":"1","gapLength":"1","dashMode":false,"colorMode":"2","globalShift":"0","globalAlpha":"1","globalAmp":"1","redShift":"0","redAmp":"1","greenShift":"0","greenAmp":"1","blueShift":"0","blueAmp":"1"},
+        {"minWidth":"1","widthMode":"1","arcMode":"3","lineWidth":"1","lineMode":"1","trailLength":"135","modulo":"10","fillFreq":"1","fillMode":true,"fillRand":false,"dashLength":"1","gapLength":"1","dashMode":false,"colorMode":"2","globalShift":"0","globalAlpha":"1","globalAmp":"1","redShift":"0","redAmp":"1","greenShift":"0","greenAmp":"1","blueShift":"0","blueAmp":"1"},
+        {"minWidth":"1","widthMode":"4","arcMode":"1","lineWidth":"1","lineMode":"1","trailLength":"350","modulo":"1","fillFreq":"1","fillMode":false,"fillRand":false,"dashLength":"1","gapLength":"1","dashMode":false,"colorMode":"3","globalShift":"0","globalAlpha":"1","globalAmp":"1","redShift":"0","redAmp":"1","greenShift":"0","greenAmp":"1","blueShift":"0","blueAmp":"1"},
+        {"minWidth":"1","widthMode":"4","arcMode":"1","lineWidth":"3","lineMode":"1","trailLength":"170","modulo":"5","fillFreq":"1","fillMode":false,"fillRand":false,"dashLength":"1","gapLength":"1","dashMode":false,"colorMode":"3","globalShift":"0","globalAlpha":"1","globalAmp":"1","redShift":"0","redAmp":"1","greenShift":"0","greenAmp":"1","blueShift":"0","blueAmp":"1"},
+        {"minWidth":"70","widthMode":"8","arcMode":"10","lineWidth":"1","lineMode":"1","trailLength":"61","modulo":"16","fillFreq":"1","fillMode":true,"fillRand":true,"dashLength":"1","gapLength":"1","dashMode":false,"colorMode":"10","globalShift":"0","globalAlpha":"1","globalAmp":"1","redShift":"0","redAmp":"1","greenShift":"0","greenAmp":"1","blueShift":"0","blueAmp":"1"},
+        {"minWidth":"1","widthMode":"2","arcMode":"1","lineWidth":"1","lineMode":"1","trailLength":"155","modulo":"11","fillFreq":"1","fillMode":true,"fillRand":false,"dashLength":"1","gapLength":"1","dashMode":false,"colorMode":"5","globalShift":"0","globalAlpha":"1","globalAmp":"1","redShift":"-17","redAmp":"2.3","greenShift":"29","greenAmp":"2.7","blueShift":"6","blueAmp":"4.2"},
+        {"minWidth":"1","widthMode":"3","arcMode":"1","lineWidth":"1","lineMode":"1","trailLength":"110","modulo":"3","fillFreq":"1","fillMode":true,"fillRand":false,"dashLength":"1","gapLength":"1","dashMode":false,"colorMode":"6","globalShift":"0","globalAlpha":"1","globalAmp":"1","redShift":"0","redAmp":"1","greenShift":"0","greenAmp":"1","blueShift":"0","blueAmp":"1"},
+        {"minWidth":"1","widthMode":"4","arcMode":"5","lineWidth":"2","lineMode":"1","trailLength":"255","modulo":"1","fillFreq":"5","fillMode":false,"fillRand":true,"dashLength":"1","gapLength":"1","dashMode":false,"colorMode":"5","globalShift":"0","globalAlpha":"1","globalAmp":"1","redShift":"0","redAmp":"1","greenShift":"0","greenAmp":"1","blueShift":"125","blueAmp":"1"},
+        {"minWidth":"39","widthMode":"2","arcMode":"10","lineWidth":"5","lineMode":"3","trailLength":"48","modulo":"1","fillFreq":"1","fillMode":true,"fillRand":true,"dashLength":"1","gapLength":"1","dashMode":false,"colorMode":"10","globalShift":"0","globalAlpha":"1","globalAmp":"1","redShift":"0","redAmp":"1","greenShift":"0","greenAmp":"1","blueShift":"125","blueAmp":"1"},
+        {"minWidth":"1","widthMode":"6","arcMode":"8","lineWidth":"2","lineMode":"1","trailLength":"140","modulo":"2","fillFreq":"1","fillMode":false,"fillRand":false,"dashLength":"1","gapLength":"1","dashMode":false,"colorMode":"10","globalShift":"0","globalAlpha":"1","globalAmp":"1.1","redShift":"0","redAmp":"1","greenShift":"0","greenAmp":"1","blueShift":"0","blueAmp":"1"},
+        {"minWidth":"1","widthMode":"2","arcMode":"1","lineWidth":"2","lineMode":"1","trailLength":"155","modulo":"1","fillFreq":"1","fillMode":true,"fillRand":false,"dashLength":"1","gapLength":"1","dashMode":false,"colorMode":"4","globalShift":"0","globalAlpha":"1","globalAmp":"1","redShift":"-172","redAmp":"3.2","greenShift":"0","greenAmp":"1.7","blueShift":"-10","blueAmp":"5"},
+        {"minWidth":"65","widthMode":"2","arcMode":"1","lineWidth":"1","lineMode":"1","trailLength":"178","modulo":"1","fillFreq":"1","fillMode":false,"fillRand":false,"dashLength":"10","gapLength":"90","dashMode":true,"colorMode":"5","globalShift":"0","globalAlpha":"1","globalAmp":"1","redShift":"8","redAmp":"1","greenShift":"0","greenAmp":"1","blueShift":"1","blueAmp":"1"},
+        {"minWidth":"1","widthMode":"6","arcMode":"10","lineWidth":"2","lineMode":"2","trailLength":"190","modulo":"1","fillFreq":"1","fillMode":false,"fillRand":false,"dashLength":"5","gapLength":"75","dashMode":true,"colorMode":"5","globalShift":"0","globalAlpha":"1","globalAmp":"1","redShift":"8","redAmp":"1","greenShift":"0","greenAmp":"1","blueShift":"1","blueAmp":"1"},
+        {"minWidth":"1","widthMode":"3","arcMode":"3","lineWidth":"6","lineMode":"2","trailLength":"178","modulo":"1","fillFreq":"1","fillMode":false,"fillRand":false,"dashLength":"4","gapLength":"50","dashMode":true,"colorMode":"5","globalShift":"0","globalAlpha":"1","globalAmp":"1","redShift":"8","redAmp":"1","greenShift":"0","greenAmp":"1","blueShift":"1","blueAmp":"1"},
+        {"minWidth":"100","widthMode":"1","arcMode":"5","lineWidth":"1","lineMode":"2","trailLength":"120","modulo":"1","fillFreq":"120","fillMode":false,"fillRand":false,"dashLength":"4","gapLength":"10","dashMode":true,"colorMode":"5","globalShift":"0","globalAlpha":"1","globalAmp":"1","redShift":"8","redAmp":"1","greenShift":"0","greenAmp":"1","blueShift":"1","blueAmp":"1"},
+        {"minWidth":"1","widthMode":"4","arcMode":"1","lineWidth":"4","lineMode":"2","trailLength":"243","modulo":"8","fillFreq":"120","fillMode":false,"fillRand":false,"dashLength":"8","gapLength":"25","dashMode":true,"colorMode":"6","globalShift":"0","globalAlpha":"1","globalAmp":"1","redShift":"8","redAmp":"1","greenShift":"0","greenAmp":"1","blueShift":"1","blueAmp":"1"},
+        {"minWidth":"34","widthMode":"1","arcMode":"8","lineWidth":"16","lineMode":"3","trailLength":"158","modulo":"6","fillFreq":"30","fillMode":true,"fillRand":true,"dashLength":"1","gapLength":"20","dashMode":true,"colorMode":"3","globalShift":"0","globalAlpha":"1","globalAmp":"4.1","redShift":"0","redAmp":"1","greenShift":"0","greenAmp":"1","blueShift":"0","blueAmp":"1"},
+        {"minWidth":"1","widthMode":"4","arcMode":"9","lineWidth":"12","lineMode":"1","trailLength":"158","modulo":"17","fillFreq":"1","fillMode":false,"fillRand":false,"dashLength":"8","gapLength":"8","dashMode":false,"colorMode":"3","globalShift":"0","globalAlpha":"1","globalAmp":"4.6","redShift":"0","redAmp":"1","greenShift":"0","greenAmp":"1","blueShift":"0","blueAmp":"1"},
+        {"minWidth":"1","widthMode":"4","arcMode":"2","lineWidth":"4","lineMode":"2","trailLength":"99","modulo":"1","fillFreq":"64","fillMode":false,"fillRand":false,"dashLength":"2","gapLength":"19","dashMode":true,"colorMode":"3","globalShift":"0","globalAlpha":"1","globalAmp":"6.1","redShift":"8","redAmp":"1","greenShift":"0","greenAmp":"1","blueShift":"1","blueAmp":"1"},
+        {"minWidth":"1","widthMode":"4","arcMode":"10","lineWidth":"1","lineMode":"1","trailLength":"150","modulo":"3","fillFreq":"1","fillMode":false,"fillRand":false,"dashLength":"4","gapLength":"5","dashMode":true,"colorMode":"9","globalShift":"0","globalAlpha":"1","globalAmp":"1","redShift":"0","redAmp":"1","greenShift":"0","greenAmp":"1","blueShift":"125","blueAmp":"1"},
+        {"minWidth":"1","widthMode":"4","arcMode":"10","lineWidth":"3","lineMode":"1","trailLength":"150","modulo":"6","fillFreq":"30","fillMode":true,"fillRand":false,"dashLength":"4","gapLength":"5","dashMode":true,"colorMode":"6","globalShift":"0","globalAlpha":"1","globalAmp":"1","redShift":"0","redAmp":"1","greenShift":"0","greenAmp":"1","blueShift":"0","blueAmp":"1"},
+        {"minWidth":"1","widthMode":"4","arcMode":"10","lineWidth":"1","lineMode":"1","trailLength":"255","modulo":"3","fillFreq":"1","fillMode":false,"fillRand":false,"dashLength":"1","gapLength":"1","dashMode":false,"colorMode":"5","globalShift":"0","globalAlpha":"1","globalAmp":"1","redShift":"0","redAmp":"1","greenShift":"0","greenAmp":"1","blueShift":"1","blueAmp":"1"}
     ]
 }
