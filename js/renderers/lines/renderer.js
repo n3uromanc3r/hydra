@@ -1,6 +1,36 @@
 window.hydra.renderers['lines'] = {
     init: function(deck) {
         const defaults = {
+            reactivity: {
+                scale: {
+                    enabled: true,
+                    on: true,
+                    cause: 'average',
+                    effect: 'add',
+                    strength: 10
+                },
+                color: {
+                    enabled: true,
+                    on: true,
+                    cause: 'average',
+                    effect: 'add',
+                    strength: 10
+                },
+                alpha: {
+                    enabled: true,
+                    on: false,
+                    cause: 'average',
+                    effect: 'add',
+                    strength: 10
+                },
+                amp: {
+                    enabled: false,
+                    on: false,
+                    cause: 'average',
+                    effect: 'add',
+                    strength: 10
+                }
+            },
             clearsSelf: true
         };
         const ui = {
@@ -313,6 +343,19 @@ window.hydra.renderers['lines'] = {
                     width = hydra.helpers.sine((Date.now() + (count * deck.lines.speed)) / deck.lines.speed, deck.lines.width);
                 } else {
                     width = deck.lines.width;
+                }
+
+                if (deck.reactivity.on && deck.reactivity.scale.on) {
+                    width = width/500;
+                    if (deck.reactivity.scale.effect == 'add') {
+                        width = Math.max(0, width + (hydra.audio[deck.reactivity.scale.cause] * deck.reactivity.scale.strength/10));
+                    }
+                    if (deck.reactivity.scale.effect == 'subtract') {
+                        width = Math.max(0, width - (hydra.audio[deck.reactivity.scale.cause] * deck.reactivity.scale.strength/10));
+                    }
+                    if (deck.reactivity.scale.effect == 'multiply') {
+                        width = Math.max(0, width * (hydra.audio[deck.reactivity.scale.cause] * (deck.reactivity.scale.strength/10)));
+                    }
                 }
 
                 height = deck.canvas.height;
