@@ -364,7 +364,7 @@ window.hydra.renderers['neuromute'] = {
             let trailLength = deck.neuromute.trailLength;
             let fillMode = deck.neuromute.fillMode;
             let globalShift = deck.neuromute.globalShift;
-            let globalAlpha = deck.neuromute.globalAlpha;
+            let globalAlpha = deck.neuromute.globalAlpha * deck.alpha;
             let globalAmp = deck.neuromute.globalAmp;
 
             // bug in chrome means getBoundingClientRect on canvas returns 0 due to the use of flex, so workaround by finding closest column
@@ -737,7 +737,8 @@ window.hydra.renderers['neuromute'] = {
                         }
                     }
 
-                    deck.ctx.globalAlpha = globalAlpha;
+                    deck.ctx.globalAlpha = globalAlpha * deck.crossfaderAlpha;
+
                 }
             }
         }
