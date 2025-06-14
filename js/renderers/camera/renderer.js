@@ -91,7 +91,7 @@ window.hydra.renderers['camera'] = {
             scale = 1;
 
             if (deck.reactivity.on && deck.reactivity.scale.on) {
-                scale = deck.reactivity.adjust('scale', scale / 50);
+                scale = deck.reactivity.adjust('scale', scale);
             }
 
             const ratio = deck.canvas.width / deck.streamEl.videoWidth;
