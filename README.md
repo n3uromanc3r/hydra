@@ -13,6 +13,8 @@ Available online at https://hydra.virusav.com/
   - Bars
   - Camera
   - Display
+  - Heatwave
+  - Kali
   - Lines
   - Lockdown (ported from https://lockdown.virusav.com)
   - Matrix
@@ -22,6 +24,7 @@ Available online at https://hydra.virusav.com/
   - Quark (ported from https://quark.virusav.com)
   - Strobe
   - Text
+  - Tunnel
   - Video
   - Wave
 - Visual blend/layer composition modes
@@ -137,7 +140,8 @@ Coming soon.  There's still some work to do to add a built-in help system, and t
 #### Create a new renderer
 To create a new renderer, you'll need to define a new renderer object and add it to the `hydra.renderers` properties.
 
->Note: In your pages markup this should be done _after_ the `hydra` script has been loaded, and _before_ the `hydra.boot` process has been called.
+> [!NOTE]
+> In your pages markup this should be done _after_ the `hydra` script has been loaded, and _before_ the `hydra.boot` process has been called.
 
 We'll start by adding a very basic example of a new renderer called `foomanchu`:
 ```
@@ -290,7 +294,8 @@ Here we added a single fieldset with 3 inputs.
 
 For each input we defined a `variable` (`color`, `width` and `height`). These variables can be accessed as: `deck.foomanchu.color`, `deck.foomanchu.width` and `deck.foomanchu.height` in our `render` method.
 
-> **NOTE:** We can also access the `input` element for each of these like so: `deck.foomanchu.colorInput`, `deck.foomanchu.widthInput` and `deck.foomanchu.heightInput`.
+> [!NOTE]
+>  We can also access the `input` element for each of these like so: `deck.foomanchu.colorInput`, `deck.foomanchu.widthInput` and `deck.foomanchu.heightInput`.
 
 We then adjusted our `render` method to make use of these new variables.
 
