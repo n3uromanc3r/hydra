@@ -1,6 +1,8 @@
 window.hydra.renderers["lines"] = {
     init: function (deck) {
-        const defaults = {};
+        const defaults = {
+            clearsSelf: true,
+        };
         const ui = {
             fieldsets: [
                 {
@@ -34,6 +36,31 @@ window.hydra.renderers["lines"] = {
                     ],
                 },
                 {
+                    heading: 'Feedback',
+                    class: 'flex',
+                    attributes: 'data-columns="2"',
+                    items: [
+                        {
+                            type: 'checkbox',
+                            label: 'Feedback Enabled',
+                            variable: 'feedbackEnabled',
+                            checked: true,
+                            randomiseable: true
+                        },
+                        {
+                            type: 'range',
+                            label: 'Feedback Level',
+                            variable: 'feedbackLevel',
+                            min: 0,
+                            max: 1,
+                            value: 0.005,
+                            step: 0.001,
+                            containerClass: 'grow',
+                            randomiseable: true
+                        },
+                    ]
+                },
+                {
                     heading: "Rotation",
                     class: "flex-grid",
                     attributes: 'data-columns="1"',
@@ -51,7 +78,7 @@ window.hydra.renderers["lines"] = {
                     ],
                 },
                 {
-                    class: "flex-grid",
+                    class: "flex",
                     attributes: 'data-columns="2"',
                     items: [
                         {
@@ -69,6 +96,7 @@ window.hydra.renderers["lines"] = {
                             max: 50,
                             value: 1,
                             step: 0.01,
+                            containerClass: 'grow',
                             randomiseable: true,
                         },
                     ],
@@ -151,10 +179,20 @@ window.hydra.renderers["lines"] = {
 
         let rotationInRadians;
         let counter = 0;
+        let clearFill;
 
         deck.lines.render = () => {
             width = deck.lines.width;
             height = deck.canvas.height;
+
+            clearFill = 1;
+
+            if (deck.lines.feedbackEnabled) {
+                clearFill = 1 - deck.lines.feedbackLevel;
+            }
+
+            deck.ctx.fillStyle = `rgba(0, 0, 0, ${clearFill})`;
+            deck.ctx.fillRect(0, 0, deck.canvas.width, deck.canvas.height);
 
             objectWidth = deck.lines.width + deck.lines.gap;
             repeatCount = deck.canvas.width / objectWidth;
