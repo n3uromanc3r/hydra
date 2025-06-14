@@ -3111,8 +3111,8 @@
 
                                     document.querySelector(`[data-deck="${deck.id}"][data-${option}-enabled]`).disabled = !currentReactivityConfig[option].enabled;
                                     document.querySelector(`[data-deck="${deck.id}"][data-${option}-strength]`).disabled = !currentReactivityConfig[option].enabled;
-                                    document.querySelector(`[data-deck="${deck.id}"][data-${option}-cause]`).disabled = !currentReactivityConfig[option].enabled;
-                                    document.querySelector(`[data-deck="${deck.id}"][data-${option}-effect]`).disabled = !currentReactivityConfig[option].enabled;
+                                    document.querySelectorAll(`[data-deck="${deck.id}"][data-${option}-cause]`).forEach(item => item.disabled = !currentReactivityConfig[option].enabled)
+                                    document.querySelectorAll(`[data-deck="${deck.id}"][data-${option}-effect]`).forEach(item => item.disabled = !currentReactivityConfig[option].enabled)
 
                                     if (currentReactivityConfig[option].enabled) {
                                         document.querySelector(`[data-deck="${deck.id}"][data-${option}-strength]`).value = currentReactivityConfig[option].strength;
