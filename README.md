@@ -106,6 +106,15 @@ Available online at https://hydra.virusav.com/
       - Source-out
       - Source-over
       - Xor
+  - Radial
+    - Modes
+      - One
+      - Two
+      - Three
+    - Radial Angle
+      - Both
+      - Clip
+      - Apply
 - Audio Reactivity
   - Scale
   - Color
