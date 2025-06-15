@@ -420,7 +420,7 @@ window.hydra = (function(){
                 let deck = {};
                 deck.id = id;
                 deck.canvas = document.getElementById(`deck-${deck.id}-canvas`);
-                deck.ctx = deck.canvas.getContext('2d');
+                deck.ctx = deck.canvas.getContext(visual.context || '2d');
                 deck.pipeCanvas = document.getElementById(`deck-${deck.id}-pipe-canvas`);
                 deck.pipeCtx = deck.pipeCanvas.getContext('2d');
                 deck.videoEl = document.getElementById(`deck-${deck.id}-video`);
@@ -431,13 +431,44 @@ window.hydra = (function(){
                 deck.current = null;
                 deck.visibleTab = 'renderer';
 
+                deck.getCurrentContext = function() {
+                    if (deck.ctx instanceof CanvasRenderingContext2D) return '2d';
+                    if (deck.ctx instanceof WebGLRenderingContext) return 'webgl';
+                    if (deck.ctx instanceof WebGL2RenderingContext) return 'webgl2';
+                    return 'unknown';
+                };
+
+                deck.updateContext = function(newContext) {
+                    let oldCanvas = document.getElementById(`deck-${deck.id}-canvas`);
+
+                    const newCanvas = document.createElement('canvas');
+                    newCanvas.id = oldCanvas.id;
+                    newCanvas.width = oldCanvas.width;
+                    newCanvas.height = oldCanvas.height;
+                    newCanvas.className = oldCanvas.className;
+                    newCanvas.style.cssText = oldCanvas.style.cssText;
+
+                    oldCanvas.parentNode.replaceChild(newCanvas, oldCanvas);
+
+                    deck.canvas = document.getElementById(`deck-${deck.id}-canvas`);
+                    deck.ctx = deck.canvas.getContext(newContext);
+                };
+
                 deck.visual = {
                     select: function(visual) {
-                        deck.ctx.setTransform(1, 0, 0, 1, 0, 0);
-                        deck.ctx.clearRect(0, 0, deck.canvas.width, deck.canvas.height);
-
                         this.current = visual;
                         deck.current = deck[visual];
+
+                        let newContext = deck[visual].context || '2d';
+
+                        if (newContext !== deck.getCurrentContext()) {
+                            deck.updateContext(newContext);
+                        }
+
+                        if (newContext == '2d') {
+                            deck.ctx.setTransform(1, 0, 0, 1, 0, 0);
+                            deck.ctx.clearRect(0, 0, deck.canvas.width, deck.canvas.height);
+                        }
 
                         const visualSettingsPanels = document.querySelectorAll(`[data-deck="${deck.id}"].visual-settings > div:not(.effects):not(.reactivity):not(.randomisation)`);
                         visualSettingsPanels.forEach(panel => {
@@ -903,12 +934,16 @@ window.hydra = (function(){
                         if (deck.current.presets && deck.current.presets.length) {
                             const previous = this.current == 1 ? deck.current.presets.length : (this.current - 1);
                             this.select(previous);
+                        } else if (deck.current.managesOwnPresets) {
+                            deck.current.previousPreset();
                         }
                     },
                     next: function() {
                         if (deck.current.presets && deck.current.presets.length) {
                             const next = this.current == deck.current.presets.length ? 1 : (this.current + 1);
                             this.select(next);
+                        } else if (deck.current.managesOwnPresets) {
+                            deck.current.nextPreset();
                         }
                     },
                     load: function(preset) {

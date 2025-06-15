@@ -11,6 +11,7 @@ Available online at https://hydra.virusav.com/
 - Crossfade visuals
 - Multiple renderers (visuals)
   - Bars
+  - [Butterchurn (Milkdrop)](https://github.com/jberg/butterchurn)
   - Camera
   - Display
   - Heatwave
