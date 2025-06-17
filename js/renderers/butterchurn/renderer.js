@@ -23,14 +23,10 @@ window.hydra.renderers['butterchurn'] = {
                 let currentPresetIndex = deck.butterchurn.presetKeys.indexOf(currentPreset);
 
                 if (currentPresetIndex < (deck.butterchurn.presetKeys.length - 1)) {
-                    console.log('not beginning')
                     next = deck.butterchurn.presetKeys[currentPresetIndex + 1];
                 } else {
-                    console.log('beginning')
                     next = deck.butterchurn.presetKeys[0];
                 }
-
-                console.log(next)
 
                 deck.butterchurn.instance.loadPreset(deck.butterchurn.presets[next], blendTime);
                 document.querySelector(`select[data-deck="${deck.id}"][data-visual="butterchurn"][data-variable="preset"]`).value = next;
