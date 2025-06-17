@@ -72,7 +72,9 @@ window.hydra.renderers['butterchurn'] = {
         deck.butterchurn.presetKeys = presetKeys;
 
         document.querySelector(`select[data-deck="${deck.id}"][data-visual="butterchurn"][data-variable="preset"]`).addEventListener('change', function(e) {
-            deck.butterchurn.instance.loadPreset(deck.butterchurn.presets[e.target.value], 10);
+            if (deck.butterchurn.initialised) {
+                deck.butterchurn.instance.loadPreset(deck.butterchurn.presets[e.target.value], 10);
+            }
         });
 
         deck.butterchurn.render = () => {
