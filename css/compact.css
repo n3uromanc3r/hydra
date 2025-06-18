@@ -1,0 +1,46 @@
+.compact {
+	#hydra {
+		max-width: initial;
+		width: initial;
+	}
+
+	.column {
+	    padding: 4px;
+	}
+
+	button {
+		margin-top: 4px;
+		padding: 4px;
+	}
+
+	.button {
+		margin-top: 4px;
+		padding: 4px;
+	}
+
+	.button-group:not(.button-radio-switch-group),
+	.main-mixer-panel-group {
+    	gap: 5px;
+	}
+
+	.main-mixer-panel-group .presets button {
+		padding: 2px 0;
+	}
+
+	.main-mixer-panel-group .flex-grid {
+		gap: 5px;
+		margin-top: 4px;
+	}
+
+	.main-mixer-panel-group {
+		padding-top: 0;
+	}
+
+	input[type=range] {
+		height: 25px;
+	}
+
+	#crossfader-section {
+    	margin-bottom: 13px;
+	}
+}

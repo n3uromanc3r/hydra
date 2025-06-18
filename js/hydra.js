@@ -3098,6 +3098,7 @@ window.hydra = (function(){
 
                 this.select.addEventListener('change', function(e) {
                     hydra.body.className = this.value;
+                    hydra.helpers.detectSizes();
                 });
             }
         },
