@@ -19,6 +19,7 @@
                 <div class="deck-screen">
                     <canvas id="deck-1-canvas" class="canvas hide"></canvas>
                     <canvas id="deck-1-pipe-canvas" class="canvas"></canvas>
+                    <canvas id="deck-1-feedback-canvas" class="canvas hide"></canvas>
                 </div>
             </div>
             <div class="column">
@@ -30,6 +31,7 @@
                 <div class="deck-screen">
                     <canvas id="deck-2-canvas" class="canvas hide"></canvas>
                     <canvas id="deck-2-pipe-canvas" class="canvas"></canvas>
+                    <canvas id="deck-2-feedback-canvas" class="canvas hide"></canvas>
                 </div>
             </div>
         </section>
@@ -217,6 +219,56 @@
                                     <input class="radial-angle" type="range" min="2" max="90" value="10" step="1" data-target="deck1" data-type="apply">
                                 </div>
                             </div>
+                        </fieldset>
+                        <fieldset>
+                            <div class="heading">Feedback</div>
+                            <group class="flex">
+                                <div class="inline-input">
+                                    <span class="input-label">Enable</span>
+                                    <label class="switch">
+                                        <input type="checkbox" data-deck="1" data-feedback-toggle>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                <div class="inline-input grow">
+                                    <span class="input-label">Value</span>
+                                    <span class="value">0</span>
+                                    <input type="range" min="0" max="1" value="0" step="0.0001" data-deck="1" data-feedback-value>
+                                </div>
+                            </group>
+                            <group class="flex">
+                                <div class="inline-input grow">
+                                    <span class="input-label">Mode</span>
+                                    <select data-deck="1" data-feedback-mode>
+                                        <option value="color-burn">color-burn</option>
+                                        <option value="color-dodge">color-dodge</option>
+                                        <option value="color">color</option>
+                                        <option value="copy" selected>copy</option>
+                                        <option value="darken">darken</option>
+                                        <option value="destination-atop">destination-atop</option>
+                                        <option value="destination-in">destination-in</option>
+                                        <option value="destination-out">destination-out</option>
+                                        <option value="destination-over">destination-over</option>
+                                        <option value="difference">difference</option>
+                                        <option value="exclusion">exclusion</option>
+                                        <option value="hard-light">hard-light</option>
+                                        <option value="hue">hue</option>
+                                        <option value="lighten">lighten</option>
+                                        <option value="lighter">lighter</option>
+                                        <option value="luminosity">luminosity</option>
+                                        <option value="multiply">multiply</option>
+                                        <option value="overlay">overlay</option>
+                                        <option value="saturation">saturation</option>
+                                        <option value="screen">screen</option>
+                                        <option value="soft-light">soft-light</option>
+                                        <option value="source-atop">source-atop</option>
+                                        <option value="source-in">source-in</option>
+                                        <option value="source-out">source-out</option>
+                                        <option value="source-over">source-over</option>
+                                        <option value="xor">xor</option>
+                                    </select>
+                                </div>
+                            </group>
                         </fieldset>
                         <fieldset>
                             <div class="heading">Blur</div>
@@ -1070,6 +1122,56 @@
                                     <input class="radial-angle" type="range" min="2" max="90" value="10" step="1" data-target="deck2" data-type="apply">
                                 </div>
                             </div>
+                        </fieldset>
+                        <fieldset>
+                            <div class="heading">Feedback</div>
+                            <group class="flex">
+                                <div class="inline-input">
+                                    <span class="input-label">Enable</span>
+                                    <label class="switch">
+                                        <input type="checkbox" data-deck="2" data-feedback-toggle>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                <div class="inline-input grow">
+                                    <span class="input-label">Value</span>
+                                    <span class="value">0</span>
+                                    <input type="range" min="0" max="1" value="0" step="0.0001" data-deck="2" data-feedback-value>
+                                </div>
+                            </group>
+                            <group class="flex">
+                                <div class="inline-input grow">
+                                    <span class="input-label">Mode</span>
+                                    <select data-deck="2" data-feedback-mode>
+                                        <option value="color-burn">color-burn</option>
+                                        <option value="color-dodge">color-dodge</option>
+                                        <option value="color">color</option>
+                                        <option value="copy" selected>copy</option>
+                                        <option value="darken">darken</option>
+                                        <option value="destination-atop">destination-atop</option>
+                                        <option value="destination-in">destination-in</option>
+                                        <option value="destination-out">destination-out</option>
+                                        <option value="destination-over">destination-over</option>
+                                        <option value="difference">difference</option>
+                                        <option value="exclusion">exclusion</option>
+                                        <option value="hard-light">hard-light</option>
+                                        <option value="hue">hue</option>
+                                        <option value="lighten">lighten</option>
+                                        <option value="lighter">lighter</option>
+                                        <option value="luminosity">luminosity</option>
+                                        <option value="multiply">multiply</option>
+                                        <option value="overlay">overlay</option>
+                                        <option value="saturation">saturation</option>
+                                        <option value="screen">screen</option>
+                                        <option value="soft-light">soft-light</option>
+                                        <option value="source-atop">source-atop</option>
+                                        <option value="source-in">source-in</option>
+                                        <option value="source-out">source-out</option>
+                                        <option value="source-over">source-over</option>
+                                        <option value="xor">xor</option>
+                                    </select>
+                                </div>
+                            </group>
                         </fieldset>
                         <fieldset>
                             <div class="heading">Blur</div>

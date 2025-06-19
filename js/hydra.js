@@ -425,6 +425,8 @@ window.hydra = (function(){
                 deck.ctx = deck.canvas.getContext(visual.context || '2d');
                 deck.pipeCanvas = document.getElementById(`deck-${deck.id}-pipe-canvas`);
                 deck.pipeCtx = deck.pipeCanvas.getContext('2d');
+                deck.feedbackCanvas = document.getElementById(`deck-${deck.id}-feedback-canvas`);
+                deck.feedbackCtx = deck.feedbackCanvas.getContext('2d');
                 deck.videoEl = document.getElementById(`deck-${deck.id}-video`);
                 deck.streamEl = document.getElementById(`deck-${deck.id}-stream`);
                 deck.crossfaderAlpha = 1;
@@ -2072,6 +2074,47 @@ window.hydra = (function(){
                         e.target.parentElement.querySelector('.value').textContent = e.target.value;
                     });
                 });
+
+                this.feedback = {};
+
+                this.feedback.deck1 = {
+                    enabled: false,
+                    mode: 'copy',
+                    level: 0,
+                    fillAlpha: 1,
+                };
+                this.feedback.deck2 = {
+                    enabled: false,
+                    mode: 'copy',
+                    level: 0,
+                    fillAlpha: 1,
+                };
+
+                this.feedback.toggleBtns = document.querySelectorAll('[data-feedback-toggle]');
+                this.feedback.toggleBtns.forEach(toggleBtn => {
+                    toggleBtn.addEventListener('input', function(e) {
+                        const target = `deck${e.target.dataset.deck}`;
+                        hydra.effects.feedback[target].enabled = e.target.checked;
+                    });
+                });
+
+                this.feedback.levelInputs = document.querySelectorAll('[data-feedback-value]');
+                this.feedback.levelInputs.forEach(levelInput => {
+                    levelInput.addEventListener('input', function(e) {
+                        const target = `deck${e.target.dataset.deck}`;
+                        hydra.effects.feedback[target].level = parseFloat(e.target.value);
+                        hydra.effects.feedback[target].fillAlpha = -Math.abs(hydra.effects.feedback[target].level) + 1;
+                        e.target.parentElement.querySelector('.value').textContent = e.target.value;
+                    });
+                });
+
+                this.feedback.modeInputs = document.querySelectorAll('[data-feedback-mode]');
+                this.feedback.modeInputs.forEach(modeInput => {
+                    modeInput.addEventListener('change', function(e) {
+                        const target = `deck${e.target.dataset.deck}`;
+                        hydra.effects.feedback[target].mode = e.target.value;
+                    });
+                });
             }
         },
         handlers: {
@@ -2311,15 +2354,19 @@ window.hydra = (function(){
             hydra.deck1.ctx.globalAlpha = hydra.deck1.pipeCtx.globalAlpha = hydra.deck1.alpha;
             hydra.deck2.ctx.globalAlpha = hydra.deck2.pipeCtx.globalAlpha = hydra.deck2.alpha;
 
+            // last frame for feedback loops on both decks
+            hydra.deck1.feedbackCtx.drawImage(hydra.deck1.pipeCanvas, 0, 0);
+            hydra.deck2.feedbackCtx.drawImage(hydra.deck2.pipeCanvas, 0, 0);
+
             // clear canvas contexts
             hydra.mixedCtx.clearRect(0, 0, hydra.mixedCanvas.width, hydra.mixedCanvas.height);
 
-            if (!hydra.deck1.current.clearsSelf) {
+            if (!hydra.deck1.current.clearsSelf && (hydra.deck1.getCurrentContext() == '2d')) {
                 hydra.deck1.ctx.clearRect(0, 0, hydra.mixedCanvas.width, hydra.mixedCanvas.height);
             }
             hydra.deck1.pipeCtx.clearRect(0, 0, hydra.deck1.pipeCanvas.width, hydra.deck1.pipeCanvas.height);
 
-            if (!hydra.deck2.current.clearsSelf) {
+            if (!hydra.deck2.current.clearsSelf && (hydra.deck2.getCurrentContext() == '2d')) {
                 hydra.deck2.ctx.clearRect(0, 0, hydra.mixedCanvas.width, hydra.mixedCanvas.height);
             }
             hydra.deck2.pipeCtx.clearRect(0, 0, hydra.deck2.pipeCanvas.width, hydra.deck2.pipeCanvas.height);
@@ -2359,6 +2406,15 @@ window.hydra = (function(){
                 hydra.effects.radial.apply(hydra.deck1.pipeCtx, hydra.deck1.pipeCanvas, hydra.effects.radial.deck1.mode, hydra.effects.radial.deck1.applyAngle);
             }
 
+            if (hydra.effects.feedback.deck1.enabled) {
+                hydra.deck1.pipeCtx.save();
+                hydra.deck1.feedbackCtx.globalCompositeOperation = hydra.effects.feedback.deck1.mode;
+                hydra.deck1.pipeCtx.globalAlpha = hydra.effects.feedback.deck1.level;
+                // hydra.deck1.pipeCtx.drawImage(hydra.deck1.feedbackCanvas, Math.floor(Math.random() * 500), Math.floor(Math.random() * 500));
+                hydra.deck1.pipeCtx.drawImage(hydra.deck1.feedbackCanvas, 0, 0);
+                hydra.deck1.pipeCtx.restore();
+            }
+
             // render deck 2
             hydra.deck2.render();
 
@@ -2392,6 +2448,15 @@ window.hydra = (function(){
 
             if (hydra.effects.radial.deck2.enabled) {
                 hydra.effects.radial.apply(hydra.deck2.pipeCtx, hydra.deck2.pipeCanvas, hydra.effects.radial.deck2.mode, hydra.effects.radial.deck2.applyAngle);
+            }
+
+            if (hydra.effects.feedback.deck2.enabled) {
+                hydra.deck2.pipeCtx.save();
+                hydra.deck2.feedbackCtx.globalCompositeOperation = hydra.effects.feedback.deck2.mode;
+                hydra.deck2.pipeCtx.globalAlpha = hydra.effects.feedback.deck2.level;
+                // hydra.deck2.pipeCtx.drawImage(hydra.deck2.feedbackCanvas, Math.floor(Math.random() * 500), Math.floor(Math.random() * 500));
+                hydra.deck2.pipeCtx.drawImage(hydra.deck2.feedbackCanvas, 0, 0);
+                hydra.deck2.pipeCtx.restore();
             }
 
 
@@ -3257,6 +3322,9 @@ window.hydra = (function(){
                     hydra.deck1.pipeCanvas.width = hydra.deck1.pipeCanvas.getBoundingClientRect().width;
                     hydra.deck1.pipeCanvas.height = hydra.deck1.pipeCanvas.getBoundingClientRect().height;
 
+                    hydra.deck1.feedbackCanvas.width = hydra.deck1.pipeCanvas.getBoundingClientRect().width;
+                    hydra.deck1.feedbackCanvas.height = hydra.deck1.pipeCanvas.getBoundingClientRect().height;
+
                     hydra.mixedCanvas.width = hydra.mixedCanvas.getBoundingClientRect().width;
                     hydra.mixedCanvas.height = hydra.mixedCanvas.getBoundingClientRect().height;
 
@@ -3265,6 +3333,9 @@ window.hydra = (function(){
 
                     hydra.deck2.pipeCanvas.width = hydra.deck2.pipeCanvas.getBoundingClientRect().width;
                     hydra.deck2.pipeCanvas.height = hydra.deck2.pipeCanvas.getBoundingClientRect().height;
+
+                    hydra.deck2.feedbackCanvas.width = hydra.deck2.pipeCanvas.getBoundingClientRect().width;
+                    hydra.deck2.feedbackCanvas.height = hydra.deck2.pipeCanvas.getBoundingClientRect().height;
 
                     hydra.centerX = hydra.deck1.canvas.width/2;
                     hydra.centerY = hydra.deck1.canvas.height/2;
@@ -3279,6 +3350,9 @@ window.hydra = (function(){
                     hydra.deck1.pipeCanvas.width = width;
                     hydra.deck1.pipeCanvas.height = height;
 
+                    hydra.deck1.feedbackCanvas.width = width;
+                    hydra.deck1.feedbackCanvas.height = height;
+
                     hydra.mixedCanvas.width = width;
                     hydra.mixedCanvas.height = height;
 
@@ -3287,6 +3361,9 @@ window.hydra = (function(){
 
                     hydra.deck2.pipeCanvas.width = width;
                     hydra.deck2.pipeCanvas.height = height;
+
+                    hydra.deck2.feedbackCanvas.width = width;
+                    hydra.deck2.feedbackCanvas.height = height;
 
                     hydra.centerX = width/2;
                     hydra.centerY = height/2;
