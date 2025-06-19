@@ -1,5 +1,6 @@
-[data-wide] {
+[data-superwide] {
 	#hydra {
 		max-width: initial;
+		width: initial;
 	}
 }

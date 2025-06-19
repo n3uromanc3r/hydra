@@ -7,8 +7,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="stylesheet" href="./css/reset.css">
     <link rel="stylesheet" href="./css/hydra.css">
-    <link rel="stylesheet" href="./css/maximized.css">
     <link rel="stylesheet" href="./css/high-contrast.css">
+    <link rel="stylesheet" href="./css/maximized.css">
+    <link rel="stylesheet" href="./css/super-wide.css">
     <link rel="stylesheet" href="./css/wide.css">
 </head>
 
@@ -2027,6 +2028,21 @@
                     </div>
                     <div data-target="themes" class="hide">
                         <select id="theme-selection"></select>
+                        <div class="inline-field-group">
+                            <div class="heading">Width</div>
+                            <div class="inline-input">
+                                <input type="radio" name="theme-width" value="" checked>
+                                <span class="input-label">Normal</span>
+                            </div>
+                            <div class="inline-input">
+                                <input type="radio" name="theme-width" value="wide">
+                                <span class="input-label">Wide</span>
+                            </div>
+                            <div class="inline-input">
+                                <input type="radio" name="theme-width" value="superwide">
+                                <span class="input-label">Super-Wide</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="guide modal-section">
@@ -2076,7 +2092,6 @@
                 'maximized',
                 'default',
                 'high-contrast',
-                'wide',
             ],
             renderers: [
                 'bars',

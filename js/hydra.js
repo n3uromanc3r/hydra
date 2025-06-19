@@ -2264,6 +2264,21 @@ window.hydra = (function(){
 
                 resolutionSelector.value = initialResolution;
                 resolutionSelector.dispatchEvent(new Event('change'));
+
+                const initialThemeWidth = hydra.storage.db.getItem('theme-width') || '';
+
+                document.querySelectorAll('input[type=radio][name="theme-width"]').forEach(function(radioBtn) {
+                    radioBtn.addEventListener('click', function(e) {
+                        const body = document.querySelector('body');
+                        Object.entries(body.dataset).forEach((item) => delete body.dataset[item[0]])
+                        if (this.value !== '') {
+                            body.dataset[this.value] = '';
+                        }
+                        hydra.storage.db.setItem('theme-width', this.value);
+                    });
+                });
+
+                document.querySelector(`input[type="radio"][name="theme-width"][value="${initialThemeWidth}"]`).dispatchEvent(new Event('click'));
             }
         },
         modal: {

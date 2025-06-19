@@ -591,6 +591,10 @@ select {
     cursor: pointer;
 }
 
+input[type=radio] {
+    cursor: pointer;
+}
+
 input[type=range] {
     height: 39px;
     -webkit-appearance: none;
@@ -1349,6 +1353,18 @@ fieldset .heading,
     background: black;
     left: 21px;
     position: relative;
+}
+
+#modal [data-target="themes"] .heading {
+    color: white;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 9px;
+    margin: 20px 0 10px;
+}
+
+#modal [data-target="themes"] .input-label {
+    display: inline-block;
 }
 
 #modal fieldset {
