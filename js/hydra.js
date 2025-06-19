@@ -1,6 +1,7 @@
 window.hydra = (function(){
     return {
         boot: function(settings) {
+            this.storage.init();
             this.markup.init(settings, () => {
                 this.body = document.querySelector('body');
 
@@ -35,7 +36,6 @@ window.hydra = (function(){
                 this.keyboard.init();
                 this.midi.init();
                 this.themes.init();
-                this.storage.init();
 
                 this.helpers.detectSizes();
                 this.helpers.applySliderProgressListeners();
@@ -2089,8 +2089,8 @@ window.hydra = (function(){
                         raiseToTopBtns.forEach(button => {
                             button.classList.remove('raised');
                         });
-                        e.target.classList.add('raised');
-                        if (e.target.dataset.deck == 1) {
+                        btn.classList.add('raised');
+                        if (btn.dataset.deck == 1) {
                             hydra.deck1.raised = true;
                             hydra.deck2.raised = false;
                         } else {
@@ -2198,9 +2198,12 @@ window.hydra = (function(){
                     hydra.midi.reset();
                 });
 
+                const initialResolution = hydra.storage.db.getItem('resolution') || 'match';
+
                 const resolutionSelector = document.getElementById('resolution-selector');
                 resolutionSelector.addEventListener('change', function(e) {
                     hydra.resolution.current = this.value;
+                    hydra.storage.db.setItem('resolution', this.value);
                     hydra.helpers.detectSizes();
 
                     let ratio;
@@ -2215,6 +2218,9 @@ window.hydra = (function(){
                     hydra.resolution.ratio = ratio;
                     hydra.resolution.ratio = ratio;
                 });
+
+                resolutionSelector.value = initialResolution;
+                resolutionSelector.dispatchEvent(new Event('change'));
             }
         },
         modal: {
@@ -2301,9 +2307,11 @@ window.hydra = (function(){
             }
         },
         render: function() {
+            // reset global alphas
             hydra.deck1.ctx.globalAlpha = hydra.deck1.pipeCtx.globalAlpha = hydra.deck1.alpha;
             hydra.deck2.ctx.globalAlpha = hydra.deck2.pipeCtx.globalAlpha = hydra.deck2.alpha;
 
+            // clear canvas contexts
             hydra.mixedCtx.clearRect(0, 0, hydra.mixedCanvas.width, hydra.mixedCanvas.height);
 
             if (!hydra.deck1.current.clearsSelf) {
@@ -2316,54 +2324,78 @@ window.hydra = (function(){
             }
             hydra.deck2.pipeCtx.clearRect(0, 0, hydra.deck2.pipeCanvas.width, hydra.deck2.pipeCanvas.height);
 
+            // render deck 1
             hydra.deck1.render();
+
+            // clip for deck 1 effects
             if (hydra.effects.kaleidoscope.deck1.enabled) {
                 hydra.effects.kaleidoscope.clip(hydra.deck1.pipeCtx, hydra.deck1.pipeCanvas);
             }
+
             if (hydra.effects.mirror.deck1.enabled) {
                 hydra.effects.mirror.clip(hydra.deck1.pipeCtx, hydra.deck1.pipeCanvas, hydra.effects.mirror.deck1.mode, hydra.effects.mirror.deck1.startPosition);
             }
+
             if (hydra.effects.radial.deck1.enabled) {
                 hydra.effects.radial.clip(hydra.deck1.pipeCtx, hydra.deck1.pipeCanvas, hydra.effects.radial.deck1.clipAngle);
             }
+
+            // apply deck 1 filters
             hydra.deck1.pipeCtx.save();
             hydra.deck1.filters.apply();
             hydra.deck1.pipeCtx.drawImage(hydra.deck1.canvas, 0, 0);
             hydra.deck1.pipeCtx.restore();
+
+            // apply deck 1 effects
             if (hydra.effects.kaleidoscope.deck1.enabled) {
                 hydra.effects.kaleidoscope.apply(hydra.deck1.pipeCtx, hydra.deck1.pipeCanvas, hydra.effects.kaleidoscope.deck1.angle);
             }
+
             if (hydra.effects.mirror.deck1.enabled) {
                 hydra.effects.mirror.apply(hydra.deck1.pipeCtx, hydra.deck1.pipeCanvas, hydra.effects.mirror.deck1.mode, hydra.effects.mirror.deck1.layerMode);
             }
+
             if (hydra.effects.radial.deck1.enabled) {
                 hydra.effects.radial.apply(hydra.deck1.pipeCtx, hydra.deck1.pipeCanvas, hydra.effects.radial.deck1.mode, hydra.effects.radial.deck1.applyAngle);
             }
 
+            // render deck 2
             hydra.deck2.render();
+
+            // clip for deck 2 effects
             if (hydra.effects.kaleidoscope.deck2.enabled) {
                 hydra.effects.kaleidoscope.clip(hydra.deck2.pipeCtx, hydra.deck2.pipeCanvas);
             }
+
             if (hydra.effects.mirror.deck2.enabled) {
                 hydra.effects.mirror.clip(hydra.deck2.pipeCtx, hydra.deck2.pipeCanvas, hydra.effects.mirror.deck2.mode, hydra.effects.mirror.deck2.startPosition);
             }
+
             if (hydra.effects.radial.deck2.enabled) {
                 hydra.effects.radial.clip(hydra.deck2.pipeCtx, hydra.deck2.pipeCanvas, hydra.effects.radial.deck2.clipAngle);
             }
+
+            // apply deck 2 filters
             hydra.deck2.pipeCtx.save();
             hydra.deck2.filters.apply();
             hydra.deck2.pipeCtx.drawImage(hydra.deck2.canvas, 0, 0);
             hydra.deck2.pipeCtx.restore();
+
+            // apply deck 2 effects
             if (hydra.effects.kaleidoscope.deck2.enabled) {
                 hydra.effects.kaleidoscope.apply(hydra.deck2.pipeCtx, hydra.deck2.pipeCanvas, hydra.effects.kaleidoscope.deck2.angle);
             }
+
             if (hydra.effects.mirror.deck2.enabled) {
                 hydra.effects.mirror.apply(hydra.deck2.pipeCtx, hydra.deck2.pipeCanvas, hydra.effects.mirror.deck2.mode, hydra.effects.mirror.deck2.layerMode);
             }
+
             if (hydra.effects.radial.deck2.enabled) {
                 hydra.effects.radial.apply(hydra.deck2.pipeCtx, hydra.deck2.pipeCanvas, hydra.effects.radial.deck2.mode, hydra.effects.radial.deck2.applyAngle);
             }
 
+
+            // clip for output effects
             if (hydra.effects.kaleidoscope.output.enabled) {
                 hydra.effects.kaleidoscope.clip(hydra.mixedCtx, hydra.mixedCanvas);
             }
@@ -2376,6 +2408,7 @@ window.hydra = (function(){
                 hydra.effects.radial.clip(hydra.mixedCtx, hydra.mixedCanvas, hydra.effects.radial.output.applyAngle);
             }
 
+            // mix output
             if (hydra.deck1.raised) {
                 hydra.mixedCtx.globalAlpha = hydra.deck1.crossfaderAlpha;
                 hydra.mixedCtx.drawImage(hydra.deck1.pipeCanvas, 0, 0);
@@ -2392,6 +2425,7 @@ window.hydra = (function(){
                 hydra.mixedCtx.globalAlpha = 1;
             }
 
+            // apply output effects
             if (hydra.effects.kaleidoscope.output.enabled) {
                 hydra.effects.kaleidoscope.apply(hydra.mixedCtx, hydra.mixedCanvas, hydra.effects.kaleidoscope.output.angle);
             }
@@ -2404,12 +2438,14 @@ window.hydra = (function(){
                 hydra.effects.radial.apply(hydra.mixedCtx, hydra.mixedCanvas, hydra.effects.radial.output.mode, hydra.effects.radial.output.angle);
             }
 
+            // cheeky audio processing in same loop
             if (!hydra.audio.listening) {
                 hydra.audio.knightrider();
             }
 
             hydra.audio.bpm.beatDetection();
 
+            // recursive call for animation loop
             window.requestAnimationFrame(hydra.render);
         },
         audio: {
@@ -3101,16 +3137,21 @@ window.hydra = (function(){
         themes: {
             init: function() {
                 this.select = document.getElementById('theme-selection');
+
+                const currentTheme = hydra.storage.db.getItem('theme') || 'default';
+
                 hydra.settings.themes.forEach(theme => {
-                    hydra.themes.select.add(new Option(theme, theme, theme == 'default', theme == 'default'));
+                    hydra.themes.select.add(new Option(theme, theme, theme == currentTheme, theme == currentTheme));
                 });
 
                 this.select.addEventListener('change', function(e) {
                     hydra.body.className = this.value;
                     hydra.helpers.detectSizes();
+
+                    hydra.storage.db.setItem('theme', this.value);
                 });
 
-                this.select.value = 'compact';
+                this.select.value = currentTheme;
                 this.select.dispatchEvent(new Event('change'));
             }
         },
