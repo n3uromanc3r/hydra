@@ -216,31 +216,58 @@ button.red:active {
 }
 
 button.raise-to-top {
-    width: 35px;
-    height: 35px;
     margin-top: 16px;
     background: transparent;
     color: white;
     line-height: 0;
+    align-self: flex-end;
+    width: 38px;
+    height: 38px;
+    text-align: center;
+}
+
+button.raise-to-top svg {
+    width: 18px;
+}
+
+button.raise-to-top svg path {
+    fill: white;
 }
 
 button.raise-to-top.raised {
     background: #23e648;
-    color: black;
+}
+
+button.raise-to-top.raised svg path {
+    fill: black;
 }
 
 button.raise-to-top:hover {
     background: #23e648;
-    color: black;
+}
+
+button.raise-to-top:hover svg path {
+    fill: black;
 }
 
 button.reset {
-    width: 35px;
     margin-top: 16px;
     background: #e62323;
     color: white;
-    height: 35px;
     line-height: 0;
+    align-self: flex-end;
+    width: 38px;
+    height: 38px;
+    text-align: center;
+}
+
+button.reset svg {
+    width: 15px;
+}
+
+button svg,
+button svg path {
+    cursor: pointer;
 }
 
 button:disabled {
@@ -1085,8 +1112,8 @@ fieldset .heading,
     border: solid 1px #ff5f00;
     padding: 15px;
     width: 1000px;
-    height: 800px;
-    top: calc(50% - 390px);
+    height: 820px;
+    top: calc(50% - 410px);
     left: calc(50% - 500px);
     font-size: 12px;
     color: #666;

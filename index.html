@@ -60,10 +60,14 @@
                     <label>Visual</label>
                     <select class="visual-selector" data-deck="1"></select>
                 </group>
-                <button class="reset" data-deck="1">⭮</button>
+                <button class="reset" data-deck="1">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="#fff" stroke="#fff" viewBox="0 0 32 32"><path d="M27.1 14.313V5.396L24.158 8.34c-2.33-2.325-5.033-3.503-8.11-3.503C9.902 4.837 4.901 9.847 4.899 16c.001 6.152 5.003 11.158 11.15 11.16 4.276 0 9.369-2.227 10.836-8.478l.028-.122h-3.23l-.022.068c-1.078 3.242-4.138 5.421-7.613 5.421a8 8 0 0 1-5.691-2.359A7.993 7.993 0 0 1 8 16.001c0-4.438 3.611-8.049 8.05-8.049 2.069 0 3.638.58 5.924 2.573l-3.792 3.789H27.1z"/></svg>
+                </button>
             </div>
             <div class="column dropdowns">
-                <button class="raise-to-top" data-deck="1">↥</button>
+                <button class="raise-to-top" data-deck="1">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6 4h12v2H6zm5 10v6h2v-6h5l-6-6-6 6z"/></svg>
+                </button>
                 <group>
                     <label>Mode</label>
                     <select id="composition-mode-selector">
@@ -95,14 +99,18 @@
                         <option value="xor">xor</option>
                     </select>
                 </group>
-                <button class="raise-to-top raised" data-deck="2">↥</button>
+                <button class="raise-to-top raised" data-deck="2">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6 4h12v2H6zm5 10v6h2v-6h5l-6-6-6 6z"/></svg>
+                </button>
             </div>
             <div class="column dropdowns">
                 <group>
                     <label>Visual</label>
                     <select class="visual-selector" data-deck="2"></select>
                 </group>
-                <button class="reset" data-deck="2">&#x2B6E;</button>
+                <button class="reset" data-deck="2">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="#fff" stroke="#fff" viewBox="0 0 32 32"><path d="M27.1 14.313V5.396L24.158 8.34c-2.33-2.325-5.033-3.503-8.11-3.503C9.902 4.837 4.901 9.847 4.899 16c.001 6.152 5.003 11.158 11.15 11.16 4.276 0 9.369-2.227 10.836-8.478l.028-.122h-3.23l-.022.068c-1.078 3.242-4.138 5.421-7.613 5.421a8 8 0 0 1-5.691-2.359A7.993 7.993 0 0 1 8 16.001c0-4.438 3.611-8.049 8.05-8.049 2.069 0 3.638.58 5.924 2.573l-3.792 3.789H27.1z"/></svg>
+                </button>
             </div>
         </section>
         <section class="section extend scroll-overflow-y">
@@ -1912,6 +1920,7 @@
                             <option value="match">Match Deck Screen</option>
                             <option value="720p">1280 x 720 (HD)</option>
                             <option value="1080p">1920 x 1080 (FHD)</option>
+                            <option value="4k">3840 x 2160 (UHD)</option>
                         </select>
                     </div>
                     <div data-target="themes" class="hide">

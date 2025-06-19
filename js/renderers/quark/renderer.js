@@ -468,10 +468,10 @@ window.hydra.renderers['quark'] = {
                     items: [
                         {
                             type: 'group',
-                            heading: 'Scale',
                             items: [
                                 {
                                     type: 'range',
+                                    label: 'Scale',
                                     containerClass: 'w100',
                                     variable: 'scale',
                                     min: 0,
@@ -483,10 +483,10 @@ window.hydra.renderers['quark'] = {
                         },
                         {
                             type: 'group',
-                            heading: 'Radius',
                             items: [
                                 {
                                     type: 'range',
+                                    label: 'Radius',
                                     containerClass: 'w100',
                                     variable: 'radius',
                                     min: 0,

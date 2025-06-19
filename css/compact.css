@@ -4,6 +4,11 @@
 		width: initial;
 	}
 
+	.section {
+		background: #0f1313;
+		padding: 10px;
+	}
+
 	.column {
 	    padding: 4px;
 	}
@@ -42,5 +47,84 @@
 
 	#crossfader-section {
     	margin-bottom: 13px;
+	}
+
+	.visual-settings input[type=range]::-webkit-slider-runnable-track {
+		height: 18px;
+		border-radius: 0px;
+	}
+
+	.visual-settings input[type=range]::-webkit-slider-thumb {
+		border: none;
+		height: 16px;
+		border-radius: 0px;
+		margin-top: 0px;
+		width: 18px;
+	}
+
+	.visual-settings input[type=range] {
+		--range: calc(var(--max) - var(--min));
+		--ratio: calc((var(--value) - var(--min)) / var(--range));
+		--sx: calc(0.5 * 2em + var(--ratio) * (100% - 2em));
+	}
+
+	.visual-settings input[type=range]::-webkit-slider-runnable-track {
+		background: linear-gradient(#919191,#919191) 0/var(--sx) 100% no-repeat, #353535;
+		border: solid 1px #838383;
+	}
+
+	.visual-settings input[type=range]:hover::-webkit-slider-runnable-track {
+		background: linear-gradient(#919191,#919191) 0/var(--sx) 100% no-repeat, #353535;
+		border: solid 1px #838383;
+	}
+
+	.visual-settings input[type=range]:active::-webkit-slider-runnable-track {
+		background: linear-gradient(#919191,#919191) 0/var(--sx) 100% no-repeat, #353535;
+		border: solid 1px #838383;
+	}
+
+	.visual-settings input[type=range]::-moz-range-track {
+		background: linear-gradient(#919191,#919191) 0/var(--sx) 100% no-repeat, #353535;
+		border: solid 1px #838383;
+	}
+
+	.visual-settings input[type=range]:hover::-moz-range-track {
+		background: linear-gradient(#919191,#919191) 0/var(--sx) 100% no-repeat, #353535;
+		border: solid 1px #838383;
+	}
+
+	.visual-settings input[type=range]:active::-moz-range-track {
+		background: linear-gradient(#919191,#919191) 0/var(--sx) 100% no-repeat, #353535;
+		border: solid 1px #838383;
+	}
+
+	.visual-settings input[type=range]::-ms-fill-lower {
+		height: max(calc(1em - 1px - 1px),0px);
+		border-radius: 0.5em 0 0 0.5em;
+		margin: -1px 0 -1px -1px;
+		background: #919191;
+		border: 1px solid #838383;
+		border-right-width: 0;
+	}
+
+	.visual-settings input[type=range]:hover::-ms-fill-lower {
+		background: #919191;
+		border-color: #838383;
+	}
+
+	.visual-settings input[type=range]:active::-ms-fill-lower {
+		background: #919191;
+		border-color: #838383;
+	}
+
+	.visual-settings textarea {
+		background: black;
+		color: white;
+		border: solid 1px #2b2b2b;
+		padding: 5px 10px;
+	}
+
+	.visual-settings textarea:focus-visible {
+    	outline: solid 1px #2b2b2b;
 	}
 }

@@ -35,8 +35,10 @@ window.hydra = (function(){
                 this.keyboard.init();
                 this.midi.init();
                 this.themes.init();
+                this.storage.init();
 
                 this.helpers.detectSizes();
+                this.helpers.applySliderProgressListeners();
 
                 this.composition.setMode('overlay');
 
@@ -722,7 +724,7 @@ window.hydra = (function(){
                         this.blurValueInput.addEventListener('input', function(e) {
                             deck.filters.items.blur.change(parseInt(e.target.value));
                             e.target.parentElement.querySelector('.value').textContent = e.target.value;
-                        })
+                        });
 
                         this.brightnessToggleBtn = document.querySelector(`[data-deck="${deck.id}"][data-brightness-toggle]`);
                         this.brightnessToggleBtn.addEventListener('click', function(e) {
@@ -734,7 +736,7 @@ window.hydra = (function(){
                         this.brightnessValueInput.addEventListener('input', function(e) {
                             deck.filters.items.brightness.change(parseFloat(e.target.value));
                             e.target.parentElement.querySelector('.value').textContent = e.target.value;
-                        })
+                        });
 
                         this.contrastToggleBtn = document.querySelector(`[data-deck="${deck.id}"][data-contrast-toggle]`);
                         this.contrastToggleBtn.addEventListener('click', function(e) {
@@ -746,7 +748,7 @@ window.hydra = (function(){
                         this.contrastValueInput.addEventListener('input', function(e) {
                             deck.filters.items.contrast.change(parseFloat(e.target.value));
                             e.target.parentElement.querySelector('.value').textContent = e.target.value;
-                        })
+                        });
 
                         this.dropShadowToggleBtn = document.querySelector(`[data-deck="${deck.id}"][data-drop-shadow-toggle]`);
                         this.dropShadowToggleBtn.addEventListener('click', function(e) {
@@ -762,7 +764,7 @@ window.hydra = (function(){
                                 parseInt(deck.controls.dropShadowBlurInput.value),
                                 e.target.value
                             );
-                        })
+                        });
 
                         this.dropShadowOffsetXInput = document.querySelector(`[data-deck="${deck.id}"][data-drop-shadow-offset-x]`);
                         this.dropShadowOffsetXInput.addEventListener('input', function(e) {
@@ -773,7 +775,7 @@ window.hydra = (function(){
                                 deck.controls.dropShadowColorInput.value
                             );
                             e.target.parentElement.querySelector('.value').textContent = e.target.value;
-                        })
+                        });
 
                         this.dropShadowOffsetYInput = document.querySelector(`[data-deck="${deck.id}"][data-drop-shadow-offset-y]`);
                         this.dropShadowOffsetYInput.addEventListener('input', function(e) {
@@ -784,7 +786,7 @@ window.hydra = (function(){
                                 deck.controls.dropShadowColorInput.value
                             );
                             e.target.parentElement.querySelector('.value').textContent = e.target.value;
-                        })
+                        });
 
                         this.dropShadowBlurInput = document.querySelector(`[data-deck="${deck.id}"][data-drop-shadow-blur]`);
                         this.dropShadowBlurInput.addEventListener('input', function(e) {
@@ -795,7 +797,7 @@ window.hydra = (function(){
                                 deck.controls.dropShadowColorInput.value
                             );
                             e.target.parentElement.querySelector('.value').textContent = e.target.value;
-                        })
+                        });
 
                         this.grayscaleToggleBtn = document.querySelector(`[data-deck="${deck.id}"][data-grayscale-toggle]`);
                         this.grayscaleToggleBtn.addEventListener('click', function(e) {
@@ -807,7 +809,7 @@ window.hydra = (function(){
                         this.grayscaleValueInput.addEventListener('input', function(e) {
                             deck.filters.items.grayscale.change(parseFloat(e.target.value));
                             e.target.parentElement.querySelector('.value').textContent = e.target.value;
-                        })
+                        });
 
                         this.hueRotateToggleBtn = document.querySelector(`[data-deck="${deck.id}"][data-hue-rotate-toggle]`);
                         this.hueRotateToggleBtn.addEventListener('click', function(e) {
@@ -819,7 +821,7 @@ window.hydra = (function(){
                         this.hueRotateValueInput.addEventListener('input', function(e) {
                             deck.filters.items.hueRotate.change(parseFloat(e.target.value));
                             e.target.parentElement.querySelector('.value').textContent = e.target.value;
-                        })
+                        });
 
                         this.invertToggleBtn = document.querySelector(`[data-deck="${deck.id}"][data-invert-toggle]`);
                         this.invertToggleBtn.addEventListener('click', function(e) {
@@ -831,7 +833,7 @@ window.hydra = (function(){
                         this.invertValueInput.addEventListener('input', function(e) {
                             deck.filters.items.invert.change(parseFloat(e.target.value));
                             e.target.parentElement.querySelector('.value').textContent = e.target.value;
-                        })
+                        });
 
                         this.opacityToggleBtn = document.querySelector(`[data-deck="${deck.id}"][data-opacity-toggle]`);
                         this.opacityToggleBtn.addEventListener('click', function(e) {
@@ -843,7 +845,7 @@ window.hydra = (function(){
                         this.opacityValueInput.addEventListener('input', function(e) {
                             deck.filters.items.opacity.change(parseFloat(e.target.value));
                             e.target.parentElement.querySelector('.value').textContent = e.target.value;
-                        })
+                        });
 
                         this.saturateToggleBtn = document.querySelector(`[data-deck="${deck.id}"][data-saturate-toggle]`);
                         this.saturateToggleBtn.addEventListener('click', function(e) {
@@ -855,7 +857,7 @@ window.hydra = (function(){
                         this.saturateValueInput.addEventListener('input', function(e) {
                             deck.filters.items.saturate.change(parseFloat(e.target.value));
                             e.target.parentElement.querySelector('.value').textContent = e.target.value;
-                        })
+                        });
 
                         this.sepiaToggleBtn = document.querySelector(`[data-deck="${deck.id}"][data-sepia-toggle]`);
                         this.sepiaToggleBtn.addEventListener('click', function(e) {
@@ -2206,7 +2208,7 @@ window.hydra = (function(){
                     if (hydra.resolution.current == 'match') {
                         ratio = 1;
                     } else {
-                        const width = this.value == '720p' ? 1280 : 1920;
+                        const width = hydra.helpers.getCanvasDimensionFromSetting('width', this.value);
                         ratio = width / hydra.mixedCanvas.getBoundingClientRect().width;
                     }
 
@@ -2676,6 +2678,13 @@ window.hydra = (function(){
                 remoteVideo.srcObject = stream;
             }
         },
+        storage: {
+            init: function() {
+                this.db = window.localStorage;
+            },
+            db: null,
+            // storage.db.setItem('assignments', JSON.stringify(midi.assignments));
+        },
         files: {
             export: function(content, fileName, contentType) {
                 let file = new Blob([content], {type: contentType});
@@ -3100,6 +3109,9 @@ window.hydra = (function(){
                     hydra.body.className = this.value;
                     hydra.helpers.detectSizes();
                 });
+
+                this.select.value = 'compact';
+                this.select.dispatchEvent(new Event('change'));
             }
         },
         helpers: {
@@ -3172,6 +3184,27 @@ window.hydra = (function(){
                 const n = 10 * (10 * precision);
                 return (Math.round(value * n) / n).toFixed(precision);
             },
+            getCanvasDimensionFromSetting: function(dimension, setting) {
+                if (dimension == 'width') {
+                    if (setting == '720p') {
+                        value = 1280;
+                    } else if (setting == '1080p') {
+                        value = 1920;
+                    } else {
+                        value = 3840;
+                    }
+                } else if (dimension == 'height') {
+                    if (setting == '720p') {
+                        value = 720;
+                    } else if (setting == '1080p') {
+                        value = 1080;
+                    } else {
+                        value = 2160;
+                    }
+                }
+
+                return value;
+            },
             detectSizes: function() {
                 // weird bug where composition mode resets to 'source-over' on resize, so let's save our current mode and re-apply it afterwards...
                 const currentMode = hydra.mixedCtx.globalCompositeOperation;
@@ -3196,8 +3229,8 @@ window.hydra = (function(){
                     hydra.centerY = hydra.deck1.canvas.height/2;
 
                 } else {
-                    const width = hydra.resolution.current == '720p' ? 1280 : 1920;
-                    const height = hydra.resolution.current == '720p' ? 720 : 1080;
+                    const width = hydra.helpers.getCanvasDimensionFromSetting('width', this.value);
+                    const height = hydra.helpers.getCanvasDimensionFromSetting('height', this.value);
 
                     hydra.deck1.canvas.width = width;
                     hydra.deck1.canvas.height = height;
@@ -3233,6 +3266,14 @@ window.hydra = (function(){
                     } else {
                         slider.style.right =`-${sliderHeight/2 - 39 - 15}px`;
                     }
+                });
+            },
+            applySliderProgressListeners: function() {
+                document.querySelectorAll('input[type="range"]').forEach(function(e) {
+                    e.style.setProperty('--value', e.value);
+                    e.style.setProperty('--min', e.min == '' ? '0' : e.min);
+                    e.style.setProperty('--max', e.max == '' ? '100' : e.max);
+                    e.addEventListener('input', () => e.style.setProperty('--value', e.value));
                 });
             },
             randomise: function(deck) {
