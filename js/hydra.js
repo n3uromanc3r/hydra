@@ -3270,8 +3270,8 @@ window.hydra = (function(){
                     hydra.centerY = hydra.deck1.canvas.height/2;
 
                 } else {
-                    const width = hydra.helpers.getCanvasDimensionFromSetting('width', this.value);
-                    const height = hydra.helpers.getCanvasDimensionFromSetting('height', this.value);
+                    const width = hydra.helpers.getCanvasDimensionFromSetting('width', document.getElementById('resolution-selector').value);
+                    const height = hydra.helpers.getCanvasDimensionFromSetting('height', document.getElementById('resolution-selector').value);
 
                     hydra.deck1.canvas.width = width;
                     hydra.deck1.canvas.height = height;
