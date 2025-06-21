@@ -2299,7 +2299,6 @@ window.hydra = (function(){
                 resolutionSelector.addEventListener('change', function(e) {
                     hydra.resolution.current = this.value;
                     hydra.storage.db.setItem('resolution', this.value);
-                    hydra.helpers.detectSizes();
 
                     let ratio;
 
@@ -3469,6 +3468,7 @@ window.hydra = (function(){
                     hydra.centerX = width/2;
                     hydra.centerY = height/2;
                 }
+
                 // re-apply composition mode - hacky but works
                 hydra.mixedCtx.globalCompositeOperation = currentMode;
 
@@ -3486,6 +3486,9 @@ window.hydra = (function(){
                         slider.style.right =`-${sliderHeight/2 - 39 - 15}px`;
                     }
                 });
+
+                // ensure resolution ratios are correct based on canvas size
+                document.getElementById('resolution-selector').dispatchEvent(new Event('change'));
             },
             applySliderProgressListeners: function() {
                 document.querySelectorAll('input[type="range"]').forEach(function(e) {
