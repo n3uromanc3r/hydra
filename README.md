@@ -14,6 +14,7 @@ Available online at https://hydra.virusav.com/
   - [Butterchurn (Milkdrop)](https://github.com/jberg/butterchurn)
   - Camera
   - Display
+  - Geometric Play (ported from https://www.shadertoy.com/view/3Xj3Dy - thanks goes out to Yohei Nishitsuji)
   - Heatwave
   - Kali
   - Lines
@@ -116,6 +117,38 @@ Available online at https://hydra.virusav.com/
       - Both
       - Clip
       - Apply
+    - Feedback
+      - Mode
+        - Color-burn
+        - Color-dodge
+        - Color
+        - Copy
+        - Darken
+        - Destination-atop
+        - Destination-in
+        - Destination-out
+        - Destination-over
+        - Difference
+        - Exclusion
+        - Hard-light
+        - Hue
+        - Lighten
+        - Lighter
+        - Luminosity
+        - Multiply
+        - Overlay
+        - Saturation
+        - Screen
+        - Soft-light
+        - Source-atop
+        - Source-in
+        - Source-out
+        - Source-over
+        - Xor
+    - Kaleidoscope (Secondary)
+      - Segments
+      - Rotate
+      - Speed
 - Audio Reactivity
   - Scale
   - Color
