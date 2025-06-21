@@ -423,10 +423,12 @@ window.hydra = (function(){
                 deck.id = id;
                 deck.canvas = document.getElementById(`deck-${deck.id}-canvas`);
                 deck.ctx = deck.canvas.getContext(visual.context || '2d');
-                deck.pipeCanvas = document.getElementById(`deck-${deck.id}-pipe-canvas`);
-                deck.pipeCtx = deck.pipeCanvas.getContext('2d');
+                deck.preOutputCanvas = document.getElementById(`deck-${deck.id}-pre-output-canvas`);
+                deck.preOutputCtx = deck.preOutputCanvas.getContext('2d');
                 deck.feedbackCanvas = document.getElementById(`deck-${deck.id}-feedback-canvas`);
                 deck.feedbackCtx = deck.feedbackCanvas.getContext('2d');
+                deck.effectCanvas = document.getElementById(`deck-${deck.id}-effect-canvas`);
+                deck.effectCtx = deck.effectCanvas.getContext('2d');
                 deck.videoEl = document.getElementById(`deck-${deck.id}-video`);
                 deck.streamEl = document.getElementById(`deck-${deck.id}-stream`);
                 deck.crossfaderAlpha = 1;
@@ -493,6 +495,7 @@ window.hydra = (function(){
                         deck.presets.updateBtns();
                         deck.randomisation.update();
                         hydra.modal.update(deck);
+                        hydra.helpers.updateSliderProgressListeners();
                     },
                     reset: function() {
                         if (deck.current.presets && deck.current.presets.length) {
@@ -1375,7 +1378,7 @@ window.hydra = (function(){
                         }
                     },
                     apply: function() {
-                        deck.pipeCtx.filter = deck.filters.string;
+                        deck.preOutputCtx.filter = deck.filters.string;
                     },
                     init: function() {
                         this.inputs = [
@@ -1412,7 +1415,7 @@ window.hydra = (function(){
                         deck.mouse.y = 0;
                         deck.mouse.lockedPosition = false;
 
-                        deck.pipeCanvas.addEventListener('click', function() {
+                        deck.preOutputCanvas.addEventListener('click', function() {
                             deck.mouse.lockedPosition = !deck.mouse.lockedPosition;
                         });
                     }
@@ -2115,6 +2118,55 @@ window.hydra = (function(){
                         hydra.effects.feedback[target].mode = e.target.value;
                     });
                 });
+
+                this.kaleidoscopeSecondary = {};
+
+                this.kaleidoscopeSecondary.deck1 = {
+                    enabled: false,
+                    segments: 8,
+                    rotation: 0,
+                    rotationSpeed: 1,
+                };
+                this.kaleidoscopeSecondary.deck2 = {
+                    enabled: false,
+                    segments: 8,
+                    rotation: 0,
+                    rotationSpeed: 1,
+                };
+
+                this.kaleidoscopeSecondary.toggleBtns = document.querySelectorAll('[data-kaleidoscope-secondary-toggle]');
+                this.kaleidoscopeSecondary.toggleBtns.forEach(toggleBtn => {
+                    toggleBtn.addEventListener('input', function(e) {
+                        const target = `deck${e.target.dataset.deck}`;
+                        hydra.effects.kaleidoscopeSecondary[target].enabled = e.target.checked;
+                    });
+                });
+
+                this.kaleidoscopeSecondary.segmentInputs = document.querySelectorAll('[data-kaleidoscope-secondary-segments]');
+                this.kaleidoscopeSecondary.segmentInputs.forEach(segmentInput => {
+                    segmentInput.addEventListener('input', function(e) {
+                        const target = `deck${e.target.dataset.deck}`;
+                        hydra.effects.kaleidoscopeSecondary[target].segments = parseInt(e.target.value);
+                        e.target.parentElement.querySelector('.value').textContent = e.target.value;
+                    });
+                });
+
+                this.kaleidoscopeSecondary.rotationToggleBtns = document.querySelectorAll('[data-kaleidoscope-secondary-rotation-toggle]');
+                this.kaleidoscopeSecondary.rotationToggleBtns.forEach(rotationToggleBtn => {
+                    rotationToggleBtn.addEventListener('input', function(e) {
+                        const target = `deck${e.target.dataset.deck}`;
+                        hydra.effects.kaleidoscopeSecondary[target].rotationEnabled = e.target.checked;
+                    });
+                });
+
+                this.kaleidoscopeSecondary.rotationSpeedInputs = document.querySelectorAll('[data-kaleidoscope-secondary-rotation-speed]');
+                this.kaleidoscopeSecondary.rotationSpeedInputs.forEach(rotationSpeedInput => {
+                    rotationSpeedInput.addEventListener('input', function(e) {
+                        const target = `deck${e.target.dataset.deck}`;
+                        hydra.effects.kaleidoscopeSecondary[target].rotationSpeed = parseFloat(e.target.value);
+                        e.target.parentElement.querySelector('.value').textContent = e.target.value;
+                    });
+                });
             }
         },
         handlers: {
@@ -2365,165 +2417,187 @@ window.hydra = (function(){
             }
         },
         render: function() {
+
+            const resetGlobalAlpha = (deck) => {
+                deck.ctx.globalAlpha = deck.preOutputCtx.globalAlpha = deck.alpha;
+            };
+
+            const assignFeedbackFrame = (deck) => {
+                deck.feedbackCtx.drawImage(deck.preOutputCanvas, 0, 0);
+            };
+
+            const clearCanvasContext = (ctx, canvas, clearsSelf = false) => {
+                if (!clearsSelf && ctx instanceof CanvasRenderingContext2D) {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                }
+            };
+
+            const clipEffects = (deck, ctx, canvas) => {
+                if (hydra.effects.kaleidoscope[deck].enabled) {
+                    hydra.effects.kaleidoscope.clip(ctx, canvas);
+                }
+
+                if (hydra.effects.mirror[deck].enabled) {
+                    hydra.effects.mirror.clip(ctx, canvas, hydra.effects.mirror[deck].mode, hydra.effects.mirror[deck].startPosition);
+                }
+
+                if (hydra.effects.radial[deck].enabled) {
+                    hydra.effects.radial.clip(ctx, canvas, hydra.effects.radial[deck].clipAngle);
+                }
+            };
+
+            const applyFilters = (deck) => {
+                deck.preOutputCtx.save();
+                deck.filters.apply();
+                deck.preOutputCtx.drawImage(deck.canvas, 0, 0);
+                deck.preOutputCtx.restore();
+            };
+
+            const applyEffects = (deck, ctx, canvas) => {
+                if (hydra.effects.kaleidoscope[deck].enabled) {
+                    hydra.effects.kaleidoscope.apply(ctx, canvas, hydra.effects.kaleidoscope[deck].angle);
+                }
+
+                if (hydra.effects.radial[deck]?.enabled) {
+                    hydra.effects.radial.apply(ctx, canvas, hydra.effects.radial[deck].mode, hydra.effects.radial[deck].applyAngle);
+                }
+
+                if (hydra.effects.kaleidoscopeSecondary[deck]?.enabled) {
+                    const sectors = hydra.effects.kaleidoscopeSecondary[deck].segments; // Number of mirrored sectors
+                    const angle = (2 * Math.PI) / sectors;
+                    const centerX = hydra[deck].effectCanvas.width / 2;
+                    const centerY = hydra[deck].effectCanvas.height / 2;
+
+                    if (hydra.effects.kaleidoscopeSecondary[deck].rotationEnabled) {
+                        hydra.effects.kaleidoscopeSecondary[deck].rotation += 0.01;
+                    }
+
+                    const rotation = hydra.effects.kaleidoscopeSecondary[deck].rotation * hydra.effects.kaleidoscopeSecondary[deck].rotationSpeed;
+
+                    hydra[deck].effectCtx.save();
+                    hydra[deck].effectCtx.clearRect(0, 0, hydra[deck].effectCanvas.width, hydra[deck].effectCanvas.height);
+                    if (hydra.effects.kaleidoscopeSecondary[deck].rotationEnabled) {
+                        hydra[deck].effectCtx.translate(centerX, centerY);
+                        hydra[deck].effectCtx.rotate(rotation);
+                        hydra[deck].effectCtx.drawImage(hydra[deck].preOutputCanvas, -hydra[deck].effectCanvas.width / 2, -hydra[deck].effectCanvas.height / 2, hydra[deck].effectCanvas.width , hydra[deck].effectCanvas.height);
+                    } else {
+                        hydra[deck].effectCtx.drawImage(hydra[deck].preOutputCanvas, 0, 0, hydra[deck].effectCanvas.width , hydra[deck].effectCanvas.height);
+                    }
+                    hydra[deck].effectCtx.restore();
+
+                    hydra[deck].preOutputCtx.clearRect(0, 0, hydra[deck].preOutputCanvas.width, hydra[deck].preOutputCanvas.height);
+
+                    for (let i = 0; i < sectors; i++) {
+                        hydra[deck].preOutputCtx.save();
+                        hydra[deck].preOutputCtx.translate(centerX, centerY);
+                        hydra[deck].preOutputCtx.rotate(i * angle);
+                        if (i % 2 === 1) {
+                            hydra[deck].preOutputCtx.scale(-1, 1); // Mirror every other sector
+                        }
+
+                        // Clip to a triangular sector
+                        hydra[deck].preOutputCtx.beginPath();
+                        hydra[deck].preOutputCtx.moveTo(0, 0);
+                        hydra[deck].preOutputCtx.lineTo(hydra[deck].preOutputCanvas.width, Math.tan(angle / 2) * hydra[deck].preOutputCanvas.width);
+                        hydra[deck].preOutputCtx.lineTo(hydra[deck].preOutputCanvas.width, -Math.tan(angle / 2) * hydra[deck].preOutputCanvas.width);
+                        hydra[deck].preOutputCtx.closePath();
+                        hydra[deck].preOutputCtx.clip();
+
+                        // Draw the image portion
+                        hydra[deck].preOutputCtx.drawImage(hydra[deck].effectCanvas, -centerX, -centerY, hydra[deck].preOutputCanvas.width, hydra[deck].preOutputCanvas.height);
+                        hydra[deck].preOutputCtx.restore();
+                    }
+                }
+
+                if (hydra.effects.mirror[deck].enabled) {
+                    hydra.effects.mirror.apply(ctx, canvas, hydra.effects.mirror[deck].mode, hydra.effects.mirror[deck].layerMode);
+                }
+
+                if (hydra.effects.feedback[deck]?.enabled) {
+                    ctx.save();
+                    hydra[deck].feedbackCtx.globalCompositeOperation = hydra.effects.feedback[deck].mode;
+                    ctx.globalAlpha = hydra.effects.feedback[deck].level;
+                    ctx.drawImage(hydra[deck].feedbackCanvas, 0, 0);
+                    ctx.restore();
+                }
+            };
+
+            const updateAudioSystemComponents = () => {
+                if (!hydra.audio.listening) {
+                    hydra.audio.knightrider();
+                }
+
+                hydra.audio.bpm.beatDetection();
+            };
+
+            const mixOutput = () => {
+                if (hydra.deck1.raised) {
+                    hydra.mixedCtx.globalAlpha = hydra.deck1.crossfaderAlpha;
+                    hydra.mixedCtx.drawImage(hydra.deck1.preOutputCanvas, 0, 0);
+                    hydra.mixedCtx.globalAlpha = 1;
+                }
+
+                hydra.mixedCtx.globalAlpha = hydra.deck2.crossfaderAlpha;
+                hydra.mixedCtx.drawImage(hydra.deck2.preOutputCanvas, 0, 0);
+                hydra.mixedCtx.globalAlpha = 1;
+
+                if (!hydra.deck1.raised) {
+                    hydra.mixedCtx.globalAlpha = hydra.deck1.crossfaderAlpha;
+                    hydra.mixedCtx.drawImage(hydra.deck1.preOutputCanvas, 0, 0);
+                    hydra.mixedCtx.globalAlpha = 1;
+                }
+            }
+
             // reset global alphas
-            hydra.deck1.ctx.globalAlpha = hydra.deck1.pipeCtx.globalAlpha = hydra.deck1.alpha;
-            hydra.deck2.ctx.globalAlpha = hydra.deck2.pipeCtx.globalAlpha = hydra.deck2.alpha;
+            resetGlobalAlpha(hydra.deck1);
+            resetGlobalAlpha(hydra.deck2);
 
             // last frame for feedback loops on both decks
-            hydra.deck1.feedbackCtx.drawImage(hydra.deck1.pipeCanvas, 0, 0);
-            hydra.deck2.feedbackCtx.drawImage(hydra.deck2.pipeCanvas, 0, 0);
+            assignFeedbackFrame(hydra.deck1);
+            assignFeedbackFrame(hydra.deck2);
 
             // clear canvas contexts
-            hydra.mixedCtx.clearRect(0, 0, hydra.mixedCanvas.width, hydra.mixedCanvas.height);
-
-            if (!hydra.deck1.current.clearsSelf && (hydra.deck1.getCurrentContext() == '2d')) {
-                hydra.deck1.ctx.clearRect(0, 0, hydra.mixedCanvas.width, hydra.mixedCanvas.height);
-            }
-            hydra.deck1.pipeCtx.clearRect(0, 0, hydra.deck1.pipeCanvas.width, hydra.deck1.pipeCanvas.height);
-
-            if (!hydra.deck2.current.clearsSelf && (hydra.deck2.getCurrentContext() == '2d')) {
-                hydra.deck2.ctx.clearRect(0, 0, hydra.mixedCanvas.width, hydra.mixedCanvas.height);
-            }
-            hydra.deck2.pipeCtx.clearRect(0, 0, hydra.deck2.pipeCanvas.width, hydra.deck2.pipeCanvas.height);
+            clearCanvasContext(hydra.mixedCtx, hydra.mixedCanvas);
+            clearCanvasContext(hydra.deck1.ctx, hydra.deck1.canvas, hydra.deck1.current.clearsSelf);
+            clearCanvasContext(hydra.deck1.preOutputCtx, hydra.deck1.preOutputCanvas);
+            clearCanvasContext(hydra.deck2.ctx, hydra.deck2.canvas, hydra.deck2.current.clearsSelf);
+            clearCanvasContext(hydra.deck2.preOutputCtx, hydra.deck2.preOutputCanvas);
 
             // render deck 1
             hydra.deck1.render();
 
             // clip for deck 1 effects
-            if (hydra.effects.kaleidoscope.deck1.enabled) {
-                hydra.effects.kaleidoscope.clip(hydra.deck1.pipeCtx, hydra.deck1.pipeCanvas);
-            }
-
-            if (hydra.effects.mirror.deck1.enabled) {
-                hydra.effects.mirror.clip(hydra.deck1.pipeCtx, hydra.deck1.pipeCanvas, hydra.effects.mirror.deck1.mode, hydra.effects.mirror.deck1.startPosition);
-            }
-
-            if (hydra.effects.radial.deck1.enabled) {
-                hydra.effects.radial.clip(hydra.deck1.pipeCtx, hydra.deck1.pipeCanvas, hydra.effects.radial.deck1.clipAngle);
-            }
+            clipEffects('deck1', hydra.deck1.preOutputCtx, hydra.deck1.preOutputCanvas);
 
             // apply deck 1 filters
-            hydra.deck1.pipeCtx.save();
-            hydra.deck1.filters.apply();
-            hydra.deck1.pipeCtx.drawImage(hydra.deck1.canvas, 0, 0);
-            hydra.deck1.pipeCtx.restore();
+            applyFilters(hydra.deck1);
 
             // apply deck 1 effects
-            if (hydra.effects.kaleidoscope.deck1.enabled) {
-                hydra.effects.kaleidoscope.apply(hydra.deck1.pipeCtx, hydra.deck1.pipeCanvas, hydra.effects.kaleidoscope.deck1.angle);
-            }
-
-            if (hydra.effects.mirror.deck1.enabled) {
-                hydra.effects.mirror.apply(hydra.deck1.pipeCtx, hydra.deck1.pipeCanvas, hydra.effects.mirror.deck1.mode, hydra.effects.mirror.deck1.layerMode);
-            }
-
-            if (hydra.effects.radial.deck1.enabled) {
-                hydra.effects.radial.apply(hydra.deck1.pipeCtx, hydra.deck1.pipeCanvas, hydra.effects.radial.deck1.mode, hydra.effects.radial.deck1.applyAngle);
-            }
-
-            if (hydra.effects.feedback.deck1.enabled) {
-                hydra.deck1.pipeCtx.save();
-                hydra.deck1.feedbackCtx.globalCompositeOperation = hydra.effects.feedback.deck1.mode;
-                hydra.deck1.pipeCtx.globalAlpha = hydra.effects.feedback.deck1.level;
-                // hydra.deck1.pipeCtx.drawImage(hydra.deck1.feedbackCanvas, Math.floor(Math.random() * 500), Math.floor(Math.random() * 500));
-                hydra.deck1.pipeCtx.drawImage(hydra.deck1.feedbackCanvas, 0, 0);
-                hydra.deck1.pipeCtx.restore();
-            }
+            applyEffects('deck1', hydra.deck1.preOutputCtx, hydra.deck1.preOutputCanvas);
 
             // render deck 2
             hydra.deck2.render();
 
             // clip for deck 2 effects
-            if (hydra.effects.kaleidoscope.deck2.enabled) {
-                hydra.effects.kaleidoscope.clip(hydra.deck2.pipeCtx, hydra.deck2.pipeCanvas);
-            }
-
-            if (hydra.effects.mirror.deck2.enabled) {
-                hydra.effects.mirror.clip(hydra.deck2.pipeCtx, hydra.deck2.pipeCanvas, hydra.effects.mirror.deck2.mode, hydra.effects.mirror.deck2.startPosition);
-            }
-
-            if (hydra.effects.radial.deck2.enabled) {
-                hydra.effects.radial.clip(hydra.deck2.pipeCtx, hydra.deck2.pipeCanvas, hydra.effects.radial.deck2.clipAngle);
-            }
+            clipEffects('deck2', hydra.deck2.preOutputCtx, hydra.deck2.preOutputCanvas);
 
             // apply deck 2 filters
-            hydra.deck2.pipeCtx.save();
-            hydra.deck2.filters.apply();
-            hydra.deck2.pipeCtx.drawImage(hydra.deck2.canvas, 0, 0);
-            hydra.deck2.pipeCtx.restore();
+            applyFilters(hydra.deck2);
 
             // apply deck 2 effects
-            if (hydra.effects.kaleidoscope.deck2.enabled) {
-                hydra.effects.kaleidoscope.apply(hydra.deck2.pipeCtx, hydra.deck2.pipeCanvas, hydra.effects.kaleidoscope.deck2.angle);
-            }
-
-            if (hydra.effects.mirror.deck2.enabled) {
-                hydra.effects.mirror.apply(hydra.deck2.pipeCtx, hydra.deck2.pipeCanvas, hydra.effects.mirror.deck2.mode, hydra.effects.mirror.deck2.layerMode);
-            }
-
-            if (hydra.effects.radial.deck2.enabled) {
-                hydra.effects.radial.apply(hydra.deck2.pipeCtx, hydra.deck2.pipeCanvas, hydra.effects.radial.deck2.mode, hydra.effects.radial.deck2.applyAngle);
-            }
-
-            if (hydra.effects.feedback.deck2.enabled) {
-                hydra.deck2.pipeCtx.save();
-                hydra.deck2.feedbackCtx.globalCompositeOperation = hydra.effects.feedback.deck2.mode;
-                hydra.deck2.pipeCtx.globalAlpha = hydra.effects.feedback.deck2.level;
-                // hydra.deck2.pipeCtx.drawImage(hydra.deck2.feedbackCanvas, Math.floor(Math.random() * 500), Math.floor(Math.random() * 500));
-                hydra.deck2.pipeCtx.drawImage(hydra.deck2.feedbackCanvas, 0, 0);
-                hydra.deck2.pipeCtx.restore();
-            }
-
+            applyEffects('deck2', hydra.deck2.preOutputCtx, hydra.deck2.preOutputCanvas);
 
             // clip for output effects
-            if (hydra.effects.kaleidoscope.output.enabled) {
-                hydra.effects.kaleidoscope.clip(hydra.mixedCtx, hydra.mixedCanvas);
-            }
-
-            if (hydra.effects.mirror.output.enabled) {
-                hydra.effects.mirror.clip(hydra.mixedCtx, hydra.mixedCanvas, hydra.effects.mirror.output.mode, hydra.effects.mirror.output.startPosition);
-            }
-
-            if (hydra.effects.radial.output.enabled) {
-                hydra.effects.radial.clip(hydra.mixedCtx, hydra.mixedCanvas, hydra.effects.radial.output.applyAngle);
-            }
+            clipEffects('output', hydra.mixedCtx, hydra.mixedCanvas);
 
             // mix output
-            if (hydra.deck1.raised) {
-                hydra.mixedCtx.globalAlpha = hydra.deck1.crossfaderAlpha;
-                hydra.mixedCtx.drawImage(hydra.deck1.pipeCanvas, 0, 0);
-                hydra.mixedCtx.globalAlpha = 1;
-            }
-
-            hydra.mixedCtx.globalAlpha = hydra.deck2.crossfaderAlpha;
-            hydra.mixedCtx.drawImage(hydra.deck2.pipeCanvas, 0, 0);
-            hydra.mixedCtx.globalAlpha = 1;
-
-            if (!hydra.deck1.raised) {
-                hydra.mixedCtx.globalAlpha = hydra.deck1.crossfaderAlpha;
-                hydra.mixedCtx.drawImage(hydra.deck1.pipeCanvas, 0, 0);
-                hydra.mixedCtx.globalAlpha = 1;
-            }
+            mixOutput();
 
             // apply output effects
-            if (hydra.effects.kaleidoscope.output.enabled) {
-                hydra.effects.kaleidoscope.apply(hydra.mixedCtx, hydra.mixedCanvas, hydra.effects.kaleidoscope.output.angle);
-            }
-
-            if (hydra.effects.mirror.output.enabled) {
-                hydra.effects.mirror.apply(hydra.mixedCtx, hydra.mixedCanvas, hydra.effects.mirror.output.mode, hydra.effects.mirror.output.layerMode);
-            }
-
-            if (hydra.effects.radial.output.enabled) {
-                hydra.effects.radial.apply(hydra.mixedCtx, hydra.mixedCanvas, hydra.effects.radial.output.mode, hydra.effects.radial.output.angle);
-            }
+            applyEffects('output', hydra.mixedCtx, hydra.mixedCanvas);
 
             // cheeky audio processing in same loop
-            if (!hydra.audio.listening) {
-                hydra.audio.knightrider();
-            }
-
-            hydra.audio.bpm.beatDetection();
+            updateAudioSystemComponents();
 
             // recursive call for animation loop
             window.requestAnimationFrame(hydra.render);
@@ -2782,7 +2856,7 @@ window.hydra = (function(){
         streamer: {
             canvasToStream: 'mix',
             launch: function() {
-                const canvas = this.canvasToStream == 'mix' ? hydra.mixedCanvas : hydra[`deck${this.canvasToStream}`].pipeCanvas;
+                const canvas = this.canvasToStream == 'mix' ? hydra.mixedCanvas : hydra[`deck${this.canvasToStream}`].preOutputCanvas;
                 const stream = canvas.captureStream()
                 const popUpWindow = window.open('', '_blank', 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no');
                 popUpWindow.document.body.style = 'background: black; margin: 0;';
@@ -3331,26 +3405,32 @@ window.hydra = (function(){
                 const currentMode = hydra.mixedCtx.globalCompositeOperation;
 
                 if (hydra.resolution.current === 'match') {
-                    hydra.deck1.canvas.width = hydra.deck1.pipeCanvas.getBoundingClientRect().width;
-                    hydra.deck1.canvas.height = hydra.deck1.pipeCanvas.getBoundingClientRect().height;
+                    hydra.deck1.canvas.width = hydra.deck1.preOutputCanvas.getBoundingClientRect().width;
+                    hydra.deck1.canvas.height = hydra.deck1.preOutputCanvas.getBoundingClientRect().height;
 
-                    hydra.deck1.pipeCanvas.width = hydra.deck1.pipeCanvas.getBoundingClientRect().width;
-                    hydra.deck1.pipeCanvas.height = hydra.deck1.pipeCanvas.getBoundingClientRect().height;
+                    hydra.deck1.feedbackCanvas.width = hydra.deck1.preOutputCanvas.getBoundingClientRect().width;
+                    hydra.deck1.feedbackCanvas.height = hydra.deck1.preOutputCanvas.getBoundingClientRect().height;
 
-                    hydra.deck1.feedbackCanvas.width = hydra.deck1.pipeCanvas.getBoundingClientRect().width;
-                    hydra.deck1.feedbackCanvas.height = hydra.deck1.pipeCanvas.getBoundingClientRect().height;
+                    hydra.deck1.effectCanvas.width = hydra.deck1.preOutputCanvas.getBoundingClientRect().width;
+                    hydra.deck1.effectCanvas.height = hydra.deck1.preOutputCanvas.getBoundingClientRect().height;
+
+                    hydra.deck1.preOutputCanvas.width = hydra.deck1.preOutputCanvas.getBoundingClientRect().width;
+                    hydra.deck1.preOutputCanvas.height = hydra.deck1.preOutputCanvas.getBoundingClientRect().height;
 
                     hydra.mixedCanvas.width = hydra.mixedCanvas.getBoundingClientRect().width;
                     hydra.mixedCanvas.height = hydra.mixedCanvas.getBoundingClientRect().height;
 
-                    hydra.deck2.canvas.width = hydra.deck2.pipeCanvas.getBoundingClientRect().width;
-                    hydra.deck2.canvas.height = hydra.deck2.pipeCanvas.getBoundingClientRect().height;
+                    hydra.deck2.canvas.width = hydra.deck2.preOutputCanvas.getBoundingClientRect().width;
+                    hydra.deck2.canvas.height = hydra.deck2.preOutputCanvas.getBoundingClientRect().height;
 
-                    hydra.deck2.pipeCanvas.width = hydra.deck2.pipeCanvas.getBoundingClientRect().width;
-                    hydra.deck2.pipeCanvas.height = hydra.deck2.pipeCanvas.getBoundingClientRect().height;
+                    hydra.deck2.feedbackCanvas.width = hydra.deck2.preOutputCanvas.getBoundingClientRect().width;
+                    hydra.deck2.feedbackCanvas.height = hydra.deck2.preOutputCanvas.getBoundingClientRect().height;
 
-                    hydra.deck2.feedbackCanvas.width = hydra.deck2.pipeCanvas.getBoundingClientRect().width;
-                    hydra.deck2.feedbackCanvas.height = hydra.deck2.pipeCanvas.getBoundingClientRect().height;
+                    hydra.deck2.effectCanvas.width = hydra.deck2.preOutputCanvas.getBoundingClientRect().width;
+                    hydra.deck2.effectCanvas.height = hydra.deck2.preOutputCanvas.getBoundingClientRect().height;
+
+                    hydra.deck2.preOutputCanvas.width = hydra.deck2.preOutputCanvas.getBoundingClientRect().width;
+                    hydra.deck2.preOutputCanvas.height = hydra.deck2.preOutputCanvas.getBoundingClientRect().height;
 
                     hydra.centerX = hydra.deck1.canvas.width/2;
                     hydra.centerY = hydra.deck1.canvas.height/2;
@@ -3362,11 +3442,14 @@ window.hydra = (function(){
                     hydra.deck1.canvas.width = width;
                     hydra.deck1.canvas.height = height;
 
-                    hydra.deck1.pipeCanvas.width = width;
-                    hydra.deck1.pipeCanvas.height = height;
-
                     hydra.deck1.feedbackCanvas.width = width;
                     hydra.deck1.feedbackCanvas.height = height;
+
+                    hydra.deck1.effectCanvas.width = width;
+                    hydra.deck1.effectCanvas.height = height;
+
+                    hydra.deck1.preOutputCanvas.width = width;
+                    hydra.deck1.preOutputCanvas.height = height;
 
                     hydra.mixedCanvas.width = width;
                     hydra.mixedCanvas.height = height;
@@ -3374,11 +3457,14 @@ window.hydra = (function(){
                     hydra.deck2.canvas.width = width;
                     hydra.deck2.canvas.height = height;
 
-                    hydra.deck2.pipeCanvas.width = width;
-                    hydra.deck2.pipeCanvas.height = height;
-
                     hydra.deck2.feedbackCanvas.width = width;
                     hydra.deck2.feedbackCanvas.height = height;
+
+                    hydra.deck2.effectCanvas.width = width;
+                    hydra.deck2.effectCanvas.height = height;
+
+                    hydra.deck2.preOutputCanvas.width = width;
+                    hydra.deck2.preOutputCanvas.height = height;
 
                     hydra.centerX = width/2;
                     hydra.centerY = height/2;
@@ -3407,6 +3493,13 @@ window.hydra = (function(){
                     e.style.setProperty('--min', e.min == '' ? '0' : e.min);
                     e.style.setProperty('--max', e.max == '' ? '100' : e.max);
                     e.addEventListener('input', () => e.style.setProperty('--value', e.value));
+                });
+            },
+            updateSliderProgressListeners: function() {
+                document.querySelectorAll('input[type="range"]').forEach(function(e) {
+                    e.style.setProperty('--value', e.value);
+                    e.style.setProperty('--min', e.min == '' ? '0' : e.min);
+                    e.style.setProperty('--max', e.max == '' ? '100' : e.max);
                 });
             },
             randomise: function(deck) {

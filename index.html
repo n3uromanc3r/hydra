@@ -19,8 +19,9 @@
             <div class="column">
                 <div class="deck-screen">
                     <canvas id="deck-1-canvas" class="canvas hide"></canvas>
-                    <canvas id="deck-1-pipe-canvas" class="canvas"></canvas>
                     <canvas id="deck-1-feedback-canvas" class="canvas hide"></canvas>
+                    <canvas id="deck-1-effect-canvas" class="canvas hide"></canvas>
+                    <canvas id="deck-1-pre-output-canvas" class="canvas"></canvas>
                 </div>
             </div>
             <div class="column">
@@ -31,8 +32,9 @@
             <div class="column">
                 <div class="deck-screen">
                     <canvas id="deck-2-canvas" class="canvas hide"></canvas>
-                    <canvas id="deck-2-pipe-canvas" class="canvas"></canvas>
                     <canvas id="deck-2-feedback-canvas" class="canvas hide"></canvas>
+                    <canvas id="deck-2-effect-canvas" class="canvas hide"></canvas>
+                    <canvas id="deck-2-pre-output-canvas" class="canvas"></canvas>
                 </div>
             </div>
         </section>
@@ -268,6 +270,37 @@
                                         <option value="source-over">source-over</option>
                                         <option value="xor">xor</option>
                                     </select>
+                                </div>
+                            </group>
+                        </fieldset>
+                        <fieldset>
+                            <div class="heading">Kaleidoscope [Secondary]</div>
+                            <group class="flex">
+                                <div class="inline-input">
+                                    <span class="input-label">Enable</span>
+                                    <label class="switch">
+                                        <input type="checkbox" data-deck="1" data-kaleidoscope-secondary-toggle>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                <div class="inline-input grow">
+                                    <span class="input-label">Segments</span>
+                                    <span class="value">8</span>
+                                    <input type="range" min="4" max="64" value="8" step="4" data-deck="1" data-kaleidoscope-secondary-segments>
+                                </div>
+                            </group>
+                            <group class="flex">
+                                <div class="inline-input">
+                                    <span class="input-label">Rotate</span>
+                                    <label class="switch">
+                                        <input type="checkbox" data-deck="1" data-kaleidoscope-secondary-rotation-toggle>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                <div class="inline-input grow">
+                                    <span class="input-label">Speed</span>
+                                    <span class="value">1</span>
+                                    <input type="range" min="0" max="2" value="1" step="0.0001" data-deck="1" data-kaleidoscope-secondary-rotation-speed>
                                 </div>
                             </group>
                         </fieldset>
@@ -1171,6 +1204,37 @@
                                         <option value="source-over">source-over</option>
                                         <option value="xor">xor</option>
                                     </select>
+                                </div>
+                            </group>
+                        </fieldset>
+                        <fieldset>
+                            <div class="heading">Kaleidoscope [Secondary]</div>
+                            <group class="flex">
+                                <div class="inline-input">
+                                    <span class="input-label">Enable</span>
+                                    <label class="switch">
+                                        <input type="checkbox" data-deck="2" data-kaleidoscope-secondary-toggle>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                <div class="inline-input grow">
+                                    <span class="input-label">Segments</span>
+                                    <span class="value">8</span>
+                                    <input type="range" min="4" max="64" value="8" step="4" data-deck="2" data-kaleidoscope-secondary-segments>
+                                </div>
+                            </group>
+                            <group class="flex">
+                                <div class="inline-input">
+                                    <span class="input-label">Rotate</span>
+                                    <label class="switch">
+                                        <input type="checkbox" data-deck="2" data-kaleidoscope-secondary-rotation-toggle>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                <div class="inline-input grow">
+                                    <span class="input-label">Speed</span>
+                                    <span class="value">1</span>
+                                    <input type="range" min="0" max="2" value="1" step="0.0001" data-deck="2" data-kaleidoscope-secondary-rotation-speed>
                                 </div>
                             </group>
                         </fieldset>
