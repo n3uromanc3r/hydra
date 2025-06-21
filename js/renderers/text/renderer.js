@@ -37,7 +37,7 @@ window.hydra.renderers['text'] = {
                             label: 'Size',
                             variable: 'size',
                             min: 0,
-                            max: 200,
+                            max: 1200,
                             value: 30,
                             step: 1,
                             randomiseable: true
