@@ -1,9 +1,7 @@
 window.hydra.renderers['tapestryfract'] = {
     init: function(deck) {
         const defaults = {
-            clearsSelf: true,
-            context: 'webgl',
-            initialised: false,
+            context: 'webgl'
         };
         const ui = {
             fieldsets: [
@@ -14,8 +12,8 @@ window.hydra.renderers['tapestryfract'] = {
                     items: [
                         {
                             type: 'range',
-                            label: 'Control 1',
-                            variable: 'control1',
+                            label: 'Spread',
+                            variable: 'spread',
                             min: 0.01,
                             max: 2,
                             value: 0.5,
@@ -24,8 +22,8 @@ window.hydra.renderers['tapestryfract'] = {
                         },
                         {
                             type: 'range',
-                            label: 'Control 2',
-                            variable: 'control2',
+                            label: 'Strength',
+                            variable: 'strength',
                             min: 0.01,
                             max: 2,
                             value: 1,
@@ -61,8 +59,8 @@ window.hydra.renderers['tapestryfract'] = {
             uniform vec2 mouse;
             uniform vec2 iResolution;  // Screen resolution (width, height)
             uniform float iGlobalTime;  // Global time
-            uniform float control1;
-            uniform float control2;
+            uniform float spread;
+            uniform float strength;
 
             void main(void)
             {
@@ -78,12 +76,12 @@ window.hydra.renderers['tapestryfract'] = {
                 mou = (mou + 1.0) * res;
 
                 vec2 z = ((-res + 2.0 * gl_FragCoord.xy) / res.y);
-                vec2 p = ((-res + 2.0 + mou) / res.y) * control1;
+                vec2 p = ((-res + 2.0 + mou) / res.y) * spread;
 
                 for (int i = 0; i < 25; i++) 
                 {
                     float d = dot(z, z);
-                    z = (vec2(z.x, -z.y) / d) + p * control2; 
+                    z = (vec2(z.x, -z.y) / d) + p * strength;
                     z.x = 1.0 - abs(z.x);
                     f = max(f - d, (dot(z - p, z - p)));
                     g = min(g * d, sin(dot(z + p, z + p)) + 1.0);
@@ -132,8 +130,8 @@ window.hydra.renderers['tapestryfract'] = {
             const positionAttributeLocation = deck.ctx.getAttribLocation(program, "a_position");
             const resolutionUniformLocation = deck.ctx.getUniformLocation(program, "iResolution");
             const timeUniformLocation = deck.ctx.getUniformLocation(program, "iGlobalTime");
-            const control1UniformLocation = deck.ctx.getUniformLocation(program, "control1");
-            const control2UniformLocation = deck.ctx.getUniformLocation(program, "control2");
+            const spreadUniformLocation = deck.ctx.getUniformLocation(program, "spread");
+            const strengthUniformLocation = deck.ctx.getUniformLocation(program, "strength");
 
             // Create vertex buffer for a full-screen quad
             const vertices = new Float32Array([
@@ -158,8 +156,8 @@ window.hydra.renderers['tapestryfract'] = {
             // Set uniform values
             deck.ctx.uniform2f(resolutionUniformLocation, deck.canvas.width, deck.canvas.height);
             deck.ctx.uniform1f(timeUniformLocation, performance.now() * deck.tapestryfract.speed);
-            deck.ctx.uniform1f(control1UniformLocation, deck.tapestryfract.control1);
-            deck.ctx.uniform1f(control2UniformLocation, deck.tapestryfract.control2);
+            deck.ctx.uniform1f(spreadUniformLocation, deck.tapestryfract.spread);
+            deck.ctx.uniform1f(strengthUniformLocation, deck.tapestryfract.strength);
 
             deck.ctx.drawArrays(deck.ctx.TRIANGLE_STRIP, 0, 4);
         };
