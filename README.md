@@ -150,6 +150,24 @@ Available online at https://hydra.virusav.com/
       - Segments
       - Rotate
       - Speed
+    - Pixelate
+      - Resolution
+    - Scanlines
+      - Spacing
+      - Alpha
+    - Vingette
+      - Strength
+      - Distance
+    - Wave
+      - React (Audio)
+      - Blur Amount
+      - X Distance
+      - Y Distance
+      - X Speed
+      - Y Speed
+    - Chromatic Aberration
+      - Offset
+      - Alpha
 - Audio Reactivity
   - Scale
   - Color
