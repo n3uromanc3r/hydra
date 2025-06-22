@@ -268,7 +268,7 @@ window.hydra = (function(){
                     markup += `<span class="input-label">${item.label}</span>`;
                 }
 
-                markup += `<select class="${item.class || ''}" data-deck="${deckId}" data-visual="${name}" data-variable="${item.variable}" ${item.disabled ? 'disabled' : ''}>`;
+                markup += `<select class="${item.class || ''}" data-deck="${deckId}" data-visual="${name}" data-variable="${item.variable}" ${item.randomiseable ? 'data-randomiseable' : ''} ${item.disabled ? 'disabled' : ''}>`;
 
                 item.options.forEach(option => {
                     markup += `<option value="${option.value}"${option.selected ? ' selected' : ''}>${option.text}</option>`;
@@ -2329,7 +2329,9 @@ window.hydra = (function(){
                     });
                 });
 
-                document.querySelector(`input[type="radio"][name="theme-width"][value="${initialThemeWidth}"]`).dispatchEvent(new Event('click'));
+                const selectedThemeWidthInput = document.querySelector(`input[type="radio"][name="theme-width"][value="${initialThemeWidth}"]`);
+                selectedThemeWidthInput.checked = true;
+                selectedThemeWidthInput.dispatchEvent(new Event('click'));
             }
         },
         modal: {
@@ -3508,8 +3510,10 @@ window.hydra = (function(){
             randomise: function(deck) {
                 let inputs;
 
-                deck.ctx.setTransform(1, 0, 0, 1, 0, 0);
-                deck.ctx.clearRect(0, 0, deck.canvas.width, deck.canvas.height);
+                if (deck.ctx instanceof CanvasRenderingContext2D) {
+                    deck.ctx.setTransform(1, 0, 0, 1, 0, 0);
+                    deck.ctx.clearRect(0, 0, deck.canvas.width, deck.canvas.height);
+                }
 
                 const countDecimals = (number) => {
                     if ((number % 1) != 0)
@@ -3550,6 +3554,11 @@ window.hydra = (function(){
                                 input.checked = randomisedValue;
                             } else if (input.type == 'color') {
                                 input.value = randomColor();
+                            } else if (input.type == 'select-one') {
+                                const min = step = 1;
+                                const max = input.options.length;
+                                const randomisedValue = parseInt(randomValue(min, max, 1));
+                                input.value = input.options[randomisedValue - 1].value;
                             }
 
                             if (input.type == 'submit') {
