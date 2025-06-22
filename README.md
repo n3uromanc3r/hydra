@@ -234,7 +234,7 @@ In this basic example, we have defined the `foomanchu` renderer object.  This co
 
 When calling the `init` method, we pass the `deck` as the first parameter.
 
-The `deck` has various properties available to it that can help us make more advanced renderers that react to playing audio and mouse movement, which we'll introduce later in this guide.
+The `deck` has various properties available to it that can help us make more advanced renderers react to playing audio and mouse movement, which we'll introduce later in this guide.
 
 The `deck` also provides the `canvas` and `ctx` objects to our renderer, which we need in order to draw to our canvas.
 
@@ -246,7 +246,9 @@ The config object in our example contains 2 properties, each an object of their 
 
 > Note: The config object can also contain other properties, which introduce additional functionality: `presets`, `keyboardShortcuts` and `guide`.
 
-The `defaults` object is a place for setting default properties we may wish to assign to our renderer.  It also allows us to define what our `reactivity` options for our renderer are.  For now we can ignore this.
+The `defaults` object is a place for setting default properties we may wish to assign to our renderer, for instance the canvas context type.  
+By default the canvas context of a renderer is `2d`, this is automatically used when the `defaults` object doesn't include/specify a `context` property. However if we include a `context` property, we can introduce `webgl` and `webgl` shaders into our renderers, as can be seen [here](https://github.com/n3uromanc3r/hydra/blob/main/js/renderers/geometricplay/renderer.js).
+The `defaults` object also allows us to define what our `reactivity` options for our renderer are.  For now we can ignore this.
 
 The `ui` object is where we define any inputs/controls that the renderer should present to the end user in the interface, we can ignore this for now too.
 
@@ -550,6 +552,7 @@ Properties:
   - `option.value` - required - set the value of an option
   - `option.selected` - optional - set the option to selected
   - `option.text` - required - set the option text
+- `randomiseable` - optional - sets whether the input should default to randomiseable
 
 Type: `color-meter`
 Properties:
