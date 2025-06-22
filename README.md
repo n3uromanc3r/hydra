@@ -26,6 +26,7 @@ Available online at https://hydra.virusav.com/
   - Quark (ported from https://quark.virusav.com)
   - Strobe
   - Tapestry Fract (ported from https://editor.isf.video/shaders/295)
+  - Tapestry Fract 2 (modification of code ported from https://editor.isf.video/shaders/295)
   - Text
   - Tunnel
   - Video
