@@ -47,7 +47,8 @@ window.hydra.renderers['geometricplay'] = {
                             min: 1.0,
                             max: 10.0,
                             value: 3.5,
-                            step: 0.1
+                            step: 0.1,
+                            randomiseable: true
                         },
                         {
                             type: 'range',
@@ -56,7 +57,8 @@ window.hydra.renderers['geometricplay'] = {
                             min: 0.0,
                             max: 1.0,
                             value: 0.08,
-                            step: 0.01
+                            step: 0.01,
+                            randomiseable: true
                         },
                         {
                             type: 'range',
@@ -65,7 +67,8 @@ window.hydra.renderers['geometricplay'] = {
                             min: 0.0,
                             max: 3.0,
                             value: 0.5,
-                            step: 0.01
+                            step: 0.01,
+                            randomiseable: true
                         },
                         {
                             type: 'range',
@@ -74,7 +77,8 @@ window.hydra.renderers['geometricplay'] = {
                             min: 0.1,
                             max: 3.0,
                             value: 1.0,
-                            step: 0.1
+                            step: 0.1,
+                            randomiseable: true
                         },
                         {
                             type: 'range',
@@ -83,7 +87,8 @@ window.hydra.renderers['geometricplay'] = {
                             min: 0.5,
                             max: 5.0,
                             value: 2.2,
-                            step: 0.1
+                            step: 0.1,
+                            randomiseable: true
                         },
                         {
                             type: 'select',
@@ -96,7 +101,8 @@ window.hydra.renderers['geometricplay'] = {
                                 { text: 'Mandelbox', value: 3, selected: false },
                                 { text: 'Quaternion Symmetry', value: 4, selected: false },
                                 { text: 'Apollonian Flame', value: 5, selected: false }
-                            ]
+                            ],
+                            randomiseable: true
                         }
                     ]
                 },
@@ -128,6 +134,7 @@ window.hydra.renderers['geometricplay'] = {
                                 { text: 'Nine', value: 9, selected: false },
                             ],
                             containerClass: 'grow',
+                            randomiseable: true
                         }
                     ]
                 },
