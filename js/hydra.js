@@ -2278,21 +2278,23 @@ window.hydra = (function(){
 
                 this.wave.deck1 = {
                     enabled: false,
-                    react: false,
                     blurAmount: 2,
-                    xAmp: 10,
-                    yAmp: 20,
-                    xMod: 0.01,
-                    yMod: 0.01,
+                    xReact: false,
+                    yReact: false,
+                    xDistance: 10,
+                    yDistance: 20,
+                    xSpeed: 0.01,
+                    ySpeed: 0.01,
                 };
                 this.wave.deck2 = {
                     enabled: false,
-                    react: false,
                     blurAmount: 2,
-                    xAmp: 10,
-                    yAmp: 20,
-                    xMod: 0.01,
-                    yMod: 0.01,
+                    xReact: false,
+                    yReact: false,
+                    xDistance: 10,
+                    yDistance: 20,
+                    xSpeed: 0.01,
+                    ySpeed: 0.01,
                 };
 
                 this.wave.toggleBtns = document.querySelectorAll('[data-wave-toggle]');
@@ -2300,14 +2302,6 @@ window.hydra = (function(){
                     toggleBtn.addEventListener('input', function(e) {
                         const target = `deck${e.target.dataset.deck}`;
                         hydra.effects.wave[target].enabled = e.target.checked;
-                    });
-                });
-
-                this.wave.reactToggleBtns = document.querySelectorAll('[data-wave-react]');
-                this.wave.reactToggleBtns.forEach(reactToggleBtn => {
-                    reactToggleBtn.addEventListener('input', function(e) {
-                        const target = `deck${e.target.dataset.deck}`;
-                        hydra.effects.wave[target].react = e.target.checked;
                     });
                 });
 
@@ -2320,38 +2314,54 @@ window.hydra = (function(){
                     });
                 });
 
-                this.wave.xAmpInputs = document.querySelectorAll('[data-wave-x-amp]');
-                this.wave.xAmpInputs.forEach(xAmpInput => {
-                    xAmpInput.addEventListener('input', function(e) {
+                this.wave.xReactToggleBtns = document.querySelectorAll('[data-wave-x-react]');
+                this.wave.xReactToggleBtns.forEach(xReactToggleBtn => {
+                    xReactToggleBtn.addEventListener('input', function(e) {
                         const target = `deck${e.target.dataset.deck}`;
-                        hydra.effects.wave[target].xAmp = parseFloat(e.target.value);
+                        hydra.effects.wave[target].xReact = e.target.checked;
+                    });
+                });
+
+                this.wave.yReactToggleBtns = document.querySelectorAll('[data-wave-y-react]');
+                this.wave.yReactToggleBtns.forEach(yReactToggleBtn => {
+                    yReactToggleBtn.addEventListener('input', function(e) {
+                        const target = `deck${e.target.dataset.deck}`;
+                        hydra.effects.wave[target].yReact = e.target.checked;
+                    });
+                });
+
+                this.wave.xDistanceInputs = document.querySelectorAll('[data-wave-x-distance]');
+                this.wave.xDistanceInputs.forEach(xDistanceInput => {
+                    xDistanceInput.addEventListener('input', function(e) {
+                        const target = `deck${e.target.dataset.deck}`;
+                        hydra.effects.wave[target].xDistance = parseFloat(e.target.value);
                         e.target.parentElement.querySelector('.value').textContent = e.target.value;
                     });
                 });
 
-                this.wave.yAmpInputs = document.querySelectorAll('[data-wave-y-amp]');
-                this.wave.yAmpInputs.forEach(yAmpInput => {
-                    yAmpInput.addEventListener('input', function(e) {
+                this.wave.yDistanceInputs = document.querySelectorAll('[data-wave-y-distance]');
+                this.wave.yDistanceInputs.forEach(yDistanceInput => {
+                    yDistanceInput.addEventListener('input', function(e) {
                         const target = `deck${e.target.dataset.deck}`;
-                        hydra.effects.wave[target].yAmp = parseFloat(e.target.value);
+                        hydra.effects.wave[target].yDistance = parseFloat(e.target.value);
                         e.target.parentElement.querySelector('.value').textContent = e.target.value;
                     });
                 });
 
-                this.wave.xModInputs = document.querySelectorAll('[data-wave-x-mod]');
-                this.wave.xModInputs.forEach(xModInput => {
-                    xModInput.addEventListener('input', function(e) {
+                this.wave.xSpeedInputs = document.querySelectorAll('[data-wave-x-speed]');
+                this.wave.xSpeedInputs.forEach(xSpeedInput => {
+                    xSpeedInput.addEventListener('input', function(e) {
                         const target = `deck${e.target.dataset.deck}`;
-                        hydra.effects.wave[target].xMod = parseFloat(e.target.value);
+                        hydra.effects.wave[target].xSpeed = parseFloat(e.target.value);
                         e.target.parentElement.querySelector('.value').textContent = e.target.value;
                     });
                 });
 
-                this.wave.yModInputs = document.querySelectorAll('[data-wave-y-mod]');
-                this.wave.yModInputs.forEach(yModInput => {
-                    yModInput.addEventListener('input', function(e) {
+                this.wave.ySpeedInputs = document.querySelectorAll('[data-wave-y-speed]');
+                this.wave.ySpeedInputs.forEach(ySpeedInput => {
+                    ySpeedInput.addEventListener('input', function(e) {
                         const target = `deck${e.target.dataset.deck}`;
-                        hydra.effects.wave[target].yMod = parseFloat(e.target.value);
+                        hydra.effects.wave[target].ySpeed = parseFloat(e.target.value);
                         e.target.parentElement.querySelector('.value').textContent = e.target.value;
                     });
                 });
@@ -2880,11 +2890,15 @@ window.hydra = (function(){
             applyWave: function(deck, ctx, canvas) {
                 if (hydra.effects.wave[deck]?.enabled) {
                     ctx.filter = `blur(${hydra.effects.wave[deck].blurAmount}px)`;
-                    let x = Math.sin(performance.now() * hydra.effects.wave[deck].xMod) * hydra.effects.wave[deck].xAmp;
-                    let y = Math.sin(performance.now() * hydra.effects.wave[deck].yMod) * hydra.effects.wave[deck].yAmp;
+                    let x = Math.sin(performance.now() * hydra.effects.wave[deck].xSpeed) * hydra.effects.wave[deck].xDistance;
+                    let y = Math.sin(performance.now() * hydra.effects.wave[deck].ySpeed) * hydra.effects.wave[deck].yDistance;
 
-                    if (hydra.effects.wave[deck].react) {
+                    if (hydra.effects.wave[deck].xReact) {
                         x = x * window.hydra.audio.average;
+                    }
+
+                    if (hydra.effects.wave[deck].yReact) {
+                        y = y * window.hydra.audio.average;
                     }
 
                     ctx.drawImage(canvas, x, y);
