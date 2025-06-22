@@ -2167,6 +2167,233 @@ window.hydra = (function(){
                         e.target.parentElement.querySelector('.value').textContent = e.target.value;
                     });
                 });
+
+                this.pixelate = {};
+
+                this.pixelate.deck1 = {
+                    enabled: false,
+                    resolution: 64
+                };
+                this.pixelate.deck2 = {
+                    enabled: false,
+                    resolution: 64
+                };
+
+                this.pixelate.toggleBtns = document.querySelectorAll('[data-pixelate-toggle]');
+                this.pixelate.toggleBtns.forEach(toggleBtn => {
+                    toggleBtn.addEventListener('input', function(e) {
+                        const target = `deck${e.target.dataset.deck}`;
+                        hydra.effects.pixelate[target].enabled = e.target.checked;
+                    });
+                });
+
+                this.pixelate.resolutionInputs = document.querySelectorAll('[data-pixelate-resolution]');
+                this.pixelate.resolutionInputs.forEach(resolutionInput => {
+                    resolutionInput.addEventListener('input', function(e) {
+                        const target = `deck${e.target.dataset.deck}`;
+                        hydra.effects.pixelate[target].resolution = parseInt(e.target.value);
+                        e.target.parentElement.querySelector('.value').textContent = e.target.value;
+                    });
+                });
+
+                this.scanlines = {};
+
+                this.scanlines.deck1 = {
+                    enabled: false,
+                    spacing: 2,
+                    alpha: 0.05
+                };
+                this.scanlines.deck2 = {
+                    enabled: false,
+                    spacing: 2,
+                    alpha: 0.05
+                };
+
+                this.scanlines.toggleBtns = document.querySelectorAll('[data-scanlines-toggle]');
+                this.scanlines.toggleBtns.forEach(toggleBtn => {
+                    toggleBtn.addEventListener('input', function(e) {
+                        const target = `deck${e.target.dataset.deck}`;
+                        hydra.effects.scanlines[target].enabled = e.target.checked;
+                    });
+                });
+
+                this.scanlines.spacingInputs = document.querySelectorAll('[data-scanlines-spacing]');
+                this.scanlines.spacingInputs.forEach(spacingInput => {
+                    spacingInput.addEventListener('input', function(e) {
+                        const target = `deck${e.target.dataset.deck}`;
+                        hydra.effects.scanlines[target].spacing = parseInt(e.target.value);
+                        e.target.parentElement.querySelector('.value').textContent = e.target.value;
+                    });
+                });
+
+                this.scanlines.alphaInputs = document.querySelectorAll('[data-scanlines-alpha]');
+                this.scanlines.alphaInputs.forEach(alphaInput => {
+                    alphaInput.addEventListener('input', function(e) {
+                        const target = `deck${e.target.dataset.deck}`;
+                        hydra.effects.scanlines[target].alpha = parseFloat(e.target.value);
+                        e.target.parentElement.querySelector('.value').textContent = e.target.value;
+                    });
+                });
+
+                this.vignette = {};
+
+                this.vignette.deck1 = {
+                    enabled: false,
+                    strength: 0.6,
+                    distance: 1.2
+                };
+                this.vignette.deck2 = {
+                    enabled: false,
+                    strength: 0.6,
+                    distance: 1.2
+                };
+
+                this.vignette.toggleBtns = document.querySelectorAll('[data-vignette-toggle]');
+                this.vignette.toggleBtns.forEach(toggleBtn => {
+                    toggleBtn.addEventListener('input', function(e) {
+                        const target = `deck${e.target.dataset.deck}`;
+                        hydra.effects.vignette[target].enabled = e.target.checked;
+                    });
+                });
+
+                this.vignette.strengthInputs = document.querySelectorAll('[data-vignette-strength]');
+                this.vignette.strengthInputs.forEach(strengthInput => {
+                    strengthInput.addEventListener('input', function(e) {
+                        const target = `deck${e.target.dataset.deck}`;
+                        hydra.effects.vignette[target].strength = parseFloat(e.target.value);
+                        e.target.parentElement.querySelector('.value').textContent = e.target.value;
+                    });
+                });
+
+                this.vignette.distanceInputs = document.querySelectorAll('[data-vignette-distance]');
+                this.vignette.distanceInputs.forEach(distanceInput => {
+                    distanceInput.addEventListener('input', function(e) {
+                        const target = `deck${e.target.dataset.deck}`;
+                        hydra.effects.vignette[target].distance = parseFloat(e.target.value);
+                        e.target.parentElement.querySelector('.value').textContent = e.target.value;
+                    });
+                });
+
+                this.wave = {};
+
+                this.wave.deck1 = {
+                    enabled: false,
+                    react: false,
+                    blurAmount: 2,
+                    xAmp: 10,
+                    yAmp: 20,
+                    xMod: 0.01,
+                    yMod: 0.01,
+                };
+                this.wave.deck2 = {
+                    enabled: false,
+                    react: false,
+                    blurAmount: 2,
+                    xAmp: 10,
+                    yAmp: 20,
+                    xMod: 0.01,
+                    yMod: 0.01,
+                };
+
+                this.wave.toggleBtns = document.querySelectorAll('[data-wave-toggle]');
+                this.wave.toggleBtns.forEach(toggleBtn => {
+                    toggleBtn.addEventListener('input', function(e) {
+                        const target = `deck${e.target.dataset.deck}`;
+                        hydra.effects.wave[target].enabled = e.target.checked;
+                    });
+                });
+
+                this.wave.reactToggleBtns = document.querySelectorAll('[data-wave-react]');
+                this.wave.reactToggleBtns.forEach(reactToggleBtn => {
+                    reactToggleBtn.addEventListener('input', function(e) {
+                        const target = `deck${e.target.dataset.deck}`;
+                        hydra.effects.wave[target].react = e.target.checked;
+                    });
+                });
+
+                this.wave.blurAmountInputs = document.querySelectorAll('[data-wave-blur-amount]');
+                this.wave.blurAmountInputs.forEach(blurAmountInput => {
+                    blurAmountInput.addEventListener('input', function(e) {
+                        const target = `deck${e.target.dataset.deck}`;
+                        hydra.effects.wave[target].blurAmount = parseFloat(e.target.value);
+                        e.target.parentElement.querySelector('.value').textContent = e.target.value;
+                    });
+                });
+
+                this.wave.xAmpInputs = document.querySelectorAll('[data-wave-x-amp]');
+                this.wave.xAmpInputs.forEach(xAmpInput => {
+                    xAmpInput.addEventListener('input', function(e) {
+                        const target = `deck${e.target.dataset.deck}`;
+                        hydra.effects.wave[target].xAmp = parseFloat(e.target.value);
+                        e.target.parentElement.querySelector('.value').textContent = e.target.value;
+                    });
+                });
+
+                this.wave.yAmpInputs = document.querySelectorAll('[data-wave-y-amp]');
+                this.wave.yAmpInputs.forEach(yAmpInput => {
+                    yAmpInput.addEventListener('input', function(e) {
+                        const target = `deck${e.target.dataset.deck}`;
+                        hydra.effects.wave[target].yAmp = parseFloat(e.target.value);
+                        e.target.parentElement.querySelector('.value').textContent = e.target.value;
+                    });
+                });
+
+                this.wave.xModInputs = document.querySelectorAll('[data-wave-x-mod]');
+                this.wave.xModInputs.forEach(xModInput => {
+                    xModInput.addEventListener('input', function(e) {
+                        const target = `deck${e.target.dataset.deck}`;
+                        hydra.effects.wave[target].xMod = parseFloat(e.target.value);
+                        e.target.parentElement.querySelector('.value').textContent = e.target.value;
+                    });
+                });
+
+                this.wave.yModInputs = document.querySelectorAll('[data-wave-y-mod]');
+                this.wave.yModInputs.forEach(yModInput => {
+                    yModInput.addEventListener('input', function(e) {
+                        const target = `deck${e.target.dataset.deck}`;
+                        hydra.effects.wave[target].yMod = parseFloat(e.target.value);
+                        e.target.parentElement.querySelector('.value').textContent = e.target.value;
+                    });
+                });
+
+                this.chromaticAberration = {};
+
+                this.chromaticAberration.deck1 = {
+                    enabled: false,
+                    offset: 5,
+                    alpha: 0.1
+                };
+                this.chromaticAberration.deck2 = {
+                    enabled: false,
+                    offset: 5,
+                    alpha: 0.1
+                };
+
+                this.chromaticAberration.toggleBtns = document.querySelectorAll('[data-chromatic-aberration-toggle]');
+                this.chromaticAberration.toggleBtns.forEach(toggleBtn => {
+                    toggleBtn.addEventListener('input', function(e) {
+                        const target = `deck${e.target.dataset.deck}`;
+                        hydra.effects.chromaticAberration[target].enabled = e.target.checked;
+                    });
+                });
+
+                this.chromaticAberration.offsetInputs = document.querySelectorAll('[data-chromatic-aberration-offset]');
+                this.chromaticAberration.offsetInputs.forEach(offsetInput => {
+                    offsetInput.addEventListener('input', function(e) {
+                        const target = `deck${e.target.dataset.deck}`;
+                        hydra.effects.chromaticAberration[target].offset = parseFloat(e.target.value);
+                        e.target.parentElement.querySelector('.value').textContent = e.target.value;
+                    });
+                });
+
+                this.chromaticAberration.alphaInputs = document.querySelectorAll('[data-chromatic-aberration-alpha]');
+                this.chromaticAberration.alphaInputs.forEach(alphaInput => {
+                    alphaInput.addEventListener('input', function(e) {
+                        const target = `deck${e.target.dataset.deck}`;
+                        hydra.effects.chromaticAberration[target].alpha = parseFloat(e.target.value);
+                        e.target.parentElement.querySelector('.value').textContent = e.target.value;
+                    });
+                });
             }
         },
         handlers: {
@@ -2316,22 +2543,38 @@ window.hydra = (function(){
                 resolutionSelector.value = initialResolution;
                 resolutionSelector.dispatchEvent(new Event('change'));
 
-                const initialThemeWidth = hydra.storage.db.getItem('theme-width') || '';
+                const body = document.querySelector('body');
+                const radioDataAttributeMappings = {};
 
-                document.querySelectorAll('input[type=radio][name="theme-width"]').forEach(function(radioBtn) {
+                document.querySelectorAll('input[type=radio]').forEach(function(radioBtn) {
+
+                    if (this.value !== '') {
+                        if (!(radioBtn.name in radioDataAttributeMappings)) {
+                            radioDataAttributeMappings[radioBtn.name] = [];
+                        }
+                        radioDataAttributeMappings[radioBtn.name].push(radioBtn.value);
+                    }
+
                     radioBtn.addEventListener('click', function(e) {
-                        const body = document.querySelector('body');
-                        Object.entries(body.dataset).forEach((item) => delete body.dataset[item[0]])
+                        radioDataAttributeMappings[radioBtn.name].forEach((item) => delete body.dataset[item]);
                         if (this.value !== '') {
                             body.dataset[this.value] = '';
                         }
-                        hydra.storage.db.setItem('theme-width', this.value);
+                        hydra.storage.db.setItem(radioBtn.name, this.value);
+
+                        hydra.helpers.detectSizes();
                     });
                 });
 
+                const initialThemeWidth = hydra.storage.db.getItem('theme-width') || '';
                 const selectedThemeWidthInput = document.querySelector(`input[type="radio"][name="theme-width"][value="${initialThemeWidth}"]`);
                 selectedThemeWidthInput.checked = true;
                 selectedThemeWidthInput.dispatchEvent(new Event('click'));
+
+                const initialAudioMeterVisibility = hydra.storage.db.getItem('audio-meter-visibility') || '';
+                const selectedAudioMeterVisibilityInput = document.querySelector(`input[type="radio"][name="audio-meter-visibility"][value="${initialAudioMeterVisibility}"]`);
+                selectedAudioMeterVisibilityInput.checked = true;
+                selectedAudioMeterVisibilityInput.dispatchEvent(new Event('click'));
             }
         },
         modal: {
@@ -2419,21 +2662,73 @@ window.hydra = (function(){
         },
         render: function() {
 
-            const resetGlobalAlpha = (deck) => {
+            // reset global alphas
+            hydra.renderFunctions.resetGlobalAlpha(hydra.deck1);
+            hydra.renderFunctions.resetGlobalAlpha(hydra.deck2);
+
+            // last frame for feedback loops on both decks
+            hydra.renderFunctions.assignFeedbackFrame(hydra.deck1);
+            hydra.renderFunctions.assignFeedbackFrame(hydra.deck2);
+
+            // clear canvas contexts
+            hydra.renderFunctions.clearCanvasContext(hydra.mixedCtx, hydra.mixedCanvas);
+            hydra.renderFunctions.clearCanvasContext(hydra.deck1.ctx, hydra.deck1.canvas, hydra.deck1.current.clearsSelf);
+            hydra.renderFunctions.clearCanvasContext(hydra.deck1.preOutputCtx, hydra.deck1.preOutputCanvas);
+            hydra.renderFunctions.clearCanvasContext(hydra.deck2.ctx, hydra.deck2.canvas, hydra.deck2.current.clearsSelf);
+            hydra.renderFunctions.clearCanvasContext(hydra.deck2.preOutputCtx, hydra.deck2.preOutputCanvas);
+
+            // render deck 1
+            hydra.deck1.render();
+
+            // clip for deck 1 effects
+            hydra.renderFunctions.clipEffects('deck1', hydra.deck1.preOutputCtx, hydra.deck1.preOutputCanvas);
+
+            // apply deck 1 filters
+            hydra.renderFunctions.applyFilters(hydra.deck1);
+
+            // apply deck 1 effects
+            hydra.renderFunctions.applyEffects('deck1', hydra.deck1.preOutputCtx, hydra.deck1.preOutputCanvas);
+
+            // render deck 2
+            hydra.deck2.render();
+
+            // clip for deck 2 effects
+            hydra.renderFunctions.clipEffects('deck2', hydra.deck2.preOutputCtx, hydra.deck2.preOutputCanvas);
+
+            // apply deck 2 filters
+            hydra.renderFunctions.applyFilters(hydra.deck2);
+
+            // apply deck 2 effects
+            hydra.renderFunctions.applyEffects('deck2', hydra.deck2.preOutputCtx, hydra.deck2.preOutputCanvas);
+
+            // clip for output effects
+            hydra.renderFunctions.clipEffects('output', hydra.mixedCtx, hydra.mixedCanvas);
+
+            // mix output
+            hydra.renderFunctions.mixOutput();
+
+            // apply output effects
+            hydra.renderFunctions.applyEffects('output', hydra.mixedCtx, hydra.mixedCanvas);
+
+            // cheeky audio processing in same loop
+            hydra.renderFunctions.updateAudioSystemComponents();
+
+            // recursive call for animation loop
+            window.requestAnimationFrame(hydra.render);
+        },
+        renderFunctions: {
+            resetGlobalAlpha: function(deck) {
                 deck.ctx.globalAlpha = deck.preOutputCtx.globalAlpha = deck.alpha;
-            };
-
-            const assignFeedbackFrame = (deck) => {
+            },
+            assignFeedbackFrame: function(deck) {
                 deck.feedbackCtx.drawImage(deck.preOutputCanvas, 0, 0);
-            };
-
-            const clearCanvasContext = (ctx, canvas, clearsSelf = false) => {
+            },
+            clearCanvasContext: function(ctx, canvas, clearsSelf = false) {
                 if (!clearsSelf && ctx instanceof CanvasRenderingContext2D) {
                     ctx.clearRect(0, 0, canvas.width, canvas.height);
                 }
-            };
-
-            const clipEffects = (deck, ctx, canvas) => {
+            },
+            clipEffects: function(deck, ctx, canvas) {
                 if (hydra.effects.kaleidoscope[deck].enabled) {
                     hydra.effects.kaleidoscope.clip(ctx, canvas);
                 }
@@ -2445,24 +2740,36 @@ window.hydra = (function(){
                 if (hydra.effects.radial[deck].enabled) {
                     hydra.effects.radial.clip(ctx, canvas, hydra.effects.radial[deck].clipAngle);
                 }
-            };
-
-            const applyFilters = (deck) => {
+            },
+            applyFilters: function(deck) {
                 deck.preOutputCtx.save();
                 deck.filters.apply();
                 deck.preOutputCtx.drawImage(deck.canvas, 0, 0);
                 deck.preOutputCtx.restore();
-            };
-
-            const applyEffects = (deck, ctx, canvas) => {
+            },
+            applyEffects: function(deck, ctx, canvas) {
+                hydra.renderFunctions.applyKaleidoscope(deck, ctx, canvas);
+                hydra.renderFunctions.applyRadial(deck, ctx, canvas);
+                hydra.renderFunctions.applyKaleidoscopeSecondary(deck, ctx, canvas);
+                hydra.renderFunctions.applyMirror(deck, ctx, canvas);
+                hydra.renderFunctions.applyFeedback(deck, ctx, canvas);
+                hydra.renderFunctions.applyPixelate(deck, ctx, canvas);
+                hydra.renderFunctions.applyScanlines(deck, ctx, canvas);
+                hydra.renderFunctions.applyVignette(deck, ctx, canvas);
+                hydra.renderFunctions.applyWave(deck, ctx, canvas);
+                hydra.renderFunctions.applyChromaticAberration(deck, ctx, canvas);
+            },
+            applyKaleidoscope: function(deck, ctx, canvas) {
                 if (hydra.effects.kaleidoscope[deck].enabled) {
                     hydra.effects.kaleidoscope.apply(ctx, canvas, hydra.effects.kaleidoscope[deck].angle);
                 }
-
+            },
+            applyRadial: function(deck, ctx, canvas) {
                 if (hydra.effects.radial[deck]?.enabled) {
                     hydra.effects.radial.apply(ctx, canvas, hydra.effects.radial[deck].mode, hydra.effects.radial[deck].applyAngle);
                 }
-
+            },
+            applyKaleidoscopeSecondary: function(deck, ctx, canvas) {
                 if (hydra.effects.kaleidoscopeSecondary[deck]?.enabled) {
                     const sectors = hydra.effects.kaleidoscopeSecondary[deck].segments; // Number of mirrored sectors
                     const angle = (2 * Math.PI) / sectors;
@@ -2486,34 +2793,36 @@ window.hydra = (function(){
                     }
                     hydra[deck].effectCtx.restore();
 
-                    hydra[deck].preOutputCtx.clearRect(0, 0, hydra[deck].preOutputCanvas.width, hydra[deck].preOutputCanvas.height);
+                    ctx.clearRect(0, 0, hydra[deck].preOutputCanvas.width, hydra[deck].preOutputCanvas.height);
 
                     for (let i = 0; i < sectors; i++) {
-                        hydra[deck].preOutputCtx.save();
-                        hydra[deck].preOutputCtx.translate(centerX, centerY);
-                        hydra[deck].preOutputCtx.rotate(i * angle);
+                        ctx.save();
+                        ctx.translate(centerX, centerY);
+                        ctx.rotate(i * angle);
                         if (i % 2 === 1) {
-                            hydra[deck].preOutputCtx.scale(-1, 1); // Mirror every other sector
+                            ctx.scale(-1, 1); // Mirror every other sector
                         }
 
                         // Clip to a triangular sector
-                        hydra[deck].preOutputCtx.beginPath();
-                        hydra[deck].preOutputCtx.moveTo(0, 0);
-                        hydra[deck].preOutputCtx.lineTo(hydra[deck].preOutputCanvas.width, Math.tan(angle / 2) * hydra[deck].preOutputCanvas.width);
-                        hydra[deck].preOutputCtx.lineTo(hydra[deck].preOutputCanvas.width, -Math.tan(angle / 2) * hydra[deck].preOutputCanvas.width);
-                        hydra[deck].preOutputCtx.closePath();
-                        hydra[deck].preOutputCtx.clip();
+                        ctx.beginPath();
+                        ctx.moveTo(0, 0);
+                        ctx.lineTo(hydra[deck].preOutputCanvas.width, Math.tan(angle / 2) * hydra[deck].preOutputCanvas.width);
+                        ctx.lineTo(hydra[deck].preOutputCanvas.width, -Math.tan(angle / 2) * hydra[deck].preOutputCanvas.width);
+                        ctx.closePath();
+                        ctx.clip();
 
                         // Draw the image portion
-                        hydra[deck].preOutputCtx.drawImage(hydra[deck].effectCanvas, -centerX, -centerY, hydra[deck].preOutputCanvas.width, hydra[deck].preOutputCanvas.height);
-                        hydra[deck].preOutputCtx.restore();
+                        ctx.drawImage(hydra[deck].effectCanvas, -centerX, -centerY, hydra[deck].preOutputCanvas.width, hydra[deck].preOutputCanvas.height);
+                        ctx.restore();
                     }
                 }
-
+            },
+            applyMirror: function(deck, ctx, canvas) {
                 if (hydra.effects.mirror[deck].enabled) {
                     hydra.effects.mirror.apply(ctx, canvas, hydra.effects.mirror[deck].mode, hydra.effects.mirror[deck].layerMode);
                 }
-
+            },
+            applyFeedback: function(deck, ctx, canvas) {
                 if (hydra.effects.feedback[deck]?.enabled) {
                     ctx.save();
                     hydra[deck].feedbackCtx.globalCompositeOperation = hydra.effects.feedback[deck].mode;
@@ -2521,17 +2830,101 @@ window.hydra = (function(){
                     ctx.drawImage(hydra[deck].feedbackCanvas, 0, 0);
                     ctx.restore();
                 }
-            };
+            },
+            applyPixelate: function(deck, ctx, canvas) {
+                if (hydra.effects.pixelate[deck]?.enabled) {
+                    const res = hydra.effects.pixelate[deck].resolution;
 
-            const updateAudioSystemComponents = () => {
+                    // Resize pixelate canvas
+                    hydra[deck].effectCanvas.width = res;
+                    hydra[deck].effectCanvas.height = res;
+
+                    // Draw to low-res canvas
+                    hydra[deck].effectCtx.imageSmoothingEnabled = false;
+                    hydra[deck].effectCtx.clearRect(0, 0, res, res);
+                    hydra[deck].effectCtx.drawImage(canvas, 0, 0, res, res);
+
+                    // Draw low-res canvas back to output at full size
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.imageSmoothingEnabled = false;
+                    ctx.drawImage(hydra[deck].effectCanvas, 0, 0, canvas.width, canvas.height);
+                }
+            },
+            applyScanlines: function(deck, ctx, canvas) {
+                if (hydra.effects.scanlines[deck]?.enabled) {
+                    ctx.save();
+                    spacing = hydra.effects.scanlines[deck].spacing; // 2
+                    alpha = hydra.effects.scanlines[deck].alpha; // 0.05
+                    ctx.fillStyle = `rgba(0,0,0,${alpha})`;
+                    for (let y = 0; y < canvas.height; y += spacing) {
+                        ctx.fillRect(0, y, canvas.width, 1);
+                    }
+                    ctx.restore();
+                }
+            },
+            applyVignette: function(deck, ctx, canvas) {
+                if (hydra.effects.vignette[deck]?.enabled) {
+                    const gradient = ctx.createRadialGradient(
+                        canvas.width / 2, canvas.height / 2, 0,
+                        canvas.width / 2, canvas.height / 2, Math.max(canvas.width, canvas.height) / hydra.effects.vignette[deck].distance
+                    );
+                    gradient.addColorStop(0, 'rgba(0,0,0,0)');
+                    gradient.addColorStop(1, `rgba(0,0,0,${hydra.effects.vignette[deck].strength})`);
+
+                    ctx.save();
+                    ctx.fillStyle = gradient;
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.restore();
+                }
+            },
+            applyWave: function(deck, ctx, canvas) {
+                if (hydra.effects.wave[deck]?.enabled) {
+                    ctx.filter = `blur(${hydra.effects.wave[deck].blurAmount}px)`;
+                    let x = Math.sin(performance.now() * hydra.effects.wave[deck].xMod) * hydra.effects.wave[deck].xAmp;
+                    let y = Math.sin(performance.now() * hydra.effects.wave[deck].yMod) * hydra.effects.wave[deck].yAmp;
+
+                    if (hydra.effects.wave[deck].react) {
+                        x = x * window.hydra.audio.average;
+                    }
+
+                    ctx.drawImage(canvas, x, y);
+                    ctx.filter = 'none';
+                }
+            },
+            applyChromaticAberration: function(deck, ctx, canvas) {
+                if (hydra.effects.chromaticAberration[deck]?.enabled) {
+                    const { width, height } = canvas;
+                    const offset = hydra.effects.chromaticAberration[deck].offset;
+
+                    // R
+                    ctx.globalCompositeOperation = 'screen';
+                    ctx.drawImage(canvas, offset, 0, width, height);
+                    ctx.fillStyle = 'rgb(255,0,0)';
+                    ctx.globalAlpha = hydra.effects.chromaticAberration[deck].alpha;
+                    ctx.fillRect(0, 0, width, height);
+
+                    // G
+                    ctx.drawImage(canvas, -offset, 0, width, height);
+                    ctx.fillStyle = 'rgb(0,255,0)';
+                    ctx.fillRect(0, 0, width, height);
+
+                    // B
+                    ctx.drawImage(canvas, 0, offset, width, height);
+                    ctx.fillStyle = 'rgb(0,0,255)';
+                    ctx.fillRect(0, 0, width, height);
+
+                    ctx.globalAlpha = 1;
+                    ctx.globalCompositeOperation = 'source-over';
+                }
+            },
+            updateAudioSystemComponents: function() {
                 if (!hydra.audio.listening) {
                     hydra.audio.knightrider();
                 }
 
                 hydra.audio.bpm.beatDetection();
-            };
-
-            const mixOutput = () => {
+            },
+            mixOutput: function() {
                 if (hydra.deck1.raised) {
                     hydra.mixedCtx.globalAlpha = hydra.deck1.crossfaderAlpha;
                     hydra.mixedCtx.drawImage(hydra.deck1.preOutputCanvas, 0, 0);
@@ -2548,60 +2941,6 @@ window.hydra = (function(){
                     hydra.mixedCtx.globalAlpha = 1;
                 }
             }
-
-            // reset global alphas
-            resetGlobalAlpha(hydra.deck1);
-            resetGlobalAlpha(hydra.deck2);
-
-            // last frame for feedback loops on both decks
-            assignFeedbackFrame(hydra.deck1);
-            assignFeedbackFrame(hydra.deck2);
-
-            // clear canvas contexts
-            clearCanvasContext(hydra.mixedCtx, hydra.mixedCanvas);
-            clearCanvasContext(hydra.deck1.ctx, hydra.deck1.canvas, hydra.deck1.current.clearsSelf);
-            clearCanvasContext(hydra.deck1.preOutputCtx, hydra.deck1.preOutputCanvas);
-            clearCanvasContext(hydra.deck2.ctx, hydra.deck2.canvas, hydra.deck2.current.clearsSelf);
-            clearCanvasContext(hydra.deck2.preOutputCtx, hydra.deck2.preOutputCanvas);
-
-            // render deck 1
-            hydra.deck1.render();
-
-            // clip for deck 1 effects
-            clipEffects('deck1', hydra.deck1.preOutputCtx, hydra.deck1.preOutputCanvas);
-
-            // apply deck 1 filters
-            applyFilters(hydra.deck1);
-
-            // apply deck 1 effects
-            applyEffects('deck1', hydra.deck1.preOutputCtx, hydra.deck1.preOutputCanvas);
-
-            // render deck 2
-            hydra.deck2.render();
-
-            // clip for deck 2 effects
-            clipEffects('deck2', hydra.deck2.preOutputCtx, hydra.deck2.preOutputCanvas);
-
-            // apply deck 2 filters
-            applyFilters(hydra.deck2);
-
-            // apply deck 2 effects
-            applyEffects('deck2', hydra.deck2.preOutputCtx, hydra.deck2.preOutputCanvas);
-
-            // clip for output effects
-            clipEffects('output', hydra.mixedCtx, hydra.mixedCanvas);
-
-            // mix output
-            mixOutput();
-
-            // apply output effects
-            applyEffects('output', hydra.mixedCtx, hydra.mixedCanvas);
-
-            // cheeky audio processing in same loop
-            updateAudioSystemComponents();
-
-            // recursive call for animation loop
-            window.requestAnimationFrame(hydra.render);
         },
         audio: {
             average: 0,

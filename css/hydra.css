@@ -1648,3 +1648,34 @@ body.assigning.selected [data-assignable] input[type=range]::-ms-thumb  {
         background: rgba(0, 205, 255, 0.4);
     }
 }
+
+[data-wide] {
+	#hydra {
+		max-width: initial;
+	}
+}
+
+[data-superwide] {
+	#hydra {
+		max-width: initial;
+		width: initial;
+	}
+}
+
+[data-smallaudiometer] {
+    #audio-meter-container {
+        overflow: clip;
+        height: 30px;
+        border-bottom: solid 2px #1a2019;
+    }
+
+    #audio-meter-chrome {
+        display: none;
+    }
+}
+
+[data-noaudiometer] {
+    #audio-meter-container {
+        display: none;
+    }
+}
