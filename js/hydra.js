@@ -2082,12 +2082,20 @@ window.hydra = (function(){
 
                 this.feedback.deck1 = {
                     enabled: false,
+                    xReact: false,
+                    xJitter: 0,
+                    yReact: false,
+                    yJitter: 0,
                     mode: 'copy',
                     level: 0,
                     fillAlpha: 1,
                 };
                 this.feedback.deck2 = {
                     enabled: false,
+                    xReact: false,
+                    xJitter: 0,
+                    yReact: false,
+                    yJitter: 0,
                     mode: 'copy',
                     level: 0,
                     fillAlpha: 1,
@@ -2098,6 +2106,40 @@ window.hydra = (function(){
                     toggleBtn.addEventListener('input', function(e) {
                         const target = `deck${e.target.dataset.deck}`;
                         hydra.effects.feedback[target].enabled = e.target.checked;
+                    });
+                });
+
+                this.feedback.toggleXReactBtns = document.querySelectorAll('[data-feedback-x-react]');
+                this.feedback.toggleXReactBtns.forEach(toggleXReactBtn => {
+                    toggleXReactBtn.addEventListener('input', function(e) {
+                        const target = `deck${e.target.dataset.deck}`;
+                        hydra.effects.feedback[target].xReact = e.target.checked;
+                    });
+                });
+
+                this.feedback.xJitterInputs = document.querySelectorAll('[data-feedback-x-jitter]');
+                this.feedback.xJitterInputs.forEach(xJitterInput => {
+                    xJitterInput.addEventListener('input', function(e) {
+                        const target = `deck${e.target.dataset.deck}`;
+                        hydra.effects.feedback[target].xJitter = parseFloat(e.target.value);
+                        e.target.parentElement.querySelector('.value').textContent = e.target.value;
+                    });
+                });
+
+                this.feedback.toggleYReactBtns = document.querySelectorAll('[data-feedback-y-react]');
+                this.feedback.toggleYReactBtns.forEach(toggleYReactBtn => {
+                    toggleYReactBtn.addEventListener('input', function(e) {
+                        const target = `deck${e.target.dataset.deck}`;
+                        hydra.effects.feedback[target].yReact = e.target.checked;
+                    });
+                });
+
+                this.feedback.yJitterInputs = document.querySelectorAll('[data-feedback-y-jitter]');
+                this.feedback.yJitterInputs.forEach(yJitterInput => {
+                    yJitterInput.addEventListener('input', function(e) {
+                        const target = `deck${e.target.dataset.deck}`;
+                        hydra.effects.feedback[target].yJitter = parseFloat(e.target.value);
+                        e.target.parentElement.querySelector('.value').textContent = e.target.value;
                     });
                 });
 
@@ -2837,7 +2879,20 @@ window.hydra = (function(){
                     ctx.save();
                     hydra[deck].feedbackCtx.globalCompositeOperation = hydra.effects.feedback[deck].mode;
                     ctx.globalAlpha = hydra.effects.feedback[deck].level;
-                    ctx.drawImage(hydra[deck].feedbackCanvas, 0, 0);
+
+                    let x = Math.floor(Math.random() * hydra.effects.feedback[deck].xJitter);
+                    let y = Math.floor(Math.random() * hydra.effects.feedback[deck].yJitter);
+
+                    if (hydra.effects.feedback[deck].xReact) {
+                        x = x + hydra.audio.average;
+                    }
+
+                    if (hydra.effects.feedback[deck].yReact) {
+                        y = y + hydra.audio.average;
+                    }
+
+                    ctx.drawImage(hydra[deck].feedbackCanvas, x, y);
+
                     ctx.restore();
                 }
             },
@@ -2858,6 +2913,11 @@ window.hydra = (function(){
                     ctx.clearRect(0, 0, canvas.width, canvas.height);
                     ctx.imageSmoothingEnabled = false;
                     ctx.drawImage(hydra[deck].effectCanvas, 0, 0, canvas.width, canvas.height);
+
+                    hydra[deck].effectCanvas.width = canvas.width;
+                    hydra[deck].effectCanvas.height = canvas.height;
+
+                    ctx.imageSmoothingEnabled = true;
                 }
             },
             applyScanlines: function(deck, ctx, canvas) {
