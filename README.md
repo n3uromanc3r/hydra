@@ -190,7 +190,7 @@ Available online at https://hydra.virusav.com/
 - MIDI assignment for UI components
 - Keyboard shortcuts (WIP)
 - Theming
-- Cast screens (deck 1, deck2 or mixed) to a popup windows
+- Cast screens (deck 1, deck2 or mixed) to popup windows
 - Video output resolution configuration
 - Extensible
 - Free/Libre Open Source Software
@@ -247,7 +247,7 @@ The config object in our example contains 2 properties, each an object of their 
 > Note: The config object can also contain other properties, which introduce additional functionality: `presets`, `keyboardShortcuts` and `guide`.
 
 The `defaults` object is a place for setting default properties we may wish to assign to our renderer, for instance the canvas context type.  
-By default the canvas context of a renderer is `2d`, this is automatically used when the `defaults` object doesn't include/specify a `context` property. However if we include a `context` property, we can introduce `webgl` and `webgl` shaders into our renderers, as can be seen [here](https://github.com/n3uromanc3r/hydra/blob/main/js/renderers/geometricplay/renderer.js).
+By default the canvas context of a renderer is `2d`, this is automatically used when the `defaults` object doesn't include/specify a `context` property. However if we include a `context` property, we can introduce `webgl` and `webgl2` shaders into our renderers, as can be seen [here](https://github.com/n3uromanc3r/hydra/blob/main/js/renderers/geometricplay/renderer.js).
 The `defaults` object also allows us to define what our `reactivity` options for our renderer are.  For now we can ignore this.
 
 The `ui` object is where we define any inputs/controls that the renderer should present to the end user in the interface, we can ignore this for now too.
