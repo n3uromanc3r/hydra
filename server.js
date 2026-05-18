@@ -247,15 +247,30 @@ function handleControlMessage(clientId, message) {
              broadcastToDisplays(message);
              break;
             
-        case MessageTypes.STATUS:
-        case 'preset_list':
-            // Forward status updates to control panels
-            broadcastToControlPanels(message);
-            break;
-            
-        default:
-            console.warn(`⚠️ Unknown control message type: ${message.type}`);
-    }
+         case 'request_video_slots':
+             // Display is requesting current video slots, forward to control panels
+             broadcastToControlPanels(message);
+             break;
+             
+         case MessageTypes.FILE_UPLOAD:
+             // Forward file upload messages to displays
+             broadcastToDisplays(message);
+             break;
+             
+         case 'video_slot_update':
+             // Display sending slot update, forward to control panels
+             broadcastToControlPanels(message);
+             break;
+             
+         case MessageTypes.STATUS:
+         case 'preset_list':
+             // Forward status updates to control panels
+             broadcastToControlPanels(message);
+             break;
+             
+         default:
+             console.warn(`⚠️ Unknown control message type: ${message.type}`);
+     }
 }
 
 function broadcastToDisplays(message) {

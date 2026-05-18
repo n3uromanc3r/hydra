@@ -26,6 +26,7 @@ class HydraController {
             video: {
                 enabled: false,
                 currentSlot: null,
+                slots: [null, null, null, null, null, null], // Track loaded video slots
                 effects: {
                     invert: false,
                     flip: false,
@@ -182,7 +183,20 @@ class HydraController {
             
             case 'video_slot_update':
                 console.log('📨 Received video_slot_update:', message);
+                // Store slot data for reconnection sync
+                if (message.slot >= 0 && message.slot < this.state.video.slots.length) {
+                    this.state.video.slots[message.slot] = {
+                        url: message.url,
+                        name: message.name,
+                        isGif: message.isGif
+                    };
+                }
                 this.updateVideoSlotPreview(message.slot, message.url, message.name);
+                break;
+                
+            case 'request_video_slots':
+                console.log('📨 Display requesting video slots, re-sending', this.state.video.slots.filter(s => s).length, 'slots');
+                this.resendVideoSlots();
                 break;
                 
             case 'heartbeat':
@@ -204,12 +218,34 @@ class HydraController {
                 controls: message.controlClients
             });
             this.updateClientCounts(message);
+            
+            // If a new display connected, re-send all video slots
+            if (message.action === 'client_registered' && message.clientType === 'display') {
+                console.log('📺 New display connected, syncing video slots');
+                setTimeout(() => this.resendVideoSlots(), 500);
+            }
         }
         
         // Also check for serverInfo in case it's nested
         if (message.serverInfo) {
             this.updateClientCounts(message.serverInfo);
         }
+    }
+    
+    resendVideoSlots() {
+        const loadedSlots = this.state.video.slots.filter(s => s);
+        console.log('📤 Re-sending', loadedSlots.length, 'video slots to display');
+        
+        this.state.video.slots.forEach((slotData, index) => {
+            if (slotData) {
+                this.send({
+                    type: 'video',
+                    action: 'load_url',
+                    url: slotData.url,
+                    slot: index
+                });
+            }
+        });
     }
     
     updateClientCounts(info) {
@@ -693,26 +729,27 @@ class HydraController {
     uploadVideoFile(file) {
         if (!file) return;
         
-        this.showStatus(`Uploading ${file.name}...`, 'info');
+        const slot = this.state.video.currentSlot !== null ? this.state.video.currentSlot : 0;
+        this.showStatus(`Uploading ${file.name} to slot ${slot + 1}...`, 'info');
         
-        // TODO: Implement file upload via WebSocket or HTTP
-        console.log('Uploading file:', file.name);
+        console.log('Uploading file:', file.name, 'to slot:', slot);
         
         this.send({
             type: 'file_upload',
             action: 'video',
             filename: file.name,
             size: file.size,
-            type: file.type
+            type: file.type,
+            slot: slot
         });
     }
     
      loadVideoURL(url) {
-         this.showStatus(`Loading video from URL...`, 'info');
+         const slot = this.state.video.currentSlot !== null ? this.state.video.currentSlot : 0;
+         this.showStatus(`Loading video to slot ${slot + 1}...`, 'info');
          document.getElementById('video-url').value = '';
          
-         // Use currently selected slot, or default to slot 0
-         const slot = this.state.video.currentSlot || 0;
+         console.log('📤 loadVideoURL: slot=', slot, 'currentSlot=', this.state.video.currentSlot);
          
          this.send({
              type: 'video',

@@ -1602,13 +1602,21 @@ class MobileHydra {
                 const name = isGif ? 'GIF' : 'Video';
                 console.log('📝 Detected type:', name, 'isGif:', isGif);
                 // Find first empty slot or use slot 0
-                let targetSlot = 0;
+                let targetSlot = -1;
                 for (let i = 0; i < this.videoSlots.length; i++) {
                     if (!this.videoSlots[i]) {
                         targetSlot = i;
                         break;
                     }
                 }
+                
+                // If no empty slot found, show alert
+                if (targetSlot === -1) {
+                    console.warn('⚠️ All video slots are full. Cannot load more videos.');
+                    alert('All 6 video slots are full. Please clear a slot before loading a new video.');
+                    return;
+                }
+                
                 this.loadVideoToSlot(targetSlot, url, name, isGif);
                 document.getElementById('effects-panel-url').value = '';
                 // Don't close effects panel, keep it open
@@ -1992,15 +2000,16 @@ class MobileHydra {
                 break;
                 
             case 'load_url':
-                // Find first empty slot
-                let targetSlot = 0;
-                for (let i = 0; i < this.videoSlots.length; i++) {
-                    if (!this.videoSlots[i]) {
-                        targetSlot = i;
-                        break;
-                    }
+                const slotIndex = message.slot !== undefined ? message.slot : 0;
+                console.log('📥 Remote load_url: loading to slot', slotIndex, '(message.slot=', message.slot, ')');
+                
+                // Validate slot index is within bounds
+                if (slotIndex < 0 || slotIndex >= this.videoSlots.length) {
+                    console.warn('⚠️ Invalid slot index:', slotIndex, 'max slots:', this.videoSlots.length);
+                    break;
                 }
-                this.loadVideoToSlot(targetSlot, message.url, 'Remote Video', message.url.toLowerCase().includes('.gif'));
+                
+                this.loadVideoToSlot(slotIndex, message.url, 'Remote Video', message.url.toLowerCase().includes('.gif'));
                 break;
         }
     }
@@ -2141,6 +2150,14 @@ class MobileHydra {
         switch (message.action) {
             case 'fullscreen':
                 this.toggleFullscreen();
+                break;
+            
+            case 'initial_state':
+                // Display just connected, request video slots from control panel
+                console.log('📡 Display connected, requesting video slot state');
+                this.sendToController({
+                    type: 'request_video_slots'
+                });
                 break;
             
             case 'request_preset_list':
